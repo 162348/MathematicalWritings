@@ -1,0 +1,183 @@
+\documentclass[b5j,dvipdfmx,uplatex]{jsarticle}
+\usepackage{tcolorbox}
+\tcbuselibrary{raster,skins,xparse}
+\usepackage{ascmac}
+\usepackage{amsmath,amssymb,amsthm,amsfonts,mathptmx,color,comment,graphicx}
+\usepackage{bm}
+\usepackage{tikz}
+\usepackage[truedimen,margin=10mm]{geometry} 
+\begin{document}
+
+\title{\empty}
+\author{\empty}
+\date{\empty}
+
+\pagestyle{empty}
+
+\maketitle
+\underline{{\huge \ 物理科学２　第１回レポート　　　　　}}
+\medskip
+
+\bigskip  \bigskip \bigskip \bigskip \bigskip \bigskip \bigskip
+\bigskip  \bigskip \bigskip \bigskip \bigskip \bigskip \bigskip
+\bigskip  \bigskip \bigskip \bigskip \bigskip \bigskip \bigskip
+\bigskip  \bigskip \bigskip \bigskip \bigskip \bigskip \bigskip
+\bigskip  \bigskip
+\begin{flushright}
+担当：横倉祐貴先生
+\\ 提出日：2019年10月９日（水）
+\\ 提出者：新里優太
+\\ 学籍番号：J3-190407
+\end{flushright}
+
+\newpage
+
+\maketitle
+{\tcbset{colframe=black!75!black, colback=black!10!white}
+\begin{tcolorbox}[enhanced,frame code={
+\foreach \n in {north east,north west,south east,south west}
+{\path [fill=black!75!black] (interior.\n) circle (2mm); }; }]
+\Large \bf １．慣性の法則
+\end{tcolorbox}}
+\medskip
+
+速度$\mathbf{V}$(=一定)で走る列車内に，観測者BとドローンDがあり，Dは鉛直上向きに速度$\mathbf{v}$(=一定)で上昇しているとする．
+
+まず観測者Bから見たドローンDの運動を考える．ドローンDは，観測者Bに対して初め静止しているので，Bから見るとDは鉛直上向きに等速で運動をし，水平方向には動かない．
+
+次に観測者Aから見た場合を考える．DはAに対して鉛直上向きに速度$\mathbf{v}$，水平方向電車の進行向きに速度$\mathbf{V}$の運動しているので，その合成である速度$\mathbf{V}_a:=\mathbf{v}+\mathbf{V}$（下図参照）の等速直線運動が観測される．
+
+\begin{figure}[h] \caption{$v,V,V_a$間の関係を表すベクトル図}
+\begin{center}
+\begin{tikzpicture}
+\draw[->] (-3,0)--(3,0) node[right]{$x$};
+\draw[->] (0,-3)--(0,3) node[above]{$y$};
+\draw[line width=1pt,blue,-stealth] (0,0)--(0,1) node[anchor=south west]{${v}$};
+\draw[line width=1pt,red,-stealth] (0,0)--(3,0) node[anchor=north east]{${V}$};
+\draw[line width=1pt,black,-stealth] (0,0)--(3,1) node[anchor=north east]{${V_a}$};
+\end{tikzpicture}
+\end{center} \end{figure}
+
+\noindent
+＊電車が零でない加速度$\mathbf{A}$を持つ場合を観測者Aの視点から考える．電車の進行方向に$x$軸を取り，鉛直上向きに$y$軸を取る．$\ddot{x}=A$なので，両辺時間で積分し，初期条件$t=0$の時$\dot{x}=V$より，$$\dot{x}=At+V$$再び時間積分して，$t=0$の時$x=0$とおけば，$$x=\frac{At^2}{2}+Vt$$となる．今，$y$軸方向については，$\dot{y}=v$の等速運動だから，同様にして$$y=vt$$以上の２式から時間の変数$t$を消去して軌道を表す平面の方程式を計算すると，
+\begin{eqnarray*}
+    x&=&\frac{A}{2}\left(\frac{y}{v}\right)^2+ V\frac{y}{v} \\
+    &=&\frac{A}{2v^2}y^2+\frac{V}{v}y\hspace{5mm}\dots\star
+\end{eqnarray*}
+これより軌跡を$xy$平面に図示すれば，図２の通り．
+\begin{flushright}
+    $\blacksquare$
+\end{flushright}
+
+\begin{figure} \caption{Aさんから見たDの軌道は，x軸を軸とする放物線となる．（$A>0$の場合）}
+\begin{center}
+\begin{tikzpicture}
+\draw[->] (0,0)--(3,0) node[right]{$x$};
+\draw[->] (0,0)--(0,3) node[above]{$y$};
+\draw[domain=0:3] plot(\x, {sqrt(\x)});
+\end{tikzpicture}
+\end{center}
+\end{figure}
+
+\vspace{30cm}
+
+\medskip
+{\tcbset{colframe=black!75!black, colback=black!10!white}
+\begin{tcolorbox}[enhanced,frame code={
+\foreach \n in {north east,north west,south east,south west}
+{\path [fill=black!75!black] (interior.\n) circle (2mm); }; }]
+\Large \bf ２．ガリレイ変換における速度の合成則
+\end{tcolorbox}}
+\medskip
+
+\noindent
+\underline{\large \bf ▶（１）速度${V}$で運動しているBさんから見た光速$c'$}
+\\
+\indent
+Bさんの座標系から見ると，時刻$t'_1$から時速$t'_2$までの間に，光は座標$x'_1$から座標$x'_2$まで移動している．すなわち，$t'_2-t'_1$間に$x'_2-x'_1$移動しているから，Bさんから見た光速$c'$は，\\
+\centerline{$\displaystyle c'=\frac{x'_2-x'_1}{t'_2-t'_1}$}\\
+である．
+\begin{flushright}
+\qed
+\end{flushright}
+\noindent
+\underline{\large \bf ▶（２）ガリレイ変換を使った$c$と$c'$の関係}
+\\
+\indent
+ガリレイ変換を用いると，\\
+\[
+\begin{cases}
+    x'_1=x_1-{V}t_1 \\
+    t'_1=t_1
+\end{cases}
+, \ 
+\begin{cases}
+    x'_2=x_2-{V}t_2 \\
+    t'_2=t_2
+\end{cases}
+\] \\
+と置換を施すことができる．これを（１）で求めた$c'$の式に代入して，\\
+\begin{eqnarray*}
+ c' & = & \frac{x_2-{V}t_2-(x_1-{V}t_1)}{t_2-t_1} \\
+  & = & \frac{x_2-x_1}{t_2-t_1} - \frac{(t_2-t_1){V}}{t_2-t_1} \\
+  & = & c - {V} \hspace{28mm} ( \because {\rm A}さんの記録より，c=\frac{x_2-x_1}{t_2-t_1} )
+\end{eqnarray*}
+を得る．
+\begin{flushright}
+\qed
+\end{flushright}
+\noindent
+\underline{\large \bf ▶（３）$V=c$とすると，どうなるのか？}
+\\
+\indent
+（２）の答えに$V=c$を代入すると，\\
+\begin{eqnarray*}
+ c' & = & c - V \\
+  & = & c - c \\
+  & = & 0
+\end{eqnarray*}
+となり，Bさんが観測する光速度が$0$となってしまう．しかし，そのようなことがあり得るだろうか．光速は，観測者の慣性系に依存するのだろうか．このことがもし事実だとしたら，地球で観測される光速と月で観測される光速の値にはズレが生じることになるが，そのようなことは聞いた覚えがない．では，どこに矛盾があったのか．議論の積み重ねに引っかかりはなかったため，恐らく議論の前提に誤謬があるのかもしれない．それは例えばガリレイ変換そのものかもしれない．そもそも，時間はあらゆるところで同様に観測されるという前提すらまだ分からない．時間とは何であろうか．もしも時間が一定でないのだとしたら，どのような変換が考えられるだろうか．今後の授業が楽しみである．
+\begin{flushright}
+$\blacksquare$
+\end{flushright}
+
+\medskip
+{\tcbset{colframe=black!75!black, colback=black!10!white}
+ \begin{tcolorbox}[enhanced,frame code={
+   \foreach \n in {north east,north west,south east,south west}
+   {\path [fill=black!75!black] (interior.\n) circle (2mm); }; }]
+  \Large \bf ３．授業アンケート
+ \end{tcolorbox}}
+\medskip
+
+\noindent
+\underline{\large \bf ▶（１）}
+\\
+\indent
+３
+
+\noindent
+\underline{\large \bf ▶（２）}
+\\
+\indent
+５
+
+\noindent
+\underline{\large \bf ▶（３）}
+\\
+\indent
+３
+
+\noindent
+\underline{\large \bf ▶（４）}
+\\
+\indent
+５
+
+\noindent
+\underline{\large \bf ▶（５）}
+\\
+\indent
+この授業のテーマは，以前から興味があったものの，時間をとってしっかり考えることが出来ていなかったものです．初歩から話を積み上げていただけるのは本当に助かります．先生の授業には一つ一つ議論のステップを登っている安心感があります．この機会にじっくりとできる範囲で考えていきたいと思います．今後も楽しみにしております．
+
+\end{document}

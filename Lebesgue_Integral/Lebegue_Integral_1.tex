@@ -1,0 +1,64 @@
+\documentclass[uplatex, 12pt, a4paper]{jsarticle}
+\title{Lebesgue積分とSobolev空間１ 米田剛 \\ 講義ノート}
+\author{司馬博文 J4-190549 \\ hirofumi-shiba48@g.ecc.u-tokyo.ac.jp}
+\date{2019年9月30日}
+\pagestyle{headings}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\newtheorem{theorem}{定理}
+\newtheorem{definition}{定義}
+\newtheorem{proposition}{命題}
+\newtheorem{corollary}[proposition]{系}
+\newtheorem{lemma}[proposition]{補題}
+\usepackage[top=15truemm,bottom=15truemm,left=10truemm,right=10truemm]{geometry}
+\usepackage{color}
+\usepackage{mathptmx}
+\usepackage{amssymb}
+\usepackage{ascmac}
+\setcounter{secnumdepth}{4}
+\usepackage{comment}
+\begin{document}
+\maketitle
+
+\part{非可算無限・非可測集合}
+\section{実数の非可算性}
+\noindent
+\begin{shadebox}
+\begin{proposition}[実数の非可算性]実数の部分集合である$(0,1):=\{x \in \mathbb{R} : 0<x<1\}$中に存在する実数は非可算無限である．\end{proposition} \end{shadebox}
+\begin{proof}[証明（Cantorの対角線論法）]$(0,1)$内の実数が可算であると仮定する．すると，実数の全ての元を，以下のように並べることができる．\\
+\begin{eqnarray*} \left. \begin{array}{c} 0.1325......\\0.552.......\\0.9833......\\ \vdots \end{array} \right\}  \dots \star^1 \hspace{30mm}\\
+\hspace{30mm} \Longrightarrow \left( \begin{array}{lc} 0.a_{11}a_{12}a_{13} & \hspace{7mm} \\ 0.a_{21}a_{22}a_{23} & \hspace{7mm} \\ 0.a_{31}a_{32}a_{33} & \hspace{7mm} \\ \hspace{7mm} \vdots  & \text{以下同様に附番していく．} \end{array}  \right.
+\end{eqnarray*}
+ここで，$\overline{a}_{ij}$を$a_{ij}$ではない勝手な一桁の自然数とする．これを用いて，新たな数$0.\overline{a}_{11} \overline{a}_{22} \overline{a}_{33}......$を作ると，これは$(0,1)$内の実数であるのにも関わらず，$\star^1$の中には存在しない数であるから，矛盾．
+よって実数は非可算である．\end{proof}
+
+\noindent
+これを踏まえて，非可測集合を構成しよう．
+\section{実数の非可測集合 Vitali Monsters (Herrlich)}
+\vspace{5mm}
+
+\noindent
+長さが定まらない$\mathbb{R}$の部分集合$\Lambda$を構成することを考える．\\
+まず長さとはなんだろう？ここで考えたい「集合の長さ」とは，例えば区間$[0,1]$だと$1$，一般に区間$[a,b]$だと$b-a$だと考えられるようなもののことだ．では，集合$[0,1]\cup[3,4]$は？当然$2$と定義すべきだろう．この感覚を，厳密な定義に落とし込む１つのやり方がLebesgue測度である．ここでは「集合の長さ」はこの直感的な定義で十分であるから，深入りしない．以下，集合の濃度ではなく，長さのことを$|A|$などと書く．\\さて，実数の部分集合で，この「長さ」の概念が考えられないような集合（数学的に言えば「Lebesgue不可測集合」）は作れるだろうか？そんな場合があるのだろうか？20世紀に入るまで，その存在性は誰にも分からなかった．\\[3mm]
+\begin{shadebox}\begin{definition}[Vitali集合]$\mathbb{R}$の部分集合$\Lambda$を「任意の実数$x$に対して，一意に$r \in \Lambda$と$q\in \mathbb{Q}$が存在し，$x=r+q$と表せるようなもの」と定義する．\end{definition}\end{shadebox}
+\noindent
+＊Giuseppe Vitaliは1875-1932にかけてのイタリアの数学者である．実数の部分集合の中で，不可測なものが存在することを示した(Vitaliの定理,1905)（というより実例を初めて作った）のが彼である．\\
+＊すると，$x$が有理数の時，$r$も有理数である．$x$が無理数の時，$r$も無理数である．$\Lambda$は一対一対応はするから実数と同じ濃度であろう．（正しいこと言っているけどあまり自明な事実ではない．この文章は要削除）\\
+＊つまりこれは，$\mathbb{R}$を$\mathbb{Q}$-線型空間と見なした時の基底の冪集合に等しい．（多分等濃って意味で．）\\
+＊なお，このVitali集合の存在は，選択公理を仮定して初めて示される．一気に選び出すことを含意しているからだ．つまり，選択公理を仮定しない宇宙では，実数の部分集合に不可測集合が存在するかどうかは未解決である（と思う）．\\
+＊このような集合は，不可算に無限個存在する．
+
+\noindent
+ここで，便宜上，$\Lambda \subset (-1,1)$となるように，代表元の選出を調整する．（選出公理はここまで強いのだろうか？いや，選び方は支持できるのだから，ここは選択公理の守備範囲ではないのだろうな．）\\
+＊例：$x=\pi$の時は，$|r|=|\pi-q|<1$となるように有理数$q$をとる．この場合は$q=3$ととれば，$r=0.1415926535......$となり，$r\in(-1,1)$である．有理数は稠密だから，このようになる$q$は常に取れる．\\[5mm]
+
+\begin{shadebox}\begin{proposition}[集合$\Lambda$の長さ]集合$\Lambda$の長さは定まらない．\end{proposition}\end{shadebox}
+\begin{proof}[証明]
+集合$\Lambda$の定め方から，$(-1,1)$区間内の任意の実数$x$は，$\Lambda$の元$r$と$(-2,2)$内の有理数$q$を使って，$x=r+q$と表される．ここで，集合$\Lambda$の平行移動$V_n$を，$q_n$を$(-2,2)$内の$n$番目の有理数として，$$V_n = \{ \lambda+q_n | \lambda \in \Lambda \}$$
+と与えると，$$(-1,1) \subset \bigcup^{\infty}_{n=1}V_n \subset (-3,3) \dots \star^2$$となることがわかる．そして，$\{V_n\}^{\infty}_{n=1}$は互いに素である．なぜなら，もし自然数$j,k$が存在して，$V_j \cap V_k \neq \varnothing$だったとすると，$x \in V_j \cap V_k$が取れて，$x=r_j+q_j=r_k+q_k$という二通りの表現が得られて，$\Lambda$の定義に矛盾．よって，$V_j \cap V_k = \varnothing (\rm{for} \hspace{1mm} \forall k,j \in \mathbb{N})$である．よって，$$\left| \bigcup^{\infty}_{k=1}V_k \right| = \sum^{\infty}_{k=1}|V_k|$$よって，$\star^2$より，$$|(-1,1)| \leq \left| \bigcup^{\infty}_{k=1}V_k \right| = \sum^{\infty}_{k=1}|V_k| = \sum^{\infty}_{k=1}|V+q_k| = \sum^{\infty}_{k=1}|V| \leq |(-3,3)| $$であり，結局$$2 \leq |\Lambda| \sum^{\infty}_{k=1} 1 \leq 6$$である．一つの定数の無限和は０であるか無限大に発散するかのいずれかであるから，そのいずれの場合にしろ，この式を満たす$|\Lambda|$は存在しない．
+\end{proof}
+
+
+
+\end{document}

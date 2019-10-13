@@ -1,0 +1,84 @@
+\documentclass[uplatex, 12pt, a4paper]{jsarticle}
+\title{微分積分学 石毛和弘\footnote{メールアドレスはishige@ms.u-tokyo.ac.jp} \\ 講義ノート}
+\author{司馬博文 J4-190549 \\ hirofumi-shiba48@g.ecc.u-tokyo.ac.jp}
+\date{2019年9月30日}
+\pagestyle{headings}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\newtheorem{theorem}{定理}
+\newtheorem{definition}{定義}
+\newtheorem{proposition}{命題}
+\newtheorem{corollary}[proposition]{系}
+\newtheorem{lemma}[proposition]{補題}
+\usepackage[top=15truemm,bottom=15truemm,left=10truemm,right=10truemm]{geometry}
+\usepackage{color}
+\setcounter{secnumdepth}{4}
+\usepackage{comment}
+\begin{document}
+\maketitle
+
+\begin{abstract}微分積分学②では，まず（２変数の）偏微分とその応用を復習してから，１変数関数の積分，次に多変数関数の積分へと進む．\\Jacobianの計算などが，後期試験の花形になるであろう．最後に級数に触れて，微分積分学②の講義は締めくくられる．絶対収束という概念を導入して，より詳しく収束を議論する．\end{abstract}
+
+\part{偏微分とその応用}
+\section{復習}
+\subsection{開集合と閉集合の概念}
+\begin{definition}$D \subset \mathbb{R}$，$P \in D$\\
+1, $P$が$D$の内点である $\Longleftrightarrow$ $\exists r>0 \, \mathrm{s.t.} \, B(P,r):=\{ Q \in \mathbb{R}^2 | d(P,Q)<R \} \subset D$ \\
+\indent＊ただし，$d$とは距離函数で，$d(P,Q)=\sqrt{(p_1-q_1)^2 + (p_2-q_2)^2}=|P-Q|$\\
+2, $P$が$D$の外点である $\Longleftrightarrow$ $\exists r>0 \, \mathrm{s.t.} \, B(P,r) \cap D=\emptyset$ \\
+$\Longleftrightarrow$ $P$が$D^c$の内点．\\
+3, $P$が$D$の境界点である $\Longleftrightarrow$ $\exists r>0 \, \mathrm{s.t.} \, B(P,r) \cap D\neq \emptyset \and B(P,r) \cap D^c \neq \emptyset$ \\
+\end{definition}
+\noindent
+＊$D$の境界点が全て$D$に含まれる$\Longrightarrow$Dは閉集合．$D$の境界点が全て$D$に含まれない$\Longrightarrow$Dは開集合．（$D$が開集合$\Longleftrightarrow D^c$が閉集合．\\
+＊微積分学の考察対象は大体全て「領域」で定義されている．
+
+\begin{definition}[連結・領域]$D$の任意の点$P,Q$に対して，$P,Q$を結ぶ$D$内の曲線が存在する時，$D$を（弧状）連結という．特に，$D$が開集合でもある時に，これを「領域」という．
+\end{definition}
+
+\begin{definition}[点列]$\mathbb{R}^2$上の点列$\{Pn\}$が，$P\in \mathbb{R}^2$に収束する，とは，$$\lim_{n\to \infty} d(Pn,P)=0 \mathrm{（これを} \lim_{n\to \infty} Pn=P \mathrm{とも書く．} $$
+\end{definition}
+\noindent
+＊点列の極限は，存在すればただ一つである．\\
+＊収束する点列は有界である．\\
+＊収束列の全ての部分列は，同じ極限点に収束する．
+\begin{theorem}[Bolzano-Weierstrassの定理]($\mathbb{R}^2$上の)有界な点列は，収束する部分列を持つ．\end{theorem}
+\begin{theorem}[Cauchy列は収束する]点列$\{ Pn \}$が収束列であることと，点列$\{ Pn \}$がCauchy列であることは，$\mathbb{R}^n$上では同値である．ただし，Cauchy列であるとは，点列が$$\forall \epsilon >0, \exists N \in \mathbb{N} \forall n,m \in \mathbb{N} d(Pn,Pm)<\epsilon $$を満たすこと． \end{theorem}
+\noindent
+＊(remark)$D$が開集合$\Longleftrightarrow D$から取り出した収束列の極限点は，必ず$D$に属する．
+
+\begin{definition}[連続性]$D \subset \mathbb{R}^2$を集合，$f:D \Longrightarrow \mathbb{R}$を写像，$P_0 \in \mathbb{R}^2, l \in \mathbb{R}$に対して，$$ \lim_{P \to P_0} f(P)=l \\ \Longleftrightarrow \forall \epsilon >0, \exists \delta>0 \forall P\in D 0<d(P,P_0)<\delta \Longrightarrow |f(P)-l|<\epsilon$$特に，$P_0 \in D, l=f(P_0)$である時，$f$は点$P$で連続であるという．\end{definition}
+
+\begin{theorem}[最大値・最小値定理]\label{maxmin}$D$を有界閉集合，$f$を$D$上連続な関数とすると，$f$は$D$上有界であり，その最大値と最小値を$D$の上に取る．\end{theorem}
+
+\begin{definition}[偏微分]$f$を点$(x_0,y_0)$の近傍で定義された関数とする．$$\frac{\partial}{\partial x}f(x_0,y_0):=\lim_{h\to 0} \frac{f(x_0+h,y_0)-f(x_0,y_0)}{h}$$同様にして，$\frac{\partial}{\partial y}f$ $\frac{\partial^2}{\partial x^2}f$ $\frac{\partial^2}{\partial x \partial y}f$を定義する．\end{definition}
+
+\begin{theorem}[Schwarzの定理]点$(a,b)$の周りで，$f_x, f_y, f_{xy}$が存在し，$f_{xy}$が$(a,b)$にて連続ならば，$f_{yx}(a,b)$は存在し，$f_{xy}(a,b)=f_{yx}(a,b)$を満たす．\end{theorem}
+\begin{proof}$\varphi(x,y):=f(x,y)-f(x,b)$と置く．十分小さい$h,k>0$に対して，\begin{eqnarray*} \varphi(a+h,b+k) - \varphi(a,b+k) \\ &=& \varphi_x (a+\theta h,b+k)h (0<\exists \theta <1) \\ &=& \left[ f_x(a+\theta h,b+k) - f_x(a+\theta h,b) \right]  h\\  &=& f_{xy}(a+\theta h, b+\theta' k)hk (0<\exists \theta' <1) \end{eqnarray*}
+一方，$\varphi$の定義より，$$\lim_{k\to 0} \frac{\varphi(x,b+k)}{k} = \lim_{k \to 0} \frac{f(x,b+k)-f(x,b)}{k} = f_y(x,b) $$よって，$$f_y(a+h,b) - f_y(a,b) \\ = \lim_{k \to 0} \frac{\varphi(a+h,b+k)-\varphi(a,b+k)}{k} \\ = h\lim_{h\to 0} f_{xy}(a+\theta h, b+\theta'h) $$故に，\begin{eqnarray*} f_{yx}(a,b)= \lim_{h\to0} \lim_{k\to0} f_{xy} (a+\theta h, b+\theta'h) \\ = f_{xy}(a,b) \hspace{10mm} f_{xy}\mathrm{の点}(a,b)\mathrm{での連続性より} \end{eqnarray*}
+\end{proof}
+
+\begin{definition}[全微分可能性]$f$を点$(a,b)$の近傍で定義された関数とする．$f$が点$(a,b)$で全微分可能であるとは，$\exists A,B \in \mathbb{R} \mathrm{s.t.} f(a+h,b+k)-f(a,b)=Ah+Bk+o(\sqrt{h^2+k^2})  \left( (h,k)\to(0,0) \right)$と定義する．\end{definition}
+\noindent
+＊$f$が点$(a,b)$で全微分可能\\ $\Longrightarrow$ $f$は点$(a,b)$で偏微分可能\\ $\Longrightarrow$ $A=f_x(a,b), B=f_y(a,b)$
+
+\begin{theorem}$f_x,f_y$が存在し，$f_x$または$f_y$が連続．この時，$f$は全微分可能である．
+\end{theorem}
+\noindent
+＊特に，$f$が$C^1$級の関数ならば，十分に全微分可能である．
+
+\begin{theorem}[Chain Rule]$z=f(x,y), x=x(u,v), y=y(u,v)$の時，$$\frac{\partial z}{\partial u} = \frac{\partial z}{\partial x} \frac{\partial x}{\partial u} + \frac{\partial z}{\partial y} \frac{\partial y}{\partial u} \\  \frac{\partial z}{\partial v} = \frac{\partial z}{\partial x} \frac{\partial x}{\partial v} + \frac{\partial z}{\partial y} \frac{\partial y}{\partial v}$$が成り立つ．\end{theorem}
+
+\begin{theorem}[Taylorの定理]$f$:領域$D$上の$C^n$級関数$(n=1,2,......)$\\線分$\{ (a+ht,b+kt) | 0<t<1 \}$が$D$に含まれているとする．ここで，$F(t):=f(a+th,b+tk)$と置くと，$$f(a+h,b+k)=F(1)\\ =F(0)+F'(0)+\frac{F''(0)}{2!}+...+\frac{F^{(n-1)}(0)}{(n-1)!}+\frac{F^{(n)}(\theta)}{n!}\\=f(a,b)+\left( h\frac{\partial}{\partial x}+ k\frac{\partial}{\partial y} \right)f(a,b)+...+\frac{1}{(n-1)!} \left( h\frac{\partial}{\partial x}+ k\frac{\partial}{\partial y} \right)^{(n-1)} f(a,b) + \frac{1}{n!} \left( h\frac{\partial}{\partial x}+ k\frac{\partial}{\partial y} \right)^n f(a+\theta h,b\theta k)   $$ \end{theorem}
+
+\begin{theorem}[陰関数定理]$F=F(x,y)$:点$(a,b)$の近傍で定義された$C^1$級関数．点$(a,b)$において，$F(a,b)=0, F_y(a,b) \neq 0$とする．この時，$\exists I$:点$a$を含む閉区間$\exists \delta>0$s.t.$\forall x \in I$に対して$F(x,y)=0, |y-b|<\delta$を満たす．$y$は唯一つ，この$I$上の関数$y=f(x)$は$C^1$級関数であり，$$f'(x)=-\frac{F_x(x,f(x))}{F_y(x,f(x))}$$
+\end{theorem}
+
+\section{極限}
+\noindent
+問：周の長さが一定$(=2s)$の三角形のうちで，面積最大のものは正三角形であることを示せ．
+\begin{proof}三角形の三辺の長さを$x,y,z$とする．対応する三角形の面積を$S$とすると，Heronの公式より，$$S^2=s(s-x)(s-y)(s-z) (2s=x+y+z) \\ =s(s-x)(s-y)(x+y-s)$$である．$f(x,y)=(s-x)(s-y)(x+y-s)$と置く．$x,y$が動く範囲は$$D:=\{ (x,y)|s-x>0, s-y>0 x+y-s>0 \}$$であるが，$f$に最大値が存在するには，$D$が閉集合でなくてはならない（すでに有界ではある）．$D$の拡張$\overline{D}$，$$\overline{D} := \{ (x,y)|s-x \ge 0, s-y \ge 0, x+y-s \ge 0 \}$$上で$f$を考える．$\overline{D}$は有界閉集合で，$f$はその上で連続であるから，最大値最小値定理\ref{maxmin}より，$f$は$\overline{D}$上で最大値を取る．$f$は$D$上正，$D$の境界点上で零なので，最大値を取る点は$\overline{D}$の内点，つまり$D$上で取る．その点を$(x,y)\in D$とすると，$$f_x(x,y)=-(s-y)(x+y-s)+(s-x)(s-y)=0\\f_y(x,y)=-(s-x)(x+y-s)+(s-x)(s-y)=0\\ \Longrightarrow x=y=z$$よって，面積の最大値を与える三角形は正三角形である．
+\end{proof}
+
+\end{document}
