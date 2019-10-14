@@ -8,20 +8,20 @@ This repository is the collection of LaTeX files, which is the lecture notes of 
 
 ## Contents
 
-#### 1. Calculus（微分積分学）
+### 1. Calculus（微分積分学）
 
 Based on the year-long class "Calculus"(Mon 4) by Kazuhiro Ishige.
 
-#### 2. Category and Shelf（圏と層）  
+### 2. Category and Shelf（圏と層）  
 
 Based on the specialized seminer "Category and Shelf"(1A Mon 5) by Takeshi Saito.
 
-#### 3. Lebesgue Integral （ルベーグ積分論）
+### 3. Lebesgue Integral （ルベーグ積分論）
 
 Based on the specialized seminer "Lebesgue intergral and Soblev space"(1A Mon 2) by Tsuyoshi Yoneda. 
 *I couldn't attend this class, so most the lecture notes are provided by my friend Yu, I would like to space some space here to express my gratitude to Yu.
 
-#### 4. Electrodynamism and Vector analysis（電磁気学とベクトル解析）
+### 4. Electrodynamism and Vector analysis（電磁気学とベクトル解析）
 
 Based on the specialized seminer "The mathematics used in electrodynamism"(1A Fri 2) by Kazuhiko Kiyono, and "Mathematics in your own pace"(year-long Fri 5) by Toru Gocho.
 
