@@ -1,5 +1,5 @@
-Mathematical Science Lecutre Notes (Freshman)
-====
+Lecutre Notes : Mathematical Science (Freshman)
+=====
 
 ## Description
 
