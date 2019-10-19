@@ -31,5 +31,4 @@ In order to give Yu something in return, Shu and I decided to help him with his 
 
 ## Licenses
 
-Not sure of anything. I'm not thinking about making it public, just share with the people that I'm in contact with.
-（仲間内でしか公開しない予定なので，ライセンスについては未だ全く考えて居ません．）
+沢山の他の資料を参考にして作成したため，個人的な用途以外では使用しません．
