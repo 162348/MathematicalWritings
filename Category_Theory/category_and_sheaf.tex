@@ -206,6 +206,107 @@ $x\le y \wedge y\le z \Longrightarrow x\le z$という二項関係の推移性�
     \includegraphics[width=5cm]{cd-7.png}
 \end{center}\end{figure}
 
-以上，３つの構造を保つ写像（の組）が関手であるから，まさに圏の間の準同型である．
+以上，３つの構造を保つ写像（の組）が関手であるから，まさに圏準同型である．
+
+\part{層}
+
+\section{Introduction}
+
+幾何学とは図形の形を捉える数学の三大分野の一つである．例をあげよう．
+\begin{eqnarray*}球面S^2 &:=& \{ (x,y,z) \in \mathbb{R}^3 | x^2+y^2+z^2 = 1 \} \\ トーラスT^2 &:=& \{ (x,y,z)\in\mathbb{R}^3 | (\sqrt{x^2+y^2}-2)^2 + z^2 = 1 \}\end{eqnarray*}
+とすると，$S^2$と$T^2$は位相空間としては同相ではない．これを「大域的に違う」と表現する．しかし，$S^2$も$T^2$も局面であり，一部を取り出すと似ている．これを「局所的には同じ」と表現する．\\
+この大域と局所のズレを捉える概念装置が「層(shelf)」である．
+
+\subsection{これが圏論の上で行われる理由}
+
+集合は，１つ１つバラバラな元の集まりを，ひとつの全体として捉える．しかし，この２元的な見方のいずれかしかないと，その間の関係が見えてこない．ということで，全体と個別の間に中間的なものを設定する，という発想が開集合系とそれによる位相空間の定義であり，これが幾何学の基礎となっている．\par
+
+また，連続写像とは，以下の２つの性質を持つ．
+\begin{itembox}[l]{連続写像の性質}
+    １：全体上で定義された連続写像は，定義域を狭めて制限しても連続写像である．\\
+    ２：局所的に定義された連続写像は，その定義域を全体に拡張しても連続写像になる．
+\end{itembox}
+
+\section{位相空間と連続写像}
+
+\subsection{Euclid空間での開集合の定義から，特徴づけを導く}
+
+\begin{shadebox}\begin{definition}[Euclid空間上の開集合の，$\epsilon -\delta$論法による定義]
+    平面$\mathbb{R}^2$の部分集合$U$が開集合であるとは，$U$内の任意の点$(s,t)$に対し，実数$r>0$であって，$U_r(s,t)\subset U$となるものが存在するということ．\\
+    但し，$U_r := \{ (x,y)\in\mathbb{R}^2 | (x-s)^2 + (y-t)^2 < r^2 \}$とする．
+\end{definition}\end{shadebox}
+
+\begin{shadebox}\begin{definition}[連続写像の，$\epsilon -\delta$論法による定義]
+    $U,V$を平面$\mathbb{R}^2$の開部分集合とする．$f:U\longrightarrow V$が連続写像であるとは，$U$の任意の点$(s,t)$と任意の実数$q>0$に対して，実数$r>0$であって，$$U_r(s,t)\subset U \wedge f(U_r(s,t))\subset U_q(f(s,t))$$となるようなものが存在することである．
+\end{definition}\end{shadebox}
+
+以上見て来たEuclid空間上での$\epsilon -\delta$論法による定義は，距離の概念を使用して，些か直感的に定義している．例えば$$d((x,y),(s,t)):=\sqrt{(x-s)^2+(y-t)^2}$$と置くと，$f$が連続写像であるとは，$$d((x,y),(s,t))<r\Longrightarrow d(f(x,y),f(s,t))<q$$を満たすことである．これは「$V$で近い点は$U$でもどこまでも近い」という感覚に非常に合致した定義だと言えよう．\par
+しかし，このように距離の言葉に翻訳しなくても連続の概念は定義出来る，というのがミソなのであった．
+
+\begin{shadebox}\begin{definition}[連続写像の特徴付け]
+    $U,V\subset\mathbb{R}^2$を開集合とする．写像$f:U\longrightarrow V$に対して，次の条件(1),(2)は同値である．\\
+    (1) $f$は連続である．\\
+    (2) $V$に含まれる$\mathbb{R}^2$の任意の開集合$W$に対して，その$f$による逆像$f^{-1}(W)$は$U$に含まれる$\mathbb{R}^2$の開集合である．
+\end{definition}\end{shadebox}
+
+\begin{proof}
+    \underline{(1)$\Longrightarrow$(2)}\\
+    $W\subset V$を$\mathbb{R}^2$の開集合とする．$U$上の点$(s,t)\in f^{-1}(W)$を任意に取る．すると，定義上，$f(s,t)\in W\subset V$となる．従って点$f(s,t)$は開集合$W$内部の点だから，実数$q>0$が存在して，$U_q(f(s,t))\subset W$を満たす．続いて$f$は連続なので，$f(U_r(s,t))\subset U_q(f(s,t))(\subset W)$となる実数$r>0$が存在する．従って，\underline{写像は包含関係を保存する射だから，}$U_r(s,t)\subset f^{-1}(W)$を得る．点$(s,t)$は任意に取ったから，逆像$f^{-1}(W)$は$\mathbb{R}^2$上の開集合である．\\
+    \underline{(2)$\Longrightarrow$(1)}\\
+    $U$内の任意の点$(s,t)$と実数$q>0$を任意に取る．$V$は開集合で，$f(s,t)\in V$だから，$q'>0$であって$U_{q'}(f(s,t))\subset V$となるような実数が存在する．$q'>q$だったならば$q'=q$と置き換えることにより，一般に$q'\le q$として良い．$W$を$U_{q'}(f(s,t))$として(2)を適用すると，この逆像$f^{-1}(U_{q'}f(s,t))$は開集合になる．$q>0$だから勿論$(s,t)\in f^{-1}(U_{q'}f(s,t))$であるから，実数$r>0$であって$U_r(s,t)\subset f^{-1}(U_{q'}f(s,t)) \subset f^{-1}(U_{q}f(s,t)) (\because q'\le q)$となるものが存在する．よって，$f(U_r(s,t))\subset U_q(f(s,t))$を得る．従って$f$は連続写像．
+\end{proof}
+
+\begin{shadebox}\begin{proposition}[Euclid空間の開集合の集合演算に対する性質]\label{proposition1}
+    1, $(U_i)_{i\in I}$を$\mathbb{R}^2$の開集合の族とすると，合併$\bigcup_{i\in I}U_i$も開集合となる．\\
+    2, $(U_i)_{i\in I}$を$\mathbb{R}^2$の開集合の有限族とすると，共通部分$\bigcap_{i\in I}U_i$も開集合となる．\\
+\end{proposition}\end{shadebox}
+
+但し，合併とは$\bigcup_{i\in I}U_i := \{ (x,y)\in\mathbb{R}^2 | \exists i\in I \rm{s.t.} (x,y)\in U_i \}$を意味し，共通部分とは$\bigcap_{i\in I}U_i := \{ (x,y)\in\mathbb{R}^2 | \forall i\in I [\underline{i\in I \Longrightarrow} (x,y)\in U_i ]\}$を意味する．\\
+こう見ると，合併と共通部分は，$\forall と \exists$との双対に基づいた，明らかな双対概念だなぁ．\\
+$I$が２元集合，例えば$I={1,2}$の時，$U_1 \cup U_2$や$U_1 \cap U_2$などと，中置記法で書く．$I=\varnothing$の時，$\bigcup_{i\in\varnothing}U_i = \varnothing$とする（零和）．一方零積は，下線部の前提条件が常に偽だから，$\bigcap_{i\in\varnothing}U_i = \mathbb{R}^2$（普遍集合）と約束する．\\
+
+\begin{proof}
+
+\end{proof}
+
+\subsection{位相空間を，特徴付けだった方を公理として定義する}
+
+これらを用いて，次のように位相空間を定義する．
+
+\begin{shadebox}\begin{definition}[位相空間]
+    $X$を集合とする．$X$の冪集合$\mathcal{P}$の部分集合$O$が次の条件(1),(2)を満たす時，$O$は$X$の位相であるという．\\
+    (1) $(U_i)_{i\in I}$が$O$に属する$X$の部分集合の族ならば，合併$\bigcup_{i\in I}U_i$も$O$の元である．なお特に，$\bigcup_{i\in\varnothing}U_i=\varnothing\in O$である．\\
+    (2) $(U_i)_{i\in I}$が$O$に属する$X$の部分集合の有限族ならば，共通部分$\bigcap_{i\in I}U_i$も$O$の元である．なお特に，$\bigcap_{i\in\varnothing}U_i=X\in O$である\\
+    集合$X$に対$(X,O)$が指定されている時，この$X$を位相空間と呼び，この$O$を$X$の開集合系，$O$の元を$X$の開集合という．
+\end{definition}\end{shadebox}
+
+\subsubsection{例１：Euclid空間}
+$X=\mathbb{R}^2, O=\{ U\in \mathcal{P}(\mathbb{R}^2) | Uは\mathbb{R}^2の開集合である． \}$と定めると，$O$は$\mathbb{R}^2$の位相となっている．$\because 命題\ref{proposition1}$
+
+\subsubsection{例２：離散（位相）空間}
+集合$X$に対して，$\mathcal{P}(X)$は位相になる．こうして生成した位相空間を離散位相空間という．
+
+\subsubsection{例３：２元集合の位相}
+$\mathbb{S}={0,1}$とする（一次元球面）．$O=\{\emptyset, \mathbb{S}, \{1\}\} = \mathcal{P}(\mathbb{S})-\{ 0 \}$は$\mathbb{S}$の位相となる．
+
+\subsection{部分位相空間}
+$X$を位相空間とし，$O$をその位相とする．$X$の部分集合$A$に対して，位相$O$の各元の$A$との共通部分を取ったものからなる集合$O_A:=\{ U\cap A | U\in O \}$は$A$の位相になる．
+\begin{eqnarray*}
+    \bigcup_{i\in I}(U_i\cap A) &=& (\bigcup_{i\in I} \cap A) \\
+    \bigcap_{i\in I}(U_i\cap A) &=& (\bigcap_{i\in I}) \cap A 
+\end{eqnarray*}
+より，確かに２つの公理を満たす．この位相$O_A$によって部分集合$A$を位相空間とみなした場合，これを部分位相空間という．\par
+
+$A$が$X$の開集合だった場合，即ち，$A\in O$であった場合，$O_A=\{U\in O | U\subset A \}でもある．つまり，「$A$の部分集合である$X$の開集合」と「$A$を$X$の部分位相空間と考えた時の開集合」とは常に一致する．\\
+$\supset$は$U$を$A$の部分集合かつ$O$の元とすれば，$U\cap A=U$なので，確かに$U\in O_A$．一方$\subset$は，$U\in O_A$とすると，$A$は開集合だから，命題\ref{proposition1}(2)より開集合同士の合併は開集合で，$U\cap A \in O$．なお，$U\in O_A$としたから明らかに$U\subset A$．
+
+例：$S^2やT^2$は$\mathbb{R}^3$の部分位相空間である．\\
+
+\subsection{連続写像}
+
+\begin{shadebox}\begin{definition}[連続写像]
+    $X,Y$を位相空間とし，$O_X,O_Y$を其々の位相とする．写像$f:X\Longrightarrow Y$が連続写像であるとは，$V\subset Y$が$Y$の開集合ならば，その逆像$f^{-1}(V)(\subset X)$が$X$の開集合であることを言う．
+\end{definition}\end{shadebox}
+特に$X,Y$が$\mathbb{R}^2$の開集合であった場合，これは命題\ref{proposition1}と合致する．
 
 \end{document}
