@@ -1,0 +1,12 @@
+\documentclass[uplatex, dvipdfmx]{jsarticle}
+\usepackage{amsmath, amsfonts, amsthm, mathptmx, amssymb, ascmac, color, comment, graphicx}
+\usepackage{tikz, tikz-cd}
+\begin{document}
+
+\begin{center} \begin{tikzcd}
+    & M \ar[dl, "{(e\circ t,1_M)}"'] \ar[dr, "{(1_M,e\circ s)}"] \ar[dd, "1_M"] & \\
+M_s\underset{C}{\times_t}M \ar[dr, "c"'] \ar[rr, phantom, "\circlearrowright" near start, "\circlearrowright" near end]  &  &  M_s\underset{C}{\times_t}M \ar[dl, "c"] \\
+    &  M  &  \\
+\end{tikzcd} \end{center}
+
+\end{document}
