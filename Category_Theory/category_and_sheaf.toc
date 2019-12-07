@@ -1,0 +1,24 @@
+\contentsline {part}{第I部\hspace {1zw}圏}{2}% 
+\contentsline {section}{\numberline {1}集合論の準備：集合の公理とGrothendieck宇宙，写像とfiber積}{2}% 
+\contentsline {section}{\numberline {2}圏}{4}% 
+\contentsline {subsection}{\numberline {2.1}圏の定義}{4}% 
+\contentsline {subsection}{\numberline {2.2}ここで一息，定義の吟味．記法の集合論との混用．}{5}% 
+\contentsline {section}{\numberline {3}圏の例}{6}% 
+\contentsline {subsection}{\numberline {3.1}集合の圏\bf {Sets}}{6}% 
+\contentsline {subsection}{\numberline {3.2}線型代数学からの例}{6}% 
+\contentsline {subsection}{\numberline {3.3}微積分学からの例}{6}% 
+\contentsline {subsection}{\numberline {3.4}用語の補充：同型射}{6}% 
+\contentsline {subsection}{\numberline {3.5}monoidという圏}{6}% 
+\contentsline {subsection}{\numberline {3.6}順序関係}{7}% 
+\contentsline {section}{\numberline {4}関手(functor)：圏準同型}{8}% 
+\contentsline {part}{第II部\hspace {1zw}層}{8}% 
+\contentsline {section}{\numberline {5}Introduction}{8}% 
+\contentsline {subsection}{\numberline {5.1}これが圏論の上で行われる理由}{9}% 
+\contentsline {section}{\numberline {6}位相空間と連続写像}{9}% 
+\contentsline {subsection}{\numberline {6.1}Euclid空間での開集合の定義から，特徴づけを導く}{9}% 
+\contentsline {subsection}{\numberline {6.2}位相空間を，特徴付けだった方を公理として定義する}{10}% 
+\contentsline {subsubsection}{\numberline {6.2.1}例１：Euclid空間}{10}% 
+\contentsline {subsubsection}{\numberline {6.2.2}例２：離散（位相）空間}{10}% 
+\contentsline {subsubsection}{\numberline {6.2.3}例３：２元集合の位相}{10}% 
+\contentsline {subsection}{\numberline {6.3}部分位相空間}{10}% 
+\contentsline {subsection}{\numberline {6.4}連続写像}{11}% 

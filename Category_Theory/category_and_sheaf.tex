@@ -1,5 +1,5 @@
 \documentclass[uplatex, 12pt, a4paper, dvipdfmx]{jsarticle}
-\title{圏と層　斎藤毅\\講義ノート}
+\title{圏と層　斎藤毅　講義ノート}
 \author{司馬博文 J4-190549\\hirofumi-shiba48@g.ecc.u-tokyo.ac.jp}
 \date{\today}
 \pagestyle{headings}
@@ -19,19 +19,19 @@
 
 \begin{document}
 \maketitle
+\tableofcontents
+\clearpage
 
 \part{圏}
 
 \begin{quotation}
     位相空間のホモロジー理論を創始したポアンカレの言葉に「数学とは異なるものを同じとみなす技術である」というものがある．この言葉は色々な解釈ができると思うが，自然科学のいろんな場面で似た形で現れる数学的現象の本質を抽出して抽象化し，一つの理論にまとめることはまさに「異なるものを同じとみなす技術」ではないだろうか．例えば，平面幾何学における相似拡大，解析学における関数のある点の近くでの一次近似，自然科学，経済学の様々な場面で現れる諸量の比例関係などの中に潜む線型性という本質を捉え，抽象化して理論としてまとめたものが線形代数学である．このように抽象化して理論をまとめておくことで数学的現象の本質の理解が深まり，また，新たな現象が見つかった時には，その理論が適用可能であることさえ確かめれば，同じ考察を再び繰り返すことなく抽象化された理論の恩恵を受けることができる．線形代数学が自然科学のあらゆる分野において重要なものであることはいうまでもないであろう．\footnote{志甫淳『層とホモロジー代数』（共立出版,2016）前文}
 \end{quotation}
-これから，圏論を数学理論として，数学の体系の中で展開して理解を深めていくが，圏とは極めて普遍的な枠組みである．人の世界を認識する要素のうち，極めて基本的なもの，「対象」とそれを結ぶ「射」にまで遡って，そこにある「型」を，圏として捕まえて定式化する．\\
 
-\section{集合とGrothendieck宇宙，写像とfiber積}
-圏論の理論をこれから展開していく訳ではあるが，何を基礎として展開するべきであろうか？\\
-圏論は，集合論自体も考察の対象として取るわけだから，圏論の考察を展開する際に基盤とする数学的枠組みとしての集合論との関係には注意が必要である．\\
-展開法は２つある．集合論の「クラス」の概念を援用して，クラスも含めた取り扱いをすること．こちらは集合論への習熟も必要とするから，今回は執らない．２つ目は「集合」の範囲を，「集合の集合は集合」が成り立つような或る宇宙$mathfrak{U}$の中に限れば，とりあえず基盤としては十分である．しかし，それに当たっては，集合論のZFC公理系にもう１つ公理を付け加えてから，それを集合の定義とせねばならない．\\
-以上の議論を定義にまとめる．
+\section{集合論の準備：集合の公理とGrothendieck宇宙，写像とfiber積}
+圏論の理論をこれから展開していく訳ではあるが，やはり集合論を基礎として展開するのが明瞭である．しかし，圏論は，集合論自体も考察の対象として取るわけだから，圏論の考察を展開する際に基盤とする数学的枠組みとしての集合論との関係には十分な注意が必要である．\\
+展開法は２つある．集合論の「クラス」の概念を援用して，クラスも含めた取り扱いをすること．今回は集合論は，基礎づけの枠組みとして用い，集合論の高度な議論は避けたいから，今回は執らない．２つ目は「集合」の範囲を，「集合の集合は集合」が成り立つような或る宇宙$mathfrak{U}$の中に限れば，とりあえず基盤としては十分であり，集合の存在性について患う必要はなくなる．しかし，それに当たっては，集合論のZFC公理系にもう１つ公理を付け加えてから，それを集合の定義とせねばならない．\\
+以上の議論を定義にまとめると，以下のようになる．
 
 \begin{shadebox}\begin{definition}[Grothendieck宇宙]
     空でない集合$\mathfrak{U}$が宇宙であるとは，以下の４条件を充たすことをいう．\\
@@ -43,7 +43,7 @@
 
 この４つの公理の下では，以下の命題は全て成り立つ（含意されている）．
 \begin{shadebox}
-    5, $\varnothing\in\mathfrak{U}$
+    5, $\varnothing\in\mathfrak{U}$\\
     6, $\forall x\in\mathfrak{U} \; [x\in\mathfrak{U}\Longrightarrow \{ x \} \in \mathfrak{U}]$\\
     7, $\forall x\in\mathfrak{U} \; [x\in\mathfrak{U}\Longrightarrow \bigcup_{y\in x}y\in\mathfrak{U}]$\\
     8, $\forall x,y\in\mathfrak{U} \; [x,y \in\mathfrak{U}\Longrightarrow x\times y\in\mathfrak{U}]$\\
@@ -55,26 +55,36 @@
 \begin{center}［公理：\rm{Grothendieck宇宙の存在}］$\mathbb{N}\in\mathfrak{U}$を充たす宇宙$\mathfrak{U}$は存在する．\end{center} \vspace{1mm}
 \end{definition}\end{shadebox}
 こうして存在を保証した宇宙$\mathfrak{U}$を１つ取り，固定する．以降，「小さな集合」と言った場合は，この宇宙$\mathfrak{U}$に所属する集合のことを言う．公理より，$\mathbb{N}$のみならず，そこから構成可能な$\mathbb{Z,Q,R,C}$は全て小さな集合である．一方で，$\mathfrak{U}$自身は勿論，一元集合$\{ \mathfrak{U} \}$も小さくない．
-\begin{shadebox}\begin{definition}[写像]写像とは，２つの集合$X,Y$について，$X$の各元$x$に対して$Y$の元$f(x)$が唯一つ定まっている時，$f$を$X$から$Y$への写像と呼び，$f:X\longrightarrow Y$で表す．\end{definition}\end{shadebox}
-この$f$に対して，$X$を始域，$Y$を終域と呼ぶ．
-なお，２つの写像$f,g:X\longrightarrow Y$が等しいとは，$f=g\Longleftrightarrow \forall x \in X \; [f(x)=g(x)]$と定められる．集合論の言葉で言えば「グラフが等しい」ことを，写像が等しいと定義する．
-\begin{shadebox}\begin{definition}[写像の合成]２つの写像$f:X\longrightarrow Y, g:Y\longrightarrow Z$に対し，その合成写像$h:X\longrightarrow Z$が$\forall x \in X \; [h(x)=g(f(x))]$によって定めることができる．以降この$h$を$g\circ f$と書く．\end{definition}\end{shadebox}
-\begin{shadebox}\begin{definition}[集合の積]２つの集合$X,Y$に対して，$X\times Y:=\{ (x,y) :\; x\in X \wedge y\in Y\}$と定義する．但し，$(x,y)=(x',y')\Longleftrightarrow x=x'\wedge y=y'$と定義する． \end{definition}\end{shadebox}
-集合論的立場からは，$(x,y):=\{\{x\},\{x,y\}\}$と思えば良い．これを順序対，あるいは2-組という．
+
+\begin{shadebox}\begin{definition}[写像とその相等]写像とは，２つの集合$X,Y$について，$X$の各元$x$に対して$Y$の元$f(x)$が唯一つ定まっている時，$f$を$X$から$Y$への写像と呼び，$f:X\longrightarrow Y$で表す．\end{definition}
+この$f$に対して，$X$を始域，$Y$を終域と呼ぶ．なお，２つの写像$f,g:X\longrightarrow Y$が等しいとは，$f=g\Longleftrightarrow \forall x \in X \; [f(x)=g(x)]$と定められる．集合論の言葉で言えば「グラフが等しい」ことを，写像が等しいと定義する．
+\begin{definition}[写像の合成]２つの写像$f:X\longrightarrow Y, g:Y\longrightarrow Z$に対し，その合成写像$h:X\longrightarrow Z$が$\forall x \in X \; [h(x)=g(f(x))]$によって定めることができる．以降この$h$を$g\circ f$と書く．\end{definition}
+\begin{definition}[集合の積]２つの集合$X,Y$に対して，$X\times Y:=\{ (x,y) :\; x\in X \wedge y\in Y\}$と定義する．但し，$(x,y)=(x',y')\Longleftrightarrow x=x'\wedge y=y'$と定義する． \end{definition}\end{shadebox}
+
+    集合論的立場からは，$(x,y):=\{\{x\},\{x,y\}\}$と定式化する．これを順序対，あるいは2-組という．
+
 \begin{shadebox}\begin{definition}[写像の可換図式]$X,Y,W,Z$を集合とし，$f,g,h,k$を写像とする．以降$f:X\longrightarrow Y$を$X\xrightarrow{f}Y$とも書くこととする．この時，以下の図が可換図式であるとは，$h\circ f=k\circ g \Longleftrightarrow \forall x\in X \; [h\circ f(x)=k\circ g(x) \in W]\cdots\star^1$となることと定義する．
     $$ \begin{tikzcd}
         X \arrow[r, "f"] \arrow[d, "g"'] \arrow[dr, phantom, "\circlearrowright"] &  Y \arrow[d, "h"] \\
-            Z \arrow[r, "k"] &    W \\
+            Z \arrow[r, "k"'] &    W \\
     \end{tikzcd} $$
 \end{definition}\end{shadebox}
 つまり，図式を有向グラフ（集合$X,Y,W,Z$を頂点，写像$f,g,h,k$を辺とした有向グラフ）だと思った時に，全ての有向道(directed path)が，写像の合成について，"等しい"(定義２の注釈参照)写像を与えるような図式を，可換図式という．「可換」であることの意味は強い，単に始域と終域が等しいだけでは足りない．\\
-\textcolor{blue}{＊図式の可換性は上のように定義した後，その集合論的な着地点$\star^1$を忘れ去ることが出来るはずだ．無理だろうか．}
+この概念の集合論による定式化は，必ずしもわかりやすいとは言い難い．特に「２つの演算は可換である」と言った時，可換図式の方が直感的である．可換図式とはなんだろうか．
+
 \begin{shadebox}\begin{definition}[fiber積]終域が等しい２つの写像$f:X\longrightarrow S, g:Y\longrightarrow S$について，その\rm{fiber積}$X_f\underset{S}{\times_g}Y$を，$$X_f\underset{S}{\times_g}Y:=\{ (x,y)\in X\times Y:\; f(x)=f(y)\in S \}$$  \end{definition}\end{shadebox}
 fiberとは（集合論で）単に逆像のことを意味する．２つの写像の，共通する終域$S$の各元$s$についての逆像$f^{-1}(s)=\{ x\in X:\; f(x)=s \},g^{-1}(s)$同士の積$f^{-1}(s)\times g^{-1}(s)$を，全ての$s\in S$について足し合わせたもの（和集合，或いは結びのこと）に他ならない．$$X_f\underset{S}{\times_g}Y=\bigcup_{s\in S}f^{-1}(s)\times g^{-1}(s)$$
+fiber積は射の合成の選択写像$c$の定義域を正確に捉える．
+
+\begin{quote}
+    Grothendieckによるエタール・コホモロジーの定義への道を開いたのは、セールによる、代数幾何におけるファイバー束の定義だったらしい。ファイバー束が定義できるということは、コホモロジーでいえばH1が定義できたということになる。あとは、これを拡張すればよい。グロタンディークはこの考えに基づいて、エタール・コホモロジーの理論を建設したということである。その根底となるのは、位相空間そのものよりも、その上の層全体のなす圏のほうが本質的であるという、トポスの考えである．\footnote{https://www.ms.u-tokyo.ac.jpd/~t-saito/jd/gr.pdf}
+\end{quote}
 
 \clearpage
 
-\section{圏の定義}
+
+\section{圏}
+\subsection{圏の定義}
 \begin{shadebox}\begin{definition}[圏]圏とは，集合$C,M$と写像$s,t,c,e$の6-組$(C,M,s,t,c,e)$であって，図\ref{def-cd:1} \ref{def-cd:2} \ref{def-cd:3} \ref{def-cd:4}の可換図式を充たすもののことである．但し，$s,t,c,e$は夫々，\begin{eqnarray*}s:M\longrightarrow C,\hspace{5mm} t:M\longrightarrow C, \hspace{5mm} e:C\longrightarrow M\\[3mm] \left. 
 \begin{array}{ccc}
     c:M_s\underset{C}{\times_t}M & \stackrel{c}{\longrightarrow} & M \\
@@ -295,7 +305,7 @@ $X$を位相空間とし，$O$をその位相とする．$X$の部分集合$A$�
 \end{eqnarray*}
 より，確かに２つの公理を満たす．この位相$O_A$によって部分集合$A$を位相空間とみなした場合，これを部分位相空間という．\par
 
-$A$が$X$の開集合だった場合，即ち，$A\in O$であった場合，$O_A=\{U\in O | U\subset A \}でもある．つまり，「$A$の部分集合である$X$の開集合」と「$A$を$X$の部分位相空間と考えた時の開集合」とは常に一致する．\\
+$A$が$X$の開集合だった場合，即ち，$A\in O$であった場合，$O_A=\{U\in O | U\subset A \}$でもある．つまり，「$A$の部分集合である$X$の開集合」と「$A$を$X$の部分位相空間と考えた時の開集合」とは常に一致する．\\
 $\supset$は$U$を$A$の部分集合かつ$O$の元とすれば，$U\cap A=U$なので，確かに$U\in O_A$．一方$\subset$は，$U\in O_A$とすると，$A$は開集合だから，命題\ref{proposition1}(2)より開集合同士の合併は開集合で，$U\cap A \in O$．なお，$U\in O_A$としたから明らかに$U\subset A$．
 
 例：$S^2やT^2$は$\mathbb{R}^3$の部分位相空間である．\\
