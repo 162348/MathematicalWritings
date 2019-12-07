@@ -11,15 +11,33 @@
 \contentsline {subsubsection}{\numberline {2.3.5}monoidは単一対象圏：射の合成を，演算の雛形と見る}{6}% 
 \contentsline {subsubsection}{\numberline {2.3.6}順序関係：射の合成を，順序関係の雛形と見る}{7}% 
 \contentsline {section}{\numberline {3}関手(functor)：圏準同型}{8}% 
-\contentsline {subsection}{\numberline {3.1}関手の定義}{8}% 
-\contentsline {part}{第II部\hspace {1zw}層}{8}% 
-\contentsline {section}{\numberline {4}Introduction}{8}% 
-\contentsline {subsection}{\numberline {4.1}これが圏論の上で行われる理由}{9}% 
-\contentsline {section}{\numberline {5}位相空間と連続写像}{9}% 
-\contentsline {subsection}{\numberline {5.1}Euclid空間での開集合の定義から，特徴づけを導く}{9}% 
-\contentsline {subsection}{\numberline {5.2}位相空間を，特徴付けだった方を公理として定義する}{10}% 
-\contentsline {subsubsection}{\numberline {5.2.1}例１：Euclid空間}{10}% 
-\contentsline {subsubsection}{\numberline {5.2.2}例２：離散（位相）空間}{10}% 
-\contentsline {subsubsection}{\numberline {5.2.3}例３：２元集合の位相}{10}% 
-\contentsline {subsection}{\numberline {5.3}部分位相空間}{10}% 
-\contentsline {subsection}{\numberline {5.4}連続写像}{11}% 
+\contentsline {subsection}{\numberline {3.1}（共変）関手の定義}{8}% 
+\contentsline {subsection}{\numberline {3.2}関手の定義の吟味，記法の注意}{8}% 
+\contentsline {subsection}{\numberline {3.3}圏の圏 \bf {CAT}}{9}% 
+\contentsline {subsubsection}{\numberline {3.3.1}恒等関手}{9}% 
+\contentsline {subsubsection}{\numberline {3.3.2}関手の合成}{9}% 
+\contentsline {subsubsection}{\numberline {3.3.3}圏の圏 \bf {CAT}}{9}% 
+\contentsline {subsection}{\numberline {3.4}部分圏(subcategory)}{9}% 
+\contentsline {subsubsection}{\numberline {3.4.1}部分圏の定義}{9}% 
+\contentsline {subsubsection}{\numberline {3.4.2}充満部分圏(full subcategory)}{9}% 
+\contentsline {subsubsection}{\numberline {3.4.3}\textbf {Cat}の充満部分圏の例１：monoid再考}{9}% 
+\contentsline {subsubsection}{\numberline {3.4.4}\textbf {Cat}の充満部分圏の例２：poset再考}{9}% 
+\contentsline {subsubsection}{\numberline {3.4.5}充満部分圏の例３：自己射のなすモノイド}{9}% 
+\contentsline {subsubsection}{\numberline {3.4.6}充満部分圏の例４：自己同型のなす群}{10}% 
+\contentsline {subsubsection}{\numberline {3.4.7}モノイドの射と群の射の例：指数表示と指数法則とは何か}{10}% 
+\contentsline {subsection}{\numberline {3.5}具体圏(concrete category)\leavevmode {\color {red}未解決}}{10}% 
+\contentsline {subsubsection}{\numberline {3.5.1}具体圏の定義}{10}% 
+\contentsline {subsubsection}{\numberline {3.5.2}具体圏の例：\textbf {Top, Grp}}{10}% 
+\contentsline {subsection}{\numberline {3.6}共変関手(covariant)と反変関手(contravatiant)}{10}% 
+\contentsline {subsubsection}{\numberline {3.6.1}反変関手の定義}{10}% 
+\contentsline {part}{第II部\hspace {1zw}層}{10}% 
+\contentsline {section}{\numberline {4}Introduction}{11}% 
+\contentsline {subsection}{\numberline {4.1}これが圏論の上で行われる理由}{11}% 
+\contentsline {section}{\numberline {5}位相空間と連続写像}{12}% 
+\contentsline {subsection}{\numberline {5.1}Euclid空間での開集合の定義から，特徴づけを導く}{12}% 
+\contentsline {subsection}{\numberline {5.2}位相空間を，特徴付けだった方を公理として定義する}{13}% 
+\contentsline {subsubsection}{\numberline {5.2.1}例１：Euclid空間}{13}% 
+\contentsline {subsubsection}{\numberline {5.2.2}例２：離散（位相）空間}{13}% 
+\contentsline {subsubsection}{\numberline {5.2.3}例３：２元集合の位相}{13}% 
+\contentsline {subsection}{\numberline {5.3}部分位相空間}{13}% 
+\contentsline {subsection}{\numberline {5.4}連続写像}{13}% 

@@ -85,7 +85,7 @@ fiber積は射の合成の選択写像$c$の定義域を正確に捉える．
 
 \section{圏}
 \subsection{圏の定義}
-\begin{shadebox}\begin{definition}[圏]圏とは，集合$C,M$と写像$s,t,c,e$の6-組$(C,M,s,t,c,e)$であって，図\ref{def-cd:1} \ref{def-cd:2} \ref{def-cd:3} \ref{def-cd:4}の可換図式を充たすもののことである．但し，$s,t,c,e$は夫々，\begin{eqnarray*}s:M\longrightarrow C,\hspace{5mm} t:M\longrightarrow C, \hspace{5mm} e:C\longrightarrow M\\[3mm] \left. 
+\begin{shadebox}\begin{definition}[圏]\label{def-category}圏とは，集合$C,M$と写像$s,t,c,e$の6-組$(C,M,s,t,c,e)$であって，図\ref{def-cd:1} \ref{def-cd:2} \ref{def-cd:3} \ref{def-cd:4}の可換図式を充たすもののことである．但し，$s,t,c,e$は夫々，\begin{eqnarray*}s:M\longrightarrow C,\hspace{5mm} t:M\longrightarrow C, \hspace{5mm} e:C\longrightarrow M\\[3mm] \left. 
 \begin{array}{ccc}
     c:M_s\underset{C}{\times_t}M & \stackrel{c}{\longrightarrow} & M \\
     \rotatebox{90}{$\in$} & & \rotatebox{90}{$\in$} \\
@@ -198,23 +198,23 @@ $U,V\in C$に対して，射の集合を$\mathrm{Mor}_c(U,V)=\{f:U\longrightarro
 
 \begin{screen}
     対象の集合$C$に対して，$M\subset C\times C$かつ$\{ (x,x) \in C\times C | x\in C \}\subset M$を満たす射の集合をもち，全ての同型射は単位射である時，$M$が$C$上に定める「射が存在する」という関係を「順序関係」という．\\
-    これはHasse図から順序関係の公理を定めたように思える．
+    これはHasse図から順序関係の公理を定めたように思える．posetとは，任意のHom集合が元をたかだか１つしか持たない圏である．
 \end{screen}
 
 \clearpage
 \section{関手(functor)：圏準同型}
 
-\subsection{関手の定義}
+\subsection{（共変）関手の定義}
 
-\begin{shadebox}\begin{definition}[関手]
-    ２つの圏$C=(C,M,s,t,c,e),C'=(C',M',s',t',c',e')$に対して，圏$C$から圏$C'$への関手とは，写像$F_C:C\longrightarrow C'$と写像$F_M:M\longrightarrow M'$の組$(F_C,F_M)=:F$であって，以下の可換図式\ref{cd-5}，\ref{cd-6}，\ref{cd-7}を満たすもののことである．
+\begin{shadebox}\begin{definition}[（共変）関手]
+    ２つの圏$C=(C,M,s,t,c,e),C'=(C',M',s',t',c',e')$に対して，圏$C$から圏$C'$への（共変）関手とは，写像$F_C:C\longrightarrow C'$と写像$F_M:M\longrightarrow M'$の組$(F_C,F_M)=:F$であって，以下の可換図式\ref{cd-5}，\ref{cd-6}，\ref{cd-7}を満たすもののことである．
 \end{definition}\end{shadebox}
 
 \begin{figure}[ht]\begin{center} \caption{\label{cd-5}　射に付随する始対象と終対象との関係を保存すること．}
     \includegraphics[width=7cm]{cd-5.png}
 \end{center}\end{figure}
 
-\begin{figure}[ht]\begin{center} \caption{\label{cd-6}　射の合成が可換である．先に合成しても，後で合成しても同じことである．}
+\begin{figure}[ht]\begin{center} \caption{\label{cd-6}　射の合成が可換である．先に合成しても，後で合成しても同じことである．$F(g\circ f)=F(g)\circ F(f)$を表す可換図式．}
     \includegraphics[width=7cm]{cd-6.png}
 \end{center}\end{figure}
 
@@ -223,6 +223,97 @@ $U,V\in C$に対して，射の集合を$\mathrm{Mor}_c(U,V)=\{f:U\longrightarro
 \end{center}\end{figure}
 
 以上，３つの構造を保つ写像（の組）が関手であるから，まさに圏準同型である．
+
+\subsection{関手の定義の吟味，記法の注意}
+圏を６つ組と見做し，残りの４つの条件\\
+\hspace{3mm} (2-1)'\; 射の合成が，始対象と終対象の２つの属性に対して構造を保つ．\\
+\hspace{3mm} (2-2)\; 射の合成が結合的である．\\
+\hspace{3mm} (3-1)'\; 単位射は自己射である．\\
+\hspace{3mm} (3-2)\; 単位射の特徴付け\\
+を４つの可換図式を用いて圏を定義したのであった（定義\ref{def-category}）．このうち，(2-2)と(3-2)は関手の定義に関与しない．(2-1)と(3-1)に加えて，(1-2)が，関手が保存すべき条件であり，それぞれが図\ref{cd-6}，\ref{cd-7}，\ref{cd-5}に対応する．
+
+概念としては関手は「写像の組」であるが，よく関手自体のことや，$F_C,F_M$のいずれのことも，$F$と書いてしまう．
+
+\subsection{圏の圏 \bf{CAT}}
+
+\subsubsection{恒等関手}
+$F_C=1_C, F_M=1_M$と定めれば，３つの可換図式を自明な形で満たし，これは関手となる．これを恒等関手と呼び，$1_C:C\longrightarrow C$と書く．
+
+\subsubsection{関手の合成}
+２つの関手$F:C\longrightarrow C', G:C'\longrightarrow C''$に対して，関手$G\circ F:C\longrightarrow C''$を，写像の合成を用いて$$(G\circ F)_C:=G_C(F_C(A))\hspace{3mm} (\mathrm{for all}\; A\in C)，(G\circ F)_M:=G_M(F_M(f))\hspace{3mm} (\mathrm{for all}\; f\in M)$$と定める．
+
+\subsubsection{圏の圏 \bf{CAT}}
+対象を圏とし，射を関手とする．合成は「関手の合成」を用いると結合的で，単位射を「恒等関手」とすればこれは特徴づけを満たす．従ってこれは圏をなし，\textrm{CAT}，［圏］などと書く．
+
+\subsection{部分圏(subcategory)}
+
+\subsubsection{部分圏の定義}
+\begin{shadebox}\begin{definition}[部分圏]
+    $(C,M,s,t,c,e)$を圏とする．$C',M'$をそれぞれ$C,M$の部分集合とした時，これらに誘導される写像$s\upharpoonright M', t\upharpoonright M', c\upharpoonright M'_{s\upharpoonright M'}\underset{C'}{\times_{t\upharpoonright M'}}M', e\upharpoonright C'$について，$(C',M',s', t', c', e')$が圏をなす時，これを$C$の部分圏という．
+\end{definition}\end{shadebox}
+この時，２つの包含写像$i_C:C'\longrightarrow C, i_M:M'\longrightarrow M$によって定まる明らかな忠実関手$i:C'\longrightarrow C$が存在する．これを包含関手と呼ぶ．
+
+\subsubsection{充満部分圏(full subcategory)}
+\begin{shadebox}\begin{definition}[充満部分圏]
+    $(C,M,s,t,c,e)$を圏とする．$C'$を$C$の部分集合とした時，$M'$を$M':=\{ f\in M | s(f), t(f)\in C \}$と構成すれば，これは必ず部分圏をなす．これを特に「充満部分圏」と呼ぶ．
+\end{definition}\end{shadebox}
+「頂点集合が生成する部分グラフ(induced subgraph)」の定義に似てるが，それとの相違点は，グラフの方では辺はたかだか１つしか存在し得ないが，充満部分圏ではHom集合の濃度は不問である．
+
+\subsubsection{\textbf{Cat}の充満部分圏の例１：monoid再考}
+「圏のうち単一対象圏であるもの」という特別なクラスがmonoidなのであった．それと並行して，モノイドの射は，単一対象圏間の関手と一致する．従って，モノイドの圏\textbf{Mon}は，圏の圏\textbf{Cat}の充満部分圏である．\\
+全く同様に「monoidのうち，全ての射が可逆であるもの」が群であり，その間の関手が群の射であったから，以下のような包含関手が存在する．
+$$\mathbf{Grp}\xrightarrow{i}\mathbf{Mon}\xrightarrow{i'}\mathbf{Cat}$$
+
+\subsubsection{\textbf{Cat}の充満部分圏の例２：poset再考}
+［順序集合］は［圏］の充満部分圏である．
+
+\subsubsection{充満部分圏の例３：自己射のなすモノイド}
+モノイドのなす圏\textbf{Mon}も，圏の圏\textbf{Cat}の充満部分圏であったが，同じ構図の低次元版のように，単一対象圏を「自己射のなすモノイド」と言えば，これは空圏を除けば，「あらゆる圏について，最小の充満部分圏」となる．\\
+なお，「自己射のなすモノイド」とは，$(C,M,s,t,c,e)$を勝手な圏としたとき，$C$の勝手な元$A$に対して，$C'=\{ A\}$と置き，$M'=\mathrm{Mor}_C(A,A)=\mathrm{End}(A)$とすれば，これらが為す充満部分圏をさす．
+
+\subsubsection{充満部分圏の例４：自己同型のなす群}
+$M'$のうち，同型であるものをとって，$M''=\mathrm{Aut}(A)\subset M'$とする．$A\in C$は勝手な圏$C$の対象であったが，今圏$C$を$\mathbf{Set}$とすると，$\mathbf{Set}\ni S=\{ 1,2,\dots ,n\}$に対して$mathrm{Aut}_C(S)=\mathfrak{S}_n$を「n次対称群」という．これは，集合の圏の部分圏であるが，一般に充満部分圏ではない．
+
+\subsubsection{モノイドの射と群の射の例：指数表示と指数法則とは何か}
+$(M,\cdot, e_M)$をモノイドとする．モノイド$(\mathbb{N},+,0)$からの射$\begin{array}{lcr}f:\mathbb{N}&\longrightarrow &M\\ \rotatebox{90}{$\in$} & & \rotatebox{90}{$\in$} \\ n & \longmapsto & x^n \end{array}$と定めたものが，指数表示である．ただし，$x^0 = e_M, x^1 = x$であり，以降$x^{n+1}=x^n\cdot x$と帰納的に定める．\\
+しかしこのままだと不安である，$f$は本当にモノイドの射になっているだろうか．モノイドを圏とみて，$f$が関手であるための条件（可換図式\ref{cd-5},\ref{cd-6},\ref{cd-7}）を満たすかどうか検証する．いずれも単一対象圏なので，図\ref{cd-5}は自明である．図\ref{cd-6}は，$f(n+m)\overset{M}{=}f(n)\cdot f(m)$（指数法則）が帰納的に成り立つことにより保証される．最後に，定義の仕方により，確かに$f(0)=e_M$である．\\
+指数表示と指数法則とは，和と積という２つの演算の間の，モノイド準同型だったのか．\par
+全く同様に，２つの群$<Z,+,0>$と$<G,\cdot, e_G>$の間の射だと考えれば，指数$n$の走る範囲は整数にまで拡張できる．積を備えた代数系が群をなすことがその条件である．\\
+\textcolor{blue}{では，複素行列を指数に取る場合はどうだろうか？}
+
+\subsection{具体圏(concrete category)\textcolor{red}{未解決}}
+
+\subsubsection{具体圏の定義}
+\begin{shadebox}\begin{definition}[具体圏]
+    $(C,M,s,t,c,e)$を圏とする．忠実な関手$F:C\longrightarrow \mathbf{Set}$が存在するときに，組$(C,F)$のことを「具体圏」と呼ぶ．また，このような忠実関手$F$が存在する圏$C$のことを「具体化可能(concretizable)」という．
+\end{definition}\end{shadebox}
+この関手$F$は忘却関手であり，圏$C$の対象をその台集合に写し，射は台写像(underlying mapping)に写す．集合論が構築する様々な対象のうち，「集合の上に，付加構造を追加する」という形で定式化される構造が圏をなすとき，それは具体圏をなすという言葉で捉えられる．
+関手$F$の取り方はいく通りも存在する場合が殆どで，実用上は上述した忘却関手のような一番自明なものを取る．
+
+\subsubsection{具体圏の例：\textbf{Top, Grp}}
+
+\subsection{共変関手(covariant)と反変関手(contravatiant)}
+Fが共変関手であるとき，それによる$f\in M$の値を$F(f)=f^*$と書き，$F$が反変関手であるとき$F(f)=f_*$と書くこととする．
+
+\subsubsection{反変関手の定義}
+
+\begin{shadebox}\begin{definition}[（反変）関手]
+    ２つの圏$C=(C,M,s,t,c,e),C'=(C',M',s',t',c',e')$に対して，圏$C$から圏$C'$への反変関手とは，写像$F_C:C\longrightarrow C'$と写像$F_M:M\longrightarrow M'$の組$(F_C,F_M)=:F$であって，以下の可換図式\ref{cd-8}，\ref{cd-9}，\ref{cd-7}を満たすもののことである．
+\end{definition}\end{shadebox}
+
+\begin{figure}[ht]\begin{center} \caption{\label{cd-8}　射に付随する始対象と終対象の関係を，一律に逆転させる．}
+    \includegraphics[width=7cm]{cd-8.png}
+\end{center}\end{figure}
+
+\begin{figure}[ht]\begin{center} \caption{\label{cd-9}　$F(g\circ f)=F(f)\circ F(g)$を表す可換図式．ただし，$F_M\times F_M\circ\omega$とは，図\ref{cd-10}のような合成写像とする．}
+    \includegraphics[width=7cm]{cd-9.png}
+\end{center}\end{figure}
+
+\begin{figure}[ht]\begin{center} \caption{\label{cd-10}}\includegraphics[width=10cm]{cd-10.png} \end{center}\end{figure}
+
+\begin{figure}[ht]\begin{center} \caption{単位射は単位射に対応する（共変関手の定義と同一）．}
+    \includegraphics[width=5cm]{cd-7.png}
+\end{center}\end{figure}
 
 \part{層}
 
