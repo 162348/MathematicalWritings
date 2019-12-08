@@ -4,8 +4,8 @@
 \date{\today}
 \pagestyle{headings}
 \usepackage[top=15truemm,bottom=15truemm,left=10truemm,right=10truemm]{geometry}
-\usepackage{amsmath, amsfonts, amsthm, mathptmx, amssymb, ascmac, amscd, color, comment, tikz-cd}
-\newtheorem{theorem}{定理} \newtheorem{definition}{定義} \newtheorem{proposition}{命題} \newtheorem{corollary}[proposition]{系} \newtheorem{lemma}[proposition]{補題} \setcounter{secnumdepth}{4}
+\usepackage{amsmath, amsfonts, amsthm, mathptmx, amssymb, ascmac, amscd, color, comment, tikz-cd, wrapfig}
+\newtheorem{theorem}{定理} \newtheorem{definition}{定義} \newtheorem{proposition}{命題} \newtheorem{corollary}[proposition]{系} \newtheorem{lemma}[proposition]{補題} \setcounter{secnumdepth}{5}
 % \coprodをmathptmx（文書のフォントをTimesにするpackage）でも使えるようにするために．
 \DeclareSymbolFont{cmletters}{OML}{cmm}{m}{it}
 \DeclareSymbolFont{cmsymbols}{OMS}{cmsy}{m}{n}
@@ -72,12 +72,15 @@
 つまり，図式を有向グラフ（集合$X,Y,W,Z$を頂点，写像$f,g,h,k$を辺とした有向グラフ）だと思った時に，全ての有向道(directed path)が，写像の合成について，"等しい"(定義２の注釈参照)写像を与えるような図式を，可換図式という．「可換」であることの意味は強い，単に始域と終域が等しいだけでは足りない．\\
 この概念の集合論による定式化は，必ずしもわかりやすいとは言い難い．特に「２つの演算は可換である」と言った時，可換図式の方が直感的である．可換図式とはなんだろうか．
 
-\begin{shadebox}\begin{definition}[fiber積]終域が等しい２つの写像$f:X\longrightarrow S, g:Y\longrightarrow S$について，その\rm{fiber積}$X_f\underset{S}{\times_g}Y$を，$$X_f\underset{S}{\times_g}Y:=\{ (x,y)\in X\times Y:\; f(x)=f(y)\in S \}$$  \end{definition}\end{shadebox}
+\begin{shadebox}\begin{definition}[fiber積／引き戻し(pullback)]終域が等しい２つの写像$f:X\longrightarrow S, g:Y\longrightarrow S$について，その\rm{fiber積}$X_f\underset{S}{\times_g}Y$を，$$X_f\underset{S}{\times_g}Y:=\{ (x,y)\in X\times Y:\; f(x)=f(y)\in S \}$$  \end{definition}\end{shadebox}
 fiberとは（集合論で）単に逆像のことを意味する．２つの写像の，共通する終域$S$の各元$s$についての逆像$f^{-1}(s)=\{ x\in X:\; f(x)=s \},g^{-1}(s)$同士の積$f^{-1}(s)\times g^{-1}(s)$を，全ての$s\in S$について足し合わせたもの（和集合，或いは結びのこと）に他ならない．$$X_f\underset{S}{\times_g}Y=\bigcup_{s\in S}f^{-1}(s)\times g^{-1}(s)$$
 fiber積は射の合成の選択写像$c$の定義域を正確に捉える．
 
 \begin{quote}
     Grothendieckによるエタール・コホモロジーの定義への道を開いたのは、セールによる、代数幾何におけるファイバー束の定義だったらしい。ファイバー束が定義できるということは、コホモロジーでいえばH1が定義できたということになる。あとは、これを拡張すればよい。グロタンディークはこの考えに基づいて、エタール・コホモロジーの理論を建設したということである。その根底となるのは、位相空間そのものよりも、その上の層全体のなす圏のほうが本質的であるという、トポスの考えである．\footnote{https://www.ms.u-tokyo.ac.jpd/~t-saito/jd/gr.pdf}
+\end{quote}
+\begin{quote}
+    A pullback is therefore the categorical semantics of an equation.\footnote{https://ncatlab.org/nlab/show/pullback}
 \end{quote}
 
 \clearpage
@@ -202,7 +205,7 @@ $U,V\in C$に対して，射の集合を$\mathrm{Mor}_c(U,V)=\{f:U\longrightarro
 \end{screen}
 
 \clearpage
-\section{関手(functor)：圏準同型}
+\section{関手(functor)}
 
 \subsection{（共変）関手の定義}
 
@@ -293,7 +296,7 @@ $(M,\cdot, e_M)$をモノイドとする．モノイド$(\mathbb{N},+,0)$から�
 \subsubsection{具体圏の例：\textbf{Top, Grp}}
 
 \subsection{共変関手(covariant)と反変関手(contravatiant)}
-Fが共変関手であるとき，それによる$f\in M$の値を$F(f)=f^*$と書き，$F$が反変関手であるとき$F(f)=f_*$と書くこととする．
+Fが共変関手であるとき，それによる$f\in M$の値を$F(f)=f_*$と書き，$F$が反変関手であるとき$F(f)=f^*$と書くこととする．
 
 \subsubsection{反変関手の定義}
 
@@ -309,11 +312,124 @@ Fが共変関手であるとき，それによる$f\in M$の値を$F(f)=f^*$と�
     \includegraphics[width=7cm]{cd-9.png}
 \end{center}\end{figure}
 
-\begin{figure}[ht]\begin{center} \caption{\label{cd-10}}\includegraphics[width=10cm]{cd-10.png} \end{center}\end{figure}
+\begin{figure}[ht]\begin{center} \caption{\label{cd-10} $F_M\times F_M\circ\omega$の定義}\includegraphics[width=10cm]{cd-10.png} \end{center}\end{figure}
 
 \begin{figure}[ht]\begin{center} \caption{単位射は単位射に対応する（共変関手の定義と同一）．}
     \includegraphics[width=5cm]{cd-7.png}
 \end{center}\end{figure}
+
+\subsubsection{逆転圏}
+
+圏$C=(C,M,s,t,c,e)$に対して，$C^{op}:=(C,M,t,s,c\circ\omega,e)$は必ず圏をなす．
+
+この概念を用いれば，反変関手$F:C\longrightarrow C'$は共変関手$G:C^{op}\longrightarrow C'$に対応すると分かる．
+\begin{figure}[ht]\begin{center} \caption{}
+    \includegraphics[width=5cm]{cd-11.png}
+\end{center}\end{figure}
+
+\subsubsection{monoidでの例：逆転モノイド}
+$M$をモノイドとすると，逆転単一対象圏$M^{op}$も勿論モノイドであり，これを「$M$の逆転モノイド」という．$M=M^{op}$の時，このモノイド$M$は可換であるという．
+
+\subsubsection{posetでの例：冪集合関手$\mathcal{P}$}
+圏$(C,M\subset C\times C, p1,p2,c,e)$で，$M$の可逆な射は単位者のみである時，$M$は$C$上に順序を定める．\par
+勝手な集合$X$に対して，$C=P(X)$とし，包含写像を射とする圏を考えると，これは合成写像も包含写像となることより圏をなし，特に$\mathbf{Set}$の部分圏となる．冪を取る操作により，$\mathbf{Set}$の対象の中でも特に［順序集合］の対象となるのだ．
+$\begin{array}{lcr}
+    P_C:［集合］&\longrightarrow & ［順序集合］\\
+    \rotatebox{90}{$\in$} & &  \rotatebox{90}{$\in$}\\
+    X & \longmapsto & P(X)
+\end{array}$\\
+次に，集合$X,Y$間の写像$f:X\longrightarrow Y$の$P_M$による像をどう定義するべきか考える．これは［集合］の射と考えれば適当な写像で良いのだが，［順序集合］の射だと考えると，順序準同型である必要がある．順序集合とは圏の特別なクラスであったから，これは関手である．ということで，$P_M$の像の候補は以下関手化$P_M=*$の２つのである．
+\begin{eqnarray*}f_* : P(X)\longrightarrow P(Y) \hspace{3mm}共変関手\\f^*:P(Y)\longrightarrow P(X) \hspace{3mm}反変関手\end{eqnarray*}
+
+まず，共変関手について，$\begin{array}{lcr}f_*:P(X)&\longrightarrow &P(Y)\\\rotatebox{90}{$\in$}& & \rotatebox{90}{$\in$} \\ A & \longmapsto & f(A)=\{ y\in Y | \exists x\in A \; f(x)=y \} \end{array}$
+と定める．これは包含関係を保存するので，関手になると予想される．実際$\left\{ \begin{array}{lcr} (f\circ g)_* & = & f_*\circ g_* \\ 1_{X*} &=& 1_{P(X)} \end{array}　\right.$が確認できる．\par
+続いて，反変関手について，$\begin{array}{lcr} f^* : P(Y) & \longrightarrow & P(X)\\ \rotatebox{90}{$\in$} & & \rotatebox{90}{$\in$} \\ B& \longmapsto & f^{-1}(B)=\{ x\in X | f(x)\in B \} \end{array}$
+
+\begin{screen}関手化とは，関手$F_C$の終域となる対象の１つ１つが圏と見なせる場合の，$F_M$の像を捉えるための言葉である．考察が１段階高次元になった様子を捉える．後述の表現可能関手はその例で，「関手化」として捉えられる．Hom類間の写像は，関手の射をなすと捉えられる．
+\end{screen}
+
+反変版の方の冪集合関手は，なんだか連続写像との関連性を感じる．「反変版の冪集合関手は2点集合によって表現されている．」を検証する．\footnote{https://ja.wikipedia.org/wiki/関手}
+
+\subsubsection{忘却関手 forgetful fanctor}
+圏$C$が別の圏$C'$（$\mathbf{Set}$など）のうち，特に付加的な構造持つものがなす圏とすると，その構造を忘れ去ることにより，自明な共変関手を構成することができる．これを忘却関手という．
+
+\subsection{表現可能関手 representable fanctor}
+\subsubsection{表現可能関手の定義}
+\begin{shadebox}\begin{definition}[表現可能関手]
+    圏$(C,M,s,t,c,e)$と圏の圏$\mathbf{Set}$に対して，圏$C$の或る対象$X\in C$を用いて，$\mathrm{Hom}_C(-,X)$または$\mathrm{Hom}_C(X,-)$と表せる$F_C$を持った関手$F:C\longrightarrow \mathbf{Set}$を，「表現可能関手」という．
+\end{definition}\end{shadebox}
+これらは，米田の補題により，圏全体の大域的な性質を反映していることが保証される．
+
+\subsubsection{有限次元$\mathbb{R}$-線型空間での例}
+$C=［有限次元\mathbb{R}-線型空間］$とする．関手$_*$を以下のように定義する．\\$\begin{array}{lcr} {}_{*c} : \hspace{1cm} C&\longrightarrow & \mathbf{Set}\\ \hspace{1cm} \rotatebox{90}{$\in$} & & \rotatebox{90}{$\in$} \\ \hspace{1cm} W & \longmapsto & \mathrm{Hom}_{\mathbb{R}}(V,W)=\mathrm{Hom}_C(V,W) \\ {}_{*M}: (f:U\rightarrow W) & \longmapsto & f_*:\mathrm{Hom}_C(V,U)\rightarrow \mathrm{Hom}_C(V,W) \\ & & \rotatebox{90}{$\in$} \hspace{3cm} \rotatebox{90}{$\in$} \\ & & g:V\rightarrow U \longrightarrow f\circ g:V\rightarrow W \end{array}$\\
+$h:W\longrightarrow W'$を勝手に取った時，これには$f:U\longrightarrow W$との合成が定義され，あとは以下の２条件を満たせば関手として定められたことになる．
+$$\left\{ \begin{array}{lcr} (h\circ f)_* & = & h_*\circ f_* \\ (1_W)_* &=& 1_{\mathrm{Hom}_C(V,W)}  \end{array} \right.$$
+
+\subsubsection{双対空間}
+自己反変関手$\begin{array}{lcr} {}^V:C &\longrightarrow & C\\ \rotatebox{90}{$\in$} & & \rotatebox{90}{$\in$}\\ V&\longmapsto &V^V=\mathrm{Hom}_{\mathbb{R}=C}(V,\mathbb{R}) \end{array}$を考える．対象である有限次元$\mathbb{R}$-線型空間$V$を，その係数体$\mathbb{R}$への線型写像（線型形式という）のなす線型空間$V^V\in C$に写す関手である．
+${}^V_M$の定め方を考えたい．$f:V\longrightarrow W$を圏$C$の射とすれば，これは$\mathbb{R}$-線型写像だから，$f\in {}^V(W)$である．今${}^V$を反変関手とするならば，$g:W\longrightarrow\mathbb{R}$を勝手な$W^V$の元とすると，この$f\in M$の関手化${}^V_M$を，次のようにすれば良い．\\$\begin{array}{lcr} {}^V_M(f):{}^V_C(W)=W^V&\longrightarrow &V^V={}^V_C(V) \\ \rotatebox{90}{$\in$} & & \rotatebox{90}{$\in$}\\ g:W\rightarrow\mathbb{R}&\longmapsto & g\circ f:V\longrightarrow\mathbb{R} \end{array}$
+この時，確かに$f^V$は線型写像であり，圏$C$の射である．こうして，自己反変関手${}^V$が，［有限次元$\mathbb{R}$-線型空間］上に定まった．
+$$\left\{ \begin{array}{lcr} (g\circ f)^V & = & f^V\circ g^V \\ (1_V)^V &=& 1_{V^V}  \end{array} \right.$$
+$\because f:V\longrightarrow W, g:W\longrightarrow U $とすれば，$g\circ f:V\longrightarrow U, (g\circ f)^V:U^V\longrightarrow V^V$
+
+\section{関手の射}
+歴史的には「自然変換」という．写像には階層がないが，圏論では上がっていけるようだ．不思議だ．この観念をn-圏／n-射といい，これを考えることをhigher order category theoryという．
+\begin{quote}Frequently in modern mathematics there occur phenomena of "naturality": a "natural" isomorphism between two groups or between two complexes, a "natural" homeomorphism of two spaces and the like. We here propose a precise definition of the "naturality" of such correspondences, as a basis for an appropriate general theory. \footnote{S. Eilenberg and S. MacLane, Natural Isomorphisms in Group Theory, Proceedings of the National Academy of Sciences, 28(1942), 537-543.}\end{quote}
+
+
+\begin{quote}Just as a functor is a morphism between categories, a natural transformation is a 2-morphism between two functors. \\ Natural transformations are the 2-morphisms in the 2-category Cat.\footnote{https://ncatlab.org/nlab/show/natural+transformation}\end{quote}
+\subsection{関手の射の定義}
+\begin{figure}[ht]\begin{center}\includegraphics[width=5cm]{cd-12.png}\end{center}\end{figure}
+\begin{shadebox}\begin{definition}[関手の射]
+    $C,C'$を圏とし，$F,G$を関手$F,G:C\longrightarrow C'$とする．写像$\varphi : C\longrightarrow M'$が以下の２つの可換図式を満たす時，これを関手$F,G$間の関手の射という．$\varphi :C\longrightarrow M'$の値，つまり元の圏$C$の各対象$x\in C$にassignされる$M'$の射$\varphi_{\chi}:F(\chi)\longrightarrow G(\chi)$のことを「$\varphi$の成分(component of $\varphi$ at $\chi$)」という．
+\end{definition}\end{shadebox}
+
+\begin{figure}[ht]\begin{center}
+    \caption{各$A\in C$に対して$\varphi (A):F_C(A)\longrightarrow G_C(A)$を表す可換図式．つまり，各対象について，$F,G$で移った先の２つの対象を結ぶ射を選び取る条件．\label{def-cd:13}}
+    \includegraphics[width=7cm]{cd-13.png}
+\end{center}\end{figure}
+
+\begin{figure}[ht]\begin{center}
+    \caption{２つの関手の間に自然な変換があることを表す可換図式．\label{def-cd:15}}
+    \includegraphics[width=7cm]{cd-15.png}
+    \includegraphics[width=7cm]{cd-14.png}
+\end{center}\end{figure}
+
+\subsection{関手の射の合成}
+３つの関手$F,G,H:C\longrightarrow C'$に対して，２つの関手の射$\varphi :F\longrightarrow G, \psi G\longrightarrow H$の合成を，$\psi\circ\varphi (A):=\psi (A)\overset{M'}{\circ}\varphi (A):F(A)\longrightarrow H(A)$のように定義する．
+この定義は2-圏におけるvertical compositionという．
+
+\subsection{関手の同型／自然同型(natural equivalence)}
+関手の射$\varphi :F\longrightarrow G$が，逆射$\phi :G\longrightarrow F$（$\psi\circ\phi =1_F, \psi\circ\varphi =1_G$を満たす）を持つ時，これは関手の同型であるという．\\
+つまり，関手の合成の定義から，各$A\in C$に対して$\varphi (A):F(A)\longrightarrow G(A)$が（勿論$\psi (A)$も）それぞれ同型であることをさす．
+
+\subsection{関手圏\textrm{Funct}}
+$C,C'$を圏として，対象を関手$C\longrightarrow C'$の全て，射をその間の自然変換とすれば，これは圏をなす．これを$\mathrm{Fun}(C,C'), {C'}^{C}, [C,D]$などと書く．
+
+\subsection{関手圏の例}
+図式の圏や，前層／層の圏は，関手圏の例である．
+
+\subsubsection{有限次元$\mathbb{R}$-線型空間の例１}
+圏$C$を［有限次元$\mathbb{R}$-線型空間］とし，圏$C'$を［集合］とする．すると$C$は$C'$の部分圏である．\\
+１つ目の関手$F$を以下のように，$Hom_C(V,-)$によって定まる共変な表現可能関手とする．\\ $\begin{array}{lcr} F_C:C&\longrightarrow &C'\\ \hspace{5mm}\rotatebox{90}{$\in$} & & \rotatebox{90}{$\in$} \\ \hspace{5mm} W&\longmapsto & \mathrm{Hom}_C(V,W) \\ F_M:M&\longrightarrow &M'\\ \hspace{5mm} \rotatebox{90}{$\in$} & &\rotatebox{90}{$\in$}\\ \hspace{5mm} f:U\rightarrow W & \longmapsto & f_*:\mathrm{Hom}_C(V,U)\longrightarrow \mathrm{Hom}_C(V,W) \\ & & \rotatebox{90}{$\in$}\hspace{3cm}\rotatebox{90}{$\in$} \\ & & g:V\rightarrow U \longmapsto f\circ g:V\rightarrow W\end{array}$\\
+２つ目の関手$G$は忘却関手とする．\\
+すると，関手の射$\varphi :F\longrightarrow G$を各$W\in C$に対して\\ $\begin{array}{lcr} \varphi (W):F(W) & \longrightarrow & G(W) \\ \hspace{5mm} \rotatebox{90}{=} & & \rotatebox{90}{=} \\ \hspace{5mm} \mathrm{Hom}_C(V,W) & & W \\ \hspace{5mm}\rotatebox{90}{$\in$} & & \rotatebox{90}{$\in$} \\ \hspace{5mm} g:V\rightarrow W & \longmapsto & g(x)（構造を忘れた線型空間Wの素朴な元） \end{array}$\\
+という集合の射（写像）を対応させれば，以下の可換図式は任意の$g\in \mathrm{Hom}_C(V,U)$に対して$f\circ g(x) = f(g(x)) \hspace{3mm}\forall x\in U$であるから可換だとわかる．
+\begin{figure}[ht]\begin{center}\includegraphics[width=7cm]{cd-15-2.png}\end{center}\end{figure}
+これはなんだ？？［有限次元$\mathbb{R}$-線型空間］からの表現可能関手の例として，素朴な集合からのcodingの例をあげたのだろうか？
+
+\subsubsection{有限次元$\mathbb{R}$-線型空間の例2：テンソル}
+圏$C,C'$と表現可能関手$F$を上述の例と同様に定める．２つ目の関手は，$W\in C$に対して，$G_C(W)=W^n=\{ (y1,\cdots, yn) | y1,\cdots, yn\in W \} (n\in\mathbb{N})$，$f:U\longrightarrow W$に対して$\begin{array}{lcr}G_M(f)=f_*:U^n & \longrightarrow & W^n \\ \hspace{2cm} \rotatebox{90}{$\in$} & & \rotatebox{90}{$\in$} \\ \hspace{2cm} (y1, \cdots, yn) & \longmapsto & (f(y1), \cdots, f(yn))  \end{array}$として定める．\\
+すると，関手の射$\varphi :F\longrightarrow G$を各$W\in C$に対して\\ $\begin{array}{lcr} F(W)=\mathrm{Hom}_C(V,W)&\longrightarrow & G(W)=W^n \\ \hspace{1cm} \rotatebox{90}{$\in$} & & \rotatebox{90}{$\in$} \\ \hspace{1cm} g & \longmapsto & (g(x_1),\cdots, g(x_n)) \end{array}$\\
+と定めれば，これは確かに可換図式\ref{def-cd:13},\ref{def-cd:15}を満たす．
+
+\begin{shadebox}\begin{proposition}
+    以下の２条件は同値である．\\
+    (1)\; $x_1,\cdots,x_n$が$V\in C$の基底である．\\
+    (2)\; 関手の射$\varphi :F\longrightarrow G$は関手の同型である．
+\end{proposition}\end{shadebox}
+
+前述の例は，n=1の場合に当たる．
 
 \part{層}
 

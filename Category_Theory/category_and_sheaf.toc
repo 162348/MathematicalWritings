@@ -10,7 +10,7 @@
 \contentsline {subsubsection}{\numberline {2.3.4}用語の補充：同型射}{6}% 
 \contentsline {subsubsection}{\numberline {2.3.5}monoidは単一対象圏：射の合成を，演算の雛形と見る}{6}% 
 \contentsline {subsubsection}{\numberline {2.3.6}順序関係：射の合成を，順序関係の雛形と見る}{7}% 
-\contentsline {section}{\numberline {3}関手(functor)：圏準同型}{8}% 
+\contentsline {section}{\numberline {3}関手(functor)}{8}% 
 \contentsline {subsection}{\numberline {3.1}（共変）関手の定義}{8}% 
 \contentsline {subsection}{\numberline {3.2}関手の定義の吟味，記法の注意}{8}% 
 \contentsline {subsection}{\numberline {3.3}圏の圏 \bf {CAT}}{9}% 
@@ -30,14 +30,30 @@
 \contentsline {subsubsection}{\numberline {3.5.2}具体圏の例：\textbf {Top, Grp}}{10}% 
 \contentsline {subsection}{\numberline {3.6}共変関手(covariant)と反変関手(contravatiant)}{10}% 
 \contentsline {subsubsection}{\numberline {3.6.1}反変関手の定義}{10}% 
-\contentsline {part}{第II部\hspace {1zw}層}{10}% 
-\contentsline {section}{\numberline {4}Introduction}{11}% 
-\contentsline {subsection}{\numberline {4.1}これが圏論の上で行われる理由}{11}% 
-\contentsline {section}{\numberline {5}位相空間と連続写像}{12}% 
-\contentsline {subsection}{\numberline {5.1}Euclid空間での開集合の定義から，特徴づけを導く}{12}% 
-\contentsline {subsection}{\numberline {5.2}位相空間を，特徴付けだった方を公理として定義する}{13}% 
-\contentsline {subsubsection}{\numberline {5.2.1}例１：Euclid空間}{13}% 
-\contentsline {subsubsection}{\numberline {5.2.2}例２：離散（位相）空間}{13}% 
-\contentsline {subsubsection}{\numberline {5.2.3}例３：２元集合の位相}{13}% 
-\contentsline {subsection}{\numberline {5.3}部分位相空間}{13}% 
-\contentsline {subsection}{\numberline {5.4}連続写像}{13}% 
+\contentsline {subsubsection}{\numberline {3.6.2}逆転圏}{11}% 
+\contentsline {subsubsection}{\numberline {3.6.3}monoidでの例：逆転モノイド}{11}% 
+\contentsline {subsubsection}{\numberline {3.6.4}posetでの例：冪集合関手$\mathcal {P}$}{11}% 
+\contentsline {subsubsection}{\numberline {3.6.5}忘却関手 forgetful fanctor}{12}% 
+\contentsline {subsection}{\numberline {3.7}表現可能関手 representable fanctor}{12}% 
+\contentsline {subsubsection}{\numberline {3.7.1}表現可能関手の定義}{12}% 
+\contentsline {subsubsection}{\numberline {3.7.2}有限次元$\mathbb {R}$-線型空間での例}{12}% 
+\contentsline {subsubsection}{\numberline {3.7.3}双対空間}{13}% 
+\contentsline {section}{\numberline {4}関手の射}{13}% 
+\contentsline {subsection}{\numberline {4.1}関手の射の定義}{13}% 
+\contentsline {subsection}{\numberline {4.2}関手の射の合成}{13}% 
+\contentsline {subsection}{\numberline {4.3}関手の同型／自然同型(natural equivalence)}{14}% 
+\contentsline {subsection}{\numberline {4.4}関手圏\textrm {Funct}}{14}% 
+\contentsline {subsection}{\numberline {4.5}関手圏の例}{14}% 
+\contentsline {subsubsection}{\numberline {4.5.1}有限次元$\mathbb {R}$-線型空間の例１}{14}% 
+\contentsline {subsubsection}{\numberline {4.5.2}有限次元$\mathbb {R}$-線型空間の例2：テンソル}{15}% 
+\contentsline {part}{第II部\hspace {1zw}層}{15}% 
+\contentsline {section}{\numberline {5}Introduction}{15}% 
+\contentsline {subsection}{\numberline {5.1}これが圏論の上で行われる理由}{15}% 
+\contentsline {section}{\numberline {6}位相空間と連続写像}{16}% 
+\contentsline {subsection}{\numberline {6.1}Euclid空間での開集合の定義から，特徴づけを導く}{16}% 
+\contentsline {subsection}{\numberline {6.2}位相空間を，特徴付けだった方を公理として定義する}{17}% 
+\contentsline {subsubsection}{\numberline {6.2.1}例１：Euclid空間}{17}% 
+\contentsline {subsubsection}{\numberline {6.2.2}例２：離散（位相）空間}{17}% 
+\contentsline {subsubsection}{\numberline {6.2.3}例３：２元集合の位相}{17}% 
+\contentsline {subsection}{\numberline {6.3}部分位相空間}{17}% 
+\contentsline {subsection}{\numberline {6.4}連続写像}{17}% 
