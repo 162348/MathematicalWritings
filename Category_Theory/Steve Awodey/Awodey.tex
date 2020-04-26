@@ -1,0 +1,381 @@
+\documentclass[uplatex, 12pt, dvipdfmx]{jsarticle}
+\title{}
+\author{司馬博文 J4-190549\\hirofumi-shiba48@g.ecc.u-tokyo.ac.jp}
+\date{\today}
+\pagestyle{headings} \setcounter{secnumdepth}{4}
+\input{/Users/hirofumi.shiba48/Desktop/数理科学/preamble_CM.tex}
+\begin{document}
+\tableofcontents
+
+\section{Categories}
+
+\subsection{Introduction}
+\subsection{Functions of sets}
+\subsection{Definition of a category}
+\begin{definition}[Category]　
+
+    1. 対象$A,B,C,\cdots$というものがある．
+
+    2. 射$f,g,h,\cdots$というものがある．
+
+    3. 各射には$\mathrm{dom}(f)=A, \mathrm{cod}(f)=B$という対象が紐づけられていて，その関係を$f:A\to B$と書く．
+
+    4. $\mathrm{cod}(f)=\mathrm{dom}(g)$を満たす射$f,g$に対し，$g\circ f:\mathrm{dom}(f)\to \mathrm{cod}(g)$という射が定義される．
+
+    5. 各対象$A$には$1_A:A\to A$という特別な射が定義される（単位射）．
+
+    6. 射は結合律を満たす．$h\circ (g\circ f)=(h\circ g)\circ f$
+
+    7. 単位射は合成について単位的である．$f:A\to B$として，$f\circ 1_A=f=1_B\circ f$
+\end{definition}
+
+\subsection{Examples of categories}
+
+1. 集合の圏$\mathbf{Sets}$と，有限集合の圏$\mathbf{Sets}_\mathrm{fin}$
+\begin{example_*}[集合の圏から，対象の集合と射の集合に特定の制限を付け加えることで，自由に部分圏が作れる他の例．]　
+
+    1. 対象：有限集合，射：単射
+
+    2. 対象：集合，射：ファイバーが高々２元集合である写像
+
+    3. 対象：集合，射：ファイバーが高々有限集合である写像
+
+    4. 対象：集合，射：ファイバーは無限でも良い多価写像
+\end{example_*}
+
+2. Category of structured sets
+\begin{definition*}[具体圏]
+    圏$C$が，忘却関手$U:C\to\mathbf{Set}$を持つとき，これを具体圏と呼ぶ．
+\end{definition*}
+
+3. 順序集合と単調写像の圏$\mathbf{Pos}$
+
+4. 二項関係の圏$\mathbf{Rel}$：写像は特別な二項関係と見れるから，$\mathbf{Sets}$はこの部分圏である．
+
+射$f:A\to B$は$A\times B$の部分集合で，単位射$1_A$は恒等写像$id_A$のグラフと共通の「恒等関係」となる．
+合成は，２つの関係$R\subset A\times B, S\subset B\times C$から作れる「相対関係$(a,c)\in S\circ R:\Leftrightarrow \exists (a,b)\in R, (b,c)\in S$」として作れば確かに閉じている．
+
+5. 有限圏としての自然数：射は順序関係である．
+
+6. 圏の圏$\mathbf{Cat}$
+\begin{definition}[Functor]
+    関手$F:\mathbf{C}\to\mathbf{D}$とは，次を満たす対象写像と射写像の組である．
+
+    1. $F(f:A\to B)=F(f):F(A)\to F(B)$
+
+    2. $F(1_A)=1_F(A)$
+
+    3. $F(g\circ f)=F(g)\circ F(g)$
+\end{definition}
+
+7. 圏としてのpreorder：任意の２つの間に射が１つしか存在しない圏（細い圏）．
+
+\begin{definition*}[thin category]
+    圏$C$が次の条件を満たす時，細い圏であるという．
+    
+    任意の２つの対象$x,y\in C$について，
+    \begin{center}\begin{tikzcd}
+        x \ar[r, "f"] \ar[r, "g"'] & g
+    \end{tikzcd}\end{center}
+    となっている時，必ず$f=g$である．
+\end{definition*}
+\begin{remark*}
+    細い圏に於いて，２つの対象間で双方向に射が存在する場合，これは互いに逆射になる．
+\end{remark*}
+\begin{proposition*}
+    細い圏は，prosetと同型で，posetと同値である．
+\end{proposition*}
+\begin{proof}
+    圏$C$の対象の集合を集合$P$とし，その間の関係$x\le y$を
+    \[ x\le y:\Leftrightarrow \exists f:x\to y\in C \]
+    と定めると，この関係は反射性と推移性を満たし，前順序集合(preordered set)となる．
+    今，関手$F:C\to P$を対象集合は$1_P$，射集合は$f:x\to y\mapsto x\le y$とすると，これはいずれも可逆で，確かに圏の同型である．
+
+    この時，集合$P$について，次のように約束する．
+    \[ x\le y\land y\le x\Rightarrow x=y \]
+    すると集合$P/=$は順序集合(partially ordered set)である．
+    関手$F':C\to P/=$は厳密な意味では可逆ではない．
+\end{proof}
+
+8. 圏としてのposet：poset categories
+
+9. 位相空間からの例
+\begin{proposition*}
+    $T_0$ spaces $X$ are posets under the specialization ordering:
+    \[ x\le y \Leftrightarrow \forall U\in O(X)\; (x\in U\Rightarrow y\in U) \]
+\end{proposition*}
+
+10. 数理論理学からの例：演繹体系に付随する圏 category of proofs
+対象を式とし，その間に証明がある$\varphi\vdash\psi$時，射$\varphi\to\psi$を定義する．
+
+11. 計算機科学からの例：関数型プログラミング言語Lに付随する圏$C(L)$
+対象は$L$のデータ型，射は関数とする．単位射はdo nothing programで，合成は関数の連続適用$g\circ f=f:g$である．
+
+12. 集合$X$に付随する離散圏$\mathbf{Dis}(X)$
+
+13. 単一対象圏としてのmonoid
+
+射が対象の間に持つ構造「２つの対象と順番付きで紐づけられている」と「単位射の存在」と「合成についての閉性（＝推移性）」とを，そっくりそのまま，順序関係に翻訳すれば前順序である．
+射自体の持つ構造「結合性」と「単位射の存在」を，代数構造に翻訳すればモノイドである．いずれも最低限の圏である．
+それぞれに付加構造として対称性を加えれば，半順序と群を得る．半順序とモノイドが，この本の主要な例になる．
+
+8., 13.の観点から，posetの射とは関手だし，monoidの射も関手と見做せる．
+
+\subsection{Isomorphisms}
+
+\begin{definition}[同型]
+    圏$C$に於いて，次を満たす射$f:A\to B$を同型という．
+    \[ \exists g:B\to A\in C\; g\circ f=1_A \land f\circ g=1_B \]
+\end{definition}
+\begin{remark*}[note that, for example in Pos, the category theoretic definition gives the right notion, while there are "bijective homomorphisms" between non-isomorphic posets.]
+    射を何らかの写像だとすると，この同型であるための条件は全単射であることと同値．従ってこの定義は，具体圏に於ける台写像の「全単射」性を一般の圏に写し取ったものに思える．
+    だから，全単射でないのに同型になることはないはずだ．
+    だが，全単射な射は可逆だとは限らない．
+\end{remark*}
+
+\begin{definition}[群]
+    群とは，可逆なモノイドのことである．従って，全ての射が同型であるような単一対象圏のことである．
+\end{definition}
+
+\begin{theorem*}[Cayley]
+    群$G=(G,\cdot,e,{}^{-1})$は，$\mathrm{Aut}(G)$の或る部分群と同型になる．
+\end{theorem*}
+\begin{proof}
+    Cayley representation $\overline{G}\subset\mathrm{Aut}(G)$を構成する．各$g\in G$に対して，$\overline{g}\in\overline{G}\subset\mathrm{Aut}(G)$を次のような射として定める．
+    \begin{center}\begin{tikzcd}
+        \overline{g}=g^*:G\ar[r] \ar[d, phantom, "\rotatebox{90}{$\in$}"] & G \ar[d, phantom, "\rotatebox{90}{$\in$}"] \\
+        h \ar[r, mapsto] & g\cdot h
+    \end{tikzcd}\end{center}
+    この時，$\overline{G}$は群になっていることを，写像$F:G\to \overline{G}$が群の射であることを示すことによって確認する．
+    $F(f\cdot g)=F(f)\circ F(g)$は$G$の演算$\cdot$の結合性より，また$F(e)=1_G$も成り立つ．
+    なお，各射の可逆性については，$F(f\cdot f^{-1})=F(f)\circ F(f^{-1})=1_G=F(e)$より成り立つ．
+
+    群の射$F:G\to \overline{G}$の逆射$H$を構成する．
+    \begin{center}\begin{tikzcd}
+        H:\overline{G}\ar[r] \ar[d, phantom, "\rotatebox{90}{$\in$}"] & G \ar[d, phantom, "\rotatebox{90}{$\in$}"] \\
+        \overline{g} \ar[r, mapsto] & g=\overline{g}(e)
+    \end{tikzcd}\end{center}
+    これについて，確かに$F\circ H=1_{\overline{G}}, H\circ F=1_G$が成り立つ．従って，$G\simeq \overline{G}$
+\end{proof}
+
+\begin{remark}[Two different levels of isomorphisms]
+    構成した群$\overline{G}\subset\mathrm{Aut}(G)$の元である，$g$を集合$G$に左から作用させる写像$\overline{g}$は，群$G$の置換であり，集合の同型である．
+    一方，構成した関手$F,H$は群の同型である．
+\end{remark}
+
+\begin{theorem}
+    任意の圏$C$は，或る具体圏と同型である．
+\end{theorem}
+\begin{proof}
+    圏$C$から，同型な圏$\overline{C}$を構成する．関手$\overline{　}:C\to\overline{C}$の対象写像を次のように定める．
+    \begin{center}\begin{tikzcd}
+        C \ar[r] \ar[d, phantom, "\rotatebox{90}{$\in$}"] & \overline{C} \ar[d, phantom, "\rotatebox{90}{$\in$}"] \\
+        c \ar[r, mapsto] & \overline{c}=\{ f\in\mathrm{arr}(C)\mid \mathrm{cod}(f)=c \}
+    \end{tikzcd}\end{center}
+    射関手を次のように定める．
+    \begin{center}\begin{tikzcd}
+        C \ar[r] \ar[d, phantom, "\rotatebox{90}{$\in$}"] & \overline{C} \ar[d, phantom, "\rotatebox{90}{$\in$}"]\\
+        g:c\to d \ar[r, mapsto] & \overline{g}=g^*:\hom_C(-,c)\to\hom_C(-,d)
+    \end{tikzcd}\end{center}
+    ただし，この写像$g^*$は，任意の対象$x\in C$に対して，
+    \begin{center}\begin{tikzcd}
+        \hom_C(x,c) \ar[r] \ar[d, phantom, "\rotatebox{90}{$\in$}"] & \hom_C(x,d)\ar[d, phantom, "\rotatebox{90}{$\in$}"]\\
+        f:x\to c \ar[r, mapsto] & g\circ f:x\to d
+    \end{tikzcd}\end{center}
+    と対応づける写像（関手の射／自然変換）である．
+    この関手は可逆であり，逆関手の$\overline{x}\in\overline{C}$成分は射写像は次の通りである．
+    \begin{center}\begin{tikzcd}
+        \overline{C} \ar[r] \ar[d, phantom, "\rotatebox{90}{$\in$}"] & C \ar[d, phantom, "\rotatebox{90}{$\in$}"]\\
+        \overline{g}:\hom_C(-,c)\to\hom_C(-,d) \ar[r, mapsto] & \overline{g}(1_c)
+    \end{tikzcd}\end{center}
+\end{proof}
+\begin{remark*}
+    これが「表現」という述語の出処であろう．この時点ではまだ素朴の意味で「$C$の表現$\overline{C}$」という感覚である．
+    また，これが「ホム関手」「ホム集合」という概念の出処でもある．集合での表現を持つから，我々の「具体」性という得意分野に引きずりこめるのだ．
+    また，集合に頼り過ぎないで，純粋に圏論的なまま理論を豊かにしていくのも大事である．（群論だってそうなのだろう）．
+    例えば，一般の圏を白紙から考えるとき，対象の間の射全体の集まりは「集合」であるとは限らないのだ．
+\end{remark*}
+
+\subsection{Constructions on categories}
+
+\subsubsection{Product}
+
+圏$C\times D$は$(c,d)$という形の対象をもち，射も，合成も，単位射も，直接の「要素毎」の考え方で，新しい圏を想定出来る．
+
+\subsubsection{Opposite}
+
+$f:C\to D\in C$に対して，$f^*:D^*\to C^*\in C^{op}$で，合成の順序も逆にしたもの．
+
+dualityとは，ある圏が，別の圏の反対（の部分圏）になるという対応が成り立つこと（を主張する命題のこと）である．
+
+\subsubsection{arrow category}
+
+圏$C$に対して，その射を対象とし，その間の射を$g:(f:A\to B)\to (f':A'\to B')$を，次の$f'\circ g_1=g_2\circ f$を主張する可換図式，つまり，圏$C$の射の組$g:=(g_1,g_2)$とする圏である．
+\begin{center}\begin{tikzcd}
+    A \ar[r, "g_1"] \ar[d, "f"'] & A' \ar[d, "f'"]\\
+    B \ar[r, "g_2"] & B'
+\end{tikzcd}\end{center}
+合成は，可換図式を繋げて外回りを取ること，つまり成分毎$(h_1,h_2)\circ (g_1,g_2)=(h_1\circ g_1, h_2\circ g_2)$で，従って単位射は$1_f=(1_A,1_B)$
+
+対象は射$f:A\to B$だが，要は$(A,B)$，これはどう考えても$C\times C$あるいは$[2,C]$と同型になる．即ち，次の関手が存在する．
+\begin{center}\begin{tikzcd}
+    C & \overrightarrow{C} \ar[l, "\mathrm{dom}"'] \ar[r, "\mathrm{cod}"] & C
+\end{tikzcd}\end{center}
+
+\subsubsection{slice category}
+
+圏$C$と対象$c\in C$について，$\{ f\in\mathrm{arr}(C)\mid \mathrm{cod}(f)=c \}$を対象全体の集合とし，２つの対象$f:x\to c, f':x'\to c$の間の射は次の$C$の図式を可換にする射$a:x'\to x\in C$である（$f=f'\circ a$）．
+\begin{center}\begin{tikzcd}
+    x\ar[rr, "a"] \ar[dr, "f"'] & & x' \ar[dl, "f'"] \\
+    &c&
+\end{tikzcd}\end{center}
+これはarrow categoryの部分圏であろう．
+
+対象について，そのcodomain$c$を忘れ，射$a:(x,c)\to (x',c)$についても$c$を忘れれば，忘却関手$C/c\to C$を定める．
+これは一種の具体圏だったのか．
+
+$C$の射$g:c\to d$に対して，関手$g^*:C/c\to C/d$が定まる．
+\begin{center}\begin{tikzcd}
+    C/c \ar[r] \ar[d, phantom, "\rotatebox{90}{$\in$}"] & C/d\ar[d, phantom, "\rotatebox{90}{$\in$}"]\\
+    f:x\to c \ar[r, mapsto] & g\circ f:x\to d \\
+    a:(f:x\to c)\to (f':x'\to c) \ar[r] & a:(g\circ f:x\to d)\to (g\circ f':x'\to d)
+\end{tikzcd}\end{center}
+
+slice categoryの構成は，関手$C/(-):C\to \mathbf{Cat}$を定める．これは圏$C$に対して，関手圏としての表現を与える表現関手，と思うことが出来る．
+
+\subsection{Free categories}
+\subsection{Foundations: large, small, and locally small}
+\subsection{Exercises}
+
+\section{Abstract structures}
+
+\subsection{Epis and monos}
+\subsection{Initial and terminal objects}
+\subsection{Generalized elements}
+\subsection{Products}
+\subsection{Examples of products}
+\subsection{Categories with products}
+\subsection{Hom-sets}
+\subsection{Exercises}
+
+\section{Duality}
+
+\subsection{The duality principle}
+\subsection{Coproducts}
+\subsection{Equalizers}
+\subsection{Coequalizers}
+\subsection{Exercises}
+
+\section{Groups and categories}
+
+\subsection{Groups in category}
+\subsection{The category of groups}
+\subsection{Groups as categories}
+\subsection{Finitely presented categories}
+\subsection{Exercises}
+
+\section{Limits and colimits}
+
+\subsection{Subobjects}
+\subsection{Pullbacks}
+\subsection{Properties of pullbacks}
+\subsection{Limits}
+\subsection{Perservation of limits}
+\subsection{Colimits}
+\subsection{Exercises}
+
+\section{Exponentials}
+
+\subsection{Exponential in a category}
+
+\subsection{Cartesian closed categories}
+
+\subsection{Heyting algebras}
+
+\subsection{Propositional definition of CCC}
+
+\subsection{$\lambda$-calculus}
+
+\subsection{Variable sets}
+
+\subsection{exercises}
+
+\section{Naturality}
+
+\subsection{Category of categories}
+
+\subsection{Representable structure}
+
+\subsection{Stone duality}
+
+\subsection{Naturality}
+
+\subsection{Examples of natural transformations}
+
+\subsection{Exponentials of categories}
+
+\subsection{Functor categories}
+
+\subsection{Monoidal categories}
+
+\subsection{Equivalence of categories}
+
+\subsection{Examples of equivalence}
+
+\subsection{Exercises}
+
+\section{Categories of diagrams}
+
+\subsection{Set-valued functor categories}
+
+\subsection{The Yoneda embedding}
+
+\subsection{The Yoneda lemma}
+
+\subsection{Applications of the Yoneda lemma}
+
+\subsection{Limits in categories of diagrams}
+
+\subsection{Colimits in categories of diagrams}
+
+\subsection{Exponentials in categories of diagrams}
+
+\subsection{Topoi}
+
+\subsection{Exercises}
+
+\section{Adjoints}
+
+\subsection{Preliminary definition}
+
+\subsection{Hom-set definition}
+
+\subsection{Examples of adjoints}
+
+\subsection{Order adjoints}
+
+\subsection{Quantifiers as adjoints}
+
+\subsection{RAPL}
+
+\subsection{Locally cartesian closed categories}
+
+\subsection{Adjoint functor theorem}
+
+\subsection{Exercises}
+
+\section{Monads and algebras}
+
+\subsection{The triange identities}
+
+\subsection{Mondas and adjoints}
+
+\subsection{Algebras for a monad}
+
+\subsection{Comonads and coalgebras}
+
+\subsection{Algebras for endofunctors}
+
+\subsection{Exercises}
+
+\end{document}

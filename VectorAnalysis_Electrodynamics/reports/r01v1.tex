@@ -1,0 +1,202 @@
+\documentclass[dvipdfmx,nosetpagesize, uplatex]{jsarticle}
+%
+% 133行目および163行以降を適宜編集すれば良い．
+%
+\usepackage{amsmath,amssymb,amscd,amsthm,amsbsy,multicol}
+\usepackage[shortlabels,inline]{enumitem}
+\renewcommand{\thefootnote}{\dag\arabic{footnote}}
+\pagestyle{plain}
+%
+\setlength{\paperwidth}{257mm}
+\setlength{\paperheight}{364mm}
+\setlength{\textwidth}{170mm}
+\setlength{\textheight}{280mm}
+% \setlength{\oddsidemargin}{-2.0cm}
+% \setlength{\evensidemargin}{-.3cm}
+\setlength{\topmargin}{-31mm}
+%\setlength{\footskip}{2cm}
+%
+\newtheoremstyle{StatementsWithStar}% ?name?
+{3pt}% ?Space above? 1
+{3pt}% ?Space below? 1
+{}% ?Body font?
+{}% ?Indent amount? 2
+{\bfseries}% ?Theorem head font?
+{\textbf{.}}% ?Punctuation after theorem head?
+{.5em}% ?Space after theorem head? 3
+{\textbf{\textup{#1~\thetheorem{}}}{}\,$^{\ast}$\thmnote{(#3)}}% ?Theorem head spec (can be left empty, meaning ‘normal’)?
+%
+\newtheoremstyle{StatementsWithStar2}% ?name?
+{3pt}% ?Space above? 1
+{3pt}% ?Space below? 1
+{}% ?Body font?
+{}% ?Indent amount? 2
+{\bfseries}% ?Theorem head font?
+{\textbf{.}}% ?Punctuation after theorem head?
+{.5em}% ?Space after theorem head? 3
+{\textbf{\textup{#1~\thetheorem{}}}{}\,$^{\ast\ast}$\thmnote{(#3)}}% ?Theorem head spec (can be left empty, meaning ‘normal’)?
+%
+\newtheoremstyle{StatementsWithStar3}% ?name?
+{3pt}% ?Space above? 1
+{3pt}% ?Space below? 1
+{}% ?Body font?
+{}% ?Indent amount? 2
+{\bfseries}% ?Theorem head font?
+{\textbf{.}}% ?Punctuation after theorem head?
+{.5em}% ?Space after theorem head? 3
+{\textbf{\textup{#1~\thetheorem{}}}{}\,$^{\ast\ast\ast}$\thmnote{(#3)}}% ?Theorem head spec (can be left empty, meaning ‘normal’)?
+%
+\newtheoremstyle{StatementsWithCCirc}% ?name?
+{6pt}% ?Space above? 1
+{6pt}% ?Space below? 1
+{}% ?Body font?
+{}% ?Indent amount? 2
+{\bfseries}% ?Theorem head font?
+{\textbf{.}}% ?Punctuation after theorem head?
+{.5em}% ?Space after theorem head? 3
+{\textbf{\textup{#1~\thetheorem{}}}{}\,$^{\circledcirc}$\thmnote{(#3)}}% ?Theorem head spec (can be left empty, meaning ‘normal’)?
+%
+\theoremstyle{definition}
+ \newtheorem{theorem}{定理}[section]
+ \newtheorem{corollary}[theorem]{系}
+ \newtheorem{proposition}[theorem]{命題}
+ \newtheorem*{proposition*}{命題}
+ \newtheorem{lemma}[theorem]{補題}
+ \newtheorem*{lemma*}{補題}
+ \newtheorem*{theorem*}{定理}
+ \newtheorem{definition}[theorem]{定義}
+ \newtheorem{example}[theorem]{例}
+ \newtheorem{notation}[theorem]{記号}
+ \newtheorem*{notation*}{記号}
+ \newtheorem{assumption}[theorem]{仮定}
+ \newtheorem{question}[theorem]{問}
+ \newtheorem{reidai}[theorem]{例題}
+ \newtheorem{remark}[theorem]{注}
+% \newtheorem*{remarknonum}{注}
+ \newtheorem*{definition*}{定義}
+ \newtheorem*{remark*}{注}
+ \newtheorem*{question*}{問}
+%
+\theoremstyle{StatementsWithStar}
+ \newtheorem{definition_*}[theorem]{定義}
+ \newtheorem{question_*}[theorem]{問}
+ \newtheorem{example_*}[theorem]{例}
+ \newtheorem{theorem_*}[theorem]{定理}
+ \newtheorem{remark_*}[theorem]{注}
+%
+\theoremstyle{StatementsWithStar2}
+ \newtheorem{definition_**}[theorem]{定義}
+ \newtheorem{theorem_**}[theorem]{定理}
+ \newtheorem{question_**}[theorem]{問}
+ \newtheorem{remark_**}[theorem]{注}
+%
+\theoremstyle{StatementsWithStar3}
+ \newtheorem{remark_***}[theorem]{注}
+ \newtheorem{question_***}[theorem]{問}
+%
+\theoremstyle{StatementsWithCCirc}
+ \newtheorem{definition_O}[theorem]{定義}
+ \newtheorem{question_O}[theorem]{問}
+ \newtheorem{example_O}[theorem]{例}
+ \newtheorem{remark_O}[theorem]{注}
+%
+\theoremstyle{definition}
+%
+\renewcommand{\proofname}{\underline{証明}}
+%
+\raggedbottom
+\allowdisplaybreaks
+%
+\everymath{\displaystyle}
+%
+\begin{document}
+\thispagestyle{empty}
+\setlength{\parindent}{1zw}
+\setlength{\baselineskip}{13pt}
+\setcounter{section}{1}
+\newcounter{version}
+\setcounter{version}{1}
+\noindent
+2020年度ベクトル解析（足助担当）レポート問題~\thesection~v\theversion%\par\noindent
+\hfil2020/4/20（月）\par\noindent
+提出先：ITC-LMSのページの「課題」\par\noindent
+提出期間：2020/4/20（月）$\sim$ 2020/4/27（月）\textbf{9:00}\par\noindent
+返却はITC-LMSを用いて5/11日（月）以降に行う．\par\noindent
+※ レポートの作成方法は特に指定しないが，提出ファイルはPDFとすること．
+ファイルの作成にあたって印刷やスキャンなどに困難があれば速やかに足助まで申し出ること．
+\vskip-18pt\noindent
+\begin{table}[h]
+\begin{tabular}{|c|c|c|} \hline
+& & \\[-13pt]
+学生証番号& 氏名 & 共同作成者（ある場合）\\[2pt] \hline
+\parbox[c]{9.2zw}{\centering J4-190549} & \parbox[c]{13.0zw}{\centering 司馬 博文} & \parbox[c]{25.6zw}{\centering なし}\\[12pt] \hline
+%「\hfill」の前に必要事項を記入すること．
+\end{tabular}
+\end{table}
+\vskip-12pt\noindent
+% 
+\begin{question*}
+$a>0$とし，$\gamma\colon\mathbb{R}\to\mathbb{R}^2$を$\gamma(t)={}^t\left(t,a\cosh\frac{t}a\right)$により定める．
+また，$\gamma={}^t(\gamma^1,\gamma^2)$と成分を用いて表す．
+さて，$t\in\mathbb{R}$について
+\[
+l(t)=\int_0^t\sqrt{\left(\dfrac{d\gamma^1}{dt}(u)\right)^2+\left(\dfrac{d\gamma^2}{dt}(u)\right)^2}du
+\]
+と置く．
+\begin{enumerate}[1)]
+\item
+$l(t)$を求めよ．
+% また，$\forall\,t\in\mathbb{R},\ \dfrac{dl}{dt}(t)>0$が成り立つことを示せ．
+\item
+$\varphi\colon\mathbb{R}\to\mathbb{R}$を$\forall\,s\in\mathbb{R},\ l\circ\varphi(s)=s$かつ$\forall\,t\in\mathbb{R},\ \varphi\circ l(t)=t$が成り立つように定めよ．
+\item
+$\gamma\circ\varphi$を求めよ．
+\end{enumerate}
+\end{question*}
+\par
+\ \par
+\noindent
+{\small
+※ 参考文献がある場合には最後にまとめて箇条書きで示すこと．\par\noindent
+※ \textbf{全体として２ページに収めること．}\par\noindent
+※ 共同作成者に記載がないにもかかわらず，ほかのレポートとほぼ同一であるレポートが散見される．
+誰かと共同してレポートを作成することは構わないが，そのことは明記すること．
+それをしなければ剽窃であって，これは学術上の致命的な不正行為である．
+万一，写される側がそのことを承知していなかったことが露見した場合には重大な結果をもたらす可能性がある．
+}
+
+\rightline{（以上）}\par
+%
+% 以下が解答欄である．２ページ以内に収まるように注意すること．なお，紙面レイアウトやフォントサイズを変更しないこと．
+%
+\noindent
+解答欄
+
+1) \[ D\gamma (t)= \left(\begin{array}{c}1 \\ \sinh\left(\frac{t}{a}\right) \end{array}\right) \]
+より，\begin{eqnarray*}
+    l(t)&=& \int^t_0 \sqrt{\left(\dfrac{d\gamma^1}{dt}(u)\right)^2+\left(\dfrac{d\gamma^2}{dt}(u)\right)^2}du\\
+    &=& \int^t_0 \sqrt{1+\sinh^2\left(\frac{u}{a}\right)}du \\
+    &=& \int^t_0 \cosh\left(\frac{u}{a}\right)du\\
+    &=& \underline{\sinh(t)}
+\end{eqnarray*}
+
+2) \[ \left\{\begin{array}{c}\varphi(x)=t\;\cdots\; (a) \\ \sinh(t)=x\;\cdots\; (b)\end{array}\right. \]
+を満たす函数$\varphi(x)$を求めれば良い．
+(b)を$t$について解いて，
+\begin{eqnarray*}
+    x&=& \frac{e^t-e^{-t}}{2}\\
+    0&=& (e^t)^2-2xe^t-1 \\
+    e^t &=& x+\sqrt{x^2+1} \\
+    t &=& \log\left(x+\sqrt{x^2+1}\right)
+\end{eqnarray*}
+これと(a)を合わせて，
+\[ \underline{\varphi(x)= \log\left(x+\sqrt{x^2+1}\right)}\]
+\clearpage
+3) \begin{eqnarray*}
+    \gamma\circ\varphi(x) &=& \gamma(\varphi(x)) \\
+    &=& \gamma\left(\log\left(x+\sqrt{x^2+1}\right)\right) \\
+    &=& \left(\begin{array}{c}\log\left(x+\sqrt{x^2+1}\right) \\ a\cosh\left( \frac{1}{a}\log\left(x+\sqrt{x^2+1}\right) \right)\end{array}\right)
+\end{eqnarray*}
+\rightline{$\blacksquare$}
+
+\end{document}

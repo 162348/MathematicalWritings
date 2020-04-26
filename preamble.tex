@@ -1,0 +1,156 @@
+\usepackage{amsmath, amsfonts, amsthm, amssymb, ascmac, color, comment, wrap fig}
+
+\usepackage{tikz, tikz-cd}
+
+%化学式をTikZで簡単に書くためのパッケージ．
+\usepackage[version=4]{mhchem} %texdoc mhchem
+%化学構造式をTikZで描くためのパッケージ．
+\usepackage{chemfig}
+%IS単位を書くためのパッケージ
+\usepackage{siunitx}
+
+%取り消し線を引くためのパッケージ
+\usepackage{ulem}
+
+%\rotateboxコマンドを，文字列の中心で回転させるオプション．
+%他rotatebox, scalebox, reflectbox, resizeboxなどのコマンド．
+\usepackage{graphicx}
+
+%加藤晃史さんがフル活用していたtcolorboxを，途中改ページ可能で．
+\usepackage[breakable]{tcolorbox}
+
+%足助さんからもらったオプション
+\usepackage[shortlabels,inline]{enumitem}
+\usepackage[top=15truemm,bottom=15truemm,left=10truemm,right=10truemm]{geometry}
+
+%%%フォント
+
+%本文・数式の両方のフォントをTimesに変更するお手軽なパッケージだが，LaTeX標準数式記号の\jmath, \amalg, coprodはサポートされない．
+% \usepackage{mathptmx}
+%Palatinoの方が完成度が高いと美文書作成に書いてあった．
+\usepackage[sc]{mathpazo} %オプションは，familyの指定．pplxにしている．
+%2000年のYoung Ryuによる新しいTimes系．なおPalatinoもある．
+% \usepackage{newtxtext, newtxmath}
+%拡張数学記号．\textsectionでブルバキに！
+\usepackage{textcomp, mathcomp}
+\usepackage[T1]{fontenc} %8bitエンコーディングにする．comp系拡張数学文字の動作が安定する．
+%AMS Euler．Computer Modernと相性が悪いとは……．
+\usepackage{ccfonts, eulervm} %KnuthのConcrete Mathematicsの組み合わせ．
+% \renewcommand{\rmdefault}{pplx} %makes LaTeX use Palatino in place of CM Roman．Do not use the Euler math fonts in conjunction with the default Computer Modern text fonts – this is ugly!
+
+%%% newcommands
+    %参考文献で⑦というのを出したかった．
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{\node[shape=circle,draw,inner sep=0.8pt] (char) {#1};}}
+
+%%% 定理環境 以下足助さんからのコピペ
+\newtheoremstyle{StatementsWithStar}% ?name?
+{3pt}% ?Space above? 1
+{3pt}% ?Space below? 1
+{}% ?Body font?
+{}% ?Indent amount? 2
+{\bfseries}% ?Theorem head font?
+{\textbf{.}}% ?Punctuation after theorem head?
+{.5em}% ?Space after theorem head? 3
+{\textbf{\textup{#1~\thetheorem{}}}{}\,$^{\ast}$\thmnote{(#3)}}% ?Theorem head spec (can be left empty, meaning ‘normal’)?
+%
+\newtheoremstyle{StatementsWithStar2}% ?name?
+{3pt}% ?Space above? 1
+{3pt}% ?Space below? 1
+{}% ?Body font?
+{}% ?Indent amount? 2
+{\bfseries}% ?Theorem head font?
+{\textbf{.}}% ?Punctuation after theorem head?
+{.5em}% ?Space after theorem head? 3
+{\textbf{\textup{#1~\thetheorem{}}}{}\,$^{\ast\ast}$\thmnote{(#3)}}% ?Theorem head spec (can be left empty, meaning ‘normal’)?
+%
+\newtheoremstyle{StatementsWithStar3}% ?name?
+{3pt}% ?Space above? 1
+{3pt}% ?Space below? 1
+{}% ?Body font?
+{}% ?Indent amount? 2
+{\bfseries}% ?Theorem head font?
+{\textbf{.}}% ?Punctuation after theorem head?
+{.5em}% ?Space after theorem head? 3
+{\textbf{\textup{#1~\thetheorem{}}}{}\,$^{\ast\ast\ast}$\thmnote{(#3)}}% ?Theorem head spec (can be left empty, meaning ‘normal’)?
+%
+\newtheoremstyle{StatementsWithCCirc}% ?name?
+{6pt}% ?Space above? 1
+{6pt}% ?Space below? 1
+{}% ?Body font?
+{}% ?Indent amount? 2
+{\bfseries}% ?Theorem head font?
+{\textbf{.}}% ?Punctuation after theorem head?
+{.5em}% ?Space after theorem head? 3
+{\textbf{\textup{#1~\thetheorem{}}}{}\,$^{\circledcirc}$\thmnote{(#3)}}% ?Theorem head spec (can be left empty, meaning ‘normal’)?
+%
+\theoremstyle{definition}
+ \newtheorem{theorem}{定理}[section]
+ \newtheorem{axiom}[theorem]{公理}
+ \newtheorem{corollary}[theorem]{系}
+ \newtheorem{proposition}[theorem]{命題}
+ \newtheorem*{proposition*}{命題}
+ \newtheorem{lemma}[theorem]{補題}
+ \newtheorem*{lemma*}{補題}
+ \newtheorem*{theorem*}{定理}
+ \newtheorem{definition}[theorem]{定義}
+ \newtheorem{example}[theorem]{例}
+ \newtheorem{notation}[theorem]{記法}
+ \newtheorem*{notation*}{記法}
+ \newtheorem{assumption}[theorem]{仮定}
+ \newtheorem{question}[theorem]{問}
+ \newtheorem{reidai}[theorem]{例題}
+ \newtheorem{remark}[theorem]{注}
+ \newtheorem{universality}[theorem]{普遍性} %非自明な例外がない．
+ \newtheorem{universal tendency}[theorem]{普遍傾向} %例外が有意に少ない．
+ \newtheorem{hypothesis}[theorem]{仮説} %実験で説明されていない理論．
+ \newtheorem{theory}[theorem]{理論} %実験事実とその（さしあたり）整合的な説明．
+ \newtheorem{fact}[theorem]{実験事実}
+ \newtheorem{model}[theorem]{模型}
+% \newtheorem*{remarknonum}{注}
+ \newtheorem*{definition*}{定義}
+ \newtheorem*{remark*}{注}
+ \newtheorem*{question*}{問}
+%
+\theoremstyle{StatementsWithStar}
+ \newtheorem{definition_*}[theorem]{定義}
+ \newtheorem{question_*}[theorem]{問}
+ \newtheorem{example_*}[theorem]{例}
+ \newtheorem{theorem_*}[theorem]{定理}
+ \newtheorem{remark_*}[theorem]{注}
+%
+\theoremstyle{StatementsWithStar2}
+ \newtheorem{definition_**}[theorem]{定義}
+ \newtheorem{theorem_**}[theorem]{定理}
+ \newtheorem{question_**}[theorem]{問}
+ \newtheorem{remark_**}[theorem]{注}
+%
+\theoremstyle{StatementsWithStar3}
+ \newtheorem{remark_***}[theorem]{注}
+ \newtheorem{question_***}[theorem]{問}
+%
+\theoremstyle{StatementsWithCCirc}
+ \newtheorem{definition_O}[theorem]{定義}
+ \newtheorem{question_O}[theorem]{問}
+ \newtheorem{example_O}[theorem]{例}
+ \newtheorem{remark_O}[theorem]{注}
+%
+\theoremstyle{definition}
+%
+\raggedbottom
+\allowdisplaybreaks
+
+%証明環境のスタイル
+\everymath{\displaystyle}
+\renewcommand{\proofname}{\bf ［証明］}
+\renewcommand{\thefootnote}{\dag\arabic{footnote}}	%足助さんからもらった．どうなるんだ？
+
+%mathptmxパッケージ下で，\jmath, \amalg, coprodの記号を出力するためのマクロ．TeX Wikiからのコピペ．
+% \DeclareSymbolFont{cmletters}{OML}{cmm}{m}{it}
+% \DeclareSymbolFont{cmsymbols}{OMS}{cmsy}{m}{n}
+% \DeclareSymbolFont{cmlargesymbols}{OMX}{cmex}{m}{n}
+% \DeclareMathSymbol{\myjmath}{\mathord}{cmletters}{"7C}
+% \DeclareMathSymbol{\myamalg}{\mathbin}{cmsymbols}{"71}
+% \DeclareMathSymbol{\mycoprod}{\mathop}{cmlargesymbols}{"60}
+% \let\jmath\myjmath
+% \let\amalg\myamalg
+% \let\coprod\mycoprod

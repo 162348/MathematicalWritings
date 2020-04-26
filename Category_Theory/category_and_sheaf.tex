@@ -5,7 +5,7 @@
 \pagestyle{headings}
 \usepackage[top=15truemm,bottom=15truemm,left=10truemm,right=10truemm]{geometry}
 \usepackage{amsmath, amsfonts, amsthm, mathptmx, amssymb, ascmac, amscd, color, comment, tikz-cd, wrapfig}
-\newtheorem{theorem}{定理} \newtheorem{definition}{定義} \newtheorem{axiom}[definition]{公理} \newtheorem{proposition}[theorem]{命題} \newtheorem{corollary}[theorem]{系} \newtheorem{lemma}[theorem]{補題} \newtheorem{problem}{問} \newtheorem{solution}{解} \newtheorem{remark}{注} 
+\newtheorem{theorem}{定理} \newtheorem{definition}{定義} \newtheorem{axiom}[definition]{公理} \newtheorem{proposition}[theorem]{命題} \newtheorem{corollary}[theorem]{系} \newtheorem{lemma}[theorem]{補題} \newtheorem{problem}{問} \newtheorem{solution}{解} \newtheorem{remark}{注} \newtheorem{example}{例}
 \renewcommand{\proofname}{\bf ［証明］}
 % \coprodをmathptmx（文書のフォントをTimesにするpackage）でも使えるようにするために．
 \DeclareSymbolFont{cmletters}{OML}{cmm}{m}{it}
@@ -79,9 +79,9 @@
 つまり，図式を有向グラフ（集合$X,Y,W,Z$を頂点，写像$f,g,h,k$を辺とした有向グラフ）だと思った時に，全ての有向道(directed path)が，写像の合成について，等しい写像を与えるような図式を，可換図式であるという．
 この概念の集合論的に書いたからといって，必ずしもわかりやすいとは言い難い．こっちの方が視覚的だし．
 
-\begin{shadebox}\begin{definition}[引き戻し(pullback)／fiber積]終域が等しい２つの写像$f:X\rightarrow S, g:Y\rightarrow S$について，その\rm{fiber積}$X_f\underset{S}{\times}{}_gY\subset X\times Y$を，$$X_f\underset{S}{\times}{}_gY:=\{ (x,y)\in X\times Y:\; f(x)=f(y)\in S \}$$と定義する．  \end{definition}\end{shadebox}
+\begin{shadebox}\begin{definition}[引き戻し(pullback)／fiber積]終域が等しい２つの写像$f:X\rightarrow S, g:Y\rightarrow S$について，その\rm{fiber積}$X_f\underset{S}{\times}{}_gY\subset X\times Y$を，$$X_f\underset{S}{\times}{}_gY:=\{ (x,y)\in X\times Y:\; f(x)=g(y)\in S \}$$と定義する．  \end{definition}\end{shadebox}
 fiberとは（集合論で）単に逆像のことを意味する．２つの写像の，共通する終域$S$の各元$s$についての逆像$f^{-1}(s),g^{-1}(s)$同士の積$f^{-1}(s)\times g^{-1}(s)$を，全ての元$s\in S$について足し合わせたもの（合併）が，fiber積である．$$X_f\underset{S}{\times}{}_gY=\bigcup_{s\in S}f^{-1}(s)\times g^{-1}(s)$$
-fiber積は射の合成の選択写像$c$の定義域を正確に捉える．
+fiber積は射の合成の選択写像$c$の定義域を正確に捉える．２つの写像$f,g$による$S$上の方程式を，$X\times Y$の部分集合（解空間）として翻訳したものである．従って次のように言える．
 
 \begin{quote}
     A pullback is therefore the categorical semantics of an equation.\footnote{https://ncatlab.org/nlab/show/pullback}
@@ -196,13 +196,18 @@ $U,V\in C$に対して，射の集合を$\mathrm{Mor}_c(U,V)=\{f:U\rightarrow V:
 
 \subsection{順序関係の圏論的特徴付け：射の合成を，順序関係の雛形と見る}
 
-前順序(preorder)とは，任意の２つの対象の間に，射が高々１つしか存在しないような圏のことである．このような圏のことを，\textbf{細い圏(posetal category, thin category)}という．そのような例を実際に構成してみる．$C$を対象の集合とする．$\Delta_C :=\{ (x,x)\in C\times C \mid x\in C \}$を対角集合として，$\Delta_C \subset M\subset C\times C$を充たす$M$を自由に定める．$s,t$を第一射影と第二射影とする．
+前順序集合(preordered set)とは，任意のHom集合$\hom_C(x,y)$に，元が高々１つしか存在しないような圏のことである．このような圏のことを，\textbf{細い圏(posetal category, thin category)}という．そのような例を実際に構成してみる．$C$を対象の集合とする．$\Delta_C :=\{ (x,x)\in C\times C \mid x\in C \}$を対角集合として，$\Delta_C \subset M\subset C\times C$を充たす$M$を自由に定める．$s,t$を第一射影と第二射影とする．
 この下で，元$(A,A)$を対象$A\in C$の単位射とすれば，$<C,M,s,t,c,e>$は圏をなす．
 
 この上さらに，全ての同型射は単位射しかないとき，即ち，任意の対象にとって同型な対象は自分自身しか居ない場合（このとき，その圏は\textbf{skeletalである}という），「$M$は$C$の順序を定める」という．これは，圏を有向グラフとして捉えなおしたようなものである．「射が存在する」という関係を，順序関係だと捉えれば，それはHesse図の例に他ならない．
 
 以降，$C$の２元$x,y\in C$に対して，$(x,y)\in M$という関係がある時，$x\le y$と書くこととする．単位射の存在性より，任意の$x\in C$に対して$x\le x$であり（反射律），射の合成が定義されていることにより，推移律$x\le y \wedge y\le z \rightarrow x\le z$は満たされる．この時点で「前順序(pre-order)」と呼ぶ．
-続いて「全ての同型射は単位射である」という条件により，反対称律$x\le y \wedge x\ge y \rightarrow x=x$が満たされる．よって，$M$によって上記のように順序を定めた集合$C$は，確かに順序集合となっている．
+続いて「全ての同型射は単位射である」という条件により，反対称律$x\le y \wedge x\ge y \Rightarrow x=y$が満たされる．よって，$M$によって上記のように順序を定めた集合$C$は，確かに順序集合となっている．
+
+\begin{remark}\rm{}
+    細い圏では，任意の互いに異なる２対象の間に互いに逆向きの射があるならば（即ち，$\hom(a,b)$も$\hom(b,a)$も空でない），その合成は単位射にならねばならない．なぜなら，単位射ではないならば，$\hom(a,a)$は２つ以上の元を持つことになる．従って，互いに逆向きな射は必ず逆射である．
+    前順序集合は，二項関係$\le$を射の存在性に対応させることで細い圏と見做せるが，その場合反対称性の前段階とも言える$a<b\,\wedge\,b<a\Rightarrow a\simeq b$が成り立つ．この結論は相等性の意味では$a\neq b$の場合に含まれる．
+\end{remark}
 
 \begin{screen}
     前順序集合(poset)とは，任意のHom集合が元をたかだか１つしか持たない，「細い圏」のことである．（半）順序集合とは，skeletalな細い圏のことである．例えば，対象の集合$C$に対して，$\{ (x,x) \in C\times C \mid x\in C \}\subset M\subset C\times C$を充たす射の集合$M$をもち，全ての同型射は単位射である時，$M$が$C$上に定める「射が存在する」という関係は「順序関係」と等しい．\\
@@ -610,7 +615,7 @@ $C,C'$を圏として，対象を関手$C\rightarrow C'$の全て，射をその
 
 \section{関手の射の例１：値写像}\label{section-vectorspace-1}
 
-圏$C=［有限次元\mathbb{R}-線型空間］$とし，次のように２つの関手$h^V,F:C\to\mathbf{Set}$を$V\in C$を固定した共変ホム関手$h^V:=\mathrm{Hom}_C(V,-)$と忘却関手$F$として定める．
+圏$C=\mathrm{FinVect}_K$とし，次のように２つの関手$h^V,F:C\to\mathbf{Set}$を$V\in C$を固定した共変ホム関手$h^V:=\mathrm{Hom}_C(V,-)$と忘却関手$F$として定める．
 すると，次のように定めた写像$\varphi :C\to \mathrm{arr}(\mathbf{Set})$は関手の射$\varphi ]h^V\to F$となっている．
 各$W\in C$に対して，その値を次のような$\mathbf{Set}$の射として定める．
 \begin{center}\begin{tikzcd}
@@ -619,7 +624,7 @@ $C,C'$を圏として，対象を関手$C\rightarrow C'$の全て，射をその
     g:V\to W \ar[r, mapsto] & g(x)
 \end{tikzcd}\end{center}
 但し，$x$とは$V$の勝手な元で，この写像$\varphi (W)$は，各線型空間$W\in C$への（予め定めた）$V$からの線型写像の１つ１つを，$V$上の点$x$で取る値としてcodingするような写像になっている．
-これは値写像(evaluation mapping)$\mathrm{ev}_x$の線型写像版とも見れる．\footnote{写像と点の役割が入れ替わっている．これは，数学で度々使われる重要な方法である．（斎藤毅『集合と位相』）}
+これは値写像(evaluation mapping)$\mathrm{ev}_x$の線型写像版とも見れる．\footnote{写像と点の役割が入れ替わっている．これは，数学で度々使われる重要な方法である．（斎藤毅『集合と位相』）という言及は，米田の補題を意識してであろう．}
 
 \begin{proposition}[$\varphi$のwell-definedness] \label{prop-welldefinedness1}
     上記のように定義した関手の射$\varphi :h^V\to F$に対して，任意に取った$C$の射$f:U\to W$について，次の図式は可換になる．
@@ -636,8 +641,11 @@ $C,C'$を圏として，対象を関手$C\rightarrow C'$の全て，射をその
     \end{tikzcd}\end{center}
     となる．任意に$g\in\mathrm{Hom}_C(U,W)$と$x\in V$を取る．右回りでの合成写像による値は$f\circ g(x)$であり，左回りでの合成写像による値は$f(g(x))$である．$f,g$はいずれも写像であるから，これは成り立つ．
 \end{proof}
+\begin{remark}
+    米田の補題として，この証明は一般化される．
+\end{remark}
 
-一般に，こうして定義した関手の射$\varphi :C\to\mathbf{Set}$は同型ではない．そこで，次の例を考える．
+一般に，$V$の次元が１でない限り，こうして定義した関手の射$\varphi :C\to\mathbf{Set}$は同型ではない．そこで，次の例を考える．
 
 \section{関手の射の例２}\label{section-vectorspace-2}
 
@@ -900,9 +908,9 @@ $C$を圏とする．その上の前層の圏$[C^{op},\mathbf{Set}]$を$C'$と�
     \begin{center}\begin{tikzcd}
         C \ar[r, "y"] \ar[d, phantom, "\rotatebox{90}{$\in$}"] & C' \ar[d, phantom, "\rotatebox{90}{$\in$}"] \\
         A \ar[r, mapsto] & h_A \\
-        f:B\to A \ar[r, mapsto] & f^*:h_A\to h_B
+        f:A\to B \ar[r, mapsto] & f_*:h_A\to h_B
     \end{tikzcd}\end{center}
-    ただし，写像$f^*:h_A\to h_B$は，$g\in h_A=\mathrm{Hom}_C(-,A)$を$g\circ f\in h_B$に写す写像である．
+    ただし，写像$f_*:h_A\to h_B$は，$g\in h_A=\mathrm{Hom}_C(-,A)$を$g\circ f\in h_B$に写す自然変換である．
     このように定めた関手$y$が実は充満忠実となる（系\ref{Yoneda's-lemma-1}），即ち，圏$C$と前層の圏$C'$とが似通っていることが，米田の補題\ref{Yoneda's-lemma}の系として得られる．
 \end{definition}
 
@@ -1158,7 +1166,7 @@ $X$を全体集合として，$A,B\subset X$の共通部分を取る演算は，
 
 \section{種々の特別な対象}
 
-\subsection{始対象／終対象を持つ圏}
+\subsection{始対象／終対象の普遍性}
 
 \begin{proposition}[始対象を持つ圏の特徴付け]\rm{}
     圏$C$について，以下の２条件は同値．
@@ -1169,9 +1177,112 @@ $X$を全体集合として，$A,B\subset X$の共通部分を取る演算は，
 \end{proposition}
 この下で，圏$C$の始対象は，終圏(terminal object)$1$の唯一の対象$0$の，右随伴による像である．
 
+\subsection{自由対象の普遍性}
+
+\begin{definition}[自由モノイド]\label{def-free_monoid}
+    $A$を台集合とする．$W(A)=A^*:={}^{<\omega}\!A$を$A$上の単語という．これは，文字列を結合する演算$*$について，空列$-$を単位元としてモノイドをなす．これを自由モノイドという．これを$M(A)=(A^*,*,-)$とする．
+\end{definition}
+$W(A)$をKleene closureといい，その上の結合(concatenation)演算$*$はKleene starと呼ばれている．
+自由とは縛られていない，という気持ちだろう．これを厳密に，射の言葉で定義を与える．
+
+\begin{definition}[自由対象の普遍性(UMP: Universal Mapping Property of free monoid)]\rm{}
+    集合の射$i:A\to |M(A)|$を包含写像とする．任意に取ったモノイド$N\in Mon$と，任意に取った写像$f:A\to |N|$の組について，
+    それが定めるモノイドの射$\overline{f}:M(A)\to N$がただ一つ存在して$|\overline{f}|\circ i=f$を満たす，という条件を，Universal Mapping Property of free monoid $M(A)$という．
+    \begin{center}\begin{tikzcd}
+        M(A) \ar[r, "\overline{f}"] & N & on\hspace{1mm}\mathrm{Mon} \\
+        M(A) \ar[r, "\overline{f}"] & N & on\hspace{1mm}\mathrm{Sets} \\
+        A \ar[u, "i"] \ar[ur, "f"'] & &
+    \end{tikzcd}\end{center}
+\end{definition}
+
+\begin{definition}[自由群の普遍性]
+    $U:\mathrm{Grp}\to\mathrm{Set}$を忘却関手とする．自由群$F_n$とは，任意の群$G\in\mathrm{Grp}$に対して，各$f:n\to U(G)$に対して
+    $\overline{f}:F_n\to G\in\mathrm{Grp}$が存在して，下図を可換にする$\phi:n\to U(F_n)$が存在することを言う．
+    \begin{center}\begin{tikzcd}
+        U(F_n) \ar[r, "U(\overline{f})"] & U(G) \\
+        n \ar[u, "\phi"] \ar[ur, "f"'] &
+    \end{tikzcd}\end{center}
+\end{definition}
+
+\begin{proposition}\rm{}\label{prop-universality_of_free_monoid}
+    定義\ref{def-free_monoid}による自由モノイド$(A^*,*,-)$はUMPを満たす．
+\end{proposition}
+\begin{proof}
+    モノイド$N$と，そこへの射$f: A\to N$を勝手に取る．次の２条件を満たすモノイドの射$\overline{f}:A^*\to N$を１つ定める．
+    $$\left\{\begin{array}{ccc}
+        \overline{f}(-) &=& e_N \\
+        \overline{f}(a_1*\cdots *a_i) &=& f(a_1)\underset{N}{\cdot}\cdots\underset{N}{\cdot}f(a_i)
+    \end{array}\right.$$
+    すると，この$\overline{f}$は，特に次を満たす．
+    $$\forall a\in A \hspace{3mm} f(a)=\overline{f}(a)\hspace{5mm}\cdots (*)$$
+    これを満たす写像$\overline{f}:A^*\to N$は，一意的である．仮に$g:A^*\to N$も$(*)$を満たすモノイドの射であるとすると，勝手に取った$a\in A^*$について，$A^*$は$A$から生成される自由モノイドだから
+    何らかの$a_1,\cdots,a_n\in A$を用いて$a=a_1*\cdots *a_n$と表せるが，この知識を使うと
+    \begin{eqnarray*}
+        \overline{f}(a)&=&\overline{f}(a_1*\cdots a_n) \\
+        &=& f(a_1)\underset{N}{\cdot}\cdots\underset{N}{\cdot}f(a_n)\\
+        &=& g(a_1)\underset{N}{\cdot}\cdots\underset{N}{\cdot}g(a_n) \hspace{5mm}（\because gも(*)を充たす）\\
+        &=& g(a)\hspace{5mm}（\because gはモノイドの射）
+    \end{eqnarray*}
+    従って，$\overline{f}=g$．以上より，射$\overline{f}$の存在性と一意性が示せた．
+\end{proof}
+
+\begin{proposition}
+    ２つのモノイド$M,N$が，いずれも$A$上の自由モノイド$M(A)$としての普遍性を満たすとする．この時，$M\simeq N$である．（ちなみに，同型$\varphi:M\to N$は一意的である．）
+\end{proposition}
+これより，Kleeneによる構成に限らず，自由モノイドを普遍性によって同型の違いを除いて定義出来たことになる．
+\begin{proof}
+    命題\ref{prop-universality_of_free_monoid}より，次の$\mathrm{Set}$上の図式を可換にする$\overline{i},\overline{j}$がただ一つ存在する．
+    \begin{center}\begin{tikzcd}
+        & N \ar[dr, "\overline{j}"] & \\
+        M \ar[ur, "\overline{i}"] & A \ar[l, "i"] \ar[r, "i"] \ar[u, "j"] & M
+    \end{tikzcd}\end{center}
+    この時，$\overline{j}\circ\overline{i}:M\to M$はこれもモノイドの射（の台写像）であるが，再び，$i=(\overline{j}\circ\overline{i})\circ i\hspace{3mm}\cdots (*)$を成り立たせるという普遍性を満たすような射である．
+    また，$1_M$も$(*)$を満たすから，$\overline{j}\circ\overline{i}=1_M$．
+    同様にして，$\overline{i}\circ\overline{j}=1_N$も得る．従って，同型$\overline{i}:M\to N$が一意的に存在する．
+\end{proof}
+
+\begin{example}
+    $(\mathbb{N},+)$は$\{ 1\}$を生成系とするモノイドであるが，これは任意の一点集合上の自由モノイドと同型．
+\end{example}
+
 \section{直積}
 
+\begin{shadebox}\begin{definition}[積の普遍性]
+    $A,B,C$はある圏の対象とする．次の条件を満たすとき，$C$は$A\times B$と書かれる．
+
+    ２つの射$\pi_1:C\to A,\pi_2:C\to B$が存在し，各$f_1:X\to A, f_2:X\to B$について，唯一つ$f:X\to C$が存在して次の図式が可換になる．
+
+    \begin{center}\begin{tikzcd}
+        & X \ar[dl] \ar[d] \ar[dr] & \\
+        A & C \ar[l, "\pi_1"] \ar[r, "\pi_2"'] & B
+    \end{tikzcd}\end{center}
+\end{definition}\end{shadebox}
+特に，これが集合の圏であった場合，$X=1$とした時の条件から，$\pi_1\circ f = (f_1:X\to A) \simeq a$より，各$(f:1\to C) \simeq (f_1,f_2) \simeq (a,b)$であり，$f:1\to C$のそれぞれとは，$C$の元１つ１つと一対一対応するから，$C=A\times B$の各元は$(a,b)$と（少なくとも）同一視できることは，普遍性の主張に含まれていることがわかる．
+
+
 \subsection{デカルト圏}
+
+\section{pullback}
+
+\begin{definition}[pullbackの普遍性]\rm{}
+    次のような図式(cospanという)の極限である．
+    \begin{center}\begin{tikzcd}
+        a \ar[dr, "f"'] & & b \ar[dl, "g"] \\
+        & c &
+    \end{tikzcd}\end{center}
+\end{definition}
+
+span/roof/correspondenceとは，relationの拡張概念であり，relationは「変数を持つpredicate」として，元々predicateの拡張概念であった．
+あるいは，$f=1,g=1$の場合を考えれば，「非対称性をなくした射」という拡張概念とも捉えられる．
+\begin{definition}[span, roof, correspondences]\rm{}
+    圏$C$において，$x$から$y$へのspanとは，次のような形をした図式のことである．
+    \begin{center}\begin{tikzcd}
+        & s \ar[dl, "f"'] \ar[dr, "g"] & \\
+        x & & y
+    \end{tikzcd}\end{center}
+\end{definition}
+
+\section{テンソル}
 
 \chapter{随伴(adjoint)}
 圏の同値は，対象の集合に関して，圏の同型から弱めた概念であった．随伴関手は，圏の同値をさらに弱めた概念である．
@@ -1187,11 +1298,20 @@ $X$を全体集合として，$A,B\subset X$の共通部分を取る演算は，
 \section{随伴の定義}
 随伴には同値な定義が最低でも３つある．なお，関連する用語も，adjunction, adjoint, adjunctの３つがある．
 
-\begin{definition}[Hom集合随伴としての定義]\rm{}
-    ２つの圏$C,D$の間のHom集合の随伴とは，２つの関手$F:C\leftarrow D, G:C\rightarrow D$と，双関手$D\times C\to\mathbf{Set}$の間の自然同型$\Phi :\hom_C(F-,-)\to\hom_C(-,G-)$の3-組$(F,G,\Phi)$のことである．
-    この関係を$(\Phi :)F\rotatebox{180}{$\vdash$}G$と書き，\textbf{$F$は$G$の左随伴(left adjoint)であり，$G$は$F$の右随伴(right adjoint)である}という．
-    このHom集合間の同型(bijection)を\textbf{adjunction}という．また，$X\in C, Y\in D$として$f\in\hom_C(FY,X)$に対して，$D$の射$\Phi (f)$を\textbf{右随伴(right adjunct)}という．
-\end{definition}
+\begin{shadebox}\begin{definition}[定まるHom関手の同型としての定義]\rm{}\label{adjoint-1}
+    ２つの圏$C,D$の間の関手$F:C\leftarrow D, G:C\rightarrow D$が随伴(adjunction)であるとは，Hom関手$D^{op}\times C\to\mathbf{Set}$の間の自然同型$\Phi :\hom_C(F(-),-)\to\hom_D(-,G(-))$が存在する関係（3-組$(F,G,\Phi)$）のことである．
+    この三項関係を$(\Phi :)F\dashv G$と書き，\textbf{$F$は$G$の左随伴(left adjoint)であり，$G$は$F$の右随伴(right adjoint)である}という．また，次のようにも書く．
+    \begin{center}\begin{tikzcd}
+        D \ar[r, bend left, "F"] \ar[r, phantom, "\rotatebox{90}{$\vdash$}"] & C \ar[l, bend left, "G"]
+    \end{tikzcd}\end{center}
+    即ち，各$c\in C, d\in D$について，次のような集合の同型が存在することである．
+    \begin{center}\begin{tikzcd}
+        \hom_D(d,G(c)) \ar[r, "\simeq"] \ar[d, phantom, "\rotatebox{90}{$\in$}"] & \hom_C(F(d),c) \ar[d, phantom, "\rotatebox{90}{$\in$}"] \\
+        f:d\to G(c) \ar[r, mapsto] & \overline{f}:F(d)\to c
+    \end{tikzcd}\end{center}
+
+    このHom集合間の集合の同型(bijection)（の一つ一つ）を\textbf{adjunction isomorphism}という．また，$X\in C, Y\in D$として$f\in\hom_C(FY,X)$に対して，$D$の射$G(f)=:\overline{f}$を\textbf{随伴(adjunct)}という．
+\end{definition}\end{shadebox}
 
 \begin{definition}[普遍射を用いた定義]
     
@@ -1201,6 +1321,10 @@ $X$を全体集合として，$A,B\subset X$の共通部分を取る演算は，
 \begin{definition}[余単位-単位随伴による定義]
     
 \end{definition}
+
+\begin{proposition}\rm{}
+    定義\ref{adjoint-1}による随伴関手(adjoint functor)は，圏Catに於ける随伴(adjunction)に等しい．
+\end{proposition}
 
 \chapter{圏の構成(constructions on categories)}
 
@@ -1214,6 +1338,102 @@ $X$を全体集合として，$A,B\subset X$の共通部分を取る演算は，
 関手$F$の取り方はいく通りも存在する場合が殆どだが，上述した忘却関手のような一番自然なものを取ることが多い．
 
 \subsubsection{具体圏の例：\textbf{Top, Grp}}
+
+\section{直積圏}
+
+\begin{definition}
+    $C,D$を圏とする．直積圏$C\times D$とは，$c,d$をそれぞれの圏の対象，$f_C,f_D$をそれぞれの圏の射とすると，
+    組$(c,d)$を対象とし，組$(f_C,f_D)$を射とするような圏である．射の合成は，成分毎(componentwise)に行われる．
+\end{definition}
+従って，群の直積と似た定義である．実際，直積圏は，圏の圏Catにおける直積対象である．
+
+\section{スライス圏}
+
+\begin{definition}[slice/over category]
+    $C$を圏とし，$c$をその対象とする．スライス圏$C/c$とは，対象は$c$を終域とする$C$の射とし（$\mathrm{ob}(C)=\{f\in C \, :\,\mathrm{cod}(f)=c\} $），
+    射をその間の引き戻しであるような$C$の射とする．従って，対象$f:X\to c, f':X'\to c$に対して，射$g:X\to X'\in C$とは，$f'\circ g=f$を満たす$C$の射$g$である．
+    即ち，次の図式は可換である．
+    \begin{center}\begin{tikzcd}
+        X \ar[rr, "g"] \ar[dr, "f"'] & & X' \ar[dl, "f'"] \\
+        & C &
+    \end{tikzcd}\end{center}
+\end{definition}
+これはコンマ圏の特殊な場合である．
+定義は，前層同様，終域を固定する．反対に始域を固定する双対概念はunder categoryまたはcoslice categoryと呼ばれる．
+
+\begin{proposition}
+    次の２条件は同値．\rm{}
+
+    1.\, $1\in C$は$C$の終対象である．
+
+    2.\, $C/1\simeq C$
+\end{proposition}
+
+\begin{proposition}[Posetでの例：スライス圏と単項イデアルの同一視]
+    圏$P$を順序集合とする．$p\in P$について，
+    $$P/p\simeq\downarrow (p):=\{ x\in P | x\le p \}$$である．
+\end{proposition}
+
+\begin{proposition}[Setでの例]
+    圏$Sets_*$を，ある区別された点$a\in A$を備えた集合$A$が，それを保存するような写像$f:(A,a)\to (B,b)$についてなす圏とする．
+    この時，$$Sets_*\simeq 1\backslash Sets$$
+\end{proposition}
+\begin{proof}
+    任意の対象$(A,a),(B,b)\in Sets_*$について，次の図式は常に可換である．
+    \begin{tikzcd}
+        1 \ar[r, "a"] \ar[dr, "b"'] & A \ar[d, "f"]\\
+        & B
+    \end{tikzcd}
+\end{proof}
+
+\section{arrow category}
+
+\begin{definition}[arrow category]\rm{}
+    圏$C$に対して，対象の集合を$Arr(C)$とし，射$f:(a:a_0\to a_1)\to (b:b_0\to b_1) in \mathrm{Arr}(C)$を，次の可換図式$(f_0,f_1)$とする．
+    \begin{center}\begin{tikzcd}
+        a_0 \ar[r, "f_0"] \ar[d, "a"] & a_1 \ar[d, "b"] \\
+        b_0 \ar[r, "f_1"] & b_1
+    \end{tikzcd}\end{center}
+    合成は，可換図式を繋げて可換長方形(commutative oblong)を得ることとすると，これは圏をなし，arrow category $\mathrm{Arr}(C)$と書く．
+\end{definition}
+
+\begin{proposition}
+    圏$C$に対して，$\mathrm{Arr}(C)\simeq [2,C]$である．
+\end{proposition}
+
+\section{comma category}
+
+以前は，hom集合に$C(x,y)$などと書いたのと同様にして，コンマ圏を$(f,g)$と書いたために名前がついたが，現在では専ら$(f/g)$や$(f\downarrow g)$と書く．
+少なくとも同値な３種の定義がある．
+
+\begin{definition}[成分から the objectwise definition]\rm{}
+    $f:C\to E, g:D\to E$を関手とする．次のように定めた圏をcomma category $(f/g)$と書く．
+
+    1.\, 対象は3-組$(c,d,\alpha )$である．なお，$\alpha :f(c)\to g(d)$は$E$の射．
+
+    2.\, 射は$(\beta ,\gamma ):(c_1, d_1, \alpha_1)\to (c_2, d_2, \alpha_2)$は次の$E$-図式を可換にする$C,D$の射$\beta,\gamma$の組．
+    \begin{center}\begin{tikzcd}
+        f(c_1) \ar[r, "f(\beta )"] \ar[d, "\alpha_1"] & f(c_2) \ar[d, "\alpha_2"] \\
+        g(d_1) \ar[r, "g(\gamma )"] & g(d_2) 
+    \end{tikzcd}\end{center}
+
+    3.\, 射の合成は，成分毎に$C,D$上での射の合成とする．
+
+    この時，canonicalな忘却関手$H_C:(f/g)\to C, H_D:(f/g)\to D$の存在に注意．
+\end{definition}
+
+\begin{proposition}
+    次は自然変換である．
+    \begin{center}\begin{tikzcd}
+        \theta:f\circ H_C \ar[r] \ar[d, phantom, "\rotatebox{90}{$\in$}"] & g\circ H_D \ar[d, phantom, "\rotatebox{90}{$\in$}"] \\
+        (c,d,\alpha) \ar[r, mapsto] & \alpha
+    \end{tikzcd}\end{center}
+\end{proposition}
+
+この自然変換は，コンマ圏の普遍性を2-圏上に定義する．
+\begin{definition}[コンマ圏の普遍性]
+    
+\end{definition}
 
 \part{圏論の拡張}
 
@@ -1229,6 +1449,9 @@ $X$を全体集合として，$A,B\subset X$の共通部分を取る演算は，
 
 \chapter{2-圏}
 圏の圏\textbf{Cat}についての考察を通じて，圏自体の定義を拡張し，今までの圏の定義\ref{def-category}を1-圏として相対化する枠組みを提供する．
+\begin{quotation}
+    Multidimentional mathematics is the mathematics of objects that belongs to 2-categories. which kind of generalizes the usual mathematics of sets & categories.\footnote{Vladimir Voevodsky}
+\end{quotation}
 
 \section{2-圏の定義}
 2-圏の定義は２つあり，2-morphismの合成についての条件が違う．
