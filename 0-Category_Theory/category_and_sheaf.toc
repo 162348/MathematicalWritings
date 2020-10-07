@@ -1,0 +1,94 @@
+\contentsline {part}{第I部\hspace {1zw}圏}{3}% 
+\contentsline {chapter}{\numberline {第1章}集合論の準備}{5}% 
+\contentsline {section}{\numberline {1.1}集合の公理とGrothendieck宇宙}{5}% 
+\contentsline {section}{\numberline {1.2}写像とfiber積}{6}% 
+\contentsline {chapter}{\numberline {第2章}圏}{9}% 
+\contentsline {section}{\numberline {2.1}圏の定義}{9}% 
+\contentsline {section}{\numberline {2.2}定義の脱構築，記号についての注意}{10}% 
+\contentsline {section}{\numberline {2.3}圏の例７つ}{11}% 
+\contentsline {subsection}{\numberline {2.3.1}集合の圏}{11}% 
+\contentsline {subsection}{\numberline {2.3.2}線型空間の圏}{12}% 
+\contentsline {subsection}{\numberline {2.3.3}可微分多様体の圏}{12}% 
+\contentsline {subsection}{\numberline {2.3.4}単系の圏論的特徴付け：単一対象圏：射の合成を，演算の雛形と見る}{12}% 
+\contentsline {subsection}{\numberline {2.3.5}可換}{12}% 
+\contentsline {subsection}{\numberline {2.3.6}順序関係の圏論的特徴付け：骨格圏：射の合成を，順序関係の雛形と見る}{13}% 
+\contentsline {subsection}{\numberline {2.3.7}関係}{14}% 
+\contentsline {section}{\numberline {2.4}圏の構成}{14}% 
+\contentsline {subsection}{\numberline {2.4.1}具体圏}{14}% 
+\contentsline {subsection}{\numberline {2.4.2}直積圏}{15}% 
+\contentsline {subsection}{\numberline {2.4.3}逆転圏}{15}% 
+\contentsline {subsection}{\numberline {2.4.4}部分圏}{15}% 
+\contentsline {subsection}{\numberline {2.4.5}自由圏}{16}% 
+\contentsline {subsection}{\numberline {2.4.6}矢印圏}{17}% 
+\contentsline {subsection}{\numberline {2.4.7}スライス圏}{18}% 
+\contentsline {subsection}{\numberline {2.4.8}コンマ圏}{20}% 
+\contentsline {chapter}{\numberline {第3章}圏の射と圏の圏}{21}% 
+\contentsline {section}{\numberline {3.1}関手}{21}% 
+\contentsline {section}{\numberline {3.2}圏の圏}{22}% 
+\contentsline {subsection}{\numberline {3.2.1}定義}{22}% 
+\contentsline {subsection}{\numberline {3.2.2}単系と群の圏}{23}% 
+\contentsline {subsection}{\numberline {3.2.3}逆転圏と双対原理}{24}% 
+\contentsline {subsection}{\numberline {3.2.4}順序集合の圏}{25}% 
+\contentsline {section}{\numberline {3.3}Hom関手}{27}% 
+\contentsline {chapter}{\numberline {第4章}関手の射と関手の圏}{30}% 
+\contentsline {section}{\numberline {4.1}関手の射}{30}% 
+\contentsline {subsection}{\numberline {4.1.1}関手の射の合成}{31}% 
+\contentsline {subsection}{\numberline {4.1.2}関手の同型／自然同型(natural equivalence)}{32}% 
+\contentsline {section}{\numberline {4.2}関手の圏}{32}% 
+\contentsline {subsection}{\numberline {4.2.1}線型代数}{32}% 
+\contentsline {chapter}{\numberline {第5章}圏の同値(equivalence)}{35}% 
+\contentsline {section}{\numberline {5.1}圏の同値の定義}{35}% 
+\contentsline {section}{\numberline {5.2}圏の同値の特徴付け}{36}% 
+\contentsline {section}{\numberline {5.3}圏の同値のwell-definedness}{37}% 
+\contentsline {section}{\numberline {5.4}同値な圏の例１：行列の圏と有限次元$\mathbb {R}$-線型空間の圏}{37}% 
+\contentsline {section}{\numberline {5.5}同値な圏の例２：有限次元$\mathbb {R}$-線型空間の圏とその双対空間の圏}{38}% 
+\contentsline {chapter}{\numberline {第6章}表現可能関手}{41}% 
+\contentsline {section}{\numberline {6.1}表現可能関手}{41}% 
+\contentsline {section}{\numberline {6.2}表現可能関手と米田の補題：前層の圏の様子}{41}% 
+\contentsline {subsection}{\numberline {6.2.1}Yoneda's embedding：圏$C$とその前層との関係}{42}% 
+\contentsline {subsubsection}{\numberline {6.2.1.1}$h_A$からの射の研究}{42}% 
+\contentsline {subsection}{\numberline {6.2.2}米田の補題：$h_A$からの射の研究の帰結}{43}% 
+\contentsline {subsection}{\numberline {6.2.3}前層の射の例１}{45}% 
+\contentsline {subsection}{\numberline {6.2.4}前層の射の例２}{46}% 
+\contentsline {subsection}{\numberline {6.2.5}前層の射の例３：共通部分の集合演算と論理積}{49}% 
+\contentsline {subsection}{\numberline {6.2.6}米田の補題の系}{49}% 
+\contentsline {chapter}{\numberline {第7章}随伴(adjoint)}{51}% 
+\contentsline {section}{\numberline {7.1}定義}{51}% 
+\contentsline {section}{\numberline {7.2}例}{52}% 
+\contentsline {section}{\numberline {7.3}左随伴関手を持つことの判定法}{52}% 
+\contentsline {chapter}{\numberline {第8章}普遍性と極限}{53}% 
+\contentsline {section}{\numberline {8.1}種々の特別な対象}{53}% 
+\contentsline {subsection}{\numberline {8.1.1}始対象／終対象の普遍性}{53}% 
+\contentsline {subsection}{\numberline {8.1.2}自由対象の普遍性}{53}% 
+\contentsline {section}{\numberline {8.2}直積}{55}% 
+\contentsline {subsection}{\numberline {8.2.1}デカルト圏}{55}% 
+\contentsline {section}{\numberline {8.3}pullback}{55}% 
+\contentsline {section}{\numberline {8.4}テンソル}{56}% 
+\contentsline {part}{第II部\hspace {1zw}圏論の拡張}{57}% 
+\contentsline {chapter}{\numberline {第9章}豊穣圏(enriched category)}{58}% 
+\contentsline {section}{\numberline {9.1}豊穣圏の定義}{58}% 
+\contentsline {chapter}{\numberline {第10章}2-圏}{59}% 
+\contentsline {section}{\numberline {10.1}2-圏の定義}{59}% 
+\contentsline {section}{\numberline {10.2}2-圏の例}{59}% 
+\contentsline {chapter}{\numberline {第11章}閉圏(closed category)}{60}% 
+\contentsline {section}{\numberline {11.1}閉圏の定義}{60}% 
+\contentsline {section}{\numberline {11.2}デカルト閉圏(cartesian closed category)}{60}% 
+\contentsline {subsection}{\numberline {11.2.1}デカルト閉圏の例}{60}% 
+\contentsline {chapter}{\numberline {第12章}モノイド圏(Monoidal category)}{62}% 
+\contentsline {section}{\numberline {12.1}モノイド圏の定義}{62}% 
+\contentsline {section}{\numberline {12.2}モノイド圏の例}{63}% 
+\contentsline {subsection}{\numberline {12.2.1}デカルトモノイド圏}{63}% 
+\contentsline {section}{\numberline {12.3}モノイド同値}{63}% 
+\contentsline {section}{\numberline {12.4}閉モノイド圏(closed monoidal category)}{63}% 
+\contentsline {part}{第III部\hspace {1zw}層(sheaf)}{64}% 
+\contentsline {chapter}{\numberline {第13章}Introduction}{65}% 
+\contentsline {section}{\numberline {13.1}これが圏論の上で行われる理由}{65}% 
+\contentsline {chapter}{\numberline {第14章}位相空間と連続写像}{66}% 
+\contentsline {section}{\numberline {14.1}Euclid空間での開集合の定義から，特徴づけを導く}{66}% 
+\contentsline {section}{\numberline {14.2}位相空間を，特徴付けだった方を公理として定義する}{67}% 
+\contentsline {subsection}{\numberline {14.2.1}例１：Euclid空間}{68}% 
+\contentsline {subsection}{\numberline {14.2.2}例２：離散（位相）空間}{68}% 
+\contentsline {subsection}{\numberline {14.2.3}例３：２元集合の位相}{68}% 
+\contentsline {section}{\numberline {14.3}部分位相空間}{68}% 
+\contentsline {section}{\numberline {14.4}連続写像}{69}% 
+\contentsline {chapter}{参考文献}{70}% 

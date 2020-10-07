@@ -1,0 +1,39 @@
+\documentclass[uplatex, dvipdfmx]{jsarticle}
+\title{計算の理論　後半課題４}
+\author{司馬博文 J4-190549}
+\date{\today}
+\pagestyle{empty} \setcounter{secnumdepth}{4}
+\input{/Users/hirofumi.shiba48/Desktop/数理科学/preamble.tex}
+\begin{document}
+\maketitle
+
+\begin{question*}
+    命題$\lnot \lnot (A\lor\lnot A)$の証明を$\lambda$項で表せ．
+\end{question*}
+\begin{proof}[\bf{解答}]
+    以下，一般の型$\tau$に対して，型$\lnot\tau$とは関数型$\tau\to\False$の略記とする．
+
+    すると，命題$\lnot \lnot (A\lor\lnot A)$に対応する型は$(A+\lnot A\to\False)\to\False$であるから，この型を持つラムダ項を構成すれば良い．
+    ここで，それぞれ型$\lnot A, \lnot\lnot A$を持つラムダ項$x,y$を考える．このラムダ項の組$(x,y)$は，
+    ラムダ項を他のラムダ項の間の矢印$\to$として表した次の図式が可換であるという意味で，直積型$\lnot A\times \lnot\lnot A$，即ち$(A\to\False)\times(\lnot A\to\False)$と同時に，直和型$A+\lnot A\to\False$も持つ．
+    \begin{center}
+        \begin{tikzcd}
+            A \ar[dd] \ar[ddrrr, "A\to\False"] & & & \\
+            \\
+            A+\lnot A \ar[rrr, "A+\lnot A\to\False"] & & &  \False\\
+            \\
+            \lnot A \ar[uu] \ar[uurrr, "\lnot A\to\False"']  & &
+        \end{tikzcd}
+    \end{center}
+    以上より，次のラムダ項は型$(\lnot A\times\lnot\lnot A)\to\False$に加えて型$(A+\lnot A\to\False)\to\False$も持ち，従って命題$\lnot \lnot (A\lor\lnot A)$の証明である．
+    \[ \lambda (x,y):\lnot A\times \lnot\lnot A.yx \]
+\end{proof}
+% \begin{remark*}
+%     直和型への関数適用は普通case項で書かれるが，
+%\ end{remark*}
+
+% $A\lor\lnot A$に対応する直和型を$A+\lnot A$（ただし，型$\lnot A$は型$A\to\mathrm{False}$の略記とした）とすれば，命題$\lnot \lnot (A\lor\lnot A)$の証明は，
+% 命題$(A\lor\lnot A)\to\lnot \lnot (A\lor\lnot A)$の証明$\lambda z:A+\lnot A.\lambda y:\lnot(A+\lnot A).xy$を，命題$A\lor\lnot A$の証明に適用して
+% 得られるはずである．しかし，命題$A\lor\lnot A$の証明は存在しないので，命題$\lnot \lnot (A\lor\lnot A)$の証明も存在しない．
+
+\end{document}

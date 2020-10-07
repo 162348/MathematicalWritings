@@ -1,0 +1,308 @@
+\documentclass[uplatex,dvipdfmx]{jsarticle}
+\title{計算の理論レポート（担当：小林直樹先生）\\論理プログラミングの基礎}
+\author{司馬博文 J4-190549}
+\pagestyle{plain} \setcounter{secnumdepth}{4}
+\input{/Users/hirofumi.shiba48/Desktop/数理科学/preamble_CM.tex}
+\begin{document}
+\maketitle
+\begin{abstract}
+    Prologでの論理プログラミングを基礎付ける数理論理学の事柄について，
+    今後の勉強に活かす目的で数学書的な様式でまとめた．
+\end{abstract}
+\tableofcontents
+\vspace{2mm}
+
+\section{一階述語論理についての用語の準備}
+文献\cite{新井敏康}で学習した経験を元に，\cite{Horn clause}も参照しながらまとめた．
+
+\begin{notation}
+    言語$L$を１つ定め，変項を$x,y,z,\cdots$，言語$L$に含まれる定数を$a,b,c,\cdots$，述語を$P,Q,R,\cdots$と書くこととする．
+    また，Prologでの記法に倣い，述語のarity $n\in\N$を$P/n$というように述語記号に/を挟んで添えて書く．
+
+    $L$の有限列として一致するという同値関係を$\equiv$で表す．
+\end{notation}
+
+\begin{definition}[term]
+    \textbf{L-項}全体の集合$Tm_L$を次の構成子により帰納的に定める．
+    \begin{enumerate}
+        \item  $x,y,z,\cdots,a,b,c,\cdots\in Tm_L$．
+        \item  $f:Tm_L^n\to Tm_L\;\;\;(f^n\in L)$．
+    \end{enumerate}
+    変数$x,y,z,\cdots$を含まないL-項をL-閉項(L-closed term)／またはL-基礎項(L-ground term)と言う．
+\end{definition}
+
+\begin{definition}[literal]
+    次のいずれかの形をした論理式を，\textbf{原子論理式(atomic formulta)}と言う．
+    \begin{align*}
+        t_1 &= t_2, & R(t_1,\cdots,t_n), && (t_i\in Tm_L, R/n\in L).
+    \end{align*}
+    原子論理式とその否定形を\textbf{literal}と言う．
+\end{definition}
+
+\begin{definition}[clause, Horn clause]
+    次の形をした論理式を，\textbf{節}と言う．
+    \begin{align*}
+        L_1\lor L_2\lor\cdots\lor L_n, && (L_1,\cdots,L_n\mathrm{\;are\;literals}).
+    \end{align*}
+    また，\underline{否定を含まないliteral（＝原子論理式）を含んだとしてもたった１つである節}を，\textbf{ホーン節}と言う．
+    なお，それぞれの場合について，全てが否定形のliteralからなる節を\textbf{goal節}，原子論理式を１つのみ含む節を\textbf{確定(definite)節}またはstrict Horn clauseと言う．
+\end{definition}
+\begin{example}
+    空な論理式はgoal節である．
+    また，positive(=unnegated) literal１つのみからなる節は確定節であるが，
+    これを特に\textbf{単位節(unit)}といい，その中でも特に変数を含まないものを\textbf{事実(fact)}という．
+\end{example}
+\begin{remark}
+    Horn clauseを記号$\to$で書き換えると，第一形式を用いて次のようにかける．なお，第一形式$\to$と第二形式$\leftarrow$に意味論的差異はない．
+    \begin{align*}
+        L_2\land\cdots\land L_n &\to L_1 &（確定節の場合）,\\
+        L_1\land L_2\land\cdots\land L_n &\to &（ゴール節の場合）.
+    \end{align*}
+\end{remark}
+\begin{remark}[Prologでは]
+    これら確定節をPrologの構文で書くと，次のようになる．
+    \begin{lstlisting}[caption=Prolog]
+        L1 :- L2, L3, ..., Ln.
+        L1.
+    \end{lstlisting}
+    また，単位節は，記号:-を省略して2のように表される．これはL1 :- trueの省略系だと見做せる．
+    ただし，true/0をL-述語とした．
+    1の形をしたHorn節をrule，2の形をしたHorn節をfactと呼ぶ．
+    記号:-に対して，左辺を頭部(head)，右辺を身体(body)または目標(goals)と言う．
+\end{remark}
+
+\begin{definition}[formula]
+    \textbf{L-論理式}とは，次のように帰納的に定義される記号列のことである．
+    \begin{enumerate}
+        \item literalは論理式である．
+        \item 論理式$\varphi,\psi$について，$(\varphi\lor\psi),\;(\varphi\land\psi),\;(\varphi\to\psi)$は論理式である．
+        \item 論理式$\varphi$と変数$x$について，$(\exists x\varphi),\;(\forall x\varphi)$は論理式である．
+    \end{enumerate}
+    L-論理式全体の集合を$Fml_L$と書くこととする．
+\end{definition}
+
+以降，一般のL-論理式についてではなく，次の２種の標準形のみに議論を絞る．
+
+\begin{definition}[prenex normal form]
+    次の形の論理式を\textbf{冠頭標準形}の論理式という．
+    \[ Q_1x_1\cdots Q_nx_n\theta\;\;\;(n\ge 0,Q_i\in\{\exists,\forall\},\theta には量化記号なし) \]
+    この時$\theta$をこの論理式の母式(matrix)という．
+\end{definition}
+
+\begin{definition}[Skolem normal form]
+    冠頭標準形の論理式$\varphi$について，$\varphi$中の各存在量化記号$\exists y_l\;(l\in\N)$について，それより前に全称量化記号が$n_l$個$\forall x_1^l,\cdots,\forall x_{n_l}^l$とあるとすれば，
+    $n_l$-変数の新たな関数記号$f_l$を導入して，$\varphi$の母式中の変数$y_l$を$f_l(x^l_1,\cdots,x^l_{n_l})$で置き換えることで，存在量化記号$\exists y_l$を消去することができる．これは拡張された言語$L\cup\{f_i\}$での$\forall$-論理式であり，これを\textbf{Skolem（連言）標準形}という．
+\end{definition}
+次が成り立つという意味で，これは標準形である．
+\begin{proposition}\label{prop-1}
+    $\varphi$のモデルに対して，適切にSkolem関数記号$f_i$に解釈を追加することでそのSkolem標準形$\varphi^S$のモデルが得られ，
+    $\varphi^S$のモデルからSkolem関数への解釈を削れば$\varphi$のモデルが得られる．
+\end{proposition}
+確かに，$\varphi$での各存在量化子で縛られた変数$y_l$に対して，$y_l$が存在することと$f_l$が構成可能であることに等価である．
+
+
+\section{Herbrandの定理}
+Herbrandの定理とは，Jacques Herbrandが1930年に提出した証明論に於ける定理であり\cite{Herbrand}，自動定理証明の理論的基盤となった．
+しかし，直接的に証明を探索する問題は極めて困難で，Prologの誕生は1965年のJohn Alan Robinsonによる導出原理の提出を待たねばならない．
+この節は主に\cite{新井敏康},\cite{エルブランの定理}の文献を参照し，基本的には自分の言葉でまとめた．
+Herbrandの定理とPrologの処理系が実際に行っていることとの関係が見えにくかったが，系\ref{cor-1}の形にまとめればわかりやすいと思われる．
+
+\begin{definition}[Herbrand universe]
+    L-論理式$A$の\textbf{エルブラン領域}とは，$A$に出現する定数記号と自由出現する変数記号について，
+    $A$に現れる関数記号$f$から帰納的に生成される\underline{L-閉項}（＝点）全体のことをいう．
+    ここで，$A$に現れる記号（定数記号や自由出現する変数記号や関数記号$f$など）を$L_A\subset L$と置く．
+    ただし，$A$に定数記号も自由変項も存在しない場合は，定数記号を$L$から自由に１つ選んで$L_A$のただ一つの元とする．
+\end{definition}
+\begin{remark}
+    平たく言えば，Herbrand領域とはL-式$A$に出現する記号からなる集合$L_A$を構成子として生成される
+    $L_A$-閉項(ground term)全体の集合のことであると言える．
+\end{remark}
+
+\begin{definition}[Herbrand normal form]
+    冠頭標準形のL-論理式$A$に対して，そのHerbrand標準形$A^H$を，Skolem標準形の双対として定義する．即ち，次の通りに定義する．
+    
+    $\varphi$中の各\underline{全称}量化記号$\forall y_l\;(l\in\N)$について，それより前に存在量化記号が$n_l$個$\exists x_1^l,\cdots,\exists x_{n_l}^l$とあるとすれば，
+    $n_l$-変数の新たな関数記号$f_l$を導入して，$\varphi$の母式中の変数$y_l$を$f_l(x^l_1,\cdots,x^l_{n_l})$で置き換えることで，全称量化記号$\forall y_l$を消去することができる．これは拡張された言語$L\cup\{f_i\}$での$\exists$-論理式であり，これを\textbf{Herbrand（選言）標準形}という．
+
+    なお，この時Herbrand領域の構成子の集合$L_A$も拡張された．これを$L_H(:=L_A\cup\{f_l\}_{i\in I})$とする．
+\end{definition}
+
+\begin{definition}[instance」$\exists$-形]
+    $A$を$\exists$-論理式とする．（即ち，量化記号なしのL-論理式$R$について，$A\equiv\exists\vec{x}\;R(\vec{x};\vec{a})$とする）．
+    この時，式の列$\vec{t}^i=(t^i_1,\cdots,t^i_n)$の列$\{\vec{t}^i\mid i\le r\}$について，$\lor\{R(\vec{t}^i;\vec{a})\mid i\le r\}$を$A$の\textbf{例}と言う．
+
+    特に，式の列の列$\{\vec{t}^i\mid i\le r\}$が全てHerbrand領域に入っている時は，\textbf{H-例}と言う．
+\end{definition}
+
+Herbrand標準形$A^H$が$\exists$-論理式であることに注意すれば，より一般に$A$が冠頭標準形の場合について，H-例は定義できる．
+
+\begin{definition}[instance：冠頭標準形]
+    $A$を冠頭標準形のL-論理式$\exists\vec{y},\;\forall\vec{x},\;R(\vec{y};\vec{x};\vec{a})$であるとする．
+    変数の列の列$\{\vec{x}^i\mid i\le r\}$と$L_A$-式の列の列$\{\vec{t}^i\mid i\le r\}$に対して，言語$L_A$での量化記号なしの論理式$\lor\{R(\vec{t}^i;\vec{x}^i;\vec{a})\mid i\le r\}$を，Aの\textbf{H-例}という．
+\end{definition}
+
+\begin{theorem}[Herbrand's theorem：冠頭標準形について]\label{thm-1}
+    冠頭標準形のL-論理式$A$について，次の３条件は同値である．
+    なお，1と3が同値であるという主張を\textbf{エルブランの定理}といい，1と2が同値であるという主張をGödelの完全性定理という．
+    \begin{enumerate}
+        \item $A$は（一階述語論理の証明体系にて）証明可能である：$\vdash A$．
+        \item $A$は恒真(tautology)である：$\vDash A$．
+        \item $A$のあるH-例が恒真である．
+    \end{enumerate}
+\end{theorem}
+\begin{remark}
+    これは，任意の一階述語論理の式は冠頭標準形に変換できるから（命題\ref{prop-1}），
+    任意の恒真な論理式$A$が恒真であることの証明は，有限資源内で確認出来ることの理論的保証となっている．
+\end{remark}
+この定理の証明を自分の言葉でまとめることは叶わなかった．
+
+\begin{corollary}\label{cor-1}
+    冠頭標準形の論理式$F,G$について，
+    \begin{align*}
+        F&=\exists\vec{y},\;\forall\vec{x},\;R(\vec{y};\vec{x};\vec{a}),& G&=\lnot F=\forall\vec{y},\;\exists\vec{x},\;\lnot R(\vec{y};\vec{x};\vec{a}),
+    \end{align*}
+    とする．次の４条件（正味７条件）は全て同値である．
+    \begin{enumerate}
+        \item $F$は恒偽（充足不能）である：$\vDash\lnot F$．即ち，$G$は恒真である：$\vDash G$．
+        \item $F$のあるH-例の否定$\land\{R(\vec{t}^i;\vec{x}^i;\vec{a})\}_{i\le r}$が恒偽である．即ち，$G$のあるH-例$\lor\{\lnot R(\vec{t}^i;\vec{y}^i;\vec{a})\}_{i\le r}$が恒真である．
+        \item $F$の否定が証明可能である：$\vdash\lnot F$．即ち，$G$が証明可能である：$\vdash G$．
+        \item $F$から導出により空節を導くことができる．
+    \end{enumerate}
+\end{corollary}
+%\begin{remark}
+%    条件2において，$G$のあるH-例$\lor\{\lnot R(\vec{t}^i;\vec{y}^i;\vec{a})\}_{i\le r}$がgoal節の形をしている．
+%    即ち，queryとして述語$P$をProlog処理系に渡した時，これをプログラム中のHorn節の集合$H$と合わせた連言$P\land H$
+%    が正しいことを証明するためには，$P$の否定$\lnot P$との連言$\lnot P\land H$から空節を導けば良い．
+%\end{remark}
+\begin{proof}
+    条件1$\sim$3にて，「即ち」で結ばれた２条件が同値であるのは，$G=\lnot F$から従う．
+
+    条件1$\sim$3の特に論理式$G$についての主張は，Herbrandの定理とGödelの完全性定理\ref{thm-1}から従う．
+
+    条件3が成り立つとする．即ち，$\vdash\lnot F$．この時$F$を仮定すると$F\land\lnot F=\bot$を導くことができる．
+\end{proof}
+
+\section{導出原理と単一化}
+単一化のアルゴリズムはすでにHerbrandの論文に含まれていた\cite{Prolog}が，Robinsonが導出原理
+の形にまとめ，現在の論理プログラミングの基礎となった．文献\cite{新井敏康},\cite{resolution},\cite{SLD-resolution}を中心にまとめた．
+
+\begin{definition}[導出：命題論理]
+    次の命題論理での演繹規則を\textbf{導出原理}という．
+    \[ \frac{l\lor P\;\;\;\lnot l\lor Q}{P\lor Q}\;\;\;(l\mathrm{\;is\;literal}) \]
+    上式は前提となる\textbf{親節}，下式を\textbf{導出節(resolvent)}という．
+
+    また一般に，２つの節$C_1,C_2$に対して，$L\in C_1,\lnot L\in C_2$を満たすliteral $L$が存在するならば，
+    次の節$C_R$を導く規則を導出という．
+    \[ C_R = (C_1\setminus\{L\})\cup(C_2\setminus\{\lnot L\}) \]
+\end{definition}
+\begin{remark}
+    筆者はresolutionを「解決」に当たる意味を持つ語として用いられていると思い込んでいたが，どうやら「溶解」「融合」の方である．
+    resolventは溶液くらいの意味なのかもしれない．例えばSLD resolutionの定義\ref{def-SLD-resolution}の式がわかりやすいが，
+    SLD resolutionでは節の集合から，２つの節ずつ，あるliteralを基点として
+    （例えば文献\cite{SLD-resolution}ではこのliteralを"the literal resolved upon in a clause"と表現するところからも語感が分かる）
+    溶け合うようにして導出規則が適用されていき，最終的に一つの節にまとまる．その証明は線型になる．
+    この過程を「融合」「溶解」になぞらえて名付けられたと思われる．
+\end{remark}
+
+これを一階述語論理上に拡張するにあたって，このようなliteral $L$を見つけるにあたって，適切な同一視をする必要がある．
+これをpattern matchingまたは単一化(unification)と呼ぶ．
+これをまずは，最も一般的な形で定義する．
+
+\begin{definition}[substitution]
+    ある論理式に対して，変数の置換を\textbf{代入}という．これを$\sigma:dom(\sigma)\to Tm_L$と表す．
+    $dom(\sigma)$は置換が定義される論理式に出現する変数に依存するが，$\sigma(x)=x\;(x\notin dom(\sigma))$と定めることにより，
+    $\sigma$は全変数上に一意に拡張される．すると，$Tm_L$の構成子に従って，$Tm_L$上の写像に帰納的に拡張される．
+
+    この代入$\sigma:Tm_L\to Tm_L$を，式$t\in Tm_L$に作用させることを，式$t$中の変数$x\in dom(\sigma)$を一斉に$\sigma(x)$に置換することとし，
+    これを$t\sigma:=\sigma(t)$と書くこととする．
+\end{definition}
+
+\begin{definition}[instance]
+    ２つの代入$\sigma,\tau$について，ある代入$\theta$が存在して関係$\sigma=\tau\theta$が成り立つことを，$\sigma$は$\tau$の\textbf{例}であるという．
+    これは２つの変数変換が本質的に同じものであることを意味する．
+\end{definition}
+
+\begin{definition}[unifier]
+    $Tm_L$上の等式の有限集合を$E=\{t_i=s_i\mid i<n\}$とする．
+    \begin{enumerate}
+        \item 代入$\sigma$が$E$の\textbf{単一化子(unifier)}であるとは，$\forall i<n,\; t_i\sigma\equiv s_i\sigma$が成り立つことをいう．
+        \item $E$の単一化子$\sigma$が\textbf{最汎単一化子(MGU: Most General Unifier)}であるとは，どんな$E$の単一化子$\tau$も$\sigma$の例になっていることをいう．この時，$\sigma=\mathrm{mgu}(E)$と書くこととする．
+    \end{enumerate}
+    与えられた集合$E$に対して，これに単一子が存在するかどうかを決定する問題を単一化問題という．
+\end{definition}
+
+\begin{theorem}[unification algorithm]
+    単一化問題（下記）は決定可能である．
+    \begin{quote}
+        与えられた等式集合$E$が単一化可能でないならば"NO"と答え，
+        単一化可能ならば"YES"と答え，この時の最汎単一化子$\mathrm{mgu}(E)$を出力せよ．
+    \end{quote}
+\end{theorem}
+
+\begin{definition}[導出：一階述語論理]
+    導出原理は，一階述語論理では，導出木の表記法で，次のように書ける．
+    \[ \frac{p(s)\lor C_1\;\;\;\lnot p(t)\lor C_2\;\;\;\theta=\mathrm{mgu}(s=t)}{(C_1\lor C_2)\theta} \]
+\end{definition}
+
+\begin{definition}[refutation]
+    \textbf{反駁}とは，節の集合から導出原理のみにより空節を導くことをいう．
+\end{definition}
+\begin{remark}
+    この語を用いて，系\ref{cor-1}の主張の一部は次のように書き直せる．
+    \begin{enumerate}
+        \item 節の集合$C$が恒偽である．
+        \item 節の集合$C$から反駁が成功する．
+    \end{enumerate}
+    従って，queryとして与えられた述語$P$の否定と，プログラムとして与えられたHorn節の列$H_1\land\cdots\land H_n$との
+    選言$\lnot P\land H_1\land\cdots\land H_n$から反駁することが出来たら，$\lnot P,H_1,\cdots,H_n$は充足不能だとわかる．
+    よって，$H_1,\cdots,H_n$に矛盾がない限り，$\lnot P$が$H_1,\cdots,H_n$の下で偽であること，
+    即ち$P$が$H_1,\cdots,H_n$の下で真（論理的帰結である：$H_1,\cdots,H_n\vdash P$）であることがわかる．
+\end{remark}
+
+特に，Prologでは，節の中でもHorn節に導出の対象を制限する．この場合の導出をSLD導出という．
+
+\begin{definition}[Selective Linear resolution for Definite clause]\label{def-SLD-resolution}
+    queryとして得たゴール節$L_1\land\cdots\land L_i\land\cdots\land L_n$と，規則として定義された
+    ホーン節$L\leftarrow K_1,\cdots,K_m$に対する導出を\textbf{SLD導出}という．
+    ただし，$L_i$と$L$は，単一化子$\theta:=\mathrm{mgu}(L_i=L)$の下で単一化されるとする．
+    このとき，示したいゴール節$\lnot L_1\lor\cdots\lor \lnot L_i\lor\cdots\lor \lnot L_n$から次のgoal節が導かれる．
+    \begin{align*}
+        &(\lnot L_1\lor\cdots\lor \lnot(K_1\land\cdots\land K_m) \lor\cdots\lor \lnot L_n)\theta \\
+        \Longleftrightarrow\;\;\;&(\lnot L_1\lor\cdots\lor \lnot K_1\lor\cdots\lor\lnot K_m \lor\cdots\lor \lnot L_n)\theta
+    \end{align*}
+\end{definition}
+\begin{remark}
+    SLD resolutionとは，Robert Kowalskiが導入した導出規則に対して，Maarten van Emdenがつけた名前である\cite{SLD-resolution}．
+    Linearとは，導出規則を適用する２つの節の内の片方を固定し続ける戦略のことをいい，
+    この証明戦略を使った証明が論理式（節）の有限列$C_1,C_2,\cdots,C_n$となることから，また
+    Selectiveとは，節の中でliteralとして解決される部位が予め定まっている性質をいう．
+    SLD導出では，確定節では暗黙のうちに頭部の１つに定まっており，ゴール節では任意である．Prologでは，
+    プログラム内に記述された順番で照合するという順番があるのみである．
+
+    SLD resolutionは初めのゴール節を根とした探索木（導出木）を定める．各節はゴール節のいずれかの肯定形リテラルと単一化可能である場合に対応する．
+    最終的に，葉のうち空節であるものと根を結ぶ道が反駁による証明である．Prologでは，back-trackingアルゴリズム（自動後戻りの深さ優先探索）で
+    この探索を行い，この証明中で構成された解を返すようになっている．
+\end{remark}
+
+
+
+\begin{thebibliography}{9}
+    \bibitem{新井敏康}
+    新井敏康著『数学基礎論』（岩波オンデマンドブックス，2011）
+    \bibitem{関数プログラミング}
+    萩谷昌己著『関数プログラミング』（日本評論社，情報数学セミナー，1998）
+    \bibitem{Herbrand}
+    J. Herbrand, Recherches sur la théorie de la démonstration. Travaux de la Societe des Sciences et des Lettres de Varsovie, Class III, Sciences Mathematiques et Physiques, 33, pp.33-160, 1930.
+    \bibitem{Horn clause}
+    https://en.wikipedia.org/wiki/Horn\_clause（7/26/2020確認）
+    \bibitem{Prolog}
+    https://ja.wikipedia.org/wiki/Prolog（7/27/2020確認）
+    \bibitem{エルブランの定理}
+    https://ja.wikipedia.org/wiki/エルブランの定理（7/27/2020確認）
+    \bibitem{resolution}
+    https://en.wikipedia.org/wiki/Resolution\_(logic)（7/27/2020確認）
+    \bibitem{SLD-resolution}
+    https://en.wikipedia.org/wiki/SLD\_resolution（7/27/2020確認）
+\end{thebibliography}
+
+\end{document}

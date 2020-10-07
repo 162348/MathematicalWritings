@@ -1,0 +1,11 @@
+\documentclass[uplatex, dvipdfmx]{jsarticle}
+\usepackage{amsmath, amsfonts, amsthm, mathptmx, amssymb, ascmac, color, comment, graphicx}
+\usepackage{tikz, tikz-cd}
+\begin{document}
+
+\begin{center} \begin{tikzcd}
+    M \ar[r, "{(1,e \circ s)}"] \ar[d, "{(e\circ t,1)}"'] & M_s \underset{C}{\times_t}M \ar[d, "c"] \ar[dl, phantom, "\circlearrowright"] \\
+    M_s \underset{C}{\times_t}M \ar[r, "c"] & M
+\end{tikzcd} \end{center}
+
+\end{document}

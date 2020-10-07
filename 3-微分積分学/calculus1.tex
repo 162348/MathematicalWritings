@@ -1,0 +1,1695 @@
+\documentclass[uplatex, dvipdfmx]{jsreport}
+\title{微分積分学 石毛和弘\thanks{メールアドレスはishige@ms.u-tokyo.ac.jp} \\ 微分積分学続論 阿部紀行}
+\author{Hirofumi Shiba\thanks{hirofumi-shiba48@g.ecc.u-tokyo.ac.jp}}
+\date{\today}
+\pagestyle{headings} \setcounter{secnumdepth}{4}
+\input{/Users/hirofumi.shiba48/Desktop/数理科学/preamble_CM.tex}
+\begin{document}
+\tableofcontents
+
+微分積分学②では，まず（２変数の）偏微分とその応用を復習してから，１変数関数の積分，次に多変数関数の積分へと進む．
+Jacobianの計算などが，後期試験の花形になるであろう．最後に級数に触れて，微分積分学②の講義は締めくくられる．絶対収束という概念を導入して，より詳しく収束を議論する．
+
+微分積分学の講義では，一変数の場合から多変数と言っても特に二変数の場合に微分と積分の理論を拡張して，最後に無限級数の話をして終わった．
+微分積分学続論では，一般の$n$変数関数$\mathbb{R}^n\supset U\to\mathbb{R}^m$の場合についての理論を，線形代数学の言葉をしっかり用いて厳密に組み立てる．
+縦ベクトルの理論構成は綺麗だが，今回はその恩恵を感じるところまで行かない可能性が大きいとのことである．いずれにしろ，この見地から微分方程式などを扱ったときの，線型代数学と微分積分学の組み合わせは，人類の１つの大きな到達点である．
+
+\chapter*{記法の整理}
+行列記法によるベクトルとその間の線型写像など，線型代数的概念の整理と，この記法を導入した微分積分や微分方程式などの微分積分学的対象の記述の威力は，現代数学の一つの大きな到達点である．
+正確に記法を導入して，理論の展開を試みたい．
+
+1. $\mathbb{R}$を実数全体の集合とし，$\mathbb{R}^n=\left\{\begin{pmatrix}x^1\\\vdots\\x^n\end{pmatrix}\in\mathbb{R}^n\;\middle| \;x^1,\cdots,x^n\in\mathbb{R} \right\}$を，縦ベクトルの集合とする．
+こうすると，今までの記法に，行列積を考慮に入れれば，例えば$f(x)=ax+b$に対して$f'(x)=a$という式変形が，一般の$f:\mathbb{R}^n\to\mathbb{R}^m$の場合にも整合的に成り立つからである．
+
+2. 実数値関数$f:\mathbb{R}^n\to\mathbb{R}$の導値は横ベクトルであり，$\mathbb{R}$の部分集合上に定義域を持つ関数$f:U\to\mathbb{R}^n$の導値は縦ベクトルである．
+これはYacobi行列を考えると分かりやすい．Yacobi行列とは，線型主要部$df$の表現行列$Df$である．
+Yabobi行列を，写像$f:\mathbb{R}^n\to\mathbb{R}^n$が接空間の間に定める線型写像の表現行列，1-形式$df,dx$を写像$f$と座標$x$の線型主要部とすると，全微分$df$を書く要領で，次のように表示できる．
+縦に並ぶのが微分形式（余接空間の基底：反変的）であり，横に並ぶのが接空間の基底（またはそれが作用したもの）：共変的である．
+\begin{align*}
+    df &= \frac{\partial f}{\partial x^1}dx^1 + \cdots \frac{\partial f}{\partial x^n}dx^n\\
+    &= \left( \frac{\partial f}{\partial x^1}\;\cdots\;\frac{\partial f}{\partial x^n} \right)\begin{pmatrix}dx^1\\\vdots\\dx^n\end{pmatrix}\\
+    \begin{pmatrix}df^1\\\vdots\\df^n\end{pmatrix} &= \begin{pmatrix}\frac{\partial f^1}{\partial x^1}&\cdots&\frac{\partial f^1}{\partial x^n}\\\vdots&\ddots&\vdots\\\frac{\partial f^n}{\partial x^1}&\cdots&\frac{\partial f^n}{\partial x^n}\end{pmatrix}\begin{pmatrix}dx^1\\\vdots\\dx^n\end{pmatrix}
+\end{align*}
+\begin{center}
+    \begin{tikzcd}
+        & \mathbb{R}^n & \\
+        \mathbb{R}^n \ar[ur, "df"] \ar[rr, dashed, "Df"'] &&\mathbb{R}^n \ar[ul, "dx"']
+    \end{tikzcd}
+\end{center}
+
+3. $f^i:\mathbb{R}^n\ni\begin{pmatrix}x^1\\\vdots\\x^n\end{pmatrix}\mapsto f\begin{pmatrix}x^1\\\vdots\\x^n\end{pmatrix}\in\mathbb{R}$をn変数実数値関数といい，これをm個組にして$f=\begin{pmatrix}f^1\\\vdots\\f^n\end{pmatrix}$と扱う時n変数ベクトル値関数といい，$f:\mathbb{R}^n\to\mathbb{R}^m$と書く．
+
+\part{微分}
+\chapter{極値判定法：微分積分学続論前半戦}
+Euclid空間を所与のものとして理論の展開を始める．
+
+\section{微分の定義}
+以下，n変数実数値関数$f:\mathbb{R}^n\to\mathbb{R}$について微分の定義を考える．
+微分可能とは，一変数関数の場合は，関数の増分$\Delta f=f(x+h)-f(x)$が，同次一次式$f'(x)h$に，それより高次の無限小を除いて近似されることであり，その係数$f'(x)\in\mathbb{R}$を導値と言った．
+n変数ベクトル値関数$f:\mathbb{R}^n\to\mathbb{R}^m$の場合についても，関数の変位$\Delta f=f(x+h)-f(x)$が，線型写像$f_A$による$h$の値を取ることを表す同次一次関数$Ah$で，高次の無限小を除いて近似されることである．
+この時の$(m,n)$-行列$A$が同値$f'(x)$（または$Df(x)$）となり，Yacobi行列と呼ばれる．この$i,j$-成分は，基底方向についての偏導関数$\frac{\partial f_i}{\partial x_j}$として得られる．
+
+このように，代数的な式と，抽象的な，あるいは幾何学的な意味での線型写像とを結びつけるものとして，行列の理論を多用することになる．
+
+\begin{definition}[収束]
+    \[\lim_{x\to a}f(x)=\alpha :\Leftrightarrow \forall\varepsilon >0\;\exists\delta >0\; [\;0<||x-a||<\delta\Rightarrow |f(x)-\alpha |<\varepsilon\;]\]
+\end{definition}
+
+\begin{definition}[偏微分]$f:\mathbb{R}^n\to\mathbb{R}$に対して
+    \[ \frac{\partial f}{\partial x_i} \begin{pmatrix}a_1\\\vdots\\a_n\end{pmatrix}:=\lim_{h\to 0}\frac{1}{h}\left( f\begin{pmatrix}a_1\\\vdots\\a_i+h\\\vdots\\a_n\end{pmatrix}-f\begin{pmatrix}a_1\\\vdots\\a_i\\\vdots\\a_n\end{pmatrix} \right) \]
+    によって定めた対応$\frac{\partial f}{\partial x^i}:\mathbb{R}^n\ni\begin{pmatrix}a_1\\\vdots\\a_n\end{pmatrix}\mapsto \frac{\partial f}{\partial x_i}\begin{pmatrix}a_1\\\vdots\\a_n\end{pmatrix}\in\mathbb{R}$
+    を偏導関数という．
+\end{definition}
+
+\begin{definition}[（全）微分可能性]
+    $f(x)$は$x=a$で微分可能であるとは，次の同値な条件を満たすこと．
+
+    1. \[ \exists d_1,\cdots,d_n\in\mathbb{R}\; \lim_{x\to a}\frac{f(x)-f(a)-(d_1(x_1-a_1)+\cdots+d_n(x_n-a_n))}{\|x-a\|} = 0 \]
+    2. \begin{eqnarray*} \exists d=(d_1,\cdots,d_n)\in\mathbb{R}^n\; f(x)-f(a) &=& d(x-a) + o(\|x-a\|)\;\;\; (x\to a) \\
+        &=& (d_1\;\cdots\;d_n)\begin{pmatrix}x_1-a_1\\\vdots\\x_n-a_n\end{pmatrix} + o(\|x-a\|)\;\;\; (x\to a)  \end{eqnarray*}
+\end{definition}
+\begin{remark}
+    1. 主要項$(d_1\;\cdots\;d_n)\begin{pmatrix}x_1-a_1\\\vdots\\x_n-a_n\end{pmatrix}$は$\mathbb{R}^n$に於ける超平面を表す方程式である．
+
+    2. これは暗に「全ての近づき方」を想定している強力な主張である．従って，微分可能であるとき，特に固定されたn方向についても微分可能だから，$d_i=\frac{\partial f}{\partial x_i}(a)$が成り立つ．
+    （一方，逆は必ずしも成り立たない．）
+    従って，これを満たす「接超平面」は存在するなら唯一つである．
+
+    3. これが微分の特徴付けになる訳であるが，この$o(\|x-a\|)$で表されている特異的に良い精度がわからない．
+\end{remark}
+
+\section{構成された写像に対する微分規則：未}
+代表的な写像の構成法には合成があり，これに対する微分法則はChain Ruleが与える．
+一方，終域での内積を取る写像として$f,g:\mathbb{R}^n\to\mathbb{R}^m$から，$fg:\mathbb{R}^n\to\mathbb{R}^m$を$fg(x)=f(x)\cdot g(x)$として作れる．
+これに対する微分則はLeibniz Ruleが与える．
+
+\begin{theorem}[Chain Rule]
+    $f:\mathbb{R}^n\to\mathbb{R}, \varphi:\mathbb{R}^m\ni y\mapsto \varphi(y)\in\mathbb{R}^n$はいずれも微分可能とする．$f\circ \varphi$を$y$で偏微分することを考えたい．
+    各$b\in\mathbb{R}^m$に対して
+    \[ \frac{\partial (f\circ\varphi)}{\partial y_i} (b) = \sum_{k=1}^n\frac{\partial \varphi_k}{\partial y_i}(b)\frac{\partial f}{\partial x_k}(\varphi(b)) \]
+    となる．
+\end{theorem}
+
+\begin{theorem}\label{thm-exchange-of-partial-derivative}
+    $f:U\to\mathbb{R}^n$が$C^k$級ならば，$f$の$k$階までの偏導関数は偏微分の順序によらない．
+\end{theorem}
+
+以降，関数といえば，$C^\infty$級を暗に仮定する．また，引き続き$\mathbb{R}^n$全域で定義されていることを暗に約束する．開集合について必要な理論を付け足せば，局所的な理論を得る．
+
+\section{Taylorの定理：未}
+
+\subsection{一変数の場合}
+
+\begin{proposition}
+    $n\in\mathbb{N}_{\ge 1}, f:[a,x]=I\to\mathbb{R}$は$n$回微分可能な関数とする．（必要に応じて変数$a,x$の役割は取り直して良い．）
+
+    ある$c\in\overset{\circ}{I}=(a,x)$が存在して，$R_n(x)=\frac{f^{(n)}(t)}{n!}(x-a)^n$を用いて，$f(x)$は次のように表せる．
+    \[ f(x) = f(a)+\frac{f'(a)}{1!}(x-a)+\cdots +\frac{f^{(n-1)}}{(n-1)!}(x-a)^{n-1}+R_n(x) \]
+\end{proposition}
+\begin{proof}
+    $n$次剰余項$R_n(x)$を評価するため，$\varphi(t)=f(t)-\{ f(a)+\frac{f'(a)}{1!}(t-a)+\cdots +\frac{f^{(n-1)}}{(n-1)!}(t-a)^{n-1} \}$のよって定まる関数$\varphi:[a,x]\to\mathbb{R}$として取り直す．
+    この関数は\[\begin{cases}
+        \varphi^{(k)}(a)=0 & (k=0,1,\cdots,n-1) \\
+        \varphi^{(n)} = f^{(n)}& \mathrm{on}\hspace{0.5em}[a,x]
+    \end{cases}\]という性質を持つ．ここで，関数$g(t):[a,x]\ni t\mapsto (t-a)^n$と併せて，Cauchyの平均値の定理を用いて$\frac{\varphi(t)}{g(t)}$の$t=x$での値を求める．
+    \[ \exists c_1\in (a,x)\hspace{3mm} \frac{\varphi(x)-\varphi(a)}{g(x)-g(a)} = \frac{\varphi(x)}{(x-a)^n} = \frac{\varphi'(c_1)}{g'(c_1)} \]
+    が成り立つ．引き続き，$\varphi'(t), g'(t)$について，Cauchyの平均値の定理を，定義域内の区間$[a,c_1]$について適用して，
+    \[ \exists c_2\in (a,c_1)\hspace{3mm}\frac{\varphi'(c_1)-0}{g'(c_1)-0} = \frac{\varphi''(c_2)}{g''(c_2)} \]
+    を得る．これをあと$n-2$回繰り返すと，
+    \[\exists c_n\in (a,c_{n-1})\hspace{3mm}\frac{\varphi^{(n-1)}(c_{n-1})}{g^{(n-1)}(c_{n-1})} = \frac{\varphi^{(n)}(c_n)}{g^{(n)}(c_n)}=\frac{f^{(n)}(c_n)}{n!}\]
+    を得る．これら$n$個の結果を併せて，
+    \[\varphi(t)=\frac{f^{(n)}(c_n)}{n!}(t-a)^n\]
+    として，剰余項を得る．
+\end{proof}
+
+\subsection{多変数への拡張}
+
+まず，多変数実数値関数の定義域内に直線を引いて，それのパラメータとの合成関数を考える．
+これは，多変数のTaylorの定理を示すのに用いる道具であると同時に，各方向についての微分を考える場面で，基本的な道具になる．
+$\mathbb{R}^n$内の点$x$の（実際は直線$L$上の点なら何処でも良い），ベクトル$z$方向の導値（方向微分）を求める時など．この命題において，$\varphi'(t)=(D_z\varphi)(t)$である．
+\begin{proposition}
+    関数$f:\mathbb{R}^n\supset U\to\mathbb{R}$を$C^k$級とする．$x,x+z\in U$を勝手に取り，この２点を通る線分$L:=\{g(t)=x+tz\mid t\in [0,1]\}$は$U$に含まれているとする．
+    この時，$\varphi=f\circ g:[0,1]\to\mathbb{R}$について次が成り立つ．
+    
+    1. $\varphi:[0,1]\to\mathbb{R}$は$C^k$級関数である．
+
+    2. $\varphi$の$1\le m\le k$次導関数$[0,1]\to\mathbb{R}$は，次のように表せる．
+    \[ \varphi^{(m)}(t) = \sum_{1\le i_1,\cdots,i_m\le n}\frac{\partial^m f}{\partial x_{i_1}\cdots\partial x_{i_m}}(g(t))\cdot z_{i_1}z_{i_2}\cdots z_{i_m}\;\;\; (m=1,\cdots,k) \]
+
+\end{proposition}
+\begin{proof}　
+
+    1. $\varepsilon>0$が存在して，$g$従って$\varphi$の定義域は$(-\varepsilon,1+\varepsilon)$に拡張できる．
+
+    2. 従って，$m=1$の場合，Chain Ruleより$[0,1]$上で次が成り立つ．
+    \begin{eqnarray*} \varphi'(t) &=& \frac{\partial f}{\partial x}\frac{d g}{dt} \\
+        &=& (\frac{\partial f}{\partial x_1} \cdots \frac{\partial f}{\partial x_n})\left(\begin{array}{c}z_1 \\ \vdots \\ z_n\end{array}\right) \\
+        &=& \sum_{1\le i\le m} \frac{\partial f}{\partial x_i}(g(t))\cdot z_i
+    \end{eqnarray*}
+    
+    3. $m<k$について成り立つと仮定して，$m+1\le k$について導く．定理\ref{thm-exchange-of-partial-derivative}より．
+\end{proof}
+
+2. に現れた式は非常に見にくい．これは導関数の階数$m$について，$m$次形式になっているためである．$m=2$の場合であったら${}^tzH_{f(g(t))}z$と綺麗に表せるのだが．
+ここで，関数の（全）微分(differential)の概念を導入して，表記を簡略化することを考える．
+\begin{definition}[関数のm次微分(m-th differential)]
+    この式の右辺は$z_1,\cdots,z_n$についてのm次同次多項式（m形式）となっている．
+    一般に，多変数実数値関数$f:\mathbb{R}^n\supset U\to\mathbb{R}$に対して，各点$x\in U$に対して，
+    \[ (d^mf)_p(z):=\sum_{1\le i_1,\cdots,i_m\le n}\frac{\partial^m f}{\partial x_{i_1}\cdots\partial x_{i_m}}(x)\cdot z_{i_1}\cdots z_{i_m} \]
+    を点$p$に於ける$f$のm-次微分という．
+\end{definition}
+これと$m$次微分形式との関係を言葉にしたい．
+
+\begin{remark}[m次微分という概念の概観]
+    微分係数$\frac{dy}{dx}$の定義式は高校の時から使い慣れているものであるが，$dx, dy$の定義は難しくなる．第一義的には$dy:=\frac{dy}{dx}dx$と考えていれば良い．これは関数の微分(differential of a function)と言って，差分を極めた概念としての「微分」である，ある関数の導関数を求めるという意味での微分(differentiation)とは違う．後者は演算である．
+    
+    関数$f$が多変数であることを強調する時，特に$df$を全微分(total differential)という．
+    $df=f_xdx+f_ydy+f_zdz$などという時，これを関数係数の線型空間上での，基底$dx,dy,dz$についての成分表示だと捉えれば，これは1-形式と呼ばれる．（おそらく下記の1に当たる）
+    また，これを完全微分(exact differential)というときは，興味のある微分$df$が，ある可微分関数$Q$の全微分$dQ$になっているという積分をしようとしている文脈において言う．このとき実数値関数$Q$をpotentialと言う．
+
+    この概念の定式化の方法は何通りもある．以下はWikipediaが挙げている４つである．
+
+    1(線型主要部). Differentials as linear maps. This approach underlies the definition of the derivative and the exterior derivative in differential geometry.
+    
+    2(代数幾何学). Differentials as nilpotent elements of commutative rings. This approach is popular in algebraic geometry.
+
+    3(総合微分幾何学). Differentials in smooth models of set theory. This approach is known as synthetic differential geometry or smooth infinitesimal analysis and is closely related to the algebraic geometric approach, except that ideas from topos theory are used to hide the mechanisms by which nilpotent infinitesimals are introduced.
+
+    4(超準解析). Differentials as infinitesimals in hyperreal number systems, which are extensions of the real numbers that contain invertible infinitesimals and infinitely large numbers. This is the approach of nonstandard analysis pioneered by Abraham Robinson.
+\end{remark}
+
+\begin{theorem}[多変数のTaylorの定理]
+    関数$f:\mathbb{R}^n\supset U\to\mathbb{R}$を$C^k$級とする．定義域上の２点$x,x+h\in U$について，これらを結ぶ直線$L$が$U$に含まれる時，次が成り立つ．
+    \[ \exists \theta\in(0,1)\;\;\; f(x+h)=f(x)+\sum^{k-1}_{m=1}\frac{1}{m!}(d^mf)_x(h)+\frac{1}{k!}(d^kf)_{x+\theta h}(h)  \]
+\end{theorem}
+
+\begin{screen}
+    多変数のTaylorの定理は，１変数のTaylorの定理にて，$f^{(k)}(x-a)$などと書いてきたところを，$(d^kf)_{a}(x-a)$とすれば良い．実際，$(df)_x(z)=f'(x)z$より，$f'(x)$とは，線型写像$(df)_x$の表現行列に他ならなかったのだ．
+    即ち，$m$次形式という表記を行列の言葉でまとめれば，それ以外について本質的な差異は存在しなかったのだ．
+    この観点からすれば，２次導関数に注目するという微分積分学における手法は，一般の写像に適用した場合は写像の定める二次形式に注目するということに他ならない．
+\end{screen}
+
+\section{極値の理論の基礎}
+中高教育の頃から慣れた手法ではあるが，次の命題が成り立つから，極値を調べる道具は基本的には微分である．微分が消えるところを列挙するのが最初の問題になる．
+
+まず，極値とは，局所的な最大の中でも特に特異的なもののことをいう．
+\begin{definition}[極値 extremum]
+    $f:\mathbb{R}^n\to\mathbb{R}$を考える．
+
+    1(local maximum). $f(x)$が$x=a$で局所的に最大であるとは，$\exists r>0\; [\;\|x-a\|<r\Rightarrow f(x)\le f(a)\;]$が成り立つことをいう．
+
+    2(strict local maximum). $f(x)$が$x=a$で極大であるとは，$\exists r>0\; [\;\|x-a\|<r\Rightarrow f(x)< f(a)\;]$が成り立つことをいう．
+\end{definition}
+
+\begin{proposition}
+    関数$f:\mathbb{R}^n\supset U\to\mathbb{R}$が$a\in U$で微分可能とする．
+    $f$が$a$で極値を取るとき，次の２つの条件が成り立つ．
+    
+    1. $\frac{\partial f}{\partial x_i}(a)=0\; (i=1,\cdots, n)$である．
+
+    2. $f'(a)=0,\; (df)_a=0,\; \mathrm{grad}f(a)=0$
+
+    その点での速度ベクトルが消える点$f'(a)=0$を，停留点と呼ぶ．
+\end{proposition}
+\begin{proof}
+    1. どの座標の方向についても極値を取るため．
+
+    2. 1.より即ちYacobi行列$f'(a)(=Df(a))=\left(\frac{\partial f}{\partial x^1}(a)\;\cdots\;\frac{\partial f}{\partial x^n}(a)\right)=\begin{pmatrix}\frac{\partial f^1}{\partial x^1}(a)&\cdots&\frac{\partial f^1}{\partial x^n}(a)\\\vdots&\ddots&\vdots\\\frac{\partial f^n}{\partial x^1}(a)&\cdots&\frac{\partial f^n}{\partial x^n}(a)\end{pmatrix}$は零行列である．
+    同様に勾配ベクトル場も係数が全て$0$で，$0$ベクトル場である．
+    また，点$a$での関数$f$の線型主要部$(df)_a$はYabobi行列が表現する線型写像で，これは零写像．
+\end{proof}
+
+\section{２次形式の理論}
+１変数の場合は２次導関数の値（実数）を評価すればよかった．多変数の場合では情報を行列として得るから，行列の言葉を整備する．
+すると，関数に付随するHesse行列として得られる特殊な二次形式の係数行列という\textbf{定値な対称行列}というクラスの対象が，極値問題の鍵を握ることがわかるから，最後に\textbf{対称行列の正定値性の特徴付け}を，小行列式(minors)の言葉「全ての小行列式が正である」というinterfaceとして準備して終わる．
+
+\begin{definition}[二次形式と係数行列]
+    $H=(H_{ij})_{i,j=1,\cdots,n}$を$n$次正方行列とし，$H$により定まる\textbf{$\mathbb{R}^n$上の二次形式}とは，
+    \begin{align*}
+        Q_H(x)&:={}^txHx=\langle Hx\mid x\rangle\\
+        &\sum^n_{i=1}\sum^n_{j=1}H_{ij}x_ix_j
+    \end{align*}
+    という多項式のことである．この関係を逆から捉えた時，$H$を二次形式$Q$の係数行列という．
+\end{definition}
+\begin{remark}
+    待てよ，二次形式は内積の一般化と捉えられるのか．braとketベクトルとの関係は？
+\end{remark}
+
+\begin{definition}[関数のHessian]
+    $C^2$級関数$f$とその定義域上の点$a$に関して，次のように定めた行列$H(f)(a)$，即ち，冪級数展開における二次形式部分の係数行列を，Hesse行列またはHessian (matrix)という．
+    \[ H(f)(a)=\left( \frac{\partial^2 f}{\partial x_i\partial x_j} \right)_{i,j} \]
+\end{definition}
+\begin{remark}
+    Hesse行列は対称なのでどちらでも良いはずだが，このように書く．
+    \[ H(f)=\begin{pmatrix}\frac{\partial^2 f}{\partial x^1\partial x^1}&\cdots&\frac{\partial^2 f}{\partial x^1\partial x^n}\\\vdots&\ddots&\vdots\\\frac{\partial^2 f}{\partial x^n\partial x^1}&\cdots&\frac{\partial^2 f}{\partial x^n\partial x^n}\end{pmatrix}  \]
+\end{remark}
+
+\begin{proposition}[二次形式の性質]
+    行列$H$を二次形式$Q(x)$の係数行列として，次が成り立つ．
+
+    1. $2(Hx,y)=Q(x+y)-Q(x)-Q(y)$
+
+    2. $Q(cx)=c^2Q(x)$
+\end{proposition}
+
+\begin{definition}[定値な二次形式]
+    二次形式$Q(x)$について，
+
+    1. $\forall x\in\mathbb{R}^n\setminus\{0\}\; Q(x)>0$を満たす時，正（定）値(positive definite)と言う．$-H$が正定値であることを負定値と言う．
+
+    2. $\exists x,y\in\mathbb{R}^n\; Q(x)>0>Q(y)$の時，不定符号(indefinite)であると言う．
+\end{definition}
+
+\begin{proposition}[対称行列の理論]
+    対称行列$H$について，次は同値．
+
+    1. $H$は対称行列である．
+
+    2. $H$は実直交行列$P$で対角化可能である．
+
+    従って，$H$が実行列なら，$H$の固有値も実数である．
+\end{proposition}
+
+\begin{shadebox}\begin{proposition}[正定値な対称行列の理論]\label{prop-symmetric-matrix}
+    対称行列$H$について，次は同値．
+
+    1. $Q_H(x)$は正値である．
+
+    2. $Q_H(x)$は$x=0$で極小値を取る．
+
+    3. $H$の固有値が全て正である．
+\end{proposition}\end{shadebox}
+\begin{proof}
+    以上の主張は単に，対称行列は対角化可能であることから従う．
+
+    1.$\Leftrightarrow$2.はただの言い換えである．
+
+    2.$\Leftrightarrow$3について．$PHP^{-1}=\left(\begin{array}{lcr}\lambda_1 & & \\ \vdots & \ddots & \\ 0 & \cdots & \lambda_n\end{array}\right)$を満たす直交行列$P$を用いて，
+    \begin{eqnarray*}
+        Q_H(x)&=&{}^txHx={}^txP\left(\begin{array}{lcr}\lambda_1 & & \\ \vdots & \ddots & \\ 0 & \cdots & \lambda_n\end{array}\right)P^{-1}x \\
+            &=& {}^t\left(\begin{array}{lcr}\lambda_1 & & \\ \vdots & \ddots & \\ 0 & \cdots & \lambda_n\end{array}\right)y \hspace{3mm}(y=Px)\\
+            &=& \lambda_1y_1^2 +\cdots +\lambda_ny_n^2
+    \end{eqnarray*}
+    であるから，成り立つことがわかる．2.$\Rightarrow$3.は，１つでも$\lambda_i\le 0$なるものが存在した場合，その対応する$y_i$方向については極小とならず，3.$\Rightarrow$2.はその逆である．
+\end{proof}
+
+\begin{definition}[saddle point]
+    $x=a$が関数$f:\mathbb{R}^n\to\mathbb{R}$の鞍点であるとは，次の２条件が同時に成り立つことをいう．
+
+    1. 或る$v\in\mathbb{R}^n$が存在して，$f$が定める一変数関数$g(t):=f(a+tv)$が$a=0$で\textbf{局所的に最大}．
+
+    2. 或る$w\in\mathbb{R}^n$が存在して，$f$が定める一変数関数$h(t):=f(a+tw)$が$a=0$で\textbf{局所的に最小}．
+\end{definition}
+\begin{remark}
+    従って，平面は全ての点が鞍点である．
+\end{remark}
+
+\begin{shadebox}\begin{proposition}[正方行列の正定値性の判定法]\label{prop-positive-definite}
+    $n$次対称行列$H$に対して，$H_k:=(H_{ij})_{1\le i,j\le k}$と定める．
+    次は同値．
+
+    1. $Q_H$は正定値である．／負定値である．
+
+    2. $\forall k=1,\cdots,n\;\;\det(H_k)>0$／$\forall k=1,\cdots,n\;\;(-1)^k\det(H_k)>0$
+\end{proposition}\end{shadebox}
+\begin{proof}
+    1.$\Rightarrow$2.について．今$Q_H(x)$は正定値であるとする．$1\le k\le n$を任意に取る．今，任意に取った$z\in\mathbb{R}^k$に対して，$x={}^t(z_1,\cdots,z_n,0,\cdots,0)$と置くと，
+    \[Q_{H_k}(z)=Q_H(x)\]
+    となる．これより，$z\ne 0\;\Rightarrow\; x\ne 0$であるが，仮定より$Q_H$は正定値であったから$x\ne 0\Rightarrow Q_H(x)>0\;\Rightarrow\; Q_{H_k}(z)> 0$を得る．
+    従って$Q_{H_k}(z)$も正定値であるから，命題\ref{prop-symmetric-matrix}より，$H_k$の固有値は全て正である．
+    \[ \det(H_k)=\det(PH_kP)=\det\left(\begin{array}{lcr}\lambda_1 &\cdots &0 \\ \vdots & \ddots &\vdots \\ 0&\cdots&\lambda_n\end{array}\right)=\lambda_1\cdots\lambda_k \]
+    と併せて，$\det(H_k)$を得る．
+
+    2.$\Rightarrow$1.について．$n$についての帰納法によって証明する．$n=1$である時，$\det(H)=H_{11}>0$の時，$Q_H(x)=H_{11}x^2$であり，これは正定値である．
+    今，$n=n-1$，即ち
+    \begin{equation}\label{proof-assumption}
+        \forall k=1,\cdots,n-1\;\;\det(H_k)>0 \;\Rightarrow\; Q_{H_{n-1}}(x)\hspace{0.5em}\mathrm{is\hspace{0.5em}positive\hspace{0.5em}definite}
+    \end{equation}
+    を仮定して，
+    \begin{equation}\label{proof-statement}
+        \forall k=1,\cdots,n\;\;\det(H_k)>0 \;\Rightarrow\; Q_{H}(x)\hspace{0.5em}\mathrm{is\hspace{0.5em} positive\hspace{0.5em} definite}
+    \end{equation}
+    を示す．前提条件より，特に$k=1$の場合より，$H_{11}>0$である．
+    \begin{eqnarray*}
+        Q_H(x)&=& (x_1\cdots x_n)\left(\begin{array}{lcr}H_{11} &\cdots &H_{1n} \\ \vdots & \ddots &\vdots \\ H_{n1}&\cdots&H_{nn}\end{array}\right)\left(\begin{array}{c}x_1 \\ \vdots \\ x_n\end{array}\right) \\
+        &=& H_{11}x_1x_1+\cdots +H_{1n}x_1x_n+H_{21}x_2x_1+\cdots+H_{n1}x_nx_1+(x_2\cdots x_n)\left(\begin{array}{lcr}H_{22} &\cdots &H_{2n} \\ \vdots & \ddots &\vdots \\ H_{n2}&\cdots&H_{nn}\end{array}\right)\left(\begin{array}{c}x_2 \\ \vdots \\ x_n\end{array}\right) \\
+        H_{11}Q_H(x) &=& (H_{11}x_1+H_{12}x_2+\cdots+H_{1n}x_n)^2 - (H_{12}x_2+\cdots+H_{1n}x_n)^2+\sum^n_{i=2}\sum^n_{j=2}H_{11}H_{ij}x_ix_j \\
+        &=& (H_{11}x_1+H_{12}x_2+\cdots+H_{1n}x_n)^2 +\sum^n_{i=2}\sum^n_{j=2}H_{11}H_{ij}x_ix_j -\sum^n_{i=2}\sum^n_{j=2}H_{1i}H_{1j}x_ix_j 
+    \end{eqnarray*}
+    より，$n-1$次の対称行列$H'=H_{11}\left(\begin{array}{lcr}H_{22} &\cdots &H_{2n} \\ \vdots & \ddots &\vdots \\ H_{n2}&\cdots&H_{nn}\end{array}\right)-\left(\begin{array}{lcr}H_{12}H_{12} &\cdots &H_{12}H_{1n} \\ \vdots & \ddots &\vdots \\ H_{1n}H_{12}&\cdots&H_{nn}H_{nn}\end{array}\right)$と置くと，
+    \[H_{11}Q_H(x)=(H_{11}x_1+\cdots+H_{1n}x_n)^2+{}^txH'x\]
+    となるから，$H_{11}>0$と併せて，$Q_{H'}={}^txH'x$の正定値性を示せば，$Q_H(x)$の正定値性を得る．
+    
+    これを示すには，仮定である\ref{proof-assumption}式を利用するために，$k=1,\cdots,n-1$について$\det({H'}_k)>0$を示せば良い．
+    \begin{eqnarray*}
+        H_{11}(\det({H'}_k)) &=& \det \left(\begin{array}{lccr}H_{11} &H_{12} &\cdots &H_{1k} \\ 0 &  & & \\ \vdots & & {H'}_k & \\ 0& & & \end{array}\right) \\
+        &=& \det \left(\begin{array}{lccr}H_{11} &H_{12} &\cdots &H_{1k} \\ 0 & H_{11}H_{22}-H_{12}H_{12} & \cdots & H_{11}H_{2k}-H_{12}H_{1k} \\ \vdots & \vdots & \ddots & \vdots \\ 0& H_{11}H_{k2}-H_{1k}H_{12} & \cdots &H_{11}H_{kk}-H_{kk}H_{kk} \end{array}\right) \\
+        &=& \det \left(\begin{array}{lccr}H_{11} &H_{12} &\cdots &H_{1k} \\ H_{11}H_{12} & H_{11}H_{22} & \cdots & H_{11}H_{2k} \\ \vdots & \vdots & \ddots & \vdots \\ H_{11}H_{k1}& H_{11}H_{k2} & \cdots &H_{11}H_{kk} \end{array}\right) \\
+        &=& H_{11}^{k-1}\det(H_k)
+    \end{eqnarray*}
+    より，$\det({H'}_k)=H^{k-2}\det(H_k)\;(k=1,\cdots,n-1)$が成立し，仮定\ref{proof-assumption}式から$Q_{H'}(x)$は正定値．従って$Q_H(x)$は正定値で，式\ref{proof-statement}を得た．
+\end{proof}
+
+\begin{screen}
+    正方行列が正定値であることを，以下の３つの同値な条件によって定式化した．
+    極値判定において，ヘッセ行列は正方対称行列になる．1や2をinterfaceとして正値性をチェックすることが多い．
+
+    1. 固有値が全て正（命題\ref{prop-symmetric-matrix}）．
+
+    2. \textbf{首座}小行列式が全て正（命題\ref{prop-positive-definite}）．
+
+    3. それが定める二次形式が$x=0$にて極小（定義の換言）．
+\end{screen}
+なお一般に，Hermite行列に対して，首座小行列式(leading principal minor)は正定値性の特徴付けに，主小行列式は半正定値性の特徴付けに使用できる．
+
+\section{極値判定問題}
+前節で２次形式の言葉を整備したので，いざ関数の極値判定問題を解く．
+
+\begin{reidai}
+    周の長さが一定$(=2s)$の三角形のうちで，面積最大のものは正三角形であることを示せ．
+\end{reidai}
+\begin{proof}[\bf{略解}]
+    三角形の三辺の長さを$x,y,z$とする．対応する三角形の面積を$S$とすると，Heronの公式より，$$S^2=s(s-x)(s-y)(s-z) (2s=x+y+z) \\ =s(s-x)(s-y)(x+y-s)$$である．$f(x,y)=(s-x)(s-y)(x+y-s)$と置く．$x,y$が動く範囲は$$D:=\{ (x,y)|s-x>0, s-y>0 x+y-s>0 \}$$であるが，$f$に最大値が存在するには，$D$が閉集合でなくてはならない（すでに有界ではある）．$D$の拡張$\overline{D}$，$$\overline{D} := \{ (x,y)|s-x \ge 0, s-y \ge 0, x+y-s \ge 0 \}$$上で$f$を考える．$\overline{D}$は有界閉集合で，$f$はその上で連続であるから，最大値最小値定理より，$f$は$\overline{D}$上で最大値を取る．$f$は$D$上正，$D$の境界点上で零なので，最大値を取る点は$\overline{D}$の内点，つまり$D$上で取る．その点を$(x,y)\in D$とすると，$$f_x(x,y)=-(s-y)(x+y-s)+(s-x)(s-y)=0\\f_y(x,y)=-(s-x)(x+y-s)+(s-x)(s-y)=0\\ \Longrightarrow x=y=z$$よって，面積の最大値を与える三角形は正三角形である．
+\end{proof}
+
+\begin{shadebox}\begin{proposition}[正値ならば極小]
+    $C^2$級関数$f:\mathbb{R}^n\to\mathbb{R}$について，$a\in\mathbb{R}^n$において微分が消える$f'(a)=0$とする．この時，付随する二次形式$H(f)(a)$が正定値ならば，$f$はこの$x=a$において極小である．
+\end{proposition}\end{shadebox}
+\begin{proof}
+    
+\end{proof}
+
+\begin{shadebox}\begin{proposition}[不定符号ならば鞍点]
+    $C^2$級関数$f:\mathbb{R}^n\to\mathbb{R}$について，$a\in\mathbb{R}^n$において微分が消える$f'(a)=0$とする．またこの時，付随する二次形式$H(f)(a)$は\textbf{$\mathrm{det}H(f)(a)\ne 0$}かつ正定値でも負定値でもないとする．すると，$f$はこの$x=a$において極大でも極小でもない（鞍点）．
+\end{proposition}\end{shadebox}
+\begin{proof}
+    
+\end{proof}
+
+\begin{screen}
+    関数$f:\mathbb{R}^n\to\mathbb{R}$微分が消える点$a\in\mathbb{R}^n$を列挙したら，そこでのHessian $\det H(f)(a)$を求める．
+    これが$\det H(f)(a)\ne 0$で潰れていないとき，次のようにして極値判定が出来る．
+
+    1. ヘッセ行列$H(f)(a)$が不定符号ならば，$f(a)$は鞍点．
+
+    2. ヘッセ行列$H(f)(a)$が正定値ならば，$f(a)$は極小．
+
+    3. ヘッセ行列$H(f)(a)$が負定値ならば，$f(a)$は極大．
+
+    なお，ヘッセ行列$H(f)(a)$が正定値または負定値であるとき，首座小行列式は全て正または負であるから，$\det H(f)(a)\ne 0$が必要である．
+\end{screen}
+
+\section{Lagrangeの未定乗数法}
+
+陰関数定理は，$f$の零点集合として記述していた曲線を，局所的にパラメタ付けとして求めることができることを一般的に保証する定理だと思える．
+ただし，$f$の整合的なパラメータ付けは，一意に決定している．
+
+Lagrangeの未定乗数法は，或るvarietyの上に制限された範囲での条件付き極値問題に対する，「微分が消える点」だけでは捉えきれない極値点候補に対するシステマティックな解決法を与える．
+
+\begin{shadebox}\begin{theorem}[陰関数定理１（存在と連続性）：代数多様体は局所的には或る関数$f$のグラフである]
+    $C^1$級写像$f:\mathbb{R}^n\to\mathbb{R}^m\; (m<n)$について，この零点集合$f(x)=0$を点$a\in\{x\in\mathbb{R}^n\mid f(x)=0\}$の近傍で局所的に解くことを，一般的に考える．
+    これは次の条件さえ満たせば達成できる．
+
+    写像$f$のJacobi行列$(Df)_a$の最大の小行列式$\mathrm{det}\left(\frac{\partial f_j}{\partial x_i}(a)\right)_{1\le i,j\le m}$が$0$でないとする．
+    すると，逆に解ける，即ち次が成り立つ．
+    \begin{quotation}
+        点$\begin{pmatrix}a_{m+1} \\ \vdots \\ a_n\end{pmatrix}\in\mathbb{R}^{n-m}$の近傍$U_r(a)\subset\mathbb{R}^{n-m}$で定義された関数$g_i:\mathbb{R}^{n-m}\to\mathbb{R}\;(i=1,\cdots,m)$が唯一組存在して，次の３条件を満たす．
+        
+        1. $\forall y\in U_r(a)\;\;\; f\begin{pmatrix}g_1(y) \\ \vdots \\ g_m(y) \\ y_1 \\ \vdots \\ y_{n-m}\end{pmatrix} =0$
+        
+        2. $a_i=g_i\begin{pmatrix}a_{m+1} \\ \vdots \\ a_n\end{pmatrix}\;\; (i=1,\cdots,m)$
+
+        3. $g_i\;(i=1,\cdots,m)$は連続．
+    \end{quotation}
+\end{theorem}\end{shadebox}
+\begin{remark}　
+
+    0. 陰関数定理は，「多様体は局所的には或る関数$f$のグラフである」というように，多項関係と多変数関数との間での表現の変換を与えるものである．２つの概念は方程式による記法が極めて似通っているために，初めは混乱しやすかった．
+    ステートメントは「関数$f:\mathbb{R}^n\to\mathbb{R}^m$の零点として指定される多様体は，関数$g:\mathbb{R}^{n-m}\supset U_r(a)\to\mathbb{R}^m$が存在して，これが生成する$n$項関係として書き直せる」とも読める．
+
+    1. 前提条件を抜かすと，例えば定値写像$f=0$は逆には解けない．
+
+    2. $m=1$の時，前提条件は$\frac{\partial f}{\partial x_1}(a)\ne 0$となる．
+
+    3. 最後の条件は，$g$は，確かに$a$を通る曲線に対する，探しているパラメタ付けだと言っているのみである．
+
+    4. ２変数で考える．その線型主要部は$ax+by=0\Leftrightarrow (a\; \;\; b)\left(\begin{array}{c}x\\y\end{array}\right)=0$というようになる．
+    $a\ne 0$としたとき，$x=-\frac{b}{a}y=:f(y)$と変形でき，陰関数が得られた．
+\end{remark}
+\begin{example}　
+
+    1. $f\begin{pmatrix}x_1\\x_2\end{pmatrix}=x_1^2+x_2^2-1$と置くと，この零点は単位円周$\{x\in\mathbb{R}^2\mid f(x)=0\}=S^1$である．
+    Yacobi行列は$Df=\left(\frac{\partial f}{\partial x_1}\;\frac{\partial f}{\partial x_2}\right)$より，最大の首座小行列式は$|2x_1|\ne 0$だから$Df$はfull rankである．従って，ある開区間$I$について，$f\begin{pmatrix}g(y)\\y\end{pmatrix}=0\;(y\in I)\Leftrightarrow g(y)^2+y^2-1=0$が成り立つ．
+    例えば，$g(y)=\sqrt{1-y^2}$ on $I=[-1,1]$など．
+
+    2. $f:\mathbb{R}^3\to R^2$を$f\begin{pmatrix}x_1\\x_2\\x_3\end{pmatrix}=\begin{pmatrix}f_1{}^t(x_1,x_2,x_3)\\f_2{}^t(x_1,x_2,x_3)\end{pmatrix}=\begin{pmatrix}x_1^2+x_2^2+x_3^2-1\\x_1+x_2+x_3\end{pmatrix}$と定める．零点集合$\{x\in\mathbb{R}^3\mid f(x)=0\}$は単位球面と${}^t(1,1,1)$を法線ベクトルとした原点を通る平面との共通部分（大円）$S^1\subset\mathbb{R}^3$である．
+    最大の首座小行列式は
+    \[\det\begin{pmatrix}\frac{\partial f_1}{\partial x_1}&\frac{\partial f_1}{\partial x_2}\\\frac{\partial f_2}{\partial x_1}&\frac{\partial f_2}{\partial x_2}\end{pmatrix}=\det\begin{pmatrix}2x_1&2x_2\\1&1\end{pmatrix}=2|x_1-x_2|\]
+    であるから，$x_1\ne x_2$ならば，
+    \[ f\begin{pmatrix}g_1(z)\\g_2(z)\\z\end{pmatrix}=0\;(z\in I) \]
+    を満たす$g={}^t(g_1,g_2)$が存在する．この導関数$g'(z)$は，
+    \begin{align*}
+        \frac{dg}{dz} &= -\begin{pmatrix}2x_1&2x_2\\1&1\end{pmatrix}^{-1}\begin{pmatrix}\frac{\partial f_1}{\partial x_3}\\\frac{\partial f_2}{\partial x_3}\end{pmatrix}\\
+        &= -\frac{1}{2|x_1-x_2|}\begin{pmatrix}1&-2x_2\\-1&2x_1\end{pmatrix}\begin{pmatrix}2x_3\\1\end{pmatrix}\\
+        &= \frac{1}{2|x_1-x_2|}\begin{pmatrix}-x_3+x_2\\x_3-x_1\end{pmatrix}\\
+        &= \frac{1}{2|x_1-x_2|}\begin{pmatrix}-z+g_2(z)\\z-g_1(z)\end{pmatrix}
+    \end{align*}
+    と表せる．
+\end{example}
+\begin{theorem}[陰関数定理２（導関数）]
+    存在が保証された各関数$g_i\begin{pmatrix}y_1\\\vdots\\y_{n-m}\end{pmatrix}$の$y_j\;(j=1,\cdots,n-m)$についての偏微分は次のようになる．
+    \[ \frac{\partial g}{\partial y^j} = - \begin{pmatrix}\frac{\partial f^1}{\partial x^1}&\cdots&\frac{\partial f^1}{\partial x^n}\\\vdots&\ddots&\vdots\\\frac{\partial f^n}{\partial x^1}&\cdots&\frac{\partial f^n}{\partial x^n}\end{pmatrix}^{-1}\begin{pmatrix}\frac{\partial f^1}{\partial x^{m+j}}\\\vdots\\\frac{\partial f^m}{\partial x^{m+j}}\end{pmatrix} \]
+\end{theorem}
+\begin{remark}
+    この式がYacobi行列の分割$Jf=(A_m|B_{m,n-m})$に見える．すると，陰関数定理１の前提条件もすんなり理解できる．
+\end{remark}
+\begin{proof}
+    存在が保証された各関数$g_i\begin{pmatrix}y_1\\\vdots\\y_{n-m}\end{pmatrix}$の$y_j\;(j=1,\cdots,n-m)$についての偏微分は，chain ruleより，次の$m$元連立一次方程式から求まる．
+    $f_i\begin{pmatrix}g_1(y)\\\vdots\\g_m(y)\\y_1\\\cdots\\y_{n-m}\end{pmatrix}=0\;(i=1,\cdots,m)$の両辺を$y_j$で偏微分すると，
+    \[ \frac{\partial f_i}{\partial x_1}\frac{\partial g_1}{\partial y_j} + \frac{\partial f_i}{\partial x_2}\frac{\partial g_2}{\partial y_j} \cdots +\frac{\partial f_i}{\partial x_m}\frac{\partial g_m}{\partial y_j} + \frac{\partial f_i}{\partial x_{m+j}} = 0 \;(i=1,\cdots,m)\]
+    を得る．この$m$元連立一次方程式を行列で表現すると次の通り．
+    \[ \begin{pmatrix}\frac{\partial f^1}{\partial x^1}&\cdots&\frac{\partial f^1}{\partial x^n}\\\vdots&\ddots&\vdots\\\frac{\partial f^n}{\partial x^1}&\cdots&\frac{\partial f^n}{\partial x^n}\end{pmatrix}\begin{pmatrix}\frac{\partial g^1}{\partial y^j}\\\vdots\\\frac{\partial g^m}{\partial y^j}\end{pmatrix} + \begin{pmatrix}\frac{\partial f^1}{\partial x^{m+j}}\\\vdots\\\frac{\partial f^m}{\partial x^{m+j}}\end{pmatrix} =0 \]
+    この行列は正則であったから，確かに各偏微分$\frac{\partial g}{\partial y^j}$は求まる．
+    \[ \frac{\partial g}{\partial y^j} = - \begin{pmatrix}\frac{\partial f^1}{\partial x^1}&\cdots&\frac{\partial f^1}{\partial x^n}\\\vdots&\ddots&\vdots\\\frac{\partial f^n}{\partial x^1}&\cdots&\frac{\partial f^n}{\partial x^n}\end{pmatrix}^{-1}\begin{pmatrix}\frac{\partial f^1}{\partial x^{m+j}}\\\vdots\\\frac{\partial f^m}{\partial x^{m+j}}\end{pmatrix} \]
+\end{proof}
+
+\begin{definition}[Jacobi行列]
+    写像$f$の微分$df$は接空間の間の対応を定める．これを各多様体上の基底について成分表示すると行列表現$Jf$を得て，これをJacobi行列という．
+    写像$f:\mathbb{R}^n\to\mathbb{R}^m$に対して，Jacobi行列を$J_f, \frac{\partial (f_1,\cdots,f_m)}{\partial (x_1,\cdots,x_n)}$などと表す．
+    $m=1$の時，値域が実数に退化しているからJacobi行列は接空間上の線型形式を表す横ベクトル，$n=1$の時ただの実数が接ベクトルの係数の組に対応する写像だからJacobi行列は縦ベクトルとわかる．特に一変数ベクトル値関数の場合を念頭に置いて縦ベクトルを書けば，左右は間違えない．
+\end{definition}
+
+\begin{lemma}[行列の階数落ちの特徴付け]
+    $m\times n\; (m\le n)$行列$A$について，次は同値である．
+
+    1(rank-deficient). $A$の階数が$m$未満である．$\mathrm{rank}(A)<m$
+
+    2. $A$のどの$m$次小行列式も$0$である．
+\end{lemma}
+\begin{remark}
+    余因子展開をすると，確かに2が成り立てば十分である気もしてくる．
+\end{remark}
+
+一般に，Lagrangeの未定乗数法とは，陰関数定理の道を通って論理変形をすることで，陽関数の世界に得られる命題である．
+\begin{example}[２変数の場合のLagrangeの未定乗数法に全てがある]
+    関数$f:\mathbb{R}^2\to\mathbb{R}$の零点集合上で，関数$h:\R^2\to\R$を極値を取らせる点を探したい．$\R^2$の座標を${}^t(x^1,x^2)$とする．
+
+    もし，$f_{x^1}\ne 0$ならば，ここから陰関数定理を経由して予想もしなかった判定法が得られる．
+    まず，$f\begin{pmatrix}x^1\\x^2\end{pmatrix}=0\Leftrightarrow f\begin{pmatrix}g(y)\\y\end{pmatrix}=0\;(y\in I)$を満たす関数$g:I\to\R$が存在する．
+    これについて，関数$h\begin{pmatrix}g(y)\\y\end{pmatrix}$の微分が消える点$\begin{pmatrix}g(y)\\y\end{pmatrix}\in\{x\in\R^2\mid f(x)=0\}$を見つければ，それが極値を取る点である．
+    \[ \frac{dh}{dy} = \frac{\partial h}{\partial x^1}\frac{\partial g}{\partial y}+\frac{\partial h}{\partial x^2}=h_{x^1}g_y+h_{x^2}=0 \]
+    これを計算するに当たって，$f$を$y$で微分した式から，$\frac{\partial g}{\partial y}$部を消去すると，
+    \begin{align*}
+        &\frac{df}{dy} = \frac{\partial f}{\partial x^1}\frac{\partial g}{\partial y}+\frac{\partial f}{\partial x^2}=f_{x^1}g_y+f_{x^2}=0\\
+        \Leftrightarrow& g_y=-\frac{f_{x^2}}{f_{x^1}}
+    \end{align*}
+    より，
+    \begin{align*}
+        &\frac{dh}{dy} = -\frac{f_{x^2}(x^1,x^2)}{f_{x^1}(x^1,x^2)}h_{x^1}(x^1,x^2)+h_{x^2}(x^1,x^2)=0\\
+        \Leftrightarrow& \frac{h_{x^1}(x^1,x^2)}{f_{x^1}(x^1,x^2)} = \frac{h_{x^2}(x^1,x^2)}{f_{x^2}(x^1,x^2)}
+    \end{align*}
+    を満たす$x^1,x^2$を求めれば良いことがわかる．すでに$y$や陰関数の消息はなくなっている．ここで，比の値を$\lambda$とおけば，条件は次と同値である．
+    \begin{align*}
+        &\begin{cases}h_{x^1}-\lambda f_{x^1}=0\\h_{x^2}-\lambda f_{x^2}=0\end{cases}\\
+        \Leftrightarrow& \begin{cases}\frac{\partial}{\partial x^1}(h-\lambda f)(x^1,x^2)=0\\\frac{\partial}{\partial x^2}(h-\lambda f)(x^1,x^2)=0\end{cases}
+    \end{align*}
+    従って以上より，algebraic variety $f(x^1,x^2)$と目的関数$h$が与えられる度に，関数$\Phi(x^1,x^2,\lambda):=f(x^1,x^2)-\lambda h(x^1,x^2)$を構築して，
+    その$x^1,x^2$についての微分が消える点が，$h$の微分が消える点である．
+    また，探すべき極値を取る点は，$h$の微分が消え，かつ$f$の零点集合上にある点であるから，$f=0$の条件，即ち，結局関数$\Phi$が$\lambda$についても微分が消えれば良い．
+
+    $Df$が零写像でない限り，$f_{x^1}=0$でも$f_{x^2}\ne 0$は成り立つから，この場合は$x^1,x^2$の役割を逆転させれば良いから，結局得られる結論は変わらない．
+\end{example}
+
+\begin{example}[n変数の場合のLagrangeの未定乗数法は線型代数の言葉への拡張である]
+    行列の言葉を導入して，同様の議論をするだけである．関数$f:\R^n\to\R^m$の零点集合上で，関数$h:\R^n\to\R$の極値を考える．
+
+    すると，$J_f(x)$に正則な$m$次部分正方行列が存在すれば，同様の議論を展開できることがわかる．これは補題より，$Df$が非退化であることと同値である．
+\end{example}
+これらの議論を定理の形にまとめると次のようになる．
+
+\begin{shadebox}\begin{theorem}[Lagrange's multiplier theory]
+    写像$f:\mathbb{R}^n\to\mathbb{R}^m$の$f(x)=0$条件下で，関数$h:\mathbb{R}^n\to\mathbb{R}$が極値を取る時，次の２条件のうちいずれかが成り立つ．
+
+    1. 或る$\lambda_1,\cdots,\lambda_m\in\mathbb{R}$に対して，新たに構成できる$\R^n\times\R^m$上の関数$\Phi(x,\lambda):=h(x)-\sum^m_{i=1}\lambda_if_i(x):\mathbb{R}^n\to\mathbb{R}$の微分が消える．
+
+    2. $Df$の階数が$m$未満である．$\mathrm{rank}(Df)<m$
+\end{theorem}\end{shadebox}
+\begin{remark}
+    $Df$が退化しているか，非退化ならば1.が従う，と読む．
+\end{remark}
+
+なお，最大値／最小値ならば微分が消えるから，必ずLagrangeの未定乗数法に引っかかる．
+条件付きの最大値／最小値問題を解くためには，次の定理で最大値の存在を保証すれば，極大値の候補のつもりで取ってきた点の中に最大値が存在する，という論法で同様にして解くことが出来る．
+\begin{lemma}[最大値・最小値定理]
+    有界閉集合上の連続関数は最大値を持つ．
+\end{lemma}
+なお，algebraic varietyは，$f$が連続の時必ず閉集合になる．
+
+\begin{screen}
+    $f:\mathbb{R}^n\to\mathbb{R}^m$についての$f(x)=0$条件下（$m$つの条件式を満たす集合（零点集合）の共通部分）で，$h(x)$の極値の候補は，次の２つを満たすものを全てチェックすれば良い．
+
+    1. 新たな関数$\Phi(x,\lambda)=h(x)-\lambda\cdot f(x)$の微分が消える．
+
+    2. $Df$が最大ランクでない．
+
+    2'. $J_f$のどの$m$次小行列式の$0$である．
+\end{screen}
+
+\section{逆関数定理}
+
+$A\in \mathrm{GL}_n(\mathbb{R})$ならば，$A^{-1}$は必ず存在する．
+そして十分局所的に見れば，全ての多様体間の射は線型写像$A\in \mathrm{GL}_n(\mathbb{R})$に等しい．
+これが微分積分学の手法であり，その１つの到達点は，一般の関数について，局所的には同じ結果を引き出すという定理である．
+「Euclid空間の間の変換は，局所的には常に可逆になる．」
+
+一方で，グラフの形に書き直せるというのが陰関数定理である．
+
+\begin{theorem}[逆関数定理１：存在]
+    写像$f:\mathbb{R}^n\to\mathbb{R}^n$がある$a\in\mathbb{R}^n$について$\mathrm{det}J_f(a)\ne 0$だったとする．
+    この時，$a$の近傍$U_r(a)$で定義された関数$g:U_r(a)\to\mathbb{R}^n$が存在して，$\forall x\in U_r(a)\;\; f(g(x))=x$が成り立つ．
+\end{theorem}
+\begin{proof}
+    次のように構成した関数$F:\R^{2n}\to\R$に陰関数定理を適用することと同値である．
+
+    1. $F={}^t(F^1,\cdots,F^n)$
+
+    2. $F^i(x^1,\cdots,x^n,y^1,\cdots,y^n)=f^i(x^1,\cdots,x^n)-y^i$
+
+    により$F$を定めると，最大の首座小行列式は$Df$に等しくなり，定理の前提より$\det Df\ne 0$．
+
+    従って陰関数定理より，ある開球$U_r(a)\subset\R^n$が存在して，その上で$F(g(y),y)=0$．$F$の定義から，$f^i(g(y))=y$．
+    従って，$f\circ g=id_{\R^n}$ on $U_r(a)$．
+\end{proof}
+
+\begin{theorem}[逆関数定理２：導関数]
+    $J_f(x)\cdot J_g(x)=I\;(x\in U_r(a))$
+\end{theorem}
+
+\chapter{連続関数と微分}
+
+\chapter{三角関数と指数関数}
+
+\chapter{２変数関数とその積分}
+
+\chapter{不定積分と微分方程式}
+
+\chapter{関数の近似とその極限}
+
+\section{Taylorの定理}
+
+\section{冪級数}
+
+\section{一様収束}
+関数列$(f_n)(x)$が収束するという時，積の普遍性に則って通常の収束を各点(pointwise)で考えたもの$\forall x\in D\; \lim_{n\to\infty}f_n(x)=f(x)$を考えても，実は極限の関数$f(x)$の素性はよくわからない．
+そこで，次に自然な関数列のクラスとして，一様収束するもの，というのが自然に定義される（命題\ref{prop-uniform-convergence}の2の証明）．そこで，直積の定義として自然な方を各点収束(pointwise convergence)と呼ぶ．
+
+すると，関数列について，極限と積分と微分は互いに交換できることが分かる．この観点からは微分と積分とは対称的に把握出来る可能性が示唆される，美しい．．．
+
+最後に，この議論を級数に応用してAbelの定理を得る．「冪級数が定める関数は，収束半径の端で収束すれば，そこで連続である．」
+
+\begin{definition}[uniform convergence]
+    $(f_n(x))$を$[a,b]$上の関数の列，$f(x)$を$[a,b]$上の関数とする．関数列$(f_n)$が$f$に一様収束するとは，次を満たすことである．
+    \[ \forall q>0\; \exists m\in\mathbb{N}\; \forall n\ge m\;\forall x\in [a,b]\; |f_n(x)-f(x)|\le q \]
+\end{definition}
+\begin{remark*}
+    1. 一様収束とは，収束の仕方が$[a,b]$上で「一様」なのである．論理記号では，先頭だった$\forall x\in [a,b]$を一番内側に引っ込めただけである．全ての$x\in [a,b]$を考慮に入れた状態でも，十分大きな$m\in\mathbb{N}$を取れば，一斉に$\forall x\in [a,b]\;|f_n(x)-f(x)|\le q$となるような$n$が取れる．
+
+    2. 「このような微妙な内容を記述する時，関数とその値の区別が曖昧な記号$f(x)$の問題点が顕在化する．」
+
+    3. これは，パラメータ$n\in\mathbb{N}$を離散化した時にも使える定義として，$\lim_{n\to\infty}\sup_{x\in [a,b]}|f_n(x)-f(x)|=0$も一様収束の条件として同値である．これは，目標関数$f$との縦線$|f_n(x)-f(x)|$のうち，最大値が$0$に収束することが一様収束である，羊追い見たいだ．で，上界としておけば，集合$\{|f_n(x)-f(x)|\in\mathbb{R}\mid x\in D\}$即ち関数列$f_n$の定義域$D$の様子に依らず定義されている．
+\end{remark*}
+
+一様収束性に対する連続性の遺伝は極限の交換可能性と捉えられ，積分と極限の交換可能性と並行に，一様収束性の十分条件である．
+\begin{proposition}[極限の交換]\label{prop-uniform-convergence}　
+
+    1. 閉区間$[a,b]$上の\underline{連続}関数の列$(f_n(x))$は関数$f(x)$に一様収束するとする．すると，$f(x)$も$[a,b]$上連続である．即ち，
+    \[ \forall c\in [a,b]\; \left( \lim_{x\to c}\lim_{n\to\infty} f_n(x)= \lim_{n\to\infty}\lim_{x\to c}f_n(x) \right) \]
+
+    2. これに対して，新たな閉区間$[a,b]$上の\underline{連続}関数の列$(F_n(x))$を，$F_n(x)=\int^x_af_n(t)dt$で定める．すると，$(F_n(x))$も一様収束し，その先は$F(x)=\int^x_af(t)dt$である．即ち，
+    \[ \lim_{n\to\infty} \int^x_af_n(t)dt = \int^x_a\lim_{n\to\infty}f_n(t)dt \]
+\end{proposition}
+\begin{example*}
+    $f_n(x)=x^n$を$[0,1]$上の関数の列とすると，$\lim_{x\to 1-0}\lim_{n\to\infty}x^n=0$で，$\lim_{n\to\infty}\lim_{x\to 1-0}x^n=1$である．
+\end{example*}
+\begin{proof}
+    1.を，即ち勝手にとった$c\in [a,b]$に対し，$\lim_{x\to c}f(x)=f(c)$示す．$\epsilon>0$を任意に取る．$f$は一様収束するから，任意の$x\in [a,b]$，また特に$x=c$において，$|f_n(c)-f(c)|<\frac{\epsilon}{3}$．また，各$n$について$f_n$は連続だから，$\delta>0$が存在して，$|c-x|<\delta\Rightarrow |f_n(x)-f_n(c)|<\frac{\epsilon}{3}$を満たす．
+    従って，$|x-c|<\delta$ならば，$|f(c)-f(x)|\le |f(c)-f_n(c)|+ |f_n(c)-f_n(x)|+|f_n(x)-f(x)|<\epsilon$を得る．
+
+    2. $\lim_{n\to 0}\left(\int^x_af_n(t)dt-\int^x_af(t)dt\right)=0$を示す．
+    \begin{align*}
+        \left| \int^x_af_n(t)dt-\int^x_af(t)dt \right| &\le \int^x_a|f_n(t)-f(t)|dt \\
+        &\le \int^x_a\sup_{t\in [a,b]}(f_n(t)-f(t))dt \xrightarrow{n\to\infty} 0
+    \end{align*}
+\end{proof}
+
+\begin{corollary}[極限と微分の順序交換]
+    閉区間$[a,b]$上の$C^1$級関数列$(f_n(x))$が定める導関数の列$(f'_n(x))$が関数$g(x)$に一様収束し，$c\in [a,b]$に於て，$\lim_{n\to\infty}f_n(c)$も収束するとする．
+    この時，関数列$(f_n(x))$自体も一様収束し，$f(x)=\lim_{n\to\infty}f_n(x)$も$C^1$級で，$f'(x)=g(x)$を満たす．
+\end{corollary}
+\begin{remark*}
+    この命題は，導関数の列が一様収束するならば，ある一点$c\in [a,b]$を足場として原始関数の列も収束し，その収束先関数は微分可能である．これは積分操作に他ならない．
+
+    また，これは「極限と微分の順序交換」とも捉えられる．
+    \[ D\lim_{n\to\infty}f_n(x)=\lim_{n\to\infty}Df_n(x) \]
+    従って，全く対称的に，この命題は命題\ref{prop-uniform-convergence}を経ず，積分を使わずに証明できるもので，これを不定積分の存在の根拠と出来る．
+\end{remark*}
+\begin{proof}
+    $(f'_n(x))$は一様収束するから，命題\ref{prop-uniform-convergence}.2より，関数列$( \int^x_af'_n(t)dt=f_n(x)-f_n(a) )$も一様収束し，その収束先は$f(x)-f(a)=\int^x_ag(t)dt$である．
+    従って，$(f_n(x))=(f_n(x)-f_n(a))-(f_n(c)-f_n(a))+f_n(c)$は右辺が各項一様収束するから，左辺も$f(x)=\int^x_ag(t)dt-\int^c_ag(t)dt+\lim_{n\to\infty}f_n(c)$に一様収束する．右辺は確かに$[a,b]$で微分可能で，$f'(x)=g(x)$は連続である．
+\end{proof}
+
+\begin{proposition}[Abelの定理]
+    級数$\sum^\infty_{n=0}a_n$が収束するならば，これを係数とする冪級数関数$\sum^\infty_{n=0}a_nx^n$の収束半径は$1$以上であり，$\lim_{x\to 1-0}\left( \sum^\infty_{n=0}a_nx^n \right)=\sum^\infty_{n=0}a_n$
+\end{proposition}
+
+\begin{proposition}
+    
+\end{proposition}
+
+\begin{example}
+    
+\end{example}
+
+\begin{screen}
+    関数を組の拡張だと思えば，そのpointwiseの性質と一様に／全称的に／可換図式的にまとめて，一つの関数を相対として言及できる性質との間には解離があり，
+    関数に対する操作の可換性などの証明に使えるのが後者であり，前者と後者の間には断絶があって然るべきである．
+    
+    「極限と微分の交換」「極限と積分の交換」とは，関数への操作と関数への極限を取るという操作との可換性を表す．絶対分かりやすい構造の定式化がある．
+\end{screen}
+
+\section{級数の収束：牛腸先生補講(1/17/2020)}\label{section-Dr-Gocho}
+
+級数を連続化したものが広義積分の収束性の議論である．一様収束も一般化される．こういう議論はホモトピーに近いんじゃないか？
+\begin{align*}
+    \int^\infty_{n=1}a_n&:=\lim_{N\to\infty}S_N & \int^\infty_0f(x)dx &= \lim_{R\to 0}I(R)
+\end{align*}
+今，$\sum^\infty_{n=1}a_n=\sum_{a_n\ge 0}a_n-\sum_{a_n<0}|a_n|$と分解し，$S_\infty:=\sum^\infty_{n=1}a_n,\; S_+:=\sum_{a_n\ge 0}a_n,\; S_-:=\sum_{a_n<0}|a_n|$と置く．
+
+すると，級数が収束する可能性があるのは，次の\circled{1}と\circled{2}との２つの場合のいずれかである．
+\[\begin{array}{|c|c|c|}\hline
+    & S_+<\infty & S_+=\infty \\\hline
+    S_-<\infty & S_\infty=S_+-S_-\cdots\circled{1} & S_\infty=\infty-S_-=\infty \\\hline
+    S_-=\infty & S_\infty=S_+-\infty=-\infty & S_\infty=\infty-\infty \cdots\circled{2} \\\hline
+\end{array}\]
+
+\circled{1}の場合とは，$S_+<\infty\land S_-<\infty\Leftrightarrow \sum^\infty_{n=1}|a_n|<\infty$を満たす時，級数は必ず収束し，その値は$S_\infty=S_+-S_-$である．
+
+一方で\circled{2}の場合は，無限列の扱いは神妙なもので，「足す順番」というルール$\mathbb{N}\to\mathbb{N}$１つで収束先が変わる．勿論，有限個の入れ替えなんかでは収束先は変わらないが．
+こうして，たまたま収束する順番を当てたときの収束を\textbf{条件収束}という．収束するかどうかがconditionalだからである．
+\begin{theorem}[Riemann Series Theorem]
+    級数$\sum^\infty_{n=1}a_n$は条件収束するとする．任意の$M\in\mathbb{R}\cup\{\pm\infty\}$について，次を満たす置換$\sigma:\mathbb{N}\to\mathbb{N}$が存在する．
+    \[ M=\sum^\infty_{n=1}a_{\sigma(n)} \]
+\end{theorem}
+\begin{example}
+    \begin{align*}
+        \sum^\infty_{n=1}\frac{(-1)^{n-1}}{n}=1-\frac{1}{2}+\frac{1}{3}-\frac{1}{4}+\cdots &= \log 2 \\
+        \left(1+\frac{1}{3}\right)-\frac{1}{2} + \left(\frac{1}{5}+\frac{1}{7}\right)-\frac{1}{4}+\cdots &= \frac{3}{2}\log 2 \\
+        1-\left( \frac{1}{2}+\frac{1}{4} \right) + \frac{1}{3} - \left( \frac{1}{6} + \frac{1}{8} \right)+\cdots &= \frac{1}{2}\log 2\\
+        \Longrightarrow \left( 1+3+\cdots +\frac{1}{2p-1} \right) - \left( \frac{1}{2} + \frac{1}{4} + \cdots \frac{1}{2q} \right) + \cdots&=\log 2 + \frac{1}{2}\log\frac{p}{q}
+    \end{align*}
+\end{example}
+
+\part{積分}
+\chapter{一変数の積分}
+\section{定積分}
+
+第一義的な積分の定義である「Riemann和の極限」にて定義した(\ref{subsection-Riemann})後に，Darbouxの方法で等価な議論ができることを確認する(\ref{subsection-Darboux})．
+
+
+\subsection{定積分の定義(Riemann積分)}\label{subsection-Riemann}
+
+以降，$f$:有界閉区間$I=[a,b]\;(-\infty <a<b< \infty)$上の有界関数　と記号を定める．この有界関数$f$の有界閉区間$I$に対して面積を対応させる関数$$\int_I \cdot dx : I \longmapsto \int_I f(x)dx \in \mathbb{R}$$を定義することを考える（定積分）．
+これはまず，「Riemann和の極限」として定義できるということを説明する．つまり，ある極限値が収束する（実数内の有限確定値を持つ）場合に，「積分が定義できる」とする．$$\int_I f(x)dx:=\lim_{|\Lambda|\to 0}R[\Lambda;\{\xi_k\}]:=\lim_{|\Lambda|\to 0}\sum^n_{k=1}f(\xi_k)\Delta x_k$$
+
+\begin{itembox}[l]{記号の定義}
+    区間$I$を，分点$(x_1, x_2, \cdots, x_{n-1})$を用いて，$a=x_0<x_1<x_2<\cdots <x_{n-1}<x_n=b$のように小区間(subinterval)に分けた時，分点の取り方を$\Delta :=(x_1, x_2, \cdots, x_{n-1})$と書き，各小区間を$I_k:=[x_{k-1},x_k]\, (k=1,2,\cdots,n)$と書く．
+
+    各小区間の幅は$\Delta x_k := x_k - x_{k-1}$と定め，$|\Delta |:=\max_{1\le k\le n}(\Delta x_k)$と書いて「分割$\Delta$の最大幅」と呼ぶ．
+
+    各小区間$I_k (k=1,2,\cdots,n)$から勝手に代表点を１つ取った時，それを$\xi_k(\in I_k)$と呼ぶ．これを用いて，分割$\Delta$と代表点列$\{ \xi_k \}$に対応するRiemann和$R[\Delta ; \{ \xi_k \}]$を
+    \begin{center}\begin{tikzcd}
+        R:\mathbb{R}^{2n-1} \ar[r] \ar[d, phantom, "\rotatebox{90}{$\in$}"] & \mathbb{R} \ar[d, phantom, "\rotatebox{90}{$\in$}"] \\
+        (\Delta, \{ \xi_k \}) \ar[r, mapsto] & \sum^n_{k=1}f(\xi_k)\Delta x_k \ar[r, phantom, "="] &  R[\Delta ; \{ \xi_k \}]\\
+    \end{tikzcd}\end{center}
+    と定める．
+\end{itembox}
+
+\begin{shadebox}
+    \begin{definition}[Riemann積分可能性]\label{Riemann integrable}
+        ある定数$J\in\mathbb{R}$が存在して，$|\Delta |\rightarrow 0$とした時に，$\Delta, \{\xi_k\}$のそれぞれの取り方に依らず，$R[\Delta ; \{\xi_k\}]\rightarrow J$と定値写像になる時，即ち，
+        $$J=\lim_{|\Delta|\to 0}R[\Delta;\{ \xi_k \}]$$である時，\textbf{$f$は$I$上\textrm{Riemann}積分可能／可積分}といい，$$\int_If(x)dx=J$$と書く．
+    \end{definition}
+    \begin{definition}[特別な定積分]
+        上記の定義に当てはまらない場合の積分については，以下のように約束する．\\
+        \begin{eqnarray*}
+            \int^a_af(x)dx&=&0\\
+            \int^b_af(x)dx &=& -\int^a_bf(x)dx　\hspace{10mm}（定積分の向き）
+        \end{eqnarray*}
+    \end{definition}
+\end{shadebox}
+
+\subsection{Darboux積分と積分可能性の判定}\label{subsection-Darboux}
+
+Riemann和$R[\Lambda;\{\xi_k\}]$の収束性を直接議論するより，或る特別な優級数と劣級数とを考えた方が議論が簡明になる場合が多い．そのための議論の道具を用意し，このDarboux流の議論がしっかりRiemannの方法と等価になることを確認する．
+
+\begin{itembox}[l]{記号の定義}
+    各区間$I_k(k=1,2,\cdots,n)$での，有界関数$f$の上限と下限は必ず存在するから，これらを$M_k,m_k$と置く．この時，分割$\Delta$に対して
+    \[ S[\Delta ] := \sum_\Delta M_k \cdot \Delta x_k \hspace{5mm} s[\Delta ] := \sum_\Delta m_k \cdot \Delta x_k \]
+    と定めると，上限と下限の性質から
+    \[ s[\Delta] \le R[\Delta;\{\xi_k\}] \le S[\Delta] \]
+    が成り立つ．（$S$をupper Darboux sum, $s$をlower Darboux sumと言ったりする．）
+
+    分割$\Delta$の各小区間$I_k$に対して，振動量$\omega$という特徴量を
+    \begin{eqnarray*}\omega_k &:=& \sup \{ f(x)-f(x') | x,x' \in I_k \}\\ &=& M_k - m_k\end{eqnarray*}
+    で定める．
+    この時，\begin{eqnarray*}
+        S[\Delta]-s[\Delta] &=& \sum_\Delta (M_k-m_k)\Delta x_k \\
+        &=& \sum_\Delta \omega_k \Delta x_k
+    \end{eqnarray*}と書き換えられる．
+
+    また，２つの分割$\Delta, \Delta'$について，\\
+    1. $\Delta$の分点が全て$\Delta'$の分点にもなっている時，「$\Delta'$は$\Delta$の細分（化）である」という．\\
+    2. $\Delta$と$\Delta'$の両方の分点を採用して出来る分割を$\Delta\cup\Delta'$と書く．
+    （結びの演算と半順序関係を入れた）
+\end{itembox}
+
+\begin{shadebox}
+\begin{lemma}[分割の「細分化」に関する単調性]
+    $\Delta'$を$\Delta$の細分とする．$$s[\Delta]\le s[\Delta'] \le S[\Delta'] \le S[\Delta]$$が成り立つ．
+\end{lemma}
+\begin{corollary}
+    $\Delta$を任意の有限の分割として
+    $$s:=\sup_\Delta (s[\Delta]) = \lim_{|\Delta|\to 0}S[\Delta], S:=\inf_\Delta (S[\Delta]) = \lim_{|\Delta|\to 0}s[\Delta]$$
+    と置く．この時，$s\le  S$である．
+
+    なお，sのことを$\underline{\int^b_a}f(x)dx$と書き\rm{lower Darboux integral}と，$S$を$\overline{\int^b_a}f(x)dx$と書き\textrm{upper Darboux integral}とも呼ぶ．
+\end{corollary}
+\begin{proposition}[Darbouxの定理]\label{Darboux-1}
+    $|\Delta|\rightarrow 0$とすると，$S[\Delta]\rightarrow S, s[\Delta]\rightarrow s$となる．（つまり，分割$\Delta$の細かくするその仕方，勿論代表点列$\{\xi_k\}$の取り方に依らない．）
+\end{proposition}
+\begin{corollary}[Darboux IntegralとRiemann Integralの一致]\label{Darboux-2}
+    $f$が$I$上\rm{Riemann}可積分であるとは，$S=s$，即ち，$\sup_\Delta (s[\Delta])=\inf_\Delta (S[\Delta])$であることに等しい（これが成り立つことを\textrm{Darboux integrable}と呼び分けることもあるが，そのための条件は\textrm{Riemann integrable}（定義\ref{Riemann integrable}）であることと同値．）．
+    
+    また，$$\forall \epsilon >0 \hspace{3mm} \exists \Delta:分割 \hspace{3mm} \mathrm{s.t.} \hspace{3mm} \sum_\Delta \omega_k \Delta x_k (=S[\Delta]-s[\Delta]) < \epsilon$$とも等価である．
+\end{corollary}
+\end{shadebox}
+
+\begin{screen}
+    \begin{example}
+        $I=[0,1]$とし，
+        $f(x)=\begin{cases}
+            1 & (x\in\mathbb{Q}\cap I)\\
+            0 & (x\in I-\mathbb{Q})
+        \end{cases}$とする．この時，任意の分割に対して，任意の小区間で$M_k=1, m_k=0$となり，$S[\Delta]=1, s[\Delta]=0$が成立してしまうから，$S\neq s$となり，\textrm{Riemann}積分可能ではない．
+    \end{example}
+    \begin{example}
+        有界閉区間$I=[a,b]$上の有界単調関数$f$は可積分である．
+
+        なぜなら，$f(a)$と$f(b)$はこの区間での$f$の最大値か最小値かのいずれかであるが，これが定数である限り
+        \begin{eqnarray*}
+            S[\Delta]-s[\Delta] &=& \sum_{\Delta}\omega_k \Delta x_k \\ &\le & \sum_\Delta \omega_k |\Delta | \\ &=& |\Delta |\sum_\Delta \omega_k \\
+            &=& |\Delta||f(b)-f(a)| \overset{|\Delta|\to 0}{\longrightarrow} 0
+        \end{eqnarray*}が成り立つからである．（あとは命題\ref{Darboux-1}, \ref{Darboux-2}による．）
+    \end{example}
+    \begin{example}
+        有界閉区間$I$上の連続関数$f$は可積分である．
+
+        なぜならば，まず最大値最小値定理\ref{extreme_value_theorem}より，$f$は有界閉区間$I$で最大値と最小値をとり，有界関数である．次に，関数$f$が連続であるとき，定義域$I$が有界閉区間ならば，$f$はその上で一様連続である．(\textrm{Heine-Cantor}の定理)．従って，勝手にとった$\varepsilon >0$に対して，$\delta >0$が存在して，任意の$x,x'\in I$について$|x-x'|<\delta\Longrightarrow |f(x)-f(x')|<\varepsilon$となる．よって，$|\Delta |<\delta$となる分割$\Delta$をとれば
+        \begin{eqnarray*}
+            \sum_\Delta\omega_k \Delta x_k &<& \varepsilon \sum_\Delta x_k \\
+            &=& \varepsilon (b-a)
+        \end{eqnarray*}
+        より，先ほどと同様$\lim_{|\Delta|\to 0}(S[\Delta]-s[\Delta])=0$より，$f$は$I$上可積分．
+    \end{example}
+\end{screen}
+
+\begin{proof}{（補題９）}$S[\Delta']\le S[\Delta]$のみを考える．$s[\Delta]\le s[\Delta']$も同様．
+
+    $\Delta$の各小区間の中で，$\Delta'$による分点をその中に含まないものは，$M_k \cdot \Delta x_k$の値は等しくなる．含むものは，それが何個であろうと，$\Delta$の場合の和$M_k \cdot \Delta x_k$より小さくなる．
+    $$M_k \cdot \Delta x_k \ge M_k' \cdot \Delta x_k' + M_k'' \cdot \Delta x_k'' + \cdots + M_k^{(n)} \cdot \Delta x_k^{(n)}  \hspace{10mm}  (但し\Delta x_k = \Delta x_k' + \Delta x_k'' + \cdots + \Delta x_k^{(n)})$$
+\end{proof}
+
+現在，分割を細かくして行った時に，$S[\Delta]$の値が収束するならばその収束先は$S=\inf_Delta(S[\Delta])$と表せる．証明したいことは，これが本当に収束することと，分点の増やし方に依らずに一意な実数に収束することの２点である．（併しそれにしても下記の証明はtricky．思いつくかよこんなの）
+\begin{proof}{（Darbouxの定理）}$S[\Delta]\rightarrow S$のみを考える．$s[\Delta]\rightarrow s$も同様．
+
+    今，任意の$\epsilon >0$に対して，或る分割$\Delta_\epsilon$が存在して，$S\le S[\Delta_\epsilon]<S+\epsilon$を満たす．（与えられた値$S+\epsilon$に対してそれより十分小さな値を実現するほどに，細かい分点の取り方は存在する．）この分割$\Delta_\epsilon$の分点の個数を$p$，最小幅を$\delta := \min_{1\le k\le n}\Delta x_k$と置いた時に$|\Delta| < \min \{ \delta,\frac{\epsilon}{2pM} \}$を満たす任意の分割$\Delta$に対して，
+    $$(0\le) S[\Delta]-S<2\epsilon \hspace{10mm} (|\Delta|=\min_{1\le k\le n}\Delta x_k) \hspace{15mm}\cdots (*)$$が成り立つことを示す．
+    これが示せたら，「分点の細かくするその仕方」に依らず，分割の幅の言葉のみを使った単調減少列を構成できたこととなり，「分割の細かく仕方に依らず，幅を十分小さくすれば，$S[\Delta]$は$S$に収束する」つまり，$$\lim_{|\Delta|\rightarrow0}S[\Delta]=S$$を示せたこととなる．
+
+    まず$S[\Delta] - S[\Delta\cup\Delta_\epsilon] = \sum_\Delta M_k \Delta x_k - \sum_{\Delta\cup\Delta_\epsilon}M_l \Delta x_l (\ge 0)$を評価することで２段階で結論を得る．
+    ある区間$I_k$に注目すると，分割$\Delta$の幅は分割$\Delta_\epsilon$の最小幅$\delta$より小さいから，分割$\Delta$の区間$I_k$の内部に含まれる分割$\Delta\cup\Delta_\epsilon$の分点は高々１つである．
+    \begin{tikzpicture}
+        \draw[step=1, gray] (-1.5, -0.2) grid (1.5,0.2);
+        \draw (-1.0, 0.7) node {$x_{l-1}$};
+        \draw (0, 0.7) node {$x_{l}$};
+        \draw (1.0, 0.7) node {$x_{l+1}$};
+        \draw (-1.0,-0.5) node {$x_{k-1}$};
+        \draw (1.0,-0.5) node {$x_{k+1}$};
+        \draw (-2.2, -0.5) node {(分割$\Delta$)};
+        \draw (-2.5, 0.5) node {(分割$\Delta\cup\Delta_\epsilon$)};
+        \draw[rounded corners=20pt, <->] (-1.0, 0.1) -- (0, 0.1);
+        \draw (-0.5, 0.3) node {$\Delta x_{l1}$};
+        \draw[rounded corners=20pt, <->] (0, 0.1) -- (1.0, 0.1);
+        \draw (0.5, 0.3) node {$\Delta x_{l2}$};
+    \end{tikzpicture}従って，分点が内部にある場合は，$$M_k\Delta x_k - (M_{l1}\Delta x_{l1} + M_{l2}\Delta x_{l2}) \le 2M|\Delta |$$が成り立つ．（分点がない場合は$=0$である．）
+    このような場合は，$\Delta_\epsilon$の分点がどれも$\Delta$の分点と共通していない時に，最大$p$回現れるので，$$S[\Delta] - S[\Delta\cup\Delta_\epsilon] \le 2Mp|\Delta | < \epsilon$$
+    これと$S[\Delta\cup\Delta_\epsilon]-S\le S[\Delta_\epsilon]-S<\epsilon$と併せて，$$S[\Delta]-S<2\epsilon$$を得る．以上より，任意の$\epsilon >0$に対して，十分$|\Delta |$が小さい分割$\Delta$が存在して$S[\Delta]-S<\epsilon$と出来る（以上の議論を少し修正するだけ）ことが分かったから，定理は証明された．
+\end{proof}
+
+\subsection{定積分の性質}
+
+\begin{shadebox}
+    \begin{proposition}[定積分の性質]
+        $f,g$を$I$上可積分な関数とする．\\
+        1. $a\le c\le d\le b$とすると，$f$は$[c,d]$上可積分．\\
+        2. 区間に関する加法性が成り立つ(additive)．$a<c<b$に対して$$\int^b_af(x)dx = \int^c_af(x)dx + \int^b_cf(x)dx$$
+        3. 関数空間としての線型性が成り立つ．$\alpha,\beta\in\mathbb{R}$に対して$\alpha f + \beta g$も$I$上可積分とすると，$$\int^b_a(\alpha f(x)+\beta g(x))dx = \alpha\int^b_a f(x)dx + \beta\int^b_a g(x)dx$$
+        4. $$f(x)\le g(x) \hspace{3mm} (x\in I) \Longrightarrow \int^b_af(x)dx \le \int^b_a g(x)dx$$
+        \hspace{1zw}特に$f,g$が$I$上連続な関数ならば，等号成立条件は$f\equiv g \; \mathrm{on} \; I$の時．
+    \end{proposition}
+\end{shadebox}
+
+\section{不定積分}
+
+\begin{shadebox}
+    \begin{proposition}
+        関数$f$が$I=[a,b]$上可積分である時，$$F(x):=\int^x_af(t)dt$$は$I$上の連続関数である．
+    \end{proposition}
+    \begin{proposition}
+        関数$f$が$I=[a,b]$上可積分であり，$x_0\in I$で$f$が連続であるとする．この時，$F(x)=\int^x_af(t)dt$は点$x_0$にて微分可能であり，$F(x_0)'=f(x_0)$となる．
+    \end{proposition}
+    \begin{corollary}
+        $f:I=[a,b]$上連続である時，$F(x)=\int^x_af(t)dt$は$I$上$C^1$-級関数である．
+    \end{corollary}
+    \begin{theorem}[微分積分学の基本定理]
+        $f:I=[a,b]$上可積分とする．関数$G=G(x)$が$f$の$I$に於ける原始関数の１つであるならば，$$\int^b_af(t)dt=G(b)-G(a)$$
+    \end{theorem}
+\end{shadebox}
+
+\section{広義積分}
+$f$を有界関数，$I$を有界閉区間として積分とは何かを，「Riemann和$R[\Lambda;\{\xi_k\}]$の$|\Lambda|\to 0$極限として厳密に定義して来た．
+その土台の上に，より多くの関数と積分区間に拡張出来ないか模索していく．広義積分可能であるとは，これもまた何らかの極限が収束することに等しい．
+この時，すでに$I$上で定義された積分$\int^b_af(x)dx=I(a)$から，$a$（又は$b$）を何らかの近隣の値$a'$に近づけた（又は無限大に発散させた）時の$\lim_{a\to a'}I(a)=:\int^b_{a'}f(x)dx$の値が収束するかによって，広義積分可能かを定義することとなる．
+従って，級数の収束性の議論と全くパラレルなものとなる．
+
+\subsection{非有界な関数の積分}
+
+\begin{itembox}[l]{有限個の特異点を持った関数の積分}
+    \begin{definition}
+        $(a,b]$上で定義された関数fの，有界閉区間$I=[a,b]$での積分値を定めたい．今（有界とは限らない）関数$f$は$a<a'<b$を満たす全ての$a'$について$[a',b]$上可積分とする．
+        この時，$$\lim_{a'\to a+0}\int^b_{a'}f(t)dt$$が存在するならば，$f$は\textbf{$(a,b]$上広義Riemann積分可能}だといい，その極限値を$$\lim_{a'\to a+0}\int^b_{a'}f(t)dt = \int^b_af(t)dt$$と書く．
+    \end{definition}
+\end{itembox}
+
+この定義を必要ならば再帰的に繰り返し用いることにより，有限個の特異点（値が発散する点）を持った関数までなら，Riemann積分の値を定義できる．
+
+ただし，ここで言う特異点とは，その点に於ける近傍では関数$f$が有界でなくなるような点のことを言う．即ち，$\overline{\lim_{x\to a}}|f(x)|=\infty$を満たす$a$のことである．
+
+\subsection{無限区間での積分}
+
+\begin{itembox}[l]{非有界区間での積分}
+    \begin{definition}
+        $f:[a,\infty)$上の関数とする．任意の$a'\in (a,\infty)$について$f$が$[a,a']$上（広義でも狭義でも）積分可能であるとき，極限値$$\lim_{a'\to\infty}\int^{a'}_af(t)dt$$が存在するならば，$f$は\textbf{$[a,\infty)$上広義Riemann積分可能}であるといい，
+        $$\lim_{a'\to\infty}\int^{a'}_af(t)dt = \int^\infty_af(t)dt$$と書く．
+    \end{definition}
+\end{itembox}
+
+\begin{screen}
+    \begin{example}[調和級数が発散することとのつながりを感じる例]次の定積分を求めよ．
+        $$\int^1_0\frac{dx}{x^\lambda}\hspace{3mm}(\lambda\in\mathbb{R})$$
+
+        \rm (1)\;$\lambda <1$の時．特に$0<\lambda <1$の場合は関数$\frac{1}{x^\lambda}$は$x=0$にて定義されて居ないことに注意する．$0<\varepsilon <1$について，
+        $$\int^1_\varepsilon \frac{dx}{x^\lambda} = \frac{1-\varepsilon^{1-\lambda}}{1-\lambda}$$より，$\varepsilon\to 0$の極限を考えて，
+        $$\int^1_0 \frac{dx}{x^\lambda} = \frac{1}{1-\lambda} \hspace{5mm} (\lambda <1)$$を得る．
+
+        (2)\;$\lambda = 1$の時，$0<\varepsilon <1$に対して
+        $$\int^1_\varepsilon \frac{dx}{x^\lambda}=-\log\varepsilon \longrightarrow +\infty \hspace{3mm} (\varepsilon\to 0)$$
+        であるから，積分値は定義されない．
+
+        (3)\;$\lambda>1$の時，積分値は(1)の場合と同様の計算で定まり，
+        $$\int^1_0 \frac{dx}{x^\lambda} = \frac{1}{1-\lambda} \hspace{5mm} (\lambda \neq 1)$$
+        と分かる．
+    \end{example}
+\end{screen}
+
+\subsection{主値積分}
+
+$\int^1_0\frac{dx}{x}$が定義されないことは前節で見たが，一方で$\int^1_{-1}\frac{dx}{x}$は以下の方法で値を考えることも可能である．
+\[ \left( \int^{-\varepsilon}_{-1} + \int^1_\varepsilon \right) \frac{dx}{x}=0 \]
+
+ただし，Riemannの方法ではこの積分は存在しない．
+\begin{eqnarray*}
+    \int^1_{-1}\frac{dx}{x} &=& \lim_{\varepsilon\to 0, \varepsilon'\to 0} \left( \log\varepsilon - \log\varepsilon' \right) \\
+    &=& \lim_{\varepsilon\to 0, \varepsilon'\to 0} \log\frac{\varepsilon}{\varepsilon'}
+\end{eqnarray*}
+この極限は存在しない．近づけ方によって値が変わってしまい，先述した0という値もそのうちの１つに過ぎない．
+
+このように，
+$$\lim_{u\rightarrow b-0}\int_a^u f(x)\,dx=\pm\infty$$
+$$\lim_{v\rightarrow b+0}\int_v^c f(x)\,dx=\mp\infty$$
+に対して，
+$$\lim_{\varepsilon\rightarrow 0+} \left(\int_a^{b-\varepsilon} f(x)\,dx + \int_{b+\varepsilon}^c f(x)\,dx \right)$$
+で定義された値をCauchyの主値(principle value)と呼び，$$\mathcal{P}\int f(x)dx, \; PV\int f(x)dx$$などと表す．
+
+\subsection{Riemann積分可能でRebesgue積分可能でない関数}
+
+$$\int^\infty_0 \frac{\sin x}{x}dx = \frac{\pi}{2}$$など．
+積分には定義の仕方が幾通りも存在するが，全てを統合するような視点は（まだ）存在しない．
+
+\subsection{広義積分の収束}
+積分区間が半開区間$[a,\infty)$である場合の広義積分に話を限る．
+$$\int^\infty_a f(x)dxが定義できる\hspace{5mm} \Longleftrightarrow \hspace{5mm} 関数F(x):=\int^x_af(t)dtがx\to\infty の極限で収束する$$
+であるから，広義積分が定義出来るかの議論は，（実数列としての）収束性の議論に帰着する．
+
+\begin{itembox}[l]{絶対可積分}
+    以降，関数$f$の定義域$[a,b]$内の点$c$であって，任意の$\delta >0$に対して$|c-x|<\varepsilon\hspace{3mm}\Longrightarrow\hspace{3mm} f(x)>\delta$を満たす$\varepsilon >0$が存在する時に，この点$c$を\textbf{特異点}ということとする．
+
+    \begin{definition}[絶対可積分]
+        $A\subset\mathbb{R}$にて，広義積分$\int_Af(x)dx$が定義されているとする．この時更に，$\int_A|f(x)|dx$も可積分となる時，「広義積分$\int_Af(x)dx$は絶対収束する」といい，この時「\textbf{fは絶対可積分である}」という．
+    \end{definition}
+    \begin{proposition}[広義積分と通常の定積分との違い] \label{prop integrale generalisee}　\\
+    1. 広義積分$\int^b_af(x)dx$が収束しても，$\int^b_a|f(x)|dx$が収束するとは限らない．しかし，もしするならば，やはり三角不等式$$\left|\int^b_af(x)dx\right|\le\int^b_a|f(x)|dx$$が成り立つ．\\
+    2. $$fが可積分\hspace{5mm} \Longleftarrow \hspace{5mm}fが絶対可積分$$
+    （例\ref{sin/x}参照）
+    \end{proposition}
+\end{itembox}
+
+\begin{shadebox}これは灯台のような定理であって，実際に使うようなものではない．実際の示し方やなぜこの定理が成り立つかについての知恵は，次の例を通して得るのが良い．
+    \begin{theorem}[広義積分の絶対収束するかの判定方法]　\\
+        (1)\hspace{5mm} 区間$(a,b]$に於て関数$f(x)$は積分可能で，$a$が$f$の特異点だとする．この時，或る$0<\alpha <1$なる指数$\alpha$が存在して，$(x-a)^\alpha |f(x)|$については$x=a$は特異点ではなくなるならば，$\int^b_af(x)dx$は絶対収束する．\\
+        (2)\hspace{5mm} 区間$[a,\infty)$において関数$f(x)$は積分可能であるとする．この時，或る$1<\alpha$なる指数$\alpha$が存在して，$x^\alpha |f(x)|$が区間$[a,\infty)$において有界となるならば，積分$\int^\infty_af(x)dx$は絶対収束する．
+    \end{theorem}
+\end{shadebox}
+
+\begin{screen}
+    \begin{example}\label{example-power}Taylor展開を利用して，多項式による優積分と劣積分を見つけて，以下の例に帰着する手法が王道となる．
+        $$\int^\infty_1x^\alpha dx=\begin{cases}
+            -\frac{1}{\alpha +1} & \alpha <-1 \\
+            +\infty & \alpha \ge -1
+        \end{cases}$$
+        $$\int^1_0 x^\beta dx=\begin{cases}
+            \frac{1}{\beta +1} & \beta >-1 \\
+            +\infty & \alpha \le -1
+        \end{cases}$$
+    \end{example}
+    \begin{example}\label{example gamma function}
+        $$\int^\infty_0 e^{ax}x^\beta dx$$は，$a<0, \beta>-1$の時のみ収束し，この時絶対収束である．従って，
+        $$\Gamma (x) = \int^\infty_0 t^{x-1} e^{-t}dt (x>0)$$と置くと，この値は定義域内で常に定まる．
+    \end{example}
+    \begin{example}\label{sin/x}
+        $$\int^\infty_0\frac{\sin x}{x}dxは収束するが，\int^\infty_0\frac{|\sin x|}{x}dxは収束しない．$$
+    \end{example}
+\end{screen}
+
+広義積分が定義できるかの判定方法は，数列の収束性の議論と平行で，絶対収束の判定条件は大別して以下の３通りがある．
+なお，$f(x)\ge 0 \hspace{3mm}\forall x\in [0,\infty )$と仮定した時，$I(R)=\int^R_0f(x)dx$は単調増加となることに注意．
+
+(1)Cauchy列：$\int^q_pf(x)dx$の，$p<q, p,q\to\infty$とした時の収束性を見る．\\
+\begin{eqnarray*}
+    & & \int^\infty_af(x)dx=\lim_{x\to\infty}\int^x_af(t)dtが収束する．F(x)=\int^x_af(t)dtと置く．\\
+    &\Longleftrightarrow& \forall \varepsilon >0 \hspace{3mm} \exists p,q \hspace{3mm} p<q \Longrightarrow |F(q)-F(p)|<\varepsilon \\
+    &\Longleftrightarrow& \lim_{p,q\to\infty, p<q}\left| \int^q_p f(x)dx \right| = 0
+\end{eqnarray*}
+これより，$\int^\infty_a|f(x)|dx$が収束すると仮定すると，$$\left|\int^\infty_af(x)dx\right| \le \int^\infty_a|f(x)|dx$$から$\int^\infty_af(x)dx$も収束することが分かるから，命題\ref{prop integrale generalisee}の1が確認できる．
+
+(2)有界な単調列は収束する\\
+$f(x)\ge 0\hspace{3mm}(\forall x\in [a,\infty))$とする．
+\[\int^\infty_af(x)dxが可積分である\hspace{5mm}\Longleftrightarrow\hspace{5mm}\int^x_af(x)dxは全てのx\in [a,\infty )に於て有界\]
+
+(3)優級数判定法\\
+或る非負値関数$\varphi$について，$|f(x)|\le\varphi (x) \hspace{3mm} (x\in[a,\infty))$とする．
+$$\int^\infty_a\varphi (x)dxが収束する\hspace{5mm}\Longrightarrow\hspace{5mm}\int^\infty_af(x)dxは絶対収束する$$
+
+\begin{proof}{例\ref{example gamma function}の導出}
+    $$\int^\infty_0 e^{ax}x^\beta dx = \int^1_0 e^{ax}x^\beta dx + \int^\infty_1 e^{ax}x^\beta dx$$と分解し，第一項を$I_1$，第二項を$I_2$として考える．$\int^\infty_0 e^{ax}x^\beta dx$が収束するのは，$I_1, I_2$の両方が収束する場合である．
+
+    区間$[0,1]$において，$I_1$の値を考える．$
+    \begin{cases}
+        1\le e^{ax}\le e^a & a\ge 0\\
+        e^a\le e^{ax}\le 1 & a\le 0
+    \end{cases}$であるから，
+    \begin{eqnarray*}
+        \int^1_0x^\beta dx \le \int^1_0 e^{ax}x^\beta dx \le e^{a}\int^1_0 x^\beta dx &\hspace{5mm}& (a\ge 0)\\
+        e^{a}\int^1_0 x^\beta dx \le \int^1_0 e^{ax}x^\beta dx \le \int^1_0 x^\beta dx &\hspace{5mm}& (a\le 0)
+    \end{eqnarray*}を得る．従って，$\alpha$の正負に依らず，$\beta >-1$の時収束．
+
+    区間$[1,\infty)$において，$I_2$の値を考える．任意の$n$についてTaylorの定理から，$$e^{ax}\ge\frac{(ax)^n}{n!}$$を導ける．
+
+    $a>0$の時，任意の$n\in\mathbb{N}$について
+    $$\frac{a^n}{n!} \int^\infty_1 x^{\beta+n} dx \le  \int^\infty_1 e^{ax}x^\beta dx$$を得る．$\beta\in\mathbb{R}$に対して十分大きな$n\in\mathbb{N}$を取って$\beta + n\ge -1$となる場合を考えることで，$a>0$の時$I_2$は常に発散することがわかる．
+
+    $a=0$の時，$$I_2= \int^\infty_1 x^\beta dx$$より，$\beta < -1$の時収束する．
+
+    $a<0$の時，$$\frac{1}{e^{|a|x}}\le\frac{1}{\frac{(|a|x)^n}{n!}}\hspace{5mm}(\forall n\in\mathbb{N})$$を用いて
+    $$ \int^\infty_1 e^{ax}x^\beta dx \le \frac{n!}{|a|^n}\int^\infty_1 x^{\beta -n} dx\hspace{5mm}(\forall n\in\mathbb{N})$$
+    を得るから，同様に$\beta -n <-1$となる場合を考えることによって，$I_2$は常に収束することがわかる．（列$\{\int^R_1 e^{ax}x^\beta dx\}_{R\in\mathbb{R}}$は上に有界で，単調増加であるため．）
+
+    以上より，$I_1,I_2$の両方が収束するのは$a<0,\beta >-1$の収束性を直接議論するより，或る特別な優級数と劣級数とを考えた方が議論が簡明になる場合が多い．そのための議論の道具を用意し，このDarboux流の議論がしっかりRiemannの方法と等価になることを確認する．
+
+    これより，関数$$I(a,b)=\int^\infty_0 e^{-|a|x}x^bdx\hspace{5mm}(a\in\mathbb{R}, b>-1)$$という実数値関数を定めることができる．
+    これを$a=1$として少し整理したものを\textbf{ガンマ関数}という．
+    $$\int^\infty_0 e^{-x}x^{\beta -1}dx=:\Gamma (b) \hspace{5mm}(\beta >0)$$
+    これは階乗の概念を一般化したものと捉えられ，定義域は一般の複素数にまで拡張できる．
+    
+    \begin{eqnarray*}
+        \Gamma (1) &=& \int^\infty_0 \frac{dt}{e^t}\\
+        &=&  \left. \lim_{R\to\infty}-\frac{1}{e^t}\right|^R_0\\
+        &=&  \lim_{R\to\infty}\left(1-\frac{1}{e^R}\right)\\
+        &=& 1\\
+        \Gamma (n+1) &=& \int^\infty_0\frac{t^n}{e^t}dt \\
+        &=& \left. n\frac{t^{n-1}}{e^t}\right|^\infty_0 + n\int^\infty_0\frac{t^{n-1}}{e^t}dt\\
+        &=& n\Gamma (n)
+    \end{eqnarray*}
+\end{proof}
+
+\subsection{ガンマ関数とベータ関数}
+少し脇道にそれて，良い練習問題として，ガンマ関数とベータ関数の基本性質と関係式を確認する．
+
+ガンマ関数は階乗の概念を複素数平面上にまで拡張する関数であるが，特に半整数の場合を見てみると，$\sqrt{\pi}$の有理数倍になる．これは$\Gamma (\frac{1}{2})$がガウス積分に等しいからである．
+\begin{eqnarray*}
+    \Gamma (\frac{1}{2}) &=& \int^\infty_0e^{-t}t^{-\frac{1}{2}}dt \\
+    ここでt=x^2と変数変換をすると，dt=2xdxより，\\
+    &=& \int^\infty_0 e^{-x^2}x^{-1}2xdx \\
+    &=& 2\int^\infty_0 \exp(-x^2)dx\\
+    &=& \int^\infty_{-\infty} \exp(-x^2)dx = \sqrt{\pi}
+\end{eqnarray*}
+
+\section{定積分の応用}
+
+\section{原始関数の求め方}
+
+\subsection{有理関数の積分}
+
+
+\begin{shadebox}
+    \begin{theorem}[部分分数展開]
+        
+    \end{theorem}
+\end{shadebox}
+
+\chapter{重積分と変数変換}
+
+第１節で，関数の定積分の「関数の表す縦線集合のJordan測度」としての定義$m(D)=\int^b_a(l(x)-k(x))dx$を得る．
+第２節で，Riemann和としての定義$\int^b_a f(x)dx = \lim_{d(\Delta)\to 0} S(f,\Delta,(t_i))$を得る．
+第１節の定義から第２節の定義を見たとき，$\forall x\in [a,b]\; f(x)\le 0$ならば，これを区分求積法(sectional mensuration)と呼ぶ．
+
+\section{面積論}
+平面上の点の有界集合について，その面積の扱いを考える．すると，面積確定な集合の例として，$C^1$級関数で囲まれた集合／領域というのが一番性格が良い（命題\ref{prop-Jordan-measure-charact}）．
+この面積は，その曲線の適切な分割・表示についての縦線集合として，定積分を通じて求めたものと一致することが証明できる．
+ここで２つの世界，集合・位相的な議論と，完全に操作的・計算的な関数的議論とが繋がる．
+
+\subsection{面積論}
+
+これにあたって，有限個の閉区間（長方形閉集合）の合併から始める．こういう思考のステップ．
+\begin{definition}[２次元閉区間の面積とその分割]
+    $a\le b,c\le d$を実数とする．
+
+    1. ２次元閉区間$K:=[a,b]\times [c,d]$の面積を$m(K)=(b-a)(d-c)$と定める．
+
+    2. $[a,b]$の分割$(a_i)_[i\in n+1]$，$[c,d]$の分割$(c_j)_{j\in m+1}$が定める閉区間$K$の分割を，$\Delta=((a_i)_{i\in n+1},(c_j)_{j\in m+1})$とし，各閉区間$K_{ij}=[a_{i-1},a_i]\times [c_{j-1},c_j]\; (i\in [n],j\in [m])$を
+    \textbf{分割$\Delta$に属する閉区間}と呼ぶ．
+\end{definition}
+\begin{definition*}[有限個の区間の合併の面積]
+    ２つのときは，「互いの面積を足し合わせて，共通部分（も閉区間）の面積を引いたもの$m(K_1\cup K_2)=m(K_1)+m(K_2)-m(K_1\cap K_2)$」とし，以降帰納的に定めていく．
+    \[ m(K_1,\cdots,K_l):=\sum^l_{k=1}(-1)^{k-1} \sum_{1\le i_1<\cdots<i_k\le l} m(K_{i_1}\cap\cdots\cap K_{i_k}) \]
+\end{definition*}
+\begin{remark*}
+    この式を包除公式と呼ぶ．
+\end{remark*}
+
+\begin{lemma}[小学校での面積の授業を数学の言葉に落とし込む！]
+    閉区間の合併$D=K_1\cup\cdots\cup K_l$の面積を考える．$D\subset K=[a,b]\times [c,d]$を満たす$K$を取る．$K$の分割$((a_i)_{i\in n+1},(c_j)_{j\in m+1})$に属する閉区間を$(L_k)_{k=1,\cdots,nm}$と置く．
+    このとき，もし$K_1,\cdots,K_l$が，$\Delta$に属する閉区間$L_1,\cdots,L_{nm}$であるか，またはその合併であるとき，次が成り立つ．
+    \[ m(K_1,\cdots,K_l)=\sum_{L_j\subset D}m(L_j) \]
+\end{lemma}
+包除公式から示す．
+
+\begin{corollary}
+    $D$を閉区間の合併$D=K_1\cup\cdots\cup K_l$とし，$E$を閉区間$E=H_1\cup\cdots\cup H_e$の合併とする．このとき，$D\subset E$ならば，$m(K_1,\cdots,K_l)\le m(H_1,\cdots,H_e)$である．
+\end{corollary}
+\begin{definition*}
+    系より，$D$の閉区間の合併としての表し方によらず，$m(D)$が一定値として定まる．これを$D$の面積と呼ぶ．これを一般の集合への足掛かりとする．
+\end{definition*}
+
+\begin{definition}[Jordan可測]
+    $A\subset\mathbb{R}^2$を一般の有界集合とする．次の条件$(m)$を満たす実数$m\in\mathbb{R}$が唯一つ存在するとき，集合$A$は\textbf{面積確定／Jordan可測(measurable)}であるといい，その$m$を$A$の面積$m(A)$という．
+    \begin{quote}
+        $D\subset A\subset E$を満たす任意の有限個の閉集合の合併$D,E$について，$m(D)\le m\le m(E)$が成り立つ．
+    \end{quote}
+\end{definition}
+\begin{remark*}
+    1. 有界閉集合だからと言って可測だとは限らない．
+
+    2. 空集合$\varnothing$は有限個の閉集合の合併として表せ，従って面積確定で，$m(\varnothing)=0$である．
+\end{remark*}
+
+\begin{proposition}[Jordan可測性の$\epsilon-\delta$論法による特徴付け]
+    $A\subset\mathbb{R}^2$を有界集合とする．次の２条件は同値である．
+
+    1. $A$は面積確定である．
+
+    2. 任意の実数$q>0$に対して，$D\subset A\subset E$を満たす有限個の閉集合の合併$D,E$であって，$m(E)-m(D)\le q$を満たすようなものが存在する．
+\end{proposition}
+\begin{remark*}
+    十分細かい方眼用紙を持ってくれば，誤差$q$以内で$A$の面積を上下から抑えられるとき，$A$がJordan可測であるという．いや〜，小学校で教えてたとは．
+\end{remark*}
+
+\begin{proposition}[縦線集合のJordan測度]\label{prop-Jordan-measure-of-ordinate-sets}
+    連続関数$k,l:[a,b]\to\mathbb{R}$は$\forall x\in [a,b]\; k(x)\le l(x)$を満たすとする．$k,l$が定める縦線集合(ordinate set)$D=\{(x,y)\in\mathbb{R}^2\mid a\le x\le b\land k(x)\le y\le l(x)\}$について，次が成り立つ．
+
+    1. $D$有界で，面積確定である．
+
+    2. $m(D)=\int^b_a(l(x)-k(x))dx$
+\end{proposition}
+\begin{remark*}
+    この命題は，1で$D$のJordan測度がすでに（積分と一切関係なく純粋な集合論的議論から独立に）確定しているが，集合論の議論から面積を求めることはかなわない．その点は不可知であるが，定積分と一致することは示せる．これが定積分の特徴付けとなり，こちらの方を定積分の定義とすることができる．
+\end{remark*}
+
+\begin{example}
+    単位円板$D$の面積．
+\end{example}
+
+\begin{proposition}[面積の加法性と正値性]
+    $A,B\subset\mathbb{R}^2$を面積確定な有界集合とする．
+
+    1(面積の加法性). $A\cap B,A\cup B$も面積確定であり，その間に次の関係が成り立つ．
+    \[ m(A\cup B)+m(A\cap B) = m(A)+m(B) \]
+
+    2(面積の正値性). $A\subset B\Rightarrow m(A)\le m(B)$
+\end{proposition}
+\begin{remark*}
+    1. 2について$A=\varnothing$ととれば，面積は必ず$0$以上であることがわかる．
+
+    2. 測度とはなんだろうか．集合の包含関係を，数の関係の中に写し取っている．集合と言っても$\mathbb{N}$とかに限定すれば，それは集合の濃度と同じ関係性だろう．
+\end{remark*}
+
+\begin{proposition}[Jordan可測性の特徴付け２]
+    $A\subset\mathbb{R}^2$を有界集合とする．次の３条件は同値である．
+
+    1. $A$は面積確定．
+
+    2. 任意の実数$q>0$に対して，$D\subset A\subset E$を満たす有限個の閉集合の合併$D,E$であって，$m(E)-m(D)\le q$を満たすようなものが存在する．
+
+    3. $A\subset K$を閉区間とする．$K$を$n^2$等分するという分割を$\Delta_n$とする．この分割に属する閉区間$K_{ij}$のうち，$A$と交わる全ての合併を$A^{\Delta_n}$，$A$に含まれる全ての合併を$A_{\Delta_n}$とする．次が成り立つ．
+    \[ \lim_{n\to\infty}(m(A^{\Delta_n})-m(A_{\Delta_n}))=0 \]
+\end{proposition}
+\begin{remark*}
+    3は全称命題を１つにまとめたというイメージがする．$A\subset K$の分割に制限したことで，どんなに粗くとも細かくともこの全称命題１つが成り立つ．
+\end{remark*}
+
+\begin{proposition}[$C^1$級曲線で囲まれた部分は面積確定である．]\label{prop-Jordan-measure-charact}
+    1. $D\subset\mathbb{R}^2$を有界閉集合とする．$D$が，開集合$U$と面積$0$の面積確定な有界閉集合有限個$C_1,\cdots,C_n$を用いて，$D=U\cup C_1\cup\cdots\cup C_n$と表せるならば，$D$も面積確定である．
+
+    2. $C^1$級曲線$p:[a,b]\to\mathbb{R}^2$の台$C=\{p(t)\mid a\le t\le b\}$は
+    面積確定であり，面積は$0$である．
+\end{proposition}
+\begin{remark*}
+    より正確には，次の同値性がJordan可測性について成り立つ．
+
+    1. 有界集合$A$が面積確定である．
+
+    2. $U\subset A\subset U\cup C=D$を満たす開集合$U$と面積$0$の有界面積確定集合$C$との組で，$D=U\cup C$が有界閉集合になるものが存在する．
+
+    気づくのに遅れたが，これは特異性は全て境界点で起こり得るということか．境界点の集合が面積を持ち得て，病的な例は全てそれなのか．
+\end{remark*}
+
+\subsection{体積論}
+次元がなんであろうと，Jordan可測性の定義は一様である．
+
+\begin{definition}
+    有界集合$A\subset \mathbb{R}^3$がmeasureableであることを体積確定といい，その測度を$v(A)$と書いて体積という．なお，measurableとは，次を満たす実数$v\in\mathbb{R}$が存在することである．
+    \begin{quote}
+        $D\subset A\subset E$を満たす任意の有限個の閉集合の合併$D,E$について，$v(D)\le v\le v(E)$が成り立つ．
+    \end{quote}
+\end{definition}
+
+\begin{definition}
+    写像$p:\mathbb{R}^2\supset U\to\mathbb{R}^3$を曲面といい，$S$などで表す．曲面が連続微分可能であるとは，成分ごとに考える．
+\end{definition}
+
+\begin{proposition}
+    命題\ref{prop-Jordan-measure-charact}と同じことが３次元でも，一般の次元で成り立つ．
+\end{proposition}
+
+\begin{proposition}[Cavalieriの原理]
+    $A\subset\mathbb{R}^3$を体積確定な有界集合とする．任意の$(x,y,z)\in A$について$a\le z\le b$を満たすある実数の組$a\le b$について，$\forall t\in [a,b]$について$z=t$での切り口$A_t$が面積確定であるとする．関数$m(A_z):[a,b]\to\mathbb{R}$が連続ならば，次が成り立つ．
+    \[ v(A)=\int^b_am(A_z)dz \]
+\end{proposition}
+\begin{remark*}
+    Cavalieriの原理とは，任意の高さ$z$で$m(A_z)=m(B_z)$を満たす$A,B\subset\mathbb{R}^3$について，$v(A)=v(B)$が成り立つ，というこの命題の系を呼ぶ．
+\end{remark*}
+
+\begin{example}
+    1(錐). base $D$に対して，cone $C=\{((1-z)x,(1-z)y,z)\in\mathbb{R}^3\mid (x,y)\in D\land t\in [0,1]\}$を定めると，$(0,0,1)$がこのconeのvertexである．この体積は
+    \[ v(C)=\int^1_0m(D)(1-z)^2dz = \frac{m(D)}{3} \]
+
+    2(回転体). solid of revolution $A=\{(x,y,z)\in\mathbb{R}^3\mid a\le z\le b\land x^2+y^2\le f(x)^2\}$の体積は，
+    \[ v(A)=\int^b_a\pi f(z)^2dz \]
+\end{example}
+
+\begin{screen}
+    Jordan測度の理論が美し過ぎる．集合を関数によって捉えて，積分によって面積を計算する前に，集合にはそれ独自の構造として面積の情報を持っているのだ．線型空間から始まる量子情報理論じゃないけど，すごく美しい理論だと感じる．
+
+    小学校で，面積とは，有限個の「方眼紙のマス目」に区切ることで，上下から評価できるという考え方を学んだ．それが，十分細かく区切れば，任意精度で集合$D$の面積が閉区間の合併の集合の面積（こちらは簡単に計算可能）で上下から評価できる時，集合$D$の面積は確定しているという．
+    これは$\epsilon-\delta$論法である．このように，「任意精度で近似できる」というのが，実数という数の本質であろうし，これが物理世界の記述に用いられる数体系である理由であろう．
+
+    Jordan可測性について大事な特徴付けが存在する．それは，Jordan可測とは，「有界で面積$0$の部分を除いて開集合である」ような集合である$m(\partial D)=0$．即ち，全てのJordan可測でない集合は，境界点に特異性がある．
+
+    すでに確定している面積の中で，特に関数の縦線集合(ordinate set)として表示できる集合の面積は，定積分によって値を求めることができる．
+    また，積分も加法性や正値性を満たすが，これは面積の時点ですでに成り立つ性質である．
+
+    以上の議論は，集合の様子に依らない．位相情報抜きでは$\mathbb{R}^n$の$n$は区別できない．
+\end{screen}
+
+\section{多変数関数の積分：Riemann和と積分}
+一変数関数の積分論では，特に高校課程でも採用されている理論展開として，微分すると$f(x)$となるような関数を不定積分とし，これを求める操作$D\circ \int = id, \int\circ D=?$を積分と定義した．
+
+別の理論展開の仕方として，積分を面積を求める行為として全く独立に論理展開をし，結果的に微分と逆演算となることを到達すべき定理として示す．
+
+\subsection{一変数の場合}
+Riemann和とは，定義域の分割というアイデアである．そこにおいて$x,y$軸の役割は非対称である．この非対称性，$x$軸と並行に切るとさらに発展性の有る理論が得られる点などは，おそらく集合の射というものがそもそも対称的な概念ではないからであろう．
+
+\begin{definition}
+    $a\le b$を実数とする．
+
+    1. 閉区間$[a,b]$に対して，$a=a_0\le a_1\le\cdots\le a_n=b$を満たすような任意有限数$n+1$-組$(a_0,a_1,\cdots,a_n)$を，\textbf{閉区間の分割}という．これを抽象して，よく一文字$\Delta$または$\Delta_n$で表す．
+
+    2. 全ての閉区間の分割$\Delta=(a_i)_{i\in n+1}$に対して，それが定める\textbf{直径}という特徴量$d(\Delta)$を，$d(\Delta):=\underset{i\in [n]}{\max}(a_i-a_{i=1})$を定義する．
+
+    3. 閉区間$[a,b]$上で定義された関数$f$，閉区間$[a,b]$の分割$\Delta$，その代表点の取り方$a_{i-1}\le t_i\le a_i\;(i\in [n])$の３つ組に対して定まる値Riemann和$S(f,\Delta,(t_i))$を
+    \[ S(f,\Delta,(t_i)) = \sum^n_{i=1}f(t_i)(a_i-a_{i-1}) \]
+    と定める．
+\end{definition}
+
+\begin{proposition}
+    $f(x):[a,b]\to\mathbb{R}$を，閉区間$[a,b]$上で定義された連続関数とする．
+
+    1. 任意の正実数$q>0$に対して，次を満たす正実数$r>0$が存在する．任意の$d(\Delta)<r$を満たす閉区間$[a,b]$の分割$\Delta$について，$\Delta$が定める任意のRiemann和$S(f,\Delta,(t_i))$に対して，次が成り立つ．
+    \[ \left| \int^b_a f(x)dx - S(f,\Delta,(t_i)) \right| \le q \]
+
+    2. 任意の$[a,b]$の分割$\Delta$について，$\Delta$に属するRiemann和$S(f,\Delta,(t_i))$のうち，次を満たすものが存在する．
+    \[ \int^b_af(x)dx = S(f,\Delta,(t_i)) \]
+\end{proposition}
+\begin{remark*}
+    この命題の1が，どんなに小さい誤差$q$でも，区間の直径を狭めることで任意のRiemann和をその誤差内に修めることができると言っているので，$\epsilon-\delta$の精神を受け継いだRiemann和による積分定式化の綺麗な論理学的言い換えである．
+    従って，いつもと同じように，次のように論理的に表現される．
+    \[ \int^b_a f(x)dx = \lim_{d(\Delta)\to 0} S(f,\Delta,(t_i)) \]
+\end{remark*}
+
+\subsection{二変数の場合}
+一変数の場合の分割は有界閉集合によるものであったが，二変数では，一般の場合においてはその制約は本質的ではない．
+
+\begin{definition*}
+    有界閉集合$A\subset \mathbb{R}^2$について，その直径$d(A)$とは，$d(A):=\max_{P,Q\in A}(d(P,Q))$とする．
+\end{definition*}
+
+\begin{definition}
+    $D\subset\mathbb{R}^2$を面積確定な有界閉集合とする．
+
+    1. $\forall 1\le i<j\le n\; m(D_i\cap D_j)=0$を満たす面積確定な有界閉集合$D_1,\cdots,D_n$が$D=\bigcup_{i\in [n]}D_i$を満たすとき，この列を$D$の分割とよび，$\Delta:=(D_1,\cdots,D_n)$と表す．その直径は$d(\Delta):=\max_{i\in [n]}d(D_i)$と定める．
+
+    2. 関数$f:D\to\mathbb{R}$，$D$の分割$\Delta=(D_1,\cdots,D_n)$に対して，各$(s_i,t_i)\in D_i\; (i\in [n])$をとって定めた和$S_D(f,\Delta,(s_i,t_i))$を分割$\Delta$に属するRiemann和と呼ぶ．
+    \[ S_D(f,\Delta,(s_i,t_i)) := \sum_{i\in [n],D_i\ne\varnothing}f(s_i,t_i)\cdot m(D_i) \]
+\end{definition}
+
+\begin{theorem}[well-definedness：体積確定な有界閉集合上では，連続関数は可積分]\label{thm-multiple-integral-welldefinedness}
+    $D\subset\mathbb{R}^2$を面積確定な有界閉集合とし，$f:D\to\mathbb{R}$をその上で定義された連続関数とする．このとき，次を満たす実数$S\in\mathbb{R}$が唯一つ存在する．
+    \begin{quotation}
+        (S) 任意の実数$q>0$に対して，実数$r>0$が存在して，$D$の分割を$d(\Delta)<r$と取れば，これを満たす全ての分割$\Delta=(D_1,\cdots,D_n)$について，それに属する全てのRiemann和$S_D$が，次を満たす．
+        \[ |S- S_D(f,\Delta,(s_i,t_i)) |\le q \]
+    \end{quotation}
+\end{theorem}
+
+\begin{lemma}[Riemann和の差の評価]
+    実数$q>0,r>0$について，$\forall t,s\in D\; d(t,s)<r\Rightarrow |f(t)-f(s)|<q$が成り立つとする．このとき，$d(\Delta)-d(\Delta')<r$を満たす全ての分割$D,D'$と，それに属する全てのRiemann和について，次が成り立つ．
+    \[ |S_D (f,\Delta,(t_i)) - S_D(f,\Delta',(s_j)) |\le q\cdot m(D) \]
+\end{lemma}
+
+\begin{definition}[double integral]
+    有界閉集合$D\subset\mathbb{R}^2$とその上の関数$f$について，定理\ref{thm-multiple-integral-welldefinedness}が定める実数$S$を，\textbf{$f$の$D$上での積分}と呼び，$\int_Df(x,y)dxdy$で表す．
+\end{definition}
+
+\subsection{重積分の計算１：累次積分}
+実際の重積分の計算は，Riemann和によるわけではなく，一変数関数の繰り返しとして行う．
+ただし，重積分は，定義域がなんらかの曲線による縦線集合以外のもっと一般の定義域についても，すでに値は定まっているという理論体系の流れが大事である．
+
+\begin{proposition}[iterated integral]
+    連続関数$k,l:[a,b]\to\mathbb{R}$は$\forall x\in [a,b]\; k(x)\le l(x)$を満たすとする．
+    縦線集合$D=\{(x,y)\in\mathbb{R}^2\mid a\le x\le b, k(x)\le y\le l(x)\}$上の関数$f(x,y):D\to\mathbb{R}$に対して，その$y$についての積分$F(x):[a,b]\to\mathbb{R}$を$F(x)=\int^{l(x)}_{k(x)}f(x,y)dy$で定める．
+
+    1. $F(x)$は$[a,b]$上連続である．
+
+    2. 次が成り立つ．
+    \[ \int_Df(x,y)dxdy = \int^b_aF(x)dx \]
+    これは$\int^b_adx\int^{l(x)}_{k(x)}f(x,y)dy$とも書く．
+\end{proposition}
+
+\subsection{積分と体積}
+
+\begin{proposition}[体積と重積分]
+    $p(x,y)\le q(x,y)$は面積確定な有界閉集合$D\subset\mathbb{R}^2$上で定義された曲面とする．このとき，$A=\{(x,y,z)\in\mathbb{R}^3\mid p(x,y)\le z\le q(x,y)\}$も体積確定であり，体積$v(A)$は次のように表せる．
+    \[ v(A)=\int_D(q(x,y)-p(x,y))dxdy \]
+\end{proposition}
+
+体積の性質が，積分計算においても写し出されている．
+\begin{proposition}[積分の加法性]
+    $D,E\subset\mathbb{R}^2$を面積確定な有界閉集合とし，$f(x,y)$を$D\cup E$で定義された連続関数とすると，次が成り立つ．
+    \[ \int_{D\cup E}f(x,y)dxdy + \int_{D\cap E}f(x,y)dxdy = \int_Df(x,y)dxdy + \int_E f(x,y)dxdy \]
+\end{proposition}
+\begin{proposition}
+    1(積分の線形性). $f,g$を$D$上の連続関数，$c,d\in\mathbb{R}$とすると，
+    \[ \int_D(cf(x,y)+dg(x,y))dxdy = c\int_Df(x,y)dxdy + d\int_D g(x,y)dxdy \]
+
+    2(積分の正値性). $E\subset D$で，$f$が$D$上非負ならば，
+    \[ \int_Ef(x,y)dxdy \le \int_D f(x,y)dxdy \]
+\end{proposition}
+
+\begin{corollary}
+    
+\end{corollary}
+
+\begin{proposition}
+    
+\end{proposition}
+
+\begin{example}
+    
+\end{example}
+
+\begin{screen}
+    関数の積分$\int_Df(x)dx$を，「面積確定な有界閉集合$D$上の連続（従って有界）関数$f$」について定義した．
+
+    特に，縦線集合上での積分は，命題\ref{prop-Jordan-measure-of-ordinate-sets}を繰り返し適用することで，逐次積分に落とし込むことができる．
+\end{screen}
+
+\section{変数変換公式}
+一変数における「置換積分の公式」はLeibniz則から得られるが，その一般化とも言える．
+
+この一般化された観点から置換積分の公式
+\[ \int^{g(d)}_{g(c)}f(x)dx = \int^d_cf(g(t))g'(t)dt \]
+を見返すと，「連鎖律」というよりも，$g'(t)$は拡大率のように見えてくる！
+
+\begin{lemma}[面積の不等式]
+    行列$\begin{pmatrix}a&b\\c&d\end{pmatrix}$に対して，$|A|=\sqrt{a^2+b^2+c^2+d^2}$と置く．
+
+    1(行列式は，それが定める写像の拡大率). $E\subset\mathbb{R}^2$を平行四辺形とし，$A$が定める線型変換を$F_A:\mathbb{R}^2\to\mathbb{R}^2$と置く．このとき，次が成り立つ．
+    \[ m(F_A(E))=|\mathrm{det}(A)|\cdot m(E) \]
+
+    2. $E\subset\mathbb{R}^2$を正方形とし，ある開集合$E\subset U$上で定義された$C^1$級写像$G={}^t(g,h):U\to\mathbb{R}^2$（変数変換）はある実数$q\in\mathbb{R}$に対して$|G'(s,t)-A|<q$を満たすとする．
+    このとき，像$D=G(E)\subset D'$を含む面積確定な有界閉集合$D'$であって，面積が
+    \[ m(D')\le \left( |\mathrm{det}(A)|+|A|2\sqrt{2}q+\frac{\pi}{2}q^2 \right)\cdot m(E) \]
+    以下の$D=G(E)\subset D'$が存在する．
+\end{lemma}
+
+\begin{proposition}[積分の不等式]
+    $E\subset\mathbb{R}^2$を面積確定な有界閉集合とし，$G:U\to\mathbb{R}^2$を$E$を含む或る開集合$E\subset U$上で定義された$C^1$級写像（変数変換）とし，これによる$E$の像を$D\subset\mathbb{R}^2$とする．Jacobianを$J(s,t)=\mathrm{det}\;G'(s,t)$とする．
+
+    1. $D$も面積確定な有界閉集合である．
+
+    2. $f(x,y)\ge 0$が$D$上の連続関数ならば，次が成り立つ．
+    \[ \int_Df(x,y)dxdy \le \int_E f(G(s,t))|J(s,t)|dsdt \]
+    特に$f(x,y)\equiv 1$ならば，$m(D)\le\int_E|J(s,t)|dsdt$である．
+\end{proposition}
+
+\begin{shadebox}\begin{theorem}[the formula of changes of variables]
+    面積確定な有界閉集合$E$上の変数変換$G:\mathbb{R}^2\supset E\to D:=G(E)\subset\mathbb{R}^2$について，$J(s,t)=\mathrm{det}\;G'(s,t)$をJacobianとする．
+    今，$E$の部分集合$N\subset E$が存在して，次の条件(N)を満たすとする．
+    \begin{quote}
+        (N) $N$は面積が$0$で，補集合$E\setminus N$について，$\forall s,t\in E\setminus N\; G(s)=G(t)\Rightarrow s=t$が成り立つ．
+    \end{quote}
+    この時，$D$上の連続関数$f(x,y)$に対して，
+    \[ \int_Df(x,y)dxdy = \int_Ef(G(s,t))\cdot |J(s,t)|dsdt \]
+    が成り立つ．特に$f(x,y)\equiv 1$ならば，$m(D)=\int_E|J(s,t)|dsdt$である．
+\end{theorem}\end{shadebox}
+\begin{remark*}
+    即ち，$G:E\to D$は定め方からして全射であるが，$G$が全単射である必要はなく，もう少しゆるい条件「面積０の部分を除いて単射である」を満たせば，変数変換の公式を適用できる．
+    全単射である必要があるのは，積分不等式の方が先で一般的に成り立ち，これが両方向について成り立つからである．では何故これを緩めることが出来るのか．
+
+    「置換積分の公式では打ち消し合いが起こるため，そのような仮定はなかったが，重積分の変数変換公式では必要になる．」
+\end{remark*}
+
+\begin{example}[極座標への変数変換公式]
+    $R\in\mathbb{R}_{>0},c\in\mathbb{R}$について，$E$を$r\theta$平面上の閉区間$[0,R]\times [c,c+2\pi]$に含まれる面積確定な有界閉集合とする．
+    これに対して$D=\left\{ \left(\begin{array}{c}r\cos\theta \\ r\sin\theta\end{array}\right)\in\mathbb{R}^2\;\middle|\; (r,\theta)\in E \right\}$と置くと，これも面積確定な有界閉集合である．
+    $D$上の連続関数$f$に対して，
+    \[ \int_Df(x,y)dxdy = \int_Ef(r\cos\theta,r\sin\theta)rdrd\theta \]
+    が成り立つ．
+\end{example}
+\begin{reidai}
+    単位級の体積を，極座標への変数変換公式を使って求めよ．
+\end{reidai}
+
+\begin{example*}[$n$次元Euclid空間の極座標変換]
+    \[ \begin{pmatrix}x_1\\\vdots\\\vdots\\x_n\end{pmatrix} = \begin{pmatrix}r\cos\theta_1\\r\sin\theta_1\cos\theta_2\\r\sin\theta_1\sin\theta_2\cos\theta_3\\\vdots\\r\sin\theta_1\cdots\sin\theta_{n_2}\sin\theta_{n-1}\end{pmatrix} \;\;\; (r\ge 0,0\le\theta_1<\pi,\cdots,0\le\theta_{n-1}<\pi,0\le\theta_{n-1}<2\pi) \]
+    という変数変換について，変数変換の公式を導くと，行列式は$J_n=r^{n-1}\sin^{n-2}\theta_1\sin^{n-3}\theta_2\cdots\sin\theta_{n-2}$となる．特に$n=2$次元の時は$J_2=r$，$n=3$次元の時は$J_3=r^2\sin\theta$である．
+\end{example*}
+
+\begin{screen}
+    Jordan測度と並行した議論が繰り広げられた印象がある．まず，行列の行列式とは，それが定める線型写像の，任意の平行四辺形に対する面積の拡大率である．
+
+    これ以降の論理の流れが微妙で追えて居ないが，こうした面積固有の性質が先にあり，その一部を積分が汲み上げる部分がある．そのうち特に振る舞いが良く，応用性が高いものが変数変換の公式である．
+
+    $C^1$級写像の積分の値は，行列式を用いて上から抑えることができる．どこか三角不等式に似ている．
+    すると，「面積$0$の部分を除いて可逆」な写像の値は，行列式を用いて書き換えることが出来る．これは置換積分の公式の一般化となっている．
+\end{screen}
+
+\section{広義重積分}
+Riemann和による理論で，関数の積分$\int_Df(x)dx$を，「面積確定な有界閉集合$D$上の連続（従って有界）関数$f$」について定義した．
+これを，有界とも閉とも限らない集合上で積分できるように拡張する．関数側の制約「連続関数」は本質的には外せない．Riemann和の極限という方法論自体を見直さねばならない．
+
+考え方の概略は，関数の列を考えることである．即ち，有限の範囲ではいつでも積分が既存のRiemann和の理論で定まればいい．
+従って，無限級数の収束性を議論したときと同じように，次の条件(P)を満たすような連続関数$p:A\to\mathbb{R}$が定義できるような集合$A$のクラスを考える．
+\begin{quote}
+    (P) 任意の実数$t\in\mathbb{R}$に対して，$A$の部分集合$A_t:=\{x\in A\mid p(x)\le t\}$が面積確定な有界閉集合である．
+\end{quote}
+従って，次に関数$p$の$A_t$での積分の族$\left(\int_{A_t}pdx\right)_{t\in\mathbb{R}}$の収束性を考える必要がある．
+以降，$A\subset\mathbb{R}^2$について議論する．
+
+\begin{proposition}[優級数による広義積分の収束判定]
+    $A$上の連続関数$f,g$は$\forall (x,y)\in A\; |f(x,y)|\le g(x,y)$を満たすとする．この時，$\lim_{t\to\infty}\int_{A_t}g(x,y)dxdy$が収束すれば，$\lim_{t\to\infty}\int_{A_t}f(x,y)dxdy$も収束する．
+\end{proposition}
+\begin{proof}
+    
+\end{proof}
+
+\begin{definition}[広義積分の絶対収束]
+    条件(P)を満たすような連続関数$p:A\to\mathbb{R}$が定義できるような集合$A$上の連続関数$f$について，$\lim_{t\to\infty}\int_{A_t}|f(x,y)|dxdy$が収束する時，\textbf{広義積分$\int_Af(x,y)dx$は絶対収束する}といい，その値を次のように定義する．
+    \[ \int_Af(x,y)dxdy := \lim_{t\to\infty}\int_{A_t}f(x,y)dxdy \]
+\end{definition}
+以上が理論の全貌であるが，連続関数$p(x,y)$の出現が理論を非対称に見せて気持ちが悪いので，此処への寄り道を外す．
+
+\begin{proposition}
+    実数の集合$A$に対して，$B:=\{y\in\mathbb{R}\mid\forall x\in A\; x\le y\}$と定める．$A,B\ne\varnothing$ならば，$B=[c,\infty)$を満たす$c\in\mathbb{C}$が存在する．
+\end{proposition}
+\begin{definition}
+    $B$の元を$A$の上界という．$B\ne\varnothing$である条件を「集合$A$は上に有界」という．$c=:\sup A$を$A$の上限という．
+\end{definition}
+\begin{corollary}
+    開集合$(a,\infty)$で定義された単調弱増加関数$f(x)$が上に有界ならば，$\lim_{x\to\infty}f(x)=\sup\{f(x)\mid x>a\}$である．
+\end{corollary}
+
+\begin{shadebox}\begin{proposition}[広義積分の絶対収束性の，Jordan測度の議論と同様の手法による特徴付け]\label{prop-improper-integral}
+    条件(P)を満たすような連続関数$p:A\to\mathbb{R}$が定義できるような集合$A$上の連続関数$f$について，次の２条件は同値である．
+
+    1. 広義積分$\int_Af(x,y)dxdy$が絶対収束する．
+
+    2. 集合$\left\{\int_D|f(x,y)|dxdy\mid DはAに含まれる面積確定な有界閉集合\right\}$は上に有界である．（あるいは，上限$M$が存在する）．
+
+    また，上の同値な条件が成り立つ時，広義積分$\int_Af(x,y)dxdy$の値$S$は，任意の$A$に含まれる面積確定な有界閉集合$D$に対して次の不等式を満たす唯一つの$S\in\mathbb{R}$である．
+    \[ \left| S-\int_Df(x,y)dxdy \right| \le M-\int_D|f(x,y)|dxdy \]
+\end{proposition}\end{shadebox}
+\begin{remark*}
+    前半部は，要は，積分値が発散しないための条件である．後半部が，上下から評価するのではなく，「上限」という言葉に変わっただけで，本質的にはJordan測度の定義とパラレルである．これは極限点との三角不等式か．$f\le 0$の時はそのまま$M$が広義積分の値なのだが，一般の場合について言及しているために，１段階別の論理が入る．
+
+    しかし，やはり絶対収束以外の広義積分が定義される場合については，触れていない．
+\end{remark*}
+
+\subsection{微分積分学続論：後半戦}
+
+\begin{definition*}[開球の発想と同様，力押しの定義．しかし一般性が高くて気持ちいい．]
+    $D\subset\mathbb{R}^n$を一般の集合とする．
+
+    1. $D$上の一般の関数$f$について，$\int_Df(x)dx$が収束するとは，$\lim_{R\to\infty}\int_{\{x\in D\mid ||x||\le R\}}|f(x)|dx$が収束することをいう．
+
+    2. この時，絶対値を除いたもの$\lim_{R\to\infty}\int_{\{x\in D\mid \|x\|\le R\}}|f(x)|dx$も収束し，その収束先$\int_Df(x)dx$と定義すれば，今までの積分の定義と整合的になる．
+\end{definition*}
+
+すると次が定理として成り立ち，これを用いて計算することが出来る．
+\begin{theorem*}
+    一般の集合$D\subset\mathbb{R}^n$に対して，$D$に包まれるような面積確定な有界閉部分集合の列$(D_n)_{n\in\mathbb{N}}$であって，$D_1\subset D_2\subset\cdots$かつ$D=\bigcup_{n\in\mathbb{N}}D_n$を満たすようなものを取る．
+
+    1. $f$が$D$上可積分であるとは，$\lim_{n\to\infty}\int_{D_n}|f(x)|dx$が収束することである．
+
+    2. その収束値は，列$\{D_n\}_{n\in\mathbb{N}}$の取り方に依らない．
+\end{theorem*}
+\begin{example*}
+    $D=\left\{\begin{pmatrix}x_1\\x_2\\x_3\end{pmatrix}\in\mathbb{R}^3\;\middle|\; 1\le x_1,x_2,x_3\right\}$上での関数$f\begin{pmatrix}x_1\\x_2\\x_3\end{pmatrix}=\frac{1}{x_1^2x_2^2x_3^2}$の積分を考える．
+
+    $D_n=\left\{\begin{pmatrix}x_1\\x_2\\x_3\end{pmatrix}\in\mathbb{R}^3\;\middle|\; 1\le x_1,x_2,x_3\le n\right\}$と定めると，これは体積$(n-1)^3$の有界閉集合で，列$(D_n)_{n\in\mathbb{N}\setminus\{0\}}$は$D_1\subset D_2\subset\cdots$をみたし，$\bigcup_{n\in\mathbb{N}\setminus\{0\}}D_n=D$を満たす．
+
+    よって，
+    \begin{align*}
+        \int_Dfdx &= \lim_{n\to\infty}\int_{D_n}\frac{dx_1dx_2dx_3}{x_1^2x_2^2x_3^2} \\
+        &= \lim_{n\to\infty}\int_1^n\int^n_1\frac{dx_1dx_2}{x_1^2x_2^2}\left[ -\frac{1}{x_3} \right]^n_1 \\
+        &= \lim_{n\to\infty}\left( 1-\frac{1}{n} \right)^3 = 1
+    \end{align*}
+    なお，論理的な順序は，最後の極限が$1$に収束するために，広義積分$\int_Dfdx$も収束し（＝定義され），その値は$1$である．これを$\int_Dfdx=\int^\infty_1\int^\infty_1\int^\infty_1\frac{dx_1dx_2dx_3}{x_1^2x_2^2x_3^2}$とも書いてしまう．
+\end{example*}
+
+\begin{screen}
+    入れ子状の面積確定な有界閉集合の列によって近似できるような集合$D$上には，積分値が発散してしまわない限り，連続関数$f$の積分が定義出来る．この理論展開がRiemann積分の理論の上に乗る．
+    これは，広義積分の値が，有限の範囲でいくらでも近似できるならば，それは値が定まる，という論法である点において，そもそもの面積の定義であったJordan測度の議論とパラレルである．
+    それを命題の形で表現したのが，命題\ref{prop-improper-integral}である．全ての景色を湛えていて，ものすごい迫力がある．
+    「列$(D_n)$の取り方に依らない」という文言すらなく，「全ての$A$の面積確定な有界閉部分集合」という圧倒的な全称命題の形に収まっている．
+
+    絶対収束以外で，広義積分が定義される場合については，触れていない．
+\end{screen}
+
+\section{広義重積分の応用}
+なお，広義積分にも変数変換の公式は成り立つ．
+
+\subsection{収束判定}
+級数の収束の議論（\ref{section-Dr-Gocho}節）を踏まえて．
+まずは，冪関数の\circled{1}冪指数(exponent)の値に依る収束性の違い\circled{2}をモデルケースとして把握する．
+
+\begin{proposition}
+    \[ \int^\infty_1\frac{dx}{x^\alpha} \]
+\end{proposition}
+
+\subsection{$\Gamma$関数と$B$関数}
+
+\begin{reidai}
+    \[ \int^\infty_0e^{ax}x^\beta dx \]
+\end{reidai}
+\begin{reidai}
+    \[ \int^\frac{\pi}{2}_0(\tan x)^adx \]
+\end{reidai}
+\begin{reidai}
+    \[ \int^\infty_\pi\frac{\sin x}{x^\alpha}dx \]
+\end{reidai}
+
+\section{一般の場合の理論：微分積分学続論後半戦}
+
+区間$I=\left\{ \left(\begin{array}{c}x_1 \\ \vdots \\ x_n\end{array}\right)\in\mathbb{R}^n\;\middle|\; a_i\le x_i\le b_i\; (i\in [n]) \right\}$上での有界関数$f:\mathbb{R}^n\supset D\to\mathbb{R}$の積分が定義される条件を考え，
+一般のJordan可測な有界閉集合$D$については，「台はそのままで０での拡張」$f^*(x)=f(x)\;(x\in D),\; 0\;(x\notin D)$を行った関数$f^*:D\subset I\to\mathbb{R}$で定義し，$\int_Df(x)dx:=\int_If^*(x)dx$を積分の定義とすれば良い．
+$I$の分割$\Delta=(I_k)$（ただし$k=(k_1,\cdots,k_n)\; (1\le k_i\le r_i)$）を次のように定める．
+\begin{align*}
+    a_1&=x_1^{(0)}<x_1^{(1)}<\cdots<x_1^{(r_1)}=b_1 \\
+    \vdots&\hspace{5cm}\vdots \\
+    a_n&=x_n^{(0)}<x_n^{(1)}<\cdots<x_n^{(r_n)}=b_n
+\end{align*}
+すると各$D_k=\left\{ \left(\begin{array}{c}y_1 \\ \vdots \\ y_n\end{array}\right)\in\mathbb{R}^n\;\middle| \; x_i^{(k_i-1)}\le y_i\le x_i^{(k_i)} \right\}$は確かにJordan可測な有界閉集合である．代表点$\{t^{(k)}\}\in\{D_k\}$を取る．
+
+\begin{theorem}[Darboux]
+    $D\subset\mathbb{R}^n$を体積確定な有界閉集合とし，$\Delta=(I_k)_{k=(k_1,\cdots,k_n)\; (1\le k_i\le r_i)}$をその分割とする．$f:I\to\mathbb{R}$をその上で定義された\underline{関数}とする．
+    このとき，Riemann和$(f,\Delta,(t^{(k)}))$に付随する値$\overline{S}_\Delta(f)$と$\underbrace{S}_\Delta (f)$を次のように定める．
+    \begin{align*}
+        \overline{S}_\Delta (f) = \sum^{r_1}_{k_1=1}\cdots\sum^{r_n}_{k_n=1}\left( \sup_{x_i^{(k_i-1)}\le t_i^{(k)}\le x_i^{(k_i)}} f(p^{(k)})\right)\times (x_1^{(k_1-1)}-x_1^{(k_1)})\cdots (x_n^{(k_n-1)}-x_n^{(k_n)})\\
+        \underline{S}_\Delta (f) = \sum^{r_1}_{k_1=1}\cdots\sum^{r_n}_{k_n=1}\left( \inf_{x_i^{(k_i-1)}\le t_i^{(k)}\le x_i^{(k_i)}} f(p^{(k)})\right)\times (x_1^{(k_1-1)}-x_1^{(k_1)})\cdots (x_n^{(k_n-1)}-x_n^{(k_n)})
+    \end{align*}
+    すると，$f$は一般の有界関数としているが，
+
+    1. $\lim_{d(\Delta)\to 0}\overline{S}_\Delta (f)=\overline{S}, \lim_{d(\Delta)\to 0}\underline{S}_\Delta (f)=\underline{S}$を満たす$\overline{S},\underline{S}\in\mathbb{R}$存在する．
+
+    2. $f$が可積分であることと，$\overline{S}=\underline{S}$という条件とは同値である．
+
+    3. 区間$I$上の連続関数は，可積分である．
+\end{theorem}
+
+次の命題が成り立つから，関数の積分は，関数によって表現された殆どのn次元図形において体積を求めることができる強力な道具となるのである．
+\begin{proposition}[縦線集合上での積分]
+    $D'\subset\mathbb{R}^{n-1}$を体積確定な集合とし，$a,b:D'\to\mathbb{R}$を関数とする．
+    \[ D=\left\{ \begin{pmatrix}x\\y\end{pmatrix}\mid x\in D',a(x)\le y\le b(y) \right\} \]
+    と置くと$D$も体積確定で，体積は次のようになる．
+    \[ \int_Df(x)dx = \int_{D'}\int^{b(x)}_{a(x)}f(x,y)dydx \]
+\end{proposition}
+
+\begin{theorem}[変数変換公式]
+    体積確定な有界閉集合$E\subset\mathbb{R}^n$とし，開集合$E\subset U$上の変数変換（$C^1$級関数）$G:U\to\R^n$は次を満たすとする．
+    \begin{quotation}
+        (N) 体積$0$の集合$N\subset E$が存在して，変数変換$G$の制限$G|_{E\setminus N}$は単射である．
+    \end{quotation}
+    この時，$D:=G(E)$と置けば，$D$も体積確定な有界閉集合で，次が成り立つ．
+    \[ \int_Df(y)dy  = \int_Ef(G(x))|\det J_G(x)|dx\]
+\end{theorem}
+\begin{remark}
+    線積分・面積分と同じ要領で，$D$上の関数$f$の積分を制限が可逆な変数変換$G:E\to D$で$E$上に引き戻すと，n-形式の定める体積要素が$dy=|\det DG(x)|dx$と変換される．
+\end{remark}
+
+\section{一様収束}
+
+\subsection{一様収束による関数定義}
+
+\begin{definition}[uniform convergence]
+    $D\subset\R^n,I\subset\R$として，関数$f(x,t):D\times I\to\R^n$が$t\to t_0\in \overline{I}\cup\{\pm\infty\}$において，$D$上$g(x)$に一様収束するとは，次が成り立つことをいう．
+    \[ \lim_{t\to t_0}\sup_{x\in D}|f(x,t)-g(t)|=0 \]
+\end{definition}
+\begin{remark}
+    「どの点も取り残されない」というだけである．結局取り残されないのならば，一番遅い点の関数形を取れば，$\delta$に返す$\varepsilon$の対応がつく．
+\end{remark}
+
+\begin{proposition}[連続性の持ち上げ]
+    $f(x,t)\xrightarrow{t\to t_0}g(x)$は$D$上一様収束しているとする．この時，$f$が$x=x_0$にて連続ならば，$g$も$x=x_0$にて連続である．
+\end{proposition}
+
+\begin{proposition}[積分と極限の交換]
+    $D$は面積確定とする．$f(x,t)\xrightarrow{t\to t_0}g(x)$は$D$上一様収束しているとする．この時，$\lim_{t\to t_0}\int_Df(x,t)dx=\int_D\lim_{t\to t_0}f(x,t)dx$である．
+\end{proposition}
+
+\begin{proposition}[微分と極限の交換]
+    $f(x,t)\xrightarrow{t\to t_0}g(x)$に各点収束し，$f_x(x,t)\xrightarrow{t\to t_0}h(x)$に$D$上一様収束するとする．この時，$g$も$C^1$級で，$Dg=h$．
+\end{proposition}
+\begin{remark}
+    方向が違う．一様収束性は「登ってくる」もの．
+\end{remark}
+
+\subsection{一様収束性の確認}
+
+\begin{proposition}
+    有界閉領域$D$上の連続関数$f$は一様連続である．
+\end{proposition}
+\begin{remark}
+    $D=\R\cup\{\pm\infty\}$などとしてこれを適用する手法はないのか．
+\end{remark}
+
+\begin{corollary}[連続性と一様収束]
+    有界閉領域$D$と有界閉区間$I$に対して，$f(x,t)$は$D\times I$上連続とする．この時，任意の$t_0\in I$について，$f(x,t)\xrightarrow{t\to t_0}f(x,t_0)$に一様収束する．
+\end{corollary}
+\begin{proof}
+    $E:=D\times I$として命題を適用すると，任意の$\delta>0$に対して，$\varepsilon>0$が存在し，任意の$x,t$について$\| (x,t)-(x_0,t_0) \|\le\delta\Rightarrow |f(x,t)-f(x_0,t_0)|\le\varepsilon$を満たす．
+    勝手に取った$t_0\in I$に対して，$|t-t_0|\le\delta$ならば$\|(x,t)-(x,t_0)\|\le\delta$で前件を満たす．よって任意の$t=t_0$について一様収束する．
+\end{proof}
+
+\subsection{関数列の収束による積分定義（＝広義積分）と一様連続性の交差}
+もしかしてすごく親和性が高い？
+
+以降$D$は有界とは限らない．実は，次の部分で十分である．これは一様収束よりも弱い主張である（？）．
+\begin{definition}
+    $f(x,t)\xrightarrow{t\to t_0}g(x)$が$D$上広義一様収束するとは，任意の有界部分集合$D'\subset D$上で$f(x,t)\xrightarrow{t\to t_0}g(x)$に一様収束すること．
+\end{definition}
+
+\begin{proposition}
+    $f(x,t)\xrightarrow{t\to t_0}g(x)$が$D$上一様収束しているとする．$|f(x,t)|\le M(x)$を満たす$\int_DM(x)dx$が絶対収束する関数が存在する時，$\lim_{t\to t_0}\int_Df(x,t)dx=\int_D\lim_{t\to t_0}f(x,t)dx$が成り立つ．
+\end{proposition}
+
+\chapter{曲線と線積分}
+
+\section{曲線と曲面}
+
+\section{線積分とグリーンの定理}
+
+\section{代数学の基本定理}
+
+\section{ベクトル場と微分形式}
+
+\chapter{級数}
+
+\section{正項級数の収束判定}
+
+\section{条件収束と絶対収束}
+
+\section{関数列と関数項級数}
+
+\section{整級数}
+
+\end{document}

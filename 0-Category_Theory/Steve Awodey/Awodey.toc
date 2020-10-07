@@ -1,0 +1,94 @@
+\contentsline {section}{\numberline {1}Categories}{4}% 
+\contentsline {subsection}{\numberline {1.1}Introduction}{4}% 
+\contentsline {subsection}{\numberline {1.2}Functions of sets}{4}% 
+\contentsline {subsection}{\numberline {1.3}Definition of a category}{4}% 
+\contentsline {subsection}{\numberline {1.4}Examples of categories}{4}% 
+\contentsline {subsection}{\numberline {1.5}Isomorphisms：とCayley表現関手}{6}% 
+\contentsline {subsection}{\numberline {1.6}Constructions on categories}{9}% 
+\contentsline {subsubsection}{\numberline {1.6.1}Product}{9}% 
+\contentsline {subsubsection}{\numberline {1.6.2}Opposite}{9}% 
+\contentsline {subsubsection}{\numberline {1.6.3}arrow category：lifting}{10}% 
+\contentsline {subsubsection}{\numberline {1.6.4}slice / over category：頭を共通の対象に突っ込んだ射と，足元の移動}{11}% 
+\contentsline {subsection}{\numberline {1.7}Free categories}{15}% 
+\contentsline {subsubsection}{\numberline {1.7.1}Free monoid}{15}% 
+\contentsline {subsubsection}{\numberline {1.7.2}Free Category}{17}% 
+\contentsline {subsection}{\numberline {1.8}Foundations: large, small, and locally small}{19}% 
+\contentsline {subsection}{\numberline {1.9}Exercises}{20}% 
+\contentsline {section}{\numberline {2}Abstract structures}{20}% 
+\contentsline {subsection}{\numberline {2.1}Epis and monos：代数的に定めた，圏論的単射・全射の条件}{20}% 
+\contentsline {subsubsection}{\numberline {2.1.1}射の左右の簡約可能性は，Sets上と具体圏上で微妙に条件が違う．}{20}% 
+\contentsline {subsubsection}{\numberline {2.1.2}Sections and retractions：右逆元と左逆元の対}{22}% 
+\contentsline {subsection}{\numberline {2.2}Initial and terminal objects}{27}% 
+\contentsline {subsection}{\numberline {2.3}Generalized elements}{29}% 
+\contentsline {subsection}{\numberline {2.4}Products}{36}% 
+\contentsline {subsection}{\numberline {2.5}Examples of products}{37}% 
+\contentsline {subsection}{\numberline {2.6}Categories with products}{38}% 
+\contentsline {subsection}{\numberline {2.7}Hom-sets}{38}% 
+\contentsline {subsection}{\numberline {2.8}Exercises}{38}% 
+\contentsline {section}{\numberline {3}Duality}{38}% 
+\contentsline {subsection}{\numberline {3.1}The duality principle}{38}% 
+\contentsline {subsection}{\numberline {3.2}Coproducts}{40}% 
+\contentsline {subsection}{\numberline {3.3}Equalizers}{44}% 
+\contentsline {subsection}{\numberline {3.4}Coequalizers}{46}% 
+\contentsline {subsection}{\numberline {3.5}Exercises}{48}% 
+\contentsline {section}{\numberline {4}Groups and categories}{48}% 
+\contentsline {subsection}{\numberline {4.1}Groups in category}{49}% 
+\contentsline {subsection}{\numberline {4.2}The category of groups}{49}% 
+\contentsline {subsection}{\numberline {4.3}Groups as categories}{49}% 
+\contentsline {subsection}{\numberline {4.4}Finitely presented categories}{49}% 
+\contentsline {subsection}{\numberline {4.5}Exercises}{49}% 
+\contentsline {section}{\numberline {5}Limits and colimits}{49}% 
+\contentsline {subsection}{\numberline {5.1}Subobjects}{49}% 
+\contentsline {subsection}{\numberline {5.2}Pullbacks}{51}% 
+\contentsline {subsection}{\numberline {5.3}Properties of pullbacks}{54}% 
+\contentsline {subsection}{\numberline {5.4}Limits}{57}% 
+\contentsline {subsection}{\numberline {5.5}Perservation of limits}{63}% 
+\contentsline {subsection}{\numberline {5.6}Colimits}{66}% 
+\contentsline {subsection}{\numberline {5.7}Exercises}{73}% 
+\contentsline {section}{\numberline {6}Exponentials}{73}% 
+\contentsline {subsection}{\numberline {6.1}Exponential in a category}{73}% 
+\contentsline {subsection}{\numberline {6.2}Cartesian closed categories}{73}% 
+\contentsline {subsection}{\numberline {6.3}Heyting algebras}{73}% 
+\contentsline {subsection}{\numberline {6.4}Propositional definition of CCC}{73}% 
+\contentsline {subsection}{\numberline {6.5}$\lambda $-calculus}{73}% 
+\contentsline {subsection}{\numberline {6.6}Variable sets}{73}% 
+\contentsline {subsection}{\numberline {6.7}exercises}{73}% 
+\contentsline {section}{\numberline {7}Naturality}{73}% 
+\contentsline {subsection}{\numberline {7.1}Category of categories}{74}% 
+\contentsline {subsection}{\numberline {7.2}Representable structure}{74}% 
+\contentsline {subsection}{\numberline {7.3}Stone duality}{74}% 
+\contentsline {subsection}{\numberline {7.4}Naturality}{74}% 
+\contentsline {subsection}{\numberline {7.5}Examples of natural transformations}{74}% 
+\contentsline {subsection}{\numberline {7.6}Exponentials of categories}{74}% 
+\contentsline {subsection}{\numberline {7.7}Functor categories}{74}% 
+\contentsline {subsection}{\numberline {7.8}Monoidal categories}{74}% 
+\contentsline {subsection}{\numberline {7.9}Equivalence of categories}{74}% 
+\contentsline {subsection}{\numberline {7.10}Examples of equivalence}{74}% 
+\contentsline {subsection}{\numberline {7.11}Exercises}{74}% 
+\contentsline {section}{\numberline {8}Categories of diagrams}{74}% 
+\contentsline {subsection}{\numberline {8.1}Set-valued functor categories}{74}% 
+\contentsline {subsection}{\numberline {8.2}The Yoneda embedding}{74}% 
+\contentsline {subsection}{\numberline {8.3}The Yoneda lemma}{74}% 
+\contentsline {subsection}{\numberline {8.4}Applications of the Yoneda lemma}{74}% 
+\contentsline {subsection}{\numberline {8.5}Limits in categories of diagrams}{74}% 
+\contentsline {subsection}{\numberline {8.6}Colimits in categories of diagrams}{74}% 
+\contentsline {subsection}{\numberline {8.7}Exponentials in categories of diagrams}{74}% 
+\contentsline {subsection}{\numberline {8.8}Topoi}{74}% 
+\contentsline {subsection}{\numberline {8.9}Exercises}{74}% 
+\contentsline {section}{\numberline {9}Adjoints}{74}% 
+\contentsline {subsection}{\numberline {9.1}Preliminary definition}{74}% 
+\contentsline {subsection}{\numberline {9.2}Hom-set definition}{74}% 
+\contentsline {subsection}{\numberline {9.3}Examples of adjoints}{74}% 
+\contentsline {subsection}{\numberline {9.4}Order adjoints}{74}% 
+\contentsline {subsection}{\numberline {9.5}Quantifiers as adjoints}{74}% 
+\contentsline {subsection}{\numberline {9.6}RAPL}{74}% 
+\contentsline {subsection}{\numberline {9.7}Locally cartesian closed categories}{74}% 
+\contentsline {subsection}{\numberline {9.8}Adjoint functor theorem}{74}% 
+\contentsline {subsection}{\numberline {9.9}Exercises}{74}% 
+\contentsline {section}{\numberline {10}Monads and algebras}{74}% 
+\contentsline {subsection}{\numberline {10.1}The triange identities}{74}% 
+\contentsline {subsection}{\numberline {10.2}Mondas and adjoints}{74}% 
+\contentsline {subsection}{\numberline {10.3}Algebras for a monad}{74}% 
+\contentsline {subsection}{\numberline {10.4}Comonads and coalgebras}{74}% 
+\contentsline {subsection}{\numberline {10.5}Algebras for endofunctors}{74}% 
+\contentsline {subsection}{\numberline {10.6}Exercises}{74}% 

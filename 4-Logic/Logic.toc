@@ -1,0 +1,184 @@
+\contentsline {part}{第I部\hspace {1zw}論理と集合}{5}% 
+\contentsline {chapter}{\numberline {第1章}一階論理の形式化}{6}% 
+\contentsline {section}{\numberline {1.1}記法}{6}% 
+\contentsline {section}{\numberline {1.2}集合の扱い，帰納的定義，Cantorの対関数}{7}% 
+\contentsline {subsection}{\numberline {1.2.1}集合と濃度}{7}% 
+\contentsline {subsection}{\numberline {1.2.2}二項関係}{9}% 
+\contentsline {subsection}{\numberline {1.2.3}帰納的定義}{11}% 
+\contentsline {subsection}{\numberline {1.2.4}Zornの補題と無限集合の扱い}{12}% 
+\contentsline {subsection}{\numberline {1.2.5}有限木の扱い}{13}% 
+\contentsline {section}{\numberline {1.3}一階述語論理}{14}% 
+\contentsline {subsection}{\numberline {1.3.1}言語}{14}% 
+\contentsline {subsection}{\numberline {1.3.2}構文論}{16}% 
+\contentsline {subsection}{\numberline {1.3.3}意味論}{19}% 
+\contentsline {section}{\numberline {1.4}コンパクト性定理}{22}% 
+\contentsline {subsection}{\numberline {1.4.1}命題論理：論理結合子代数}{22}% 
+\contentsline {subsection}{\numberline {1.4.2}命題論理のコンパクト性定理}{23}% 
+\contentsline {subsection}{\numberline {1.4.3}Henkin定数}{25}% 
+\contentsline {section}{\numberline {1.5}完全性定理}{29}% 
+\contentsline {subsection}{\numberline {1.5.1}証明体系H}{29}% 
+\contentsline {subsection}{\numberline {1.5.2}命題論理の完全性定理}{33}% 
+\contentsline {subsection}{\numberline {1.5.3}述語論理の完全性定理}{34}% 
+\contentsline {section}{\numberline {1.6}定義による拡張}{34}% 
+\contentsline {section}{\numberline {1.7}始切片，終延長と有界論理式}{34}% 
+\contentsline {subsection}{\numberline {1.7.1}自然数の公理系群PA}{36}% 
+\contentsline {subsection}{\numberline {1.7.2}PA-NK}{37}% 
+\contentsline {subsection}{\numberline {1.7.3}帰納法}{37}% 
+\contentsline {subsection}{\numberline {1.7.4}Heyting算術HA}{38}% 
+\contentsline {chapter}{\numberline {第2章}不完全性定理}{39}% 
+\contentsline {part}{第II部\hspace {1zw}計算理論}{40}% 
+\contentsline {chapter}{\numberline {第3章}Recursion Theory}{42}% 
+\contentsline {section}{\numberline {3.1}$\mu $再帰的関数}{42}% 
+\contentsline {section}{\numberline {3.2}Church-Turing's thesis}{44}% 
+\contentsline {section}{\numberline {3.3}レジスター機械による計算}{45}% 
+\contentsline {section}{\numberline {3.4}Turing Machine}{46}% 
+\contentsline {section}{\numberline {3.5}複雑性クラス}{48}% 
+\contentsline {section}{\numberline {3.6}Non-deterministic Turing Machineと更なる複雑性クラス$NP$}{49}% 
+\contentsline {subsection}{\numberline {3.6.1}P$\not =$NP}{50}% 
+\contentsline {subsection}{\numberline {3.6.2}Oracle Machine}{50}% 
+\contentsline {chapter}{\numberline {第4章}計算量とアルゴリズム}{51}% 
+\contentsline {section}{\numberline {4.1}計算の枠組み}{51}% 
+\contentsline {section}{\numberline {4.2}万能性と計算不能性}{52}% 
+\contentsline {section}{\numberline {4.3}PCPとヒルベルトの決定問題と帰着}{54}% 
+\contentsline {subsection}{\numberline {4.3.1}PCPとPCPw1がTuring等価}{54}% 
+\contentsline {subsection}{\numberline {4.3.2}非停止性の認識問題はPCPw1に帰着する}{55}% 
+\contentsline {subsection}{\numberline {4.3.3}ヒルベルトの決定問題は，非停止性の認識問題に帰着する\cite {Turing-OnComputableNumbers}}{56}% 
+\contentsline {section}{\numberline {4.4}計算量の枠組み}{56}% 
+\contentsline {section}{\numberline {4.5}多項式時間帰着(polynomial-time reduction)}{56}% 
+\contentsline {chapter}{\numberline {第5章}計算と論理}{57}% 
+\contentsline {section}{\numberline {5.1}Lambda Calculus}{58}% 
+\contentsline {subsection}{\numberline {5.1.1}ラムダ計算}{58}% 
+\contentsline {subsection}{\numberline {5.1.2}Church-Rosser性と評価戦略}{61}% 
+\contentsline {section}{\numberline {5.2}Church encoding：ラムダ計算による数学的対象の表現}{62}% 
+\contentsline {subsection}{\numberline {5.2.1}種々のデータ構造の表現}{62}% 
+\contentsline {subsubsection}{\numberline {5.2.1.1}Bool値，即ち命題論理}{63}% 
+\contentsline {subsubsection}{\numberline {5.2.1.2}組とその射}{64}% 
+\contentsline {subsubsection}{\numberline {5.2.1.3}Church numerals：自然数とその上の演算}{65}% 
+\contentsline {subsection}{\numberline {5.2.2}不動点演算子を用いた再帰関数の定義}{69}% 
+\contentsline {section}{\numberline {5.3}Simply typed lambda calculus}{71}% 
+\contentsline {subsection}{\numberline {5.3.1}型の理論}{71}% 
+\contentsline {subsection}{\numberline {5.3.2}型検査}{73}% 
+\contentsline {subsection}{\numberline {5.3.3}型推論}{73}% 
+\contentsline {subsection}{\numberline {5.3.4}型の構成}{74}% 
+\contentsline {subsection}{\numberline {5.3.5}Curry-Howard同型}{75}% 
+\contentsline {section}{\numberline {5.4}その他の型付きラムダ計算の構成}{76}% 
+\contentsline {subsection}{\numberline {5.4.1}多相型 / System F}{76}% 
+\contentsline {subsection}{\numberline {5.4.2}多相型によるデータ型の表現}{78}% 
+\contentsline {subsection}{\numberline {5.4.3}再帰型}{78}% 
+\contentsline {subsection}{\numberline {5.4.4}部分型 subtyping}{78}% 
+\contentsline {subsection}{\numberline {5.4.5}依存型}{79}% 
+\contentsline {subsection}{\numberline {5.4.6}多相型・依存型に於けるCurry-Howard対応}{79}% 
+\contentsline {section}{\numberline {5.5}証明支援システム}{80}% 
+\contentsline {section}{\numberline {5.6}型理論}{80}% 
+\contentsline {subsection}{\numberline {5.6.1}Propositions as types}{80}% 
+\contentsline {section}{\numberline {5.7}計算模型としてのラムダ計算}{81}% 
+\contentsline {chapter}{\numberline {第6章}計算複雑性}{82}% 
+\contentsline {chapter}{\numberline {第7章}関数プログラミング}{83}% 
+\contentsline {section}{\numberline {7.1}再帰的関数}{85}% 
+\contentsline {subsection}{\numberline {7.1.1}$\PazoBB {Z}$上の再帰関数}{86}% 
+\contentsline {subsection}{\numberline {7.1.2}相互再帰関数}{87}% 
+\contentsline {subsection}{\numberline {7.1.3}$\PazoBB {R}$上の再帰関数}{87}% 
+\contentsline {subsection}{\numberline {7.1.4}条件と述語}{88}% 
+\contentsline {subsection}{\numberline {7.1.5}and, or, not}{88}% 
+\contentsline {section}{\numberline {7.2}簡約}{88}% 
+\contentsline {section}{\numberline {7.3}種々の再帰的関数}{89}% 
+\contentsline {subsection}{\numberline {7.3.1}原始再帰的関数}{89}% 
+\contentsline {subsection}{\numberline {7.3.2}相互再帰}{89}% 
+\contentsline {subsection}{\numberline {7.3.3}末尾再帰}{89}% 
+\contentsline {section}{\numberline {7.4}帰納的定義}{90}% 
+\contentsline {subsection}{\numberline {7.4.1}自然数}{90}% 
+\contentsline {subsection}{\numberline {7.4.2}$\N $上の関数}{90}% 
+\contentsline {subsection}{\numberline {7.4.3}自然数の対}{91}% 
+\contentsline {subsection}{\numberline {7.4.4}let式}{92}% 
+\contentsline {subsection}{\numberline {7.4.5}パターンを持つlet式}{92}% 
+\contentsline {section}{\numberline {7.5}リスト}{93}% 
+\contentsline {subsection}{\numberline {7.5.1}自然数のリスト}{93}% 
+\contentsline {subsection}{\numberline {7.5.2}自然数のリストの帰納定義}{93}% 
+\contentsline {subsection}{\numberline {7.5.3}$\N $-list上の関数}{94}% 
+\contentsline {subsection}{\numberline {7.5.4}$\N $-リスト上の原始帰納法}{95}% 
+\contentsline {subsection}{\numberline {7.5.5}$\N $-リストの対}{95}% 
+\contentsline {section}{\numberline {7.6}高階函数}{96}% 
+\contentsline {subsection}{\numberline {7.6.1}関数引数}{96}% 
+\contentsline {subsection}{\numberline {7.6.2}$\lambda $式}{97}% 
+\contentsline {subsection}{\numberline {7.6.3}Currying}{98}% 
+\contentsline {subsection}{\numberline {7.6.4}高階関数の例}{98}% 
+\contentsline {section}{\numberline {7.7}S式}{99}% 
+\contentsline {subsection}{\numberline {7.7.1}S式とは}{99}% 
+\contentsline {subsection}{\numberline {7.7.2}S式-リスト}{99}% 
+\contentsline {subsection}{\numberline {7.7.3}S式上の基本関数}{100}% 
+\contentsline {subsection}{\numberline {7.7.4}S式-リスト上の関数}{100}% 
+\contentsline {subsection}{\numberline {7.7.5}S式上の関数}{100}% 
+\contentsline {subsection}{\numberline {7.7.6}真偽値}{101}% 
+\contentsline {section}{\numberline {7.8}Lisp}{101}% 
+\contentsline {subsection}{\numberline {7.8.1}Lispのプログラム}{101}% 
+\contentsline {section}{\numberline {7.9}Lispプログラミング}{101}% 
+\contentsline {subsection}{\numberline {7.9.1}三目並べ}{102}% 
+\contentsline {subsection}{\numberline {7.9.2}原住民と宣教師のパズル}{102}% 
+\contentsline {subsection}{\numberline {7.9.3}マッチングと簡単な定理証明}{102}% 
+\contentsline {chapter}{\numberline {第8章}論理プログラミング}{103}% 
+\contentsline {section}{\numberline {8.1}帰納的述語}{103}% 
+\contentsline {subsection}{\numberline {8.1.1}自然数}{103}% 
+\contentsline {subsection}{\numberline {8.1.2}述語の帰納的定義}{103}% 
+\contentsline {subsection}{\numberline {8.1.3}述語による関数の表現}{104}% 
+\contentsline {subsection}{\numberline {8.1.4}判定と探索}{104}% 
+\contentsline {subsection}{\numberline {8.1.5}純粋Prolog}{105}% 
+\contentsline {subsection}{\numberline {8.1.6}定理証明とProlog}{106}% 
+\contentsline {section}{\numberline {8.2}Prolog}{106}% 
+\contentsline {subsection}{\numberline {8.2.1}開発史と背景}{106}% 
+\contentsline {subsection}{\numberline {8.2.2}処理系}{110}% 
+\contentsline {subsection}{\numberline {8.2.3}一階述語論理}{110}% 
+\contentsline {subsection}{\numberline {8.2.4}始まりは証明論から：Herbrandの定理}{112}% 
+\contentsline {subsection}{\numberline {8.2.5}新井先生の展開}{116}% 
+\contentsline {subsection}{\numberline {8.2.6}Robinsonによる導出原理と反駁による証明}{118}% 
+\contentsline {section}{\numberline {8.3}Prologのプログラムの書き方}{121}% 
+\contentsline {subsection}{\numberline {8.3.1}List}{121}% 
+\contentsline {section}{\numberline {8.4}宣言的意味論}{122}% 
+\contentsline {subsection}{\numberline {8.4.1}論理プログラムのモデル}{122}% 
+\contentsline {section}{\numberline {8.5}手続き的意味論}{122}% 
+\contentsline {section}{\numberline {8.6}否定}{122}% 
+\contentsline {section}{\numberline {8.7}無限に続くプロセス}{122}% 
+\contentsline {chapter}{\numberline {第9章}関数型言語}{123}% 
+\contentsline {section}{\numberline {9.1}Scheme}{123}% 
+\contentsline {section}{\numberline {9.2}ML}{123}% 
+\contentsline {chapter}{\numberline {第10章}有限オートマトンと正則言語の理論}{124}% 
+\contentsline {section}{\numberline {10.1}言語}{124}% 
+\contentsline {subsection}{\numberline {10.1.1}全体空間の措定：アルファベット，文字列とその構造}{125}% 
+\contentsline {subsection}{\numberline {10.1.2}言語}{126}% 
+\contentsline {section}{\numberline {10.2}非決定性有限オートマトン}{127}% 
+\contentsline {section}{\numberline {10.3}正則言語}{129}% 
+\contentsline {chapter}{\numberline {第11章}文脈自由文法}{130}% 
+\contentsline {part}{第III部\hspace {1zw}集合論}{131}% 
+\contentsline {chapter}{\numberline {第12章}ZFCとvon Neumann hierarchy}{132}% 
+\contentsline {section}{\numberline {12.1}準備}{132}% 
+\contentsline {section}{\numberline {12.2}集合生成規則}{134}% 
+\contentsline {subsection}{\numberline {12.2.1}集合全体のクラス$V$}{134}% 
+\contentsline {section}{\numberline {12.3}順序，整礎関係，超限帰納法}{134}% 
+\contentsline {section}{\numberline {12.4}整列順序と順序数}{134}% 
+\contentsline {subsection}{\numberline {12.4.1}整列順序}{134}% 
+\contentsline {subsection}{\numberline {12.4.2}順序数}{134}% 
+\contentsline {subsection}{\numberline {12.4.3}順序数演算}{135}% 
+\contentsline {subsection}{\numberline {12.4.4}木}{135}% 
+\contentsline {section}{\numberline {12.5}濃度と基数}{135}% 
+\contentsline {subsection}{\numberline {12.5.1}基数演算}{135}% 
+\contentsline {subsection}{\numberline {12.5.2}帰納的定義入門}{135}% 
+\contentsline {section}{\numberline {12.6}フィルターと閉非有界集合}{135}% 
+\contentsline {subsection}{\numberline {12.6.1}集合上のフィルター}{135}% 
+\contentsline {subsection}{\numberline {12.6.2}ブール代数}{135}% 
+\contentsline {subsection}{\numberline {12.6.3}閉非有界集合}{135}% 
+\contentsline {subsection}{\numberline {12.6.4}posetとMartinの公理MA}{135}% 
+\contentsline {section}{\numberline {12.7}Ramseyの定理}{135}% 
+\contentsline {section}{\numberline {12.8}遺伝的有限集合}{135}% 
+\contentsline {part}{第IV部\hspace {1zw}証明論}{137}% 
+\contentsline {chapter}{\numberline {第13章}様々な証明体系}{139}% 
+\contentsline {section}{\numberline {13.1}形式論理前史}{139}% 
+\contentsline {section}{\numberline {13.2}自然演繹(nat\IeC {\"u}rlichen Schlie\IeC {\ss }ens)}{139}% 
+\contentsline {subsection}{\numberline {13.2.1}推論規則}{140}% 
+\contentsline {subsection}{\numberline {13.2.2}NJ：直観主義論理}{142}% 
+\contentsline {subsection}{\numberline {13.2.3}NK：古典論理}{143}% 
+\contentsline {subsection}{\numberline {13.2.4}一階への拡張}{145}% 
+\contentsline {subsection}{\numberline {13.2.5}Curry-Howard対応}{146}% 
+\contentsline {subsection}{\numberline {13.2.6}Glivenkoの定理とG\IeC {\"o}delの二重否定翻訳}{146}% 
+\contentsline {subsection}{\numberline {13.2.7}正規化定理とシーケント計算}{147}% 
+\contentsline {section}{\numberline {13.3}Sequent calculus}{148}% 
+\contentsline {section}{\numberline {13.4}ラッセル=ヒルベルト系}{148}% 
+\contentsline {chapter}{参考文献}{149}% 

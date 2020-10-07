@@ -1,0 +1,1014 @@
+\documentclass[uplatex, 12pt, dvipdfmx]{jsreport}
+\title{代数と幾何（担当：阿部紀行先生）}
+\author{司馬博文}
+\date{\today}
+\pagestyle{headings} \setcounter{secnumdepth}{4}
+\input{/Users/hirofumi.shiba48/Desktop/数理科学/preamble_CM.tex}
+\begin{document}
+\tableofcontents
+
+\chapter{線型空間}
+
+\begin{quotation}
+    線型空間は次元という自然数によって分類される．
+    \begin{enumerate}
+        \item 線型空間には，ベクトルの空間，行列の空間，関数の空間，数列の空間など，様々な例がある．これらを個別にではなく，いっぺんに扱うには，抽象的な扱いが有効である．
+        \item もう少し積極的な理由としては，本来は違うはずのものが，同じ性質を持つことがわかることがある．例えば，漸化式を満たす数列と，定数係数線形常微分方程式の解は，全く同じ性質を持つ．
+        \item 直和，双対空間，商空間，テンソル積など，公理を確認することによって厳密な構成と既存理論の適用ができるのが，機能として便利である．
+        \item 線型空間を考える際には，１つだけを取り上げて考えるよりも，他の線型空間との関係の中で考えた方が良い．
+    \end{enumerate}
+\end{quotation}
+
+\section{体}
+
+\begin{screen}
+    線型代数の理論は全ての体の上に定義される．簡単のために$K=\R,\C$
+    と考えても良いが，$\R,\C$ではその位相的構造など，余分な条件を課しすぎている．
+\end{screen}
+
+\begin{definition}[field / Körper]
+    体とは，全ての元が積について逆元を持つような（零でない）可換環である．
+
+    即ち，和も積もAbel群で，分配し，$0\ne 1$であるようなものである．
+\end{definition}
+\begin{example}\mbox{}
+    \begin{enumerate}
+        \item 有理数体の複素化$K=\{a+b\sqrt{-1}\mid a,b\in\Q\}$は体になる．
+        \item Hamiltonの四元数は体$\mathbb{H}$をなす．
+        \item 体$K$に対して，$X$の$K$-係数の有理式全体は体をなす．これを\textbf{有理関数体}という．
+        \item 素数$p$に対して，位数$p$の有限体$\F_p=\{\overline{0},\overline{1},\cdots,\overline{p-1}\}$．
+    \end{enumerate}
+\end{example}
+
+\begin{lemma}[well-definedness]\mbox{}
+    \begin{enumerate}
+        \item 和の中立元$0(=0_K)$は一つしかない．
+        \item 和の逆元$b:=-a$は一つしかない．
+        \item 積の単位元$1(=1_K)$は一つしかない．
+        \item 積の逆元$b:=a^{-1}$は一つしかない．
+    \end{enumerate}
+\end{lemma}
+\begin{proof}
+    \begin{enumerate}
+        \item $0=0+0'=0'$．
+        \item $b=b+a+b'=b'$．
+        \item $1=11'=1'$．
+        \item $b=bab'=b'$．
+    \end{enumerate}
+\end{proof}
+
+\begin{definition}[characteristic]
+    体$K$が$\Q$を（部分体として）含むとき，体の\textbf{標数}は$0$であるという．
+    体$K$が有限体$\F_p$を（部分体として）含むとき，体の標数は$p$であるという．
+\end{definition}
+\begin{remark}
+    標数が$0$であるとは，基本零元は$0$だけだということである．
+    一方標数が正整数であるとき，他の数でも「割っちゃいけない」ルールが発生することがある．
+\end{remark}
+
+\begin{definition}[skewfield / division ring]
+    積が可換でない体を\textbf{斜体}という．
+\end{definition}
+
+\begin{proposition}[和の中立元は零元となる，体の加群への作用のうち対合であるもの$-1$]
+    $a\in K$とする．
+    \begin{enumerate}
+        \item $0a=a0=0$．
+        \item $(-1)a=-a$．
+        \item $-(-a)=a$．
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    \begin{enumerate}
+        \item $a0+a0=a(0+0)=a0$より．
+        \item $1a+(-1)a=(1-1)a=0a=0$より．
+        \item $a+(-a)=0$という逆元の定義より．
+    \end{enumerate}
+\end{proof}
+
+\section{線型空間の定義}
+
+\begin{screen}
+    $K$-線型空間$V$の基底$B$とは，後から部分空間の言葉を導入し，それを用いて線型独立の概念を定義した（定義\ref{def-linear-independent}）後から省みると，次の２通りの見方がある（命題\ref{prop-categorical-basis}）．
+    \begin{enumerate}
+        \item 線型独立な$V$の生成系$B\subset V$：$V=\langle B\rangle$．
+        \item $B\subset V$の定める同型$B:K^{\oplus n}\to V$．
+    \end{enumerate}
+    ではなぜ体上の加群にはこういうものが考えられるのか．なんとなく，基底と双対基底というものは組で存在するもののはずである．
+\end{screen}
+
+\begin{definition}[linear space, ground field]
+    体$K$上の加群を\textbf{$K$-線型空間}という．この時体$K$を\textbf{係数体}という．
+
+    「上の」とは，加群の積と体の作用が，次の４つの整合性条件を満たすことをいう．
+    \begin{enumerate}
+        \item 演算$(+)+(\cdot):K\times K\times V$の可換性：$(a+b)x=ax+bx$．
+        \item 演算$(\cdot)+(+):K\times V\times V$の可換性$a(x+y)=ax+ay$．
+        \item ２つの積演算の合成$(\cdot)+(\cdot)$の結合性：$(ab)x=a(bx)$．
+        \item 積の単位元の共有：$1x=x$（体$K$の積の単位元の作用は単位者）．
+    \end{enumerate}
+\end{definition}
+\begin{remark}[線型空間の定義の非対称性]
+    スカラー倍や「〇上の加群」というと異質なものが混ざったような印象を受けるが，結局積とは$\cdot:K\times V\to V$である．
+    ああ，定義を精査すればするほど，加群論とその先の数学が待ち焦がれる．
+    \begin{enumerate}
+        \item スカラーの作用と考えれば，これは左からの作用になっているから，特に左加群という．一般の環上の加群では（division ringでさえも），可換性が保たれないので，この区別は肝要になる．
+        \item 明らかに値域に$K$が足りていなくて，双対空間がまたれる．こうして理論が対称になる．
+    \end{enumerate}
+    このとき，空間内部に残る非対称性の残滓が「基底」であるとも理解できる．
+\end{remark}
+
+\begin{definition}[basis]
+    $(x_i)_{i\in [n]}$が\textbf{基底}であるとは，次が成り立つことをいう：
+    \[ \forall x\in V,\; \exists\textcolor{red}{!} a=\begin{pmatrix}a_1\\\vdots\\a_n\end{pmatrix}\in K^n,\; x=a_1x_1+\cdots+a_nx_n. \]
+\end{definition}
+\begin{remark}[圏論的な基底の定義]
+    上記の定義は，いわば線型空間$V$の生成元としての定義であった．
+    一方次のような定義もできる（線型空間の場合は，$K$上の自由加群と見做して同様に定義できる．全ての線型空間は自由加群であるというのが，基底定理の主張に他ならない）．
+
+    自由$R$-加群$M$の基底とは，集合$I$が存在して，$R$-加群と見做された$R^I$(a module over itself)への同型$B:M\to\oplus_{i\in I}R$のことである．
+\end{remark}
+\begin{proposition}[基底の特徴付け１]\mbox{}
+    \begin{enumerate}
+        \item $B$は，加群$M$の生成元を定める．
+        \item $M$基底は，同型$B$を定める．
+    \end{enumerate}
+\end{proposition}
+
+\begin{definition}[canonical basis]
+    数ベクトル空間$K^n$に対して，$e_1,\cdots,e_n$を\textbf{標準基底}という．
+\end{definition}
+
+\begin{proposition}[基底の特徴付け２]\label{prop-categorical-basis-old}
+    $(x_i)_{i\in[n]}$が定める写像$f:K^n\to V$を，$\begin{pmatrix}a_1\\\vdots\\a_n\end{pmatrix}\mapsto a_1x_1+\cdots a_nx_n$とする．
+    次の３条件は同値である．
+    \begin{enumerate}
+        \item $(x_i)_{i\in[n]}$は$V$の基底である．
+        \item 基底の定める写像$f:K^n\to V$は同型である．
+        \item $(\forall x\in V,\; \exists a=\begin{pmatrix}a_1\\\vdots\\a_n\end{pmatrix}\in K^n,\; x=a_1x_1+\cdots+a_nx_n)\land(\forall b_1,\cdots,b_n\in K,\; b_1x_1+\cdots+b_nx_n=0\Rightarrow b_1=\cdots=b_n=0)$．
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    1.$\Leftrightarrow$2.は論理を集合と写像（双射）の言葉で言い換えただけである．
+    座標の組み合わせと$V$の点が一対一対応するような基底の取り方を基底という．
+
+    1.$\Leftrightarrow$3.は論理的な言い換えで，$\Rightarrow$はすぐに従うが，$\Leftarrow$は自明ではない．
+\end{proof}
+\begin{remark}
+    $0$の核のみを確認すれば良いことは，論理的なトリックとしては明快であるが，その背後に何かある．
+    即ち，$f:K^n\to V$が$0$を$0$に写すことを確認しているのではないか？その確認が取れたら即基底として良い，というのがVeckの性質ではなかろうか？
+
+    きっとこれは核の言葉で理論化される．
+\end{remark}
+
+\section{線型空間の構成例}
+
+\begin{screen}
+    まず最初に定義するのが圏論的な意味での直和である（記号$\oplus$は圏論的な意味論介在を表す）．
+    これは，線型独立な基底をある種の暴力的操作によって生み出す．
+    即ち，任意の$V'$に対して，$\Hom(V\oplus W,V')\to\Hom(V,V')\times\Hom(W,V')$が可逆になるように作る，直積の内面化である．
+
+    これに対して，「線型空間の和」を自然に定義すれば，この意味での「和」が，
+    圏論的な意味での直和に一致するかどうか（＝同型が存在するか）によって，
+    「次元が潰れているかいないか」を「測る」ことができる．
+\end{screen}
+
+\begin{definition}[direct sum in a categorical sense]
+    $K$-線型空間$(V,+_V,\cdot_V),(W,+_W,\cdot_W)$に対して，
+    その上の和とスカラー倍の写像が定める写像$+_V\times+_W:(V\times W,V\times W)\to V\times W,\cdot_V\times\cdot_W:K\times(V\times W)\to K$によって，
+    集合$V\times W$上の$K$-線型空間と見做したものを，\textbf{直和}と呼び，$V\oplus W$と表す．
+    これは圏$\Vect_K$に於ける直和である．
+    しかし構成があまりに強力であり，命題\ref{prop-characterization-of-direct-sum}が成り立つように，ほとんどの場合では
+    ここまでの必要がない．従ってこちらを\textbf{抽象的な直和}と呼んで区別する．
+
+    このときの直和を定める包含射$i:V\to V\times W,j:W\to V\times W$は，それぞれの基底$x_1,\cdots,x_n\in V,y_1,\cdots,y_m\in W$を$(x_1,0),\cdots,(x_n,0),(0,y_1),\cdots(0,y_m)\in V\oplus W$に埋め込む．
+\end{definition}
+\begin{remark}
+    頭結合が積写像，足結合が和写像である．
+    従って，正確には，
+    \begin{align*}
+        +_V&:V\times V\to V&+_W&:W\times W\to W\\
+        \cdot_V&:K\times V\to V&\cdot_W&:K\times W\to W
+    \end{align*}
+    のそれぞれの直和の間に定まる写像である．
+    \[ \xymatrix{
+        &V\times V\ar[r]^-{+_V}\ar[d]^-{i}&V\ar[d]^-{i}\\
+        (V\times W)\times(V\times W)\ar[r]^-{\sim} &(V\times V)\times(W\times W)\ar@{-->}[r]&V\times W\\
+        &W\times W\ar[u]_-{j}\ar[r]^-{+_W}&W\ar[u]_-{j}
+    } \]
+\end{remark}
+\begin{notation}
+    $K$-線型空間$V$に対して$V^n$とは，直和$V^n:=V^{\oplus n}$のことである．
+\end{notation}
+
+\begin{example}[a trivial example]
+    $K^0=\{0\}=0$は$K$-線型空間である．
+\end{example}
+
+\begin{example}[a space of matrices]
+    行列の空間$M_{mn}(K)$は数ベクトル空間として線型空間をなす．
+\end{example}
+
+\begin{example}[a space of functions]
+    関数の和とスカラー倍は，組と同様に，point-wiseに定められる．直積の普遍性である．
+    \begin{enumerate}
+        \item 無限回微分可能な実関数全体の集合$C^\infty(\R):=\{f:\R\to\R\mid fはC^\infty 級\}$は，関数の和とスカラー倍について実線型空間となる．
+        \item 開集合$U\subset\C$上の正則関数がなす空間$\mathcal{O}=\{f:U\to\C\mid fは正則関数\}$は，複素線型空間をなす（これは層をなす）．
+    \end{enumerate}
+\end{example}
+
+\begin{example}[a space of sequences]
+    特に，関数$a:\N\to\R$の全体のなす空間$\R^\N$は，数列の空間である．
+\end{example}
+
+\begin{example}[a space of polynomials]
+    $K$係数多項式の空間$K[X]:=\{a_0+a_1X+\cdots+a_nX^n\mid n\in\N,a_0,\cdots,a_n\in K\}$は，$K$-線型空間となる．
+    多項式は結局一つの関数$K\to K$を表すことからもわかる．
+\end{example}
+
+\begin{example}[a space of mappings]
+    配置集合$K^X$は$K$-線型空間となる．
+\end{example}
+
+\subsection{部分空間}
+
+\begin{example}[部分空間になるもの]\mbox{}
+    \begin{enumerate}
+        \item $W=\{f\in C^\infty(\R)\mid  f''=0\}$は線型空間．
+        \item $W=\{(x_0,x_1,\cdots)\in \R^\N\mid x_{n+2}=x_{n+1}+x_n\}$は線型空間．
+    \end{enumerate}
+\end{example}
+
+\subsection{体と線型空間}
+
+\begin{screen}
+    議論の途中で複素化などをすると，体の拡大を自由に行える圏が欲しくなる．
+    あるいは$\FinVect_\R$などの圏などないのだろうか．
+    環上の加群論と繋がるのだろうか．
+\end{screen}
+
+\begin{example}[extention field]
+    $\C$は$\R$-線型空間となり，$\R$は$\Q$-線型空間となる．
+
+    一般に，体$K$に対して，有理関数体$K(X)$は$K$-線型空間となる．
+\end{example}
+
+\begin{example}[複素線型空間の構成：conjugation, complexification]\mbox{}
+    \begin{enumerate}
+        \item $\C$-線型空間$V$に対して，スカラー倍を$a\cdot'x=\overline{a}x$として得る空間$V'$を$\C$-線型空間$V$の\textbf{共軛}という．即ち，体$\C$を同型$\overline{ }$で変換した後の$\C$を採用しても，対合的な$\C$-空間を得るのみである．
+        \item $\R$-線型空間$V$に対して，その$\R$-直和空間$V\oplus V$にさらに係数体の拡大$\R\to\C$をし，それに沿ってスカラー倍$\cdot:\C\times(V\oplus V)\to (V\oplus V)$を$(a+bi)(x,y)=(ax-by,bx+ay)$で定める（係数体の拡大前は常に$b=0$だった）．
+        こうして得た$\C$-線型空間としての$V\oplus V$を$V_\C$と書き，これを\textbf{複素化}という，従って「直和に係数体の拡大を伴ったもの」という特別な場合を表す．
+        また$V=\R$の場合，複素線型空間としての$\C$は，実線型空間$\R$の複素化である：$\R\oplus\R=:\R_\C\simeq\C$．これを一般化したものである．
+        $V\oplus V$の元として形式的なまま表せば，$(x,y)=(x,0)+i(y,0)$である．複素数論では$z=x+yi$と略記し，適宜$\R\oplus\R$と同型を取る．
+        $x_1,\cdots,x_n$を$V$の基底とすると，$(x_1,0),\cdots,(x_n,0)$は$\C$-線型空間としての$V_\C$の基底である，複素数論では通常こんな見方（$\C$を$\C$-線型空間と見る見方）はしない．
+    \end{enumerate}
+\end{example}
+
+\begin{remark}[functions on a vector space]
+    汎関数では特にそうであるが，線型空間上の関数と行った時は，暗黙のうちに係数体$K$に値を取る．
+    これは今までの数学では$K=\R,\C$の場合のみを考えてきたというだけのことである．
+\end{remark}
+
+\begin{itembox}[l]{体と線型空間との構造は極めて緊密な関係にある}
+    はじめの例は全て線型空間の間の写像の空間を線型空間と満たすという種のものであったが，そこから多項式という表示形式に注目すると，
+    体の拡大も線型空間の言葉で捉えられることがわかった．
+    Galois理論を線型代数によって定式化したのはEmil Artin，圏論によって定式化したのはAlexander Grothendieckである．
+
+    そして，体の拡大と極大としての複素数，その複素数を得る手順の線型空間への翻訳としての複素化．体と線型空間は切っても切れない関係にある．
+
+    では，物理学の方から提出された，変換性の違いという意味でのベクトルとスカラーの概念と線型代数の出会いはいつだったのであろうか？どうして「線型空間とその係数体の関係だ！」と気づけたのか．
+\end{itembox}
+
+\section{部分空間}
+
+\begin{screen}
+    部分空間は，線型空間の記述において一番肝要になる．いや，正しくは線型空間は部分空間の言葉のみによっても完全に記述できる．
+    通常の集合の演算の言葉は上手く通用せず，部分空間とその和によって語り尽くされるのである．
+
+    その，部分空間の言葉による回収作業は，特定の基底などの内部構造を抽象化するわけだから，極めて圏論的な感覚から，次のようにして行われる．
+    \begin{enumerate}
+        \item 生成の概念により，全ての部分集合は，部分空間のことばに回収される．また，一般の元が「特定の部分集合が生成する空間の元」として理解できる時，それらの部分集合による線型結合という．
+        \item 基底とは同型に他ならない．基底の実体とは，その時その時で好きに取れば良いが，その自由性は外部にある同型に因る．これを掴んだ概念を圏論的直和といい，線型空間に於ける基底は基本このことばによって表現される，即ち，圏論的な直和とは線型独立なものの標準的構成法に他ならない．
+        \item 線型独立とは，圏論的には，「生成する空間の基底となる関係」のことをいう．これは直観的にどの２つも潰れないことを意味し，形式的には$\langle x_1,\cdots,x_n\rangle=Kx_1\oplus\cdots\oplus Kx_n$を意味するからである．右辺の圏論的直和は，直積による強制的な基底の構成法（に支配される数ベクトル空間$K^n$からの同型があること）を意味し，左辺は生成する部分空間である（この元を一次結合という）．
+        \item 「線型空間の和」の概念が極めて自然に定義される．これが圏論的な直和に一致するときが，互いに素な場合に他ならず（命題\ref{prop-characterization-of-direct-sum}），
+        \item 線型空間の一般の和の場合は，共通部分と互いに素な部分に分け，互いに素な部分は圏論的直和として構成する，この構成力は集合論的直積に支えられており，形式としての使いやすさは抜群である．すると基底とは同型射なので基底はすぐわかる．これで互いに素な部分＝拡大部分は解決する（系\ref{cor-basis}）．
+    \end{enumerate}
+\end{screen}
+
+\begin{definition}[subspace]
+    $K$-線型空間$V$の部分集合$W$が次を満たす時，これは線型空間となる．これを$K$-\textbf{（線型）部分空間}という．
+    \begin{enumerate}
+        \item $\forall x,y\in W, x+y\in W$．
+        \item $\forall  a\in K,  \forall x\in  W, ax \in W$．
+        \item $0_V\in W$．
+    \end{enumerate}
+\end{definition}
+\begin{proof}
+    和とスカラー倍は$W$への制限を取るだけで$W$上の演算として定まる．
+    すると$V$の構造が遺伝する形で，$W$も線型空間となる．
+\end{proof}
+
+\subsection{部分空間の構成}\label{section-construction-of-subspaces}
+
+\begin{definition}[元が生成する部分空間]
+    $K$-線型空間$V$の$x\in V$に対して，$Kx:=\{ax\in V\mid a\in K\}$は部分空間である．
+    $x\ne 0$ならば$x$は$Kx$の基底だが，$x=0$の時はそうではない（注\ref{remark-emptyset}）．
+\end{definition}
+
+\begin{proposition}[部分空間の和，共通部分]
+    $W,W'$を$V$の部分空間とする．
+    \begin{enumerate}
+        \item 部分空間の\textbf{和}を$W+W':=\{x+x'\mid x\in W,x'\in W'\}$と定める．これは再び$V$の部分空間である．
+        \item $W\cap  W'$は$V$の部分空間となる．
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    \begin{enumerate}
+        \item $W,W'$が部分空間であることより，演算の閉性は$W+W'$でも受け継がれる．$0\in W+W'$．
+        \item ２つの部分空間の閉性が$W\cap W'$に受け継がれるので定まっている．
+    \end{enumerate}
+\end{proof}
+
+\begin{definition}[部分集合が生成する部分空間，生成系]\label{def-generator}
+    $x_1,\cdots,x_n\in V$とする．
+    \begin{enumerate}
+        \item 元$x_1,\cdots,x_n$によって生成される部分空間$Kx_1+\cdots+Kx_n$を$\langle x_1,\cdots,x_n\rangle$と書くこととする．\textbf{この元を}$x_1,\cdots,x_n$の\textbf{線型結合}と呼ぶ．
+        \item $V=\langle x_1,\cdots,x_n\rangle$が成り立つ時，$x_1,\cdots,x_n$を$V$の\textbf{生成系}であるという．
+    \end{enumerate}
+\end{definition}
+\begin{remark}[空集合の場合]\label{remark-emptyset}
+    この定義では，$V$は空でないことに注意．
+    \begin{enumerate}
+        \item $0$の基底は$\varnothing$（空な族，またはその値域としての空集合）とする，ただ一つの元$0$ではないとする！これは次元の定義\ref{def-dimention}において，基底$(x_i)_{i\in 0}$が空な族になるためだと考えられる．
+        \item 上の定義とは別に$\langle\varnothing\rangle=\{0\}$と約束する．
+    \end{enumerate}
+\end{remark}
+
+\begin{proposition}[生成する部分空間の特徴付け：閉包]
+    $\varnothing\subseteq X\subset V$に対して，$\langle X\rangle$は$X$を含む最小の部分空間である．即ち，次の２条件が成り立つ．
+    \begin{enumerate}
+        \item $\langle X\rangle$は$X$を含む部分空間である．
+        \item $W$も$X$を含む部分空間であるとする．この時，$\langle X\rangle\subset W$．
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    1は成り立つ．2は，$X=\varnothing$の時は$\langle X\rangle =0$で，また$0\in W$だから，$\langle X\rangle =0\subset W$．
+
+    $X\ne\varnothing$の時．$W$は部分空間だからその２種の演算に対する閉性より，$x_1,\cdots,x_n$の任意の一次結合を含む．従って，$\langle X\rangle\subset W$．
+\end{proof}
+
+\begin{proposition}[互いに素であることの特徴付け]\label{prop-characterization-of-direct-sum}
+    $V$の部分空間$W,W'$について，次の２条件は同値である．
+    \begin{enumerate}
+        \item $W\cap W'=0$．
+        \item 自然な同型射$\varphi:W\oplus W'\to W+W'$が存在する（勿論，$(x,x')\mapsto x+x'$と写す）．
+    \end{enumerate}
+\end{proposition}
+\begin{proof}* 
+    1.$\Rightarrow$2.について，$W+W'=\varphi(W\oplus W')$が定義（の言い換え）であるので，全射性は必ず保たれる．
+    あとは$\varphi$が単射であることを示せば良い．
+    $x,y\in W,x',y'\in W'$が$x+x'=y+y'\Leftrightarrow x-y=y'-x'$とすると，左辺は$W$の元で右辺は$W'$の元．
+    従って，これらは$0$に他ならない．よって$x=x',y=y'$が導かれる．よって互いに素な時(1)，$\varphi$は単射．
+
+    2.$\Rightarrow$1.について．$x\in W\cap W'$を取ると，$\varphi(x,0)=x=\varphi(0,x)$であるから，$\varphi$の単射性より，$x=0$．
+\end{proof}
+\begin{remark}[what is naturality?]
+    $W+W'\subset W\oplus W'$という集合を考える．$i:W\to W+W', j:W'\to W+W'$という包含写像が存在し，
+    写像の和として$i+j:W\oplus  W'\to W+W'$を考える（$(i+j)(x+x')=i(x)+j(x')=x+y\in W+W'$）．これを「自然な写像」と呼んだ．
+    改めて，$W+W'=(i+j)(W\oplus W')$と定める．
+    これが直和が定める射に一致する時，可逆になるという訳である．
+\end{remark}
+
+\begin{notation}[direct sum]
+    命題\ref{prop-characterization-of-direct-sum}より，$W\oplus W':\Leftrightarrow W+W'\land W\cap W'=0$と書く．
+    同型$\varphi$により，同一視できるからである．
+\end{notation}
+
+\begin{example}[いろいろな直和]
+    例えば$K^n$は同一視できない．$K\cap K\cap\cdots\cap K=K\ne 0$だからである．
+\end{example}
+
+ここで，必ずしも$\varphi$が同型ではない場合の統一的な取り扱いについて考える．
+基本的には「同型が取れる部分（今回では$\langle y_1,\cdots,y_m\rangle$部分と$\langle z_1,\cdots,z_r\rangle$部分）」
+を確保してそこから話を組み立てることになる．
+すでに部分空間とその和・直和の言葉が整っているので，自由自在に使いこなせば良い．
+
+\begin{corollary}[部分空間の和の基底は，基底の和である]\label{cor-basis}
+    $V$を$K$-線型空間とし，$W,W'$を部分空間とする．
+    \begin{enumerate}
+        \item $(x_i)_{i\in[n]}$を$W\cap W'$の基底，
+        \item $(x_i)_{i\in[n]},(y_i)_{i\in[m]}$を$W$の基底，
+        \item $(x_i)_{i\in[n]},(z_i)_{i\in[r]}$を$W'$の基底とすれば，
+    \end{enumerate}
+    $W+W'$の基底は$(x_i)_{i\in[n]},(y_i)_{i\in[m]},(z_i)_{i\in[r]}$である．
+\end{corollary}
+\begin{proof}
+    \textbf{基底についての条件は部分空間と抽象的な圏論の意味での直和の言葉に翻訳するのが良い}．
+    $W'':=\langle z_1,\cdots,z_r\rangle\subset W'$と置けば，$W+W'=W\oplus W''$であると示せば良い．
+    （しかし$W''=W\setminus W'$とは限らないのが線型空間の肝である．）
+
+    まず，直和の定義より，$x_1,\cdots,x_n,z_1,\cdots,z_r$は全て$V$の基底で線型独立であるから，$(W\cap W')\cap W''=0$より，
+    $W'=(W\cap W')\oplus W''= (W\cap W')+ W''$．よって，$W+W'=W+((W\cap W')+ W'')=W+W''$．
+    この時実は$W\cap W''\cap (W\cap W')\cap W''=0$より，右辺は直和$W\oplus W''$である（命題\ref{prop-characterization-of-direct-sum}）．
+    よって，$W+W'=W\oplus W''$の基底は，$(x_i)_{i\in[n]},(y_i)_{i\in[m]},(z_i)_{i\in[r]}$である．
+\end{proof}
+
+\subsection{部分空間の例}
+
+\begin{example}[subspaces of square matrix's spaces]
+    \begin{align*}
+        S_n(K)&:=\{A\in M_n(K)\mid Aは対称行列，即ち，1\le i<j\le n\Rightarrow a_{ij}=a_{ji}\},\\
+        A_n(K)&:=\{A\in M_n(K)\mid Aは交代行列，即ち，a_{ij}=-a_{ij},\;(1\le i<j\le n)\land a_{ii}=0,\;(i\in[n])\},\\
+        D_n(K)&:=\{A\in M_n(K)\mid Aは対角行列，即ち，1\le i<le n\Rightarrow a_{ij}=a_{ji}=0\},\\
+        T_n(K)&:=\{A\in M_n(K)\mid Aは上三角行列，即ち，1\le i<le n\Rightarrow a_{ij}=0\}.
+    \end{align*}
+\end{example}
+
+\begin{example}[subspaces of function spaces defined by differential equations]
+    $V=\{f\in C^\infty(\R)\mid f^{(m)}=p_1f^{(m-1)}+\cdots+p_{m-1}f'+p_mf, m\in\N\}$は部分空間である．
+    例えば空間$\{f\in C^\infty(\R)\mid f''=-f\}$の基底は三角関数$\sin,\cos$である．
+\end{example}
+
+\begin{example}[subspaces of sequences' spaces defined by recurrence relations]
+    $W=\{(a_n)\in\R^\N\mid a_{n+m}=p_1a_{n+m-1}+\cdots+p_{m-1}a_{n+1}+p_ma_n,\;n\in\N\}$は部分空間である．この空間の基底は，この漸化式を満たす$m$個の数列$b_0,\cdots,b_{m-1}\in W$を，$b_i(j):=\delta_{ij}$と取れば，これは
+    この空間の標準基底である．即ち，漸化式を満たす数列という部分空間は，初期条件だけの自由度がある．
+\end{example}
+
+\begin{example}[subspaces of polynomials' spaces]
+    $V=\{a_0+a_1X+\cdots a_nX_n\in K[X]\mid a_0,\cdots,a_n\in K,n\in\N\}$は部分空間であり，$1,X,\cdots,X^n$は$V$の基底になる．
+
+    また，$f\in K[X]$で割り切れる多項式の全体$(f):=\{fg\mid g\in K[X]\}(=f\cdot K[X])$は部分空間を生成する．
+\end{example}
+
+\begin{example}[subspaces of mappings' spaces where mappings have finite supports]
+    写像空間のうち，台が有限集合となるようなものからなる部分集合$K^{(X)}:=\{f:X\to K\in K^X\mid f(x)\ne 0となるx\in Xは有限個である\}$は有限次元の部分空間である．
+    基底は，台$\supp(f)$の各点$x\in\supp(f)$についての特性関数の逆$e_x(y)=\delta_{xy}$である．
+\end{example}
+
+\begin{example}[多項式の空間についての結果：整域というか，環論っぽい]
+    $f\in K[X]$を$n\ge 0$次の$0$でない多項式とし，それに対応して$W$を$n-1$次以下の多項式全体のなす$K[X]$の部分空間とする．
+    すると，$K[X]=(f)\oplus W$となる．即ち，$f$は$K[X]$の積について$n$次以上の式の全てを生成する．
+
+    大学入試での，任意の多項式$g\in K[X]$に対して$f$で割った商$q\in K[X]$と余り$r\in W$を一意的に対応させる
+    という議論は，同型$\varphi:(f)\oplus W\to K[X]$の逆射である．
+    
+    なお，$K[X]$において，このように$0$を別にして議論したい場合ばかりであるので，
+    多項式$0$は$-\infty$次元であると考える．
+\end{example}
+
+\section{次元}
+
+\begin{screen}
+    部分空間についての言葉が揃ったので，いよいよ線型空間の分類に取り掛かる．
+    「次元」という言葉はいささか自然言語的で生得的であるが，線型空間の分類定理\ref{thm-dimention}と次元の存在定理\ref{thm-basis}が成り立つからこそである．
+    この本質は，部分空間を拡大する際に，既存の基底に対して一次独立などの元を取るかに依らず一意的に生成できることに依拠する（補題\ref{lemma-welldefinedness-of-expansion-of-subspaces}）．
+    この生成は，元の取り方に依らず，$x_i\in\langle x_1,\cdots,x_{i-1}\rangle$を満たすものを取れば良い．
+    こうして，次元という特徴量と，部分空間の拡大法のwell-definedness（などの圏論的性質）を集合論から議論する．
+    この際に，線型独立系と生成系が与えられれた時にその中から基底を選びとるアルゴリズムをまず構成すれば（定理\ref{thm-linear-system-extension-algorithm}），殆どの結果はそのアルゴリズムから導ける．
+    これらの道具を用いれば最終的に，任意の部分空間は直和因子であることを導ける，これが線型空間が直観的に扱いやすい根源であるとも言える．
+    この性質を無限次元にも拡張できる，これは次の節で議論する．
+\end{screen}
+
+部分空間の構成（\ref{section-construction-of-subspaces}節）の言葉で，線型独立性は次のように定められる．
+\begin{definition}[linear independent]\label{def-linear-independent}
+    $x_1,\cdots,x_n\in V$が\textbf{線型独立}であるとは，$x_1,\cdots,x_n$が自身の生成する部分空間$\langle x_1,\cdots,x_n\rangle$の基底となることをいう．
+\end{definition}
+\begin{remark}
+    部分集合が部分空間を生成することの定義\ref{def-generator}では，生成する部分空間を「元が生成する個々の部分空間の和」の言葉で定義している．従って，一次従属だった場合は，その際に潰れる次元が出てくるため，
+    $x_1,\cdots,x_n$は自身の生成する部分空間の元を一意的には表さなくなる．従って，個数が多すぎるために基底にはならなくなる．
+\end{remark}
+
+\begin{proposition}[一次独立の特徴付け：一次独立系の拡大法]\label{prop-linear-system-expansion}
+    $x_1,\cdots,x_n\in V$に対して，次の２条件は同値．
+    \begin{enumerate}
+        \item $x_1,\cdots,x_n$は線型独立である．
+        \item $x_1,\cdots,x_{n-1}$が線型独立，かつ，$x_n\notin\langle x_1,\cdots,x_{n-1}\rangle$．
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    1.$\Rightarrow$2.は，$x_n\in\langle x_1,\cdots,x_{n-1}\rangle$と仮定すると，
+    $a_1x_1+\cdots+a_{n-1}x_{n-1}-x_n=0$であるが，$x_1,\cdots,x_n$は線型独立であるから，$-1=0$を得るが，これは$K$が体であることに矛盾．
+
+    2.$\Rightarrow$1.は，圏論的には，$\varphi:\langle x_1,\cdots,x_{n}\rangle=\langle x_1,\cdots,x_{n-1}\rangle+Kx_n\to\langle x_1,\cdots,x_n\rangle\oplus Kx_n$が全単射であることを示せば良い．
+    従って，$v\in\langle x_1,\cdots,x_{n}\rangle$を任意にとり，$v=a_1x_1+\cdots+a_nx_n$とした時の，表示の一意性を示せば，$\langle x_1,\cdots,x_n\rangle\oplus Kx_n$の元$(a_1x_1+\cdots+a_{n-1}x_{n-1},a_nx_n)$と標準的な同型が取れるので，それで示せたことになる．
+    \textbf{表示の一意性を示すには，$=0$の場合のみを確認すれば良い}．
+    $a_1v_1+\cdots+a_nv_n=0$とする．この時$a_nv_n=-a_1v_1-\cdots-a_{n-1}v_{n-1}$となるが，$v_n\notin\langle v_1,\cdots,v_{n-1}\rangle$より，$a_n=0$．すると，$v_1,\cdots,v_{n-1}$が基底であることより，$a_1=\cdots=a_{n-1}=0$．
+\end{proof}
+
+\begin{shadebox}\begin{theorem}[線型空間の分類定理 (Ernst Steinitz)]\label{thm-dimention}
+    $V$を$K$-線型空間とする．$(x_i)_{i\in [m]}$と$(y_i)_{i\in [n]}$がいずれも$V$の基底であるならば，$n=m$である．
+\end{theorem}\end{shadebox}
+\begin{proof}
+    互いに逆写像である写像$f:[m]\to[n]$と$g:[n]\to[m]$を構成する事により，$|X|=|Y|$を証明する．
+
+    部分空間の列$\{V_i:=\langle x_1,\cdots,x_i\rangle\}_{i=0,1,\cdots,m},\{W_j:=\langle y_1,\cdots,y_j\rangle\}_{j=0,1,\cdots,n}$を定める．
+    これに対して，$f(i)=j$を，$x_i\in V_{i-1}+W_j$を満たす最小の$j$として定義し，$g$も対称に定義する．
+    この時に，$f(i)=j\Leftrightarrow g(j)=i$と示せれば，定理の主張を得る．
+
+    まず$f:[m]\to[n]$を定義する，各$i=1,\cdots,m$に対して，部分空間の増大列
+    \[ V_{i-1}=V_{i-1}+W_0\subset V_{i-1}+W_1\subset\cdots\subset V_{i-1}+W_n=V \]
+    を考えると，$x_i\notin V_{i-1}+W_0$と$x_i\in V_{i-1}+W_n$とより，$x_i\in V_{i-1}+W_j$を満たす最小の$1\le j\le n$が定まる（この時，部分空間の増大列が無限に長い場合，選択公理が必要となる）．
+    この$j$をして，$f(i)=j$と定める．同様にして，$g:[n]\to[m]$を定める．
+
+    この時，$f(i)=j\Leftrightarrow g(j)=i$，即ち$f\circ g=\id,g\circ f=\id$は次の補題に一般化される．
+\end{proof}
+\begin{lemma}[線型空間の分類定理の論理的核：部分空間の拡大の方法に依らない]\label{lemma-welldefinedness-of-expansion-of-subspaces}
+    $x,y\in V, V'\subset V$とする．次の２条件は同値である．
+    \begin{enumerate}
+        \item $x\notin V'\land x\in V'+Ky$．
+        \item $y\notin V'\land y\in V'+Kx$．
+    \end{enumerate}
+\end{lemma}
+\begin{proof}
+    1.$\Rightarrow$2.を考える．$x\in V'+Ky$より，$z\in V', ay\in Ky$を用いて，$x=z+ay$と表せる．また$x\notin V'$より，$a\ne 0$である．
+    （従って，$V'+Ky\simeq V'\oplus Ky$）．
+    この時，$y=\frac{1}{a}(x-z)$より，$y\in V'+Kx, y\notin V'$．逆も同様．
+\end{proof}
+\begin{remark}[集合論を基礎に据えると，圏論的結果は風景になり，すぐには直接的な武器とはならないのは悲しい．]
+    $V$の部分空間の包含関係
+    \[\xymatrix{
+        V'+Ky\ar[r]^-{j_x}&V'+Kx+Ky\\
+        V'\ar[r]_-{i_x}\ar[u]^-{i_y}&V'+Kx\ar[u]_-{j_y}
+    }\]
+    を考える．これについて，条件1.,2.,はそれぞれ
+    \begin{enumerate}[i]
+        \item $i_x$は非可逆で，$j_x$は可逆である．
+        \item $i_y$は非可逆で，$j_y$は可逆である．
+    \end{enumerate}
+    と同値である．実はこの図式は可換である．$V'\subsetneq V'+Kx+Ky$の時，可換になる時の各射の様子は，同値なi,iiの場合で尽きるのである．必ず一歩目の時点で拡大し切ってことが終わってしまう．
+\end{remark}
+
+\begin{definition}[(Hamel) dimention]\label{def-dimention}
+    $n\in\N$に対し，$V$に基底$(x_i)_{i\in[n]}$が存在するならば，$V$は\textbf{有限次元}であるといい，$n=:\dim V$を$V$の\textbf{次元}という．
+    有限次元でない線型空間を\textbf{無限次元}であるという．
+\end{definition}
+\begin{remark}
+    より正確には，基底$B$の濃度と定義する．$\dim:\FinVect_K\to\Ord$は直和の構造を保つ．
+
+    基底と次元の概念は複数存在し，特に関数空間などにおいて，無限和まで込めて基底と呼べる性質を，ベクトル空間の基底とアナロジーで考えて基底と呼ぶが，
+    それに対して今回の意味での線型空間としての基底を\textbf{ハメル基底}または\textbf{代数的な基底}と言う．
+\end{remark}
+
+\begin{theorem}[線型独立系の基底への延長算譜]\label{thm-linear-system-extension-algorithm}
+    $\langle x_1,\cdots,x_n\rangle =V$とする．
+    \begin{enumerate}
+        \item （算譜）いま$x_1,\cdots,x_m\;(m\le n)$が一次独立だったとする．
+        \[\{i_1,\cdots,i_r\}:=\{i\in \{m+1,m+2,\cdots,n\}\mid x_i\notin\langle x_1,\cdots,x_{i-1}\rangle\}\]
+        とすると，$x_1,\cdots,x_m,x_{i_1},\cdots,x_{i_r}$は$V$の基底である．
+        \item （生成系の性質）$\dim V\le n$．等号成立時は，$x_1,\cdots,x_n$が基底である時である．
+        \item （線型独立系の性質）$y_1,\cdots,y_m\in V$が線型独立とすれば，$m\le\dim V$である．$m=\dim V$ならば，これらは基底である．
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    1. データ構造$(x_1,\cdots,x_m,x_{i_1},\cdots,x_{i_r})$の作り方より，$x_1,\cdots,x_m,x_{i_1},\cdots,x_{i_r}$は$V$の生成系であり，また命題\ref{prop-linear-system-expansion}より
+    線型独立でもあることを，$l=n-m\ge 0$の帰納法について示せば良い．
+
+    2. 1より$r\ge 0$が存在して$\dim V=m+r\le n$であるから．
+
+    3. 生成系$\langle y_1,\cdots,y_m,x_1,\cdots,x_n$に対して1より，$m\le m+r=\dim V$であるから．
+\end{proof}
+\begin{remark}[線型独立系の基底への延長アルゴリズムを与えれば，2,3は系として導かれる．]
+    前節の可換図式的な考え方を用いれば，$x_{i_1},\cdots,x_{i_r}$とは最短距離の拡張である．他の$x_{m+1},\cdots,x_n$を加えても空間に変化を起こさない．
+    線型独立を十分に大きくすると基底となり，さらに大きいものは生成系となる．
+\end{remark}
+
+\begin{corollary}[有限次元であることの特徴付け]\mbox{}
+    \begin{enumerate}
+        \item $V$は有限次元である（＝有限集合$B$が存在して基底となる）．
+        \item $V$の生成系であって，有限であるものがある．
+        \item 自然数$n$であって，$x_1,\cdots,x_m\in V$が線型独立ならば$m\le n$となるようなものがある．
+    \end{enumerate}
+\end{corollary}
+\begin{proof}
+    1が存在を保証する基底を$B\subset V$とする．
+    1$\Leftrightarrow$2について，$\Rightarrow$は基底を取れば生成形である．$\Leftarrow$は，生成系から定理\ref{thm-linear-system-extension-algorithm}.1
+    で示した算譜により基底を作れる．
+    1$\Leftrightarrow$3について，定理\ref{thm-linear-system-extension-algorithm}.3より，$n=\dim V=|B|$と取れば，$m\le n$を満たす．
+\end{proof}
+
+\begin{corollary}
+    $n:=\dim V$とする．$x_1,\cdots,x_m\in V$に対して，次の３条件は同値．
+    \begin{enumerate}
+        \item $x_1,\cdots,x_m$は基底である．
+        \item $\langle x_1,\cdots,x_m\rangle =V\land m=n$．
+        \item $x_1,\cdots,x_m$は一次独立で$m=n$．
+    \end{enumerate}
+\end{corollary}
+
+\begin{proposition}[任意の部分空間は直和因子である，direct summand, complement subspace]
+    部分空間$W\subset V\in\FinVect_K, n=\dim  V$について，次が成り立つ．
+    \begin{enumerate}
+        \item $\dim W\le\dim V$であり，等号成立条件は$W=V$．
+        \item $x_1,\cdots,x_m$を$W$の基底とする．この時，$x_{m+1},\cdots,x_n\in V$であって，$x_1,\cdots,x_n$が$V$の基底となるようなものが存在する．
+        \item $V$の部分空間$W'$であって，$V\simeq W\oplus W'$となるものが存在する．（$W$は$V$の\textbf{直和因子}，$W'$は$W$の\textbf{補空間}という）．
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    1. 一次独立な元$x_1,\cdots,x_m\in W$が取れたとすると，定理\ref{thm-linear-system-extension-algorithm}.3より，$m\le n$である．
+    特に$x_1,\cdots,x_m$が基底である場合もこれに含まれる．従って$W$は有限次元．
+    $m=n$である時，定理\ref{thm-linear-system-extension-algorithm}.2より，この線型独立系$x_1,\cdots,x_m$は$V$の基底でもある．従って，$W=\langle x_1,\cdots,x_{m=n}\rangle=V$．
+
+    2. $V$の基底$y_1,\cdots,y_n$を取り，$x_1,\cdots,x_m,y_1,\cdots,y_n$について定理\ref{thm-linear-system-extension-algorithm}.1の算譜を適用すれば良い．
+
+    3. 2において，$W'=\langle y_{i_1},\cdots,y_{i_{n-m}}\rangle$と置けば良い．
+\end{proof}
+
+\section{無限次元空間}
+
+\begin{screen}
+    無限和を定義するには，基底の定義を写像化・圏論化しなければならない．即ち「族」の言葉で定義する．
+    今回は無限和の定義と収束性の議論は避け，一次結合や生成する部分空間とは「無限個の元から有限個選んだ和で表せるもの」とする，この話題は関数空間など，位相の構造も込みで考えねば収束性は議論できない．
+    そこで，線型代数における直和$\oplus$の概念がはっきりする．
+
+    有限次元の場合と全く同様に，次元定理が成り立つ．また，全ての線型空間の部分空間が射影因子であることが真に一般的に導ける．
+
+    また，ここまで来て新たに示せる定理として，基底の存在定理がある．
+\end{screen}
+
+\begin{definition}[任意個の線型空間の直和]
+    線型空間の族$(V_i)_{i\in I}$について，その\textbf{直和}とは，
+    \[ \bigoplus_{i\in I}V_i:=\{(x_i)_{i\in I}\in\prod_{i\in I}V_i\mid 有限個のi\in Iを除いてx_i=0\} \]
+    のことである．$V_i=K\;(i\in I)$である時，$\prod_{i\in I}=K^I, \oplus_{i\in I}=:K^{(I)}$と表す．$I$が有限集合である時に限って$K^I=K^{(I)}$である．
+\end{definition}
+
+\begin{definition}[任意個の一次結合]
+    $(x_i)_{i\in I}\in V^I$の生成する空間の元を\textbf{一次結合}といい，$(a_i)_{i\in I}\in K^{(I)}$と有限集合$J\subset I$を用いて，$a_i=0\;(i\notin J)$として，
+    \[ \sum_{i\in I}a_ix_i:=\sum_{i\in J}a_ix_i \]
+    と定義する．
+\end{definition}
+
+\begin{definition}[基底，一次独立，生成系]
+    $x=(x_i)_{i\in I}\in V^I$について，
+    \begin{enumerate}
+        \item $x$が定める写像$\varphi_x:K^{(I)}\to V$が可逆である時，$x$を$V$の\textbf{基底}という．
+        \item $x$が$\langle x_i\mid i\in I\rangle$の基底である時，\textbf{線型独立}であるという．
+        \item $V=\langle x_i\mid i\in I\rangle:=\{\sum_{i\in I}a_ix_i\mid (a_i)_{i\in I}\in K^{(I)}\}$の時，\textbf{生成系}という．
+    \end{enumerate}
+\end{definition}
+
+\begin{example}
+    $(X^i)_{i\in\N}$は$K[X]$の基底である．しかしその無限和も考えると，$(X^i)_{i\in\N}$はより大きな線型空間の「基底」たり得る．
+\end{example}
+
+\subsection{次元定理}
+
+\begin{theorem}
+    $(x_i)_{i\in I}\in V^I$が一次独立で，$(y_i)_{i\in J}\in V^J$が生成形であるならば，単射$I\to J$が存在する．
+\end{theorem}
+
+\subsection{基底の存在}
+
+\begin{theorem}[basis theorem]\label{thm-basis}
+    $K$-線型空間は基底を持つ．
+\end{theorem}
+\begin{remark}[選択公理と同値]
+    It is a famous classical consequence of the axiom of choice (and is equivalent to it by a result of Andreas Blass, proved in 1984).
+\end{remark}
+\begin{proof}
+    
+\end{proof}
+
+\chapter{線型写像}
+
+\begin{quotation}
+    まず線型写像（線型空間の射）の定義と例を見る．
+    次に，数ベクトルのなす空間における線型写像は行列倍写像であるが，基底の理論によって一般の線型空間について拡張可能であることを見る．
+    これを「行列表示」と言う．
+    最後に「核」と「像」と言う（再び）部分空間の言葉を用いて，線型写像の分類を考える．
+\end{quotation}
+
+\section{線型写像の定義}
+
+\begin{screen}
+    線型写像を定義し，この言葉を用いて基底を特徴付ける．
+    すると，$n$次元線型空間について，基底の行先を$n$点（被っても良い，もちろん線型独立でなくて良い）定めると線型写像が一意に定まる．
+    これを「$y_1,\cdots,y_n$が定める線型写像」という．特に$y_1,\cdots,y_n$が基底である時，「$y_1,\cdots,y_n$が定める同型」という．
+\end{screen}
+
+\begin{definition}[linear mapping]
+    写像$f:V\to W$が$K$-線型写像であるとは，次の条件を満たすことをいう．
+    \begin{enumerate}
+        \item $\forall x,y\in V,\; f(x+y)=f(x)+f(y)$．
+        \item $\forall a\in K,x\in V,\; f(ax)=af(x)$．
+    \end{enumerate}
+\end{definition}
+\begin{example}[特別な線型写像]\mbox{}
+    \begin{enumerate}
+        \item 零対象$0$への／からのただ一つの射を零写像$0$とする．
+        \item $A\in M(m,n;K)$とし，$f_A:v\mapsto Av$を$A$倍写像とする．$\times A$とも書く．
+    \end{enumerate}
+\end{example}
+
+\begin{proposition}[vector space of linear mappings]
+    $f,g$を線型写像とする．
+    \begin{enumerate}
+        \item $f+g$も線型写像である．
+        \item $af$も線型写像である．
+    \end{enumerate}
+\end{proposition}
+
+\begin{shadebox}\begin{proposition}[基底の特徴付け：同型になる値写像を定める元のこと]\label{prop-categorical-basis}
+    $x_1,\cdots,x_n\in V$が定める関手$\FinVect_K\to\Set$の射
+    \[\xymatrix@R-2pc{
+        {\Hom_{\FinVect_K}(V,W)}\ar[r]^-{G}&W^n\\
+        \rotatebox[origin=c]{90}{$\in$}&\rotatebox[origin=c]{90}{$\in$}\\
+        {f:V\to W}\ar@{|->}[r]&{\begin{pmatrix}f(x_1)\\\vdots\\f(x_n)\end{pmatrix}}
+    }\]
+    について，次の２条件は同値である．
+    \begin{enumerate}
+        \item $x_1,\cdots,x_n$は$V$の基底である．
+        \item それらが定める関手の射$G$は可逆である．
+    \end{enumerate}
+\end{proposition}\end{shadebox}
+\begin{remark}[$n$元が定める線型写像]
+    この全単射$G$によって，$V$の基底$x_1,\cdots,x_n$と（それにより真に定まる関手の射$G_x$と），$W$の$n$元$y_1,\cdots,y_n$とによって，線型写像$f:V\to W$が一意に定まる．
+    特に$V=K^n$でこの標準基底を取った時，$y_1,\cdots,y_n\in W$が定める線型写像という．
+
+    これは命題\ref{prop-categorical-basis-old}ですでに登場していた，パラフレーズである．
+\end{remark}
+
+\begin{proposition}
+    $x_1,\cdots,x_n\in V$を基底とする．線型写像$f:V\to W$に対して，次の２条件は同値．
+    \begin{enumerate}
+        \item $f(x_1),\cdots,f(x_n)$は$W$の基底である．
+        \item $f:V\to W$は同型である．
+    \end{enumerate}
+\end{proposition}
+
+\begin{corollary}[induced isomorphism]
+    $V$を$n$次元線型空間とする．
+    \begin{enumerate}
+        \item 次の写像$\mathrm{Iso}(K^n,V)\to\{Vの基底\}; f\mapsto (f(e_1),\cdots,f(e_n))$は可逆である．
+        \item $W\subset V$を$m$次元部分空間とする．$K^m$を$K^n$の部分空間と同一視した時，同型$f:K^n\to V$であって，$f(K^m)=W$を満たすものが存在する．$f|_{K^m}:K^m\to W$も同型である．
+    \end{enumerate}
+    2.の時，$f:K^n\to V$は同型$K^m\to W$を\textbf{引き起こす}という．
+\end{corollary}
+
+\begin{corollary}
+    $V,W\in\FinVect_K$について，次の２条件は同値である．
+    \begin{enumerate}
+        \item $V\simeq W$．
+        \item $\dim V=\dim W$．
+    \end{enumerate}
+\end{corollary}
+
+\begin{corollary}
+    $\dim V=\dim W$とする．線型写像$f:V\to W$に対し，次の３条件は同値である．
+    \begin{enumerate}
+        \item $f$は同型．
+        \item $f$は単射．
+        \item $f$は全射．
+    \end{enumerate}
+\end{corollary}
+
+\begin{proposition}[基底の特徴付け：任意の次元について]\label{prop-categorical-basis-infinity}
+    $X$を集合とし，$W$を$K$-線型空間とする．
+    \[\xymatrix@R-2pc{
+        {\Hom_{\Vect_K}(K^{(X)},W)}\ar[r]&{\Hom_{\Set}(X,W)}\\
+        \rotatebox[origin=c]{90}{$\in$}&\rotatebox[origin=c]{90}{$\in$}\\
+        f:K^{(X)}\to W\ar@{|->}[r]&g(x):=f(e_x)
+    }\]
+\end{proposition}
+\begin{remark}
+    集合$X$の大きさに拘らず，$K^{(X)}$は，台が有限集合な写像$X\to K$からなる集合である．
+\end{remark}
+
+\section{線型写像の例}
+
+\begin{screen}
+    全ての$K$-線型空間は，$K^n$と同型を取ることによって，そこからの線型写像が$A$倍写像と見做せる．
+    まずはこの線型写像と行列，線型同型と可逆行列との対応を可換図式の言葉で調べる．
+\end{screen}
+
+\begin{proposition}
+    \begin{enumerate}
+        \item $A\in M_{mn}(K)$とすると，$f_A:K^n\to K^m$は線型写像である．
+        \item 写像$M_{mn}(K)\to\Hom_{\FinVect_K}(K^n,K^m);A\mapsto f_A$は可逆．
+    \end{enumerate}
+\end{proposition}
+
+\begin{definition}[scaler matrices]
+    スカラー行列$aI$倍写像を$a$倍写像という．スカラー行列全体のなす空間$M_n(K)$の部分空間を，$K$と表す．
+\end{definition}
+
+\begin{proposition}
+    \begin{enumerate}
+        \item 可逆写像$M_{mn}(K)\to\Hom_{\FinVect_K}(K^n,K^m);A\mapsto f_A$は線型同型でもある．即ち，$f_A+f_B=f_{A+B},af_A=f_{aA}$．
+        \item モノイドとしても同型である．即ち，$A\in M_{mn}(K),B\in M_{nr}(K)$の時，$f_A\circ f_B=f_{AB}$．
+    \end{enumerate}
+\end{proposition}
+
+\begin{corollary}
+    行列積は結合的である．
+\end{corollary}
+
+\begin{proposition}[可逆行列]
+    $A\in M_n(K)$に対し，次の３条件は同値である．
+    \begin{enumerate}
+        \item $f_A:K^n\to K^n$は同型である．
+        \item $AB=BA=1$を満たす$B\in B_n(K)$が存在する．
+        \item $Ae_1,\cdots,Ae_n$（$A$の列ベクトル）は$K^n$の基底である．
+    \end{enumerate}
+    これを満たす$A$全体からなる集合を$\GL_n(K)$と表す．
+\end{proposition}
+
+\section{行列表示}
+
+\begin{shadebox}\begin{definition}[行列表示(matrix representation)]
+    $K$を体とし，$V,W$を有限次元$K$-線型空間とする．$B=(x_1,x_2,\cdots,x_n), B'=(y_1,y_2,\cdots,y_m)$をそれぞれ$V,W$の基底とする．$g_B:K^n\longrightarrow V,\; g'_{B'}K^m\longrightarrow W$を，それぞれ基底$B,B'$が定める同型とする．
+    この時，以下の図式を可換にする行列$A\in M_{mn}(K)$が存在する．
+    \begin{center}\begin{tikzcd}
+        V \ar[r,"f"] & W \ar[d, "g'^{-1}_{B'}"] \\
+        K^n \ar[u, "g_B"] \ar[r, "f_A"'] & K^m
+    \end{tikzcd}\end{center}
+    この行列$A$を，\textbf{基底$B,B'$に関する$f$の行列表示}という．
+\end{definition}\end{shadebox}
+
+\begin{definition}[底の変換行列(transformation matrix)]
+    $x_1,\cdots,x_n$と$y_1,\cdots,y_n$とを$V$の基底とする．$x_1,\cdots,x_n$を$y_1,\cdots,y_n$に写す$V$の自己同型の，基底$x_1,\cdots,x_n$に関する行列表示$A\in GL_n(K)$を，\textbf{$x_1,\cdots,x_n$から$y_1,\cdots,y_n$への底の変換行列}という．
+\end{definition}
+
+\section{核と像}
+
+\section{完全系列と直和分解}
+
+\chapter{自己準同型}
+
+\section{最小多項式}
+
+\subsection{特別な自己準同型}
+
+\begin{definition}[Frobeniusのcompanion matrix]　\\
+    \rm{}monicな多項式$F(X) = X^n+a_1X^{n-1}+\cdots +a_{n-1}X+a_n \in K[X]$に対して，
+        $$C(F)=\begin{bmatrix}
+        0 & 0 & \dots & 0 & -a_n \\
+        1 & 0 & \dots & 0 & -a_{n-1} \\
+        0 & 1 & \dots & 0 & -a_{n-2} \\
+        \vdots & \vdots & \ddots & \vdots & \vdots \\
+        0 & 0 & \dots & 1 & -a_1
+        \end{bmatrix}$$
+    と定義される正方行列$C(F)\in M_n(K)$のことを\textbf{多項式$F$の同伴行列}と呼ぶ．
+\end{definition}
+\begin{definition}[Jordan matrix]
+        行列
+        \[J(a,n)=\begin{bmatrix}
+        a & 1 & 0 & \dots & 0 \\
+        0 & a & 1 & \dots & 0 \\
+        \vdots & \vdots & \ddots & \vdots & \vdots \\
+        0 & 0 & \dots & a & 1 \\
+        0 & 0 & \dots & 0 & a
+        \end{bmatrix}\]
+    を\textbf{Jordan行列}という．
+\end{definition}
+
+\section{固有値と対角化}
+\begin{definition}[eigenspace, eigenvalue, eigenvector]
+    $V$を$K$-線型空間とし，$f$を$V$の自己準同型とする．$V$の特別な部分空間$V_a$
+    $$V_a := \{ x\in V \,|\, f(x)=ax \} = \mathrm{Ker} (f-a)$$
+    のことを，\textbf{$a$に属する固有空間}という．$V_a\ne 0$である時，\textbf{$a$は$f$の固有値である}という．固有空間$V_a$の$0$でない元を，\textbf{固有値$a$の固有ベクトル}という．
+\end{definition}
+
+\begin{definition}[conjugate]
+    $A,B\in M_n(K)$とする．$B=P^{-1}AP$を満たす$P\in GL_n(K)$が存在するとき，\textbf{$A$と$B$は共軛である}という．
+\end{definition}
+
+\begin{definition}[generalized eigenspace]
+    $V$を$K$-線型空間とし，$f$を$V$の自己準同型とする．$a\in K$とし，$d$を$f$の最小多項式$\varphi$の根$a$の重複度とする．$V$の部分空間
+    $$\widetilde{V}_a:=\mathrm{Ker}(f-a)^d$$
+    を，\textbf{$a$に属する一般固有空間}という．
+\end{definition}
+
+\begin{definition}[generalized eigenspace decomposition]
+    $V$を有限次元$K$-線型空間とし，$f$を$V$の三角化可能な自己準同型とする．$a_1,\cdots,a_r\in K$を$f$の固有値とし，$\widetilde{V}_{a_i}$を固有値$a_i$の一般固有空間とする．\\ この時，直和分解
+    $$V=\widetilde{V}_{a_i}\oplus\cdots\oplus\widetilde{V}_{a_r}$$
+    を，\textbf{$f$に関する$V$の一般固有空間分解}という．
+\end{definition}
+
+\section{一般固有空間と三角化}
+
+\section{冪零自己準同型とJordan標準形}
+
+\section{行列式}
+
+\section{固有多項式}
+
+\section{漸化式を満たす数列と定数係数線型常微分方程式}
+
+\chapter{双対空間}
+
+\section{双対空間}
+
+\section{零化空間，再双対空間}
+
+\section{双対写像}
+
+\section{線型写像の空間}
+
+\chapter{双線型形式}
+
+\section{双線型形式}
+
+\begin{definition}[行列Aが定める双線型形式]
+    $A\in M_{mn}(K)$とする．$x\in K^m,\,y\in K^n$に対して，$$b_A(x,y)={}^txAy\in K$$と置くと，$b_A:K^m\times K^n\longrightarrow K$は双線型形式である．
+\end{definition}
+\begin{definition}[標準双線型形式]
+    写像$<\hspace{2mm},\hspace{2mm}>:V\times V^*\longrightarrow K$を$$<x,f>=f(x)\in K$$で定めると，$<\hspace{2mm},\hspace{2mm}>$は双線型形式である．
+\end{definition}
+
+\begin{proposition}
+    $b:V\times W\longrightarrow K$を双線型形式とする．$V$の基底$B=(x_1,\cdots,x_m)$から$B'=(x_1',\cdots,x_m')$への底の変換行列を$P\in GL_m(K)$とし，$W$の基底$D=(y_1,\cdots,y_n)$から$D'=(y_1',\cdots,y_n')$への底の変換行列を$Q\in GL_n(K)$とする．
+    $B,D$に関する$b$の行列表示を$A$とし，$B',D'$に関する$b$の行列表示を$A'$とすると，$$A'={}^tPAQ$$である．
+\end{proposition}
+
+\begin{proposition}[転置と随伴関手]
+    $V,W$を有限次元$K$-線型空間とし，$b:V\times W\longrightarrow K$を非退化な双線型形式とする．$f:V\longrightarrow V$を線型写像とし，$f^*:W\longrightarrow W$をその右随伴写像とする．\\
+    $B,B'$をそれぞれ$V,W$の基底とし，$B,B'$に関する$b$の行列表示を$P\in GL_n(K)$とする．$f$の$B$に関する行列表示が$A\in M_n(K)$ならば，$B'$に関する随伴写像$f^*$の行列表示は，
+    $$P^{-1}{}^tAP\in M_n(K)$$
+    である．
+\end{proposition}
+
+\begin{definition}
+    $b$を$V$上の対称双線型形式とする．
+    \begin{enumerate}
+        \item 部分空間$W\subset V$に対し，$W^\perp = \{ x\in V\,|\, \forall y\in W \hspace{3mm}[b(x,y)=0] \}$を，\textbf{$W$の$b$に関する直交(orthogonal)}と言う．$V^\perp$を\textbf{$b$の核}と言う．
+        \item $W\subset V$を部分空間とする．$b:V\times V\longrightarrow K$の制限$W\times W\longrightarrow K$が定める$W$の双線型形式を\textbf{$b$の$W$への制限}と呼び，$b_W$で表す．
+        \item $V$の基底$x_1,\cdots,x_n$に関する$b$の行列表示が対角行列であるとき，$x_1,\cdots,x_n$は\textbf{$b$の直交基底}であると言う．$b$の行列表示が単位行列であるとき，$x_1,\cdots,x_n$は\textbf{正規直交基底(orthonormal basis)}であると言う．
+    \end{enumerate}
+\end{definition}
+
+\begin{definition}[hermitian form]
+    $V$を$\mathbb{C}$-線型空間とする．
+    \begin{enumerate}
+        \item 1. 写像$h:V\times V\longrightarrow\mathbb{C}$が\textbf{エルミート形式}であるとは，次の条件を満たすことを言う．
+        \begin{enumerate}[(1)]
+            \item $\forall x,x',y\in V \hspace{3mm} [h(x+x',y)=h(x,y)+h(x',y)]$
+            \item $\forall x,y,y'\in V \hspace{3mm} [h(x,y+y')=h(x,y)+h(x,y')]$
+            \item $\forall a\in\mathbb{C}, x,y\in V \hspace{3mm} [h(ax,y)=h(x,\overline{a}y)=ah(x,y)]$
+            \item $\forall x,y\in V \hspace{3mm} h(y,x)=\overline{h(x,y)}$
+        \end{enumerate}
+        \item $h:V\times V\longrightarrow\mathbb{C}$をエルミート形式とする．$\forall x\in V, x\ne 0 \hspace{3mm}[h(x,x)>0]$であるとき，$h$は\textbf{正定値}であると言う．
+        \item $A\in M_n(\mathbb{C})$に対して，$A^*=\overline{{}^t\!A}$と置き，これを$A$の\textbf{随伴行列(adkoint matrix)}と呼ぶ．$A\in M_n(\mathbb{C})$が$A=A^*$を満たす時，$A$は\textbf{エルミート行列}であると言う．
+    \end{enumerate}
+\end{definition}
+\begin{definition}$V$を$\mathbb{C}$-線型空間とし，$h:V\times V\longrightarrow\mathbb{C}$をエルミート形式とする．
+    \begin{enumerate}
+        \item $\mathbb{R}$-線型写像$r_h:V\longrightarrow V^*$が単射である時，$h$は\textbf{非退化}であるという．
+        \item $h$が非退化であるとする．$V$の自己準同型$f$が随伴写像（共軛とも呼ぶ）$f^*$と等しい時，$f$は\textbf{$h$に関してエルミート変換（自己共軛変換）である}という．$f^*$が$f$の逆写像であるとき，$f$は\textbf{$h$に関してユニタリ変換である}という．
+    \end{enumerate}
+\end{definition}
+
+\begin{center}\begin{tikzcd}
+    V^* \ar[r, "i^*"] \ar[d, phantom, "\rotatebox{90}{$\in$}"] & W^* \ar[d, phantom, "\rotatebox{90}{$\in$}"] \\
+    f:V\to K \ar[r, mapsto] & f|_W:W\to K
+\end{tikzcd}\end{center}
+\[ (f+g)|_W = f|_W + g|_W \hspace{3mm}かつ\hspace{3mm} (af)|_W = a\cdot f|_W \]
+よって
+\[ W^\perp = \mathrm{Ker}(i^*:V^*\to W^*) \]
+また
+\[ W^{\rotatebox{180}{$\perp$}}=\bigcap_{f\in W}\mathrm{Ker}(f:V\to K) \]
+
+\begin{center}\begin{tikzcd}
+    S_V \ar[r, "\perp"] \ar[d, phantom, "\rotatebox{90}{$\in$}"] & S_{V^*} \ar[d, phantom, "\rotatebox{90}{$\in$}"] & S_V \ar[d, phantom, "\rotatebox{90}{$\in$}"] & S_{V^*} \ar[d, phantom, "\rotatebox{90}{$\in$}"] \ar[l, "\rotatebox{180}{$\perp$}"'] \\
+    W \ar[r, mapsto] & W^\perp & W'^{\rotatebox{180}{$\perp$}} & W' \ar[l, mapsto]
+\end{tikzcd}\end{center}
+\begin{center}\begin{tikzcd}
+    V \ar[r, "e_V"] \ar[d, phantom, "\rotatebox{90}{$\in$}"] & (V^*)^* \ar[d, phantom, "\rotatebox{90}{$\in$}"] & \\
+    x \ar[r, mapsto] & ev_x : V^* \ar[r] \ar[d, phantom, "\rotatebox{90}{$\in$}"] & V^{**} \ar[d, phantom, "\rotatebox{90}{$\in$}"]   \\
+    & f \ar[r, mapsto] & f(x)
+\end{tikzcd}\end{center}
+
+$C=$［有限次元$K$-線型空間］とし，$V,U\in C$を取る．
+\begin{center}\begin{tikzcd}
+    
+\end{tikzcd}\end{center}
+
+\begin{theorem}[Cauchy列による実数体の構成]　\\
+    $\mathbb{Q}^\mathbb{N}$を有理数列の空間，
+    $$V=\{ x=(x_n)_{n\in\mathbb{N}} \in\mathbb{Q}^\mathbb{N} \,|\, \lim_{n\to\infty} x_nは収束する \}$$
+    を収束列のなす部分空間，
+    $$W=\{x=(x_n)_{n\in\mathbb{N}}\in\mathbb{Q}^\mathbb{N}\, |\, \lim_{x\to\infty} x_n=0\}$$
+    を$0$に収束する列のなす部分空間とする．\\
+    このとき，$x\in V$に対し，$\lim_{n\to\infty}x_n\in\mathbb{R}$を対応させる写像$f:V\longrightarrow \mathbb{R}$は，同型$\overline{f}:V/W\longrightarrow\mathbb{R}$をひきおこす．\\
+    つまり，$W$を核とする全射線型写像$g:V\longrightarrow V/W\subset V$が存在して（標準全射），以下の図式は可換になる．
+    \begin{center}
+    \begin{tikzcd}
+        V \ar[dr, "f"] \ar[d, "g"'] \\
+        V/W \ar[r, "\overline{f}"'] & \mathbb{R}
+    \end{tikzcd}
+    \end{center}
+
+\end{theorem}
+
+\section{対称形式}
+
+\section{エルミート形式}
+
+\section{交代形式}
+
+\chapter{群と作用}
+
+\chapter{商空間}
+
+\chapter{テンソル積と外積}
+
+\end{document}

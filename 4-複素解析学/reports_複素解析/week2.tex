@@ -1,0 +1,101 @@
+\documentclass[uplatex, 12pt, dvipdfmx]{jsarticle}
+\title{複素解析学Ⅰレポート}
+\author{司馬博文 J4-190549}
+\date{\today}
+\pagestyle{empty} \setcounter{secnumdepth}{4}
+\input{/Users/hirofumi.shiba48/Desktop/数理科学/preamble_CM.tex}
+\begin{document}
+\maketitle
+
+\section*{[R3]}
+
+$n\in\N$について定まる線型写像$F$：
+\[\xymatrix@R-2pc{
+    \C^{n+1}\ar[r]^-F&{\C[x,y]}\\
+    \rotatebox[origin=c]{90}{$\in$}&\rotatebox[origin=c]{90}{$\in$}\\
+    {\begin{pmatrix}\alpha_1\\\vdots\\\alpha_n\end{pmatrix}}\ar@{|->}[r]&\sum^n_{k=0}\alpha_kx^{n-k}y^k=P(x,y)=f(z)
+}\]
+について，$\C[x,y]$の部分空間
+\[ V:=\left\{f(z)=P(x,y)\in\C[x,y]\;\middle|\; \frac{\partial f}{\partial\overline{z}}=0\right\} \]
+の逆像の次元を求める問題である．
+
+まず，次の補題を証明する．
+
+\begin{lemma*}
+    $n=1,2,\cdots$とする．族$(x^{n-k}y^k)_{k=1,\cdots,n}$は，実２変数の複素係数多項式からなる線型空間$\C[x,y]$上，線型独立である．
+\end{lemma*}
+\begin{proof}
+    $n$についての帰納法で示す．
+    $n=1$の時，$x,y$は独立変数であるから，$\alpha_1,\alpha_2\in\C$として$\alpha_1x+\alpha_2y=0$ならば，
+    特に$x=0,y=0$の場合をそれぞれ考えると$\alpha_1=\alpha_2=0$（例えば$x=0$とした時，$\alpha_2y=0$．任意の$y\in\R$についてこれを満たすには$\alpha_2=0$が必要）．
+    よって，$\C[x,y]$上線型独立．
+
+    今，$n=1,\cdots,m-1$について族$(x^{n-k}y^k)_{k=1,\cdots,n}$が線型独立であると仮定し，$n=m$の場合を示す．
+    $x^m,x^{m-1}y,\cdots,xy^{m-1},y^m$に対して，$\alpha_0,\cdots,\alpha_{m}\in\C$とし，
+    $\alpha_0x^m+\alpha_1x^{m-1}y+\cdots+\alpha_{m-1}xy^{m-1}+\alpha_my^m=0$とする．まず，$x=0,y=0$の場合をそれぞれ考えると，$\alpha_0=\alpha_m=0$である．
+    すると，$\alpha_1x^{m-1}y+\cdots+\alpha_{m-1}xy^{m-1}=xy(\alpha_1x^{m-2}+\cdots+\alpha_{m-1}y^{m-2})=0$である．特に$xy\ne 0$の場合を考えると，$\alpha_1x^{m-2}+\cdots+\alpha_{m-1}y^{m-2}=0$．
+    すると帰納法の仮定より，$x^{m-2},x^{m-3}y,\cdots,xy^{m-3},y^{m-2}$は線型独立だから，$\alpha_1=\cdots=\alpha_{m-1}=0$．以上より，$n=m$の場合も成り立つ．
+\end{proof}
+
+$n=0$の時，$P(x,y)=\alpha_0$と定数関数であり，これは常に正則．従って，$F^{-1}(V)=\C$で，一次元．
+
+$n=1,2,\cdots$の時，
+\[P(x,y)=\alpha_0x^n+\alpha_1x^{n-1}y+\alpha_2x^{n-2}y^2+\cdots+\alpha_{n-2}x^2y^{n-2}+\alpha_{n-1}xy^{n-1}+\alpha_ny^n\]
+であるから，補題より，
+\begin{align*}
+    \frac{\partial f}{\partial\overline{z}}=0
+    &\Leftrightarrow \frac{\partial f}{\partial x}+i\frac{\partial f}{\partial y}=0\\
+    &\Leftrightarrow (n\alpha_0x^{n-1}+(n-1)\alpha_1x^{n-2}y+\cdots+2\alpha_{n-2}xy^{n-2}+\alpha_{n-1}y^{n-1})\\
+    &\hphantom{\Leftrightarrow}\;+i(\alpha_1x^{n-1}+2\alpha_2x^{n-2}y+\cdots+(n-1)\alpha_{n-1}xy^{n-2}+n\alpha_ny^{n-1})=0\\
+    &\Leftrightarrow (n\alpha_0+i\alpha_1)x^{n-1}+((n-1)\alpha_1+2\alpha_2i)x^{n-2}y+\cdots\\
+    &\hphantom{\Leftrightarrow}\;\cdots+(2\alpha_{n-2}+i(n-1)\alpha_{n-1})xy^{n-2}+(\alpha_{n-1}+in\alpha_n)y^{n-1}=0\\
+    &\Leftrightarrow \begin{cases}
+        n\alpha_0+i\alpha_1=0\\
+        (n-1)\alpha_1+2\alpha_2i=0\\
+        \hphantom{(n-1)\alpha_1}\vdots\\
+        2\alpha_{n-2}+i(n-1)\alpha_{n-1}=0\\
+        \alpha_{n-1}+in\alpha_n=0
+    \end{cases}\;\;\;(\because 補題)
+\end{align*}
+この$n$本の連立方程式により，部分空間$F^{-1}(V)$は１次元に定まる．なぜなら，$\alpha_0\in\C$を任意に定めると，１本目の式により$\alpha_1$が定まり，それと２本目により$\alpha_2$が定まり，
+以降$\alpha_n$まで一意に定まるからである．
+
+よって以上より，$\dim(F^{-1}(V))=1$．
+\begin{flushright}$\blacksquare$\end{flushright}
+
+\section*{[R4]}
+
+適宜$\C\simeq\R^2$による同一視をすることで，変数$z\in U, x:=\Re z,y:=\Im z\in\R$と関数$u,v:\R^2\to\R$を，次の図のように置く．
+\[\xymatrix{
+    &\C&\\
+    U\simeq\R^2\ar@{-->}[ur]^-{h}\ar[rr]^-{f}\ar@{}[d]|{\rotatebox[origin=c]{90}{$\in$}}&&V\simeq\R^2\ar[ul]_-{g}\ar@{}[d]|{\rotatebox[origin=c]{90}{$\in$}}\\
+    z=x+yi\ar@{|->}[rr]&&{f(z)=u\begin{pmatrix}x\\y\end{pmatrix}+iv\begin{pmatrix}x\\y\end{pmatrix}}
+}\]
+
+多変数の実ベクトル値関数$\R^2\to\R^2\to\R^2(\simeq\C)$についての連鎖律より，$\frac{\partial h}{\partial z}$は次のように計算できる．ただし，式中の$\cdot$は終域$\C$上の積とした．
+\begin{align*}
+    2\frac{\partial h}{\partial z}&=\frac{\partial h}{\partial x}-i\frac{\partial h}{\partial y}=\frac{\partial (g\circ f)}{\partial x}-i\frac{\partial (g\circ f)}{\partial x}\\
+    &=(g_x\circ f\cdot u_x+g_y\circ f\cdot v_x)-i(g_x\circ f\cdot u_y+g_y\circ f\cdot v_y)\\
+    &=g_x\circ f(u_x-iu_y)+g_y\circ f(v_x-iv_y)\;\;\; (体\R の分配法則により，式を整理した).
+\end{align*}
+
+一方で，
+\[\frac{\partial g}{\partial z}\circ f\cdot \frac{\partial f}{\partial z}+\frac{\partial g}{\partial\overline{z}}\circ f\cdot\frac{\partial\overline{f}}{\partial z}\]
+も，
+\[\frac{\partial f}{\partial x}=\frac{\partial(u+iv)}{\partial x}=\frac{\partial u}{\partial x}+i\frac{\partial v}{\partial x}\]
+より，
+\begin{align*}
+    &\frac{\partial g}{\partial z}\circ f\cdot \frac{\partial f}{\partial z}+\frac{\partial g}{\partial\overline{z}}\circ f\cdot\frac{\partial\overline{f}}{\partial z}\\
+    =&\left(\frac{\partial g}{\partial x}-i\frac{\partial g}{\partial y}\right)\circ f\cdot\left(\frac{\partial f}{\partial x}-i\frac{\partial f}{\partial y}\right) + \left(\frac{\partial g}{\partial x}+i\frac{\partial g}{\partial y}\right)\circ f\cdot\left(\frac{\partial\overline{f}}{\partial x}+i\frac{\partial\overline{f}}{\partial y}\right)\\
+    =&(g_x-ig_y)\circ f(u_x+iv_x-i(u_y+iv_y)) + (g_x+ig_y)\circ f(u_x-iv_x-i(u_y-iv_y))\\
+    =&(g_x-ig_y)\circ f(u_x+v_y+i(v_x-u_y)) + (g_x+ig_y)\circ f(u_x-v_y-i(v_x+u_y))\\
+    =&2g_x\circ f(u_x-iu_y)+2g_y\circ f(v_x-iv_y)
+\end{align*}
+であるから，
+\[\frac{\partial h}{\partial z}=\frac{\partial g}{\partial z}\circ f\cdot \frac{\partial f}{\partial z}+\frac{\partial g}{\partial\overline{z}}\circ f\cdot\frac{\partial\overline{f}}{\partial z}\]
+を得る．
+\[\frac{\partial h}{\partial\overline{z}}=\frac{\partial g}{\partial z}\circ f\cdot \frac{\partial f}{\partial\overline{z}}+\frac{\partial g}{\partial\overline{z}}\circ f\cdot\frac{\partial\overline{f}}{\partial\overline{z}}\]
+も同様．
+\begin{flushright}$\blacksquare$\end{flushright}
+
+\end{document}

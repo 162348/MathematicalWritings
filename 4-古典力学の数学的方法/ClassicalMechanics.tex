@@ -1,0 +1,469 @@
+\documentclass[uplatex, 12pt, dvipdfmx]{jsreport}
+\title{解析力学（相原博昭先生）}
+\author{司馬博文 J4-190549}
+\date{\today}
+\pagestyle{headings} \setcounter{secnumdepth}{4}
+\input{/Users/hirofumi.shiba48/Desktop/数理科学/preamble_CM.tex}
+\begin{document}
+\tableofcontents
+
+\begin{abstract}
+    近代数学は19世紀物理学から暖簾分けをするように生まれ，その途中に「数学的対象の発する声に耳を澄ます」という別の自然・自律性を身につけて，抽象と形式の現代数学となった．
+    その交差点，２つの自然を同時に宿していた最後の広場が，解析力学だと言えるのではないだろうか．
+    だとすると，これ以上魅力的なマイルストーンもない．
+
+    最初に数理自然への横超を成し遂げたRiemannの幾何学は，相対性理論やより現代的な場の理論を産んだ．
+    誰がきっかけになったかは分からないが，量子力学の確率も最初はこの広場から生まれた．
+    \begin{quotation}
+        数え上げや，測量，天文学など実用と科学的探究心から誕生した数論や幾何学は様々な物理学との交流と，
+        独自の一般化・抽象化を通じて発展してきた．物体の運動の記述のために誕生した微分積分学も，古典力学や流体力学などとの交流と，
+        独自の厳密化・精緻化を経て飛躍的に発展したのである．
+        一方，量子力学や一般相対性理論などにおける物理学の抽象的な記述はこのように発展した数学なしには可能とはならなかったであろう．
+        従って，このようなレベルにおける物理学のさらなる発展もまた数学なしにはあり得ない．数学と物理学は表裏一体の存在なのである．\cite{磯崎}（谷島賢二さんの前文）
+    \end{quotation}
+    そしていよいよ1980年代に入り，文献\cite{Arnold}が定式化するのはsymplectic幾何である．
+    その故郷である物理学を尋ねてみることは数学の面からも物理学の面からも大切である．
+    \begin{quotation}
+        (\cite{Arnold} perface) Characterizing analytical dynamics in his "Lectures on the development of mathematics in the nineteenth century," F. Klein wrote that "... a physicist, for his problems, can extract from these theories only very little, and an engineer nothing." The development of the sciences in the following years decisively disproved this remark.
+        Hamiltonian formalism lay at the basis of quantum mechanics and has become one of the most often used tools in the mathematical arsenal of physics.
+        After the significance of symplectic structures and Huygens' principle for all sorts of optimization problems was realized, Hamilton's equations began to be used constantly in engineering calculations.
+
+        The apparatus of classical mechanics is applied to: the foundations of Riemannian geometry, the dynamics of an ideal fluid, Kolmogorov's theory of perturbations of conditionally periodic motion, short-wave asymptotics for equations of mathematical physics, and the classification of caustics in geometrical optics.
+    \end{quotation}
+    \begin{quotation}
+        (\cite{Arnold} perface to the second edition) The ideas and methods of symplectic geometry, developed in this book, have now found many applications in mathematical physics and in other domains of applied mathematics, as well as in pure mathematics itself. Especially, the short-wave asymptotical expansions theory has reached a very sophisticated level, with many important applications to optics, wave theory, acoustics, spectroscopy, and even chemistry; this development was parallel to the development of the theories of Lagrange and Legendre singularities, that is, of singularities of caustics and of wave founts, of their topology and their perestroikas.
+        
+        Integrable hamiltonian systems have been discovered unexpectedly in many classical problems of mathematical physics, and their study has led to new results in both physics and mathematics, for instance, in algebraic geometry.
+    \end{quotation}
+    解析力学は19世紀を通じて極めてはっきりした霊性に突き動かされ，その後の数学と物理の発展において中心的なミームとなった．
+    ベクトル力学として建てられたNewton力学を，Lagrangianというスカラー関数を中心に据え，この連立微分方程式を解くという数学的問題に換言・還元した．
+    これをEuler Lagrange方程式という．まず，問題の換言として，Lagrangianに全ての情報が含まれているというスキームは簡明である．
+    物理的保存量はLagrangianの持つ対称性として理解できる．この強力さが，微分方程式への集中した研究の原動力となった．
+
+    このスキームに，特殊相対論の要請は「Lagrangian密度がLorentz不変である」という形で乗る．これが場の理論の構築に於て本質的な役割を果たす．
+    \begin{quotation}
+        （中略）代わりに，導関数を含まない関係式を用いて，軌道が特定できるかということが主要な問題となる．（後略）
+    
+        17世紀，微分積分学はNewton, Leibnizによって始められ，18世紀，Euler, d'Alembert, Lagrange らによって確立されていった．これ以降，微分積分学の主要な動機の一つに古典的な力学の問題を解くと言ったことが意識されていくのだが，古典力学に由来する微分方程式をシステマティックに解く方法論が，解析力学の名の下に集積されていく．
+    
+        線型性という性質を仮定した世界を系統的に扱う技術として線型代数があり，その重要性は20世紀以降，十分に理解されてきたと思う．一方で，非線型現象も含めた微分方程式の解を求める技法としての解析力学の重要性は十分に意識されてはこなかったのではないだろうか．
+    
+        物理学においては，解析力学を，量子力学や統計力学への導入として重要視することが多いかと思うのだが，筆者はむしろ常微分方程式の解法理論としての重要性を強調したい．
+    \end{quotation}
+    授業では次の内容を扱った．
+    \begin{enumerate}
+        \item Lagrangian力学
+        \item 変分原理とLagrangian力学
+        \item Noetherの定理とHamilton力学
+        \item 正準変換
+        \item Hamilton-Yacobiの理論：Feynman経路積分へ
+    \end{enumerate}
+    \begin{quotation}
+        解析力学は魅力的な学問である．それが発達したのは19世紀でその頃は力学と数学にあまり区別のない時代であった．
+        そのため解析力学は自然科学の広場のような性格を持つことになった．解析力学の特徴はその数学的形式である．
+        ここの運動の様子よりもそれらの背後にある数学的構造を教えてくれるからである．実際，物理学の重要な方程式がLagrange形式やHamilton形式を通じて導かれるのを見ると，
+        その正当性を納得せざるを得ない．古典物理学から量子力学への飛躍をもたらしたのも解析力学の発想である．
+        （中略）．全容を知ろうとするには広すぎるから，最初から全体像を思い描かなくても良いであろう．ゆっくりと過去の含蓄を味わいながら基本的な計算力とものの見方を自分の中に育て，
+        古典物理学，近代物理学，現代数学に分け入って行くための路を辿るというのが解析力学を学ぶ自然な道であろう．
+        何よりも，曲面や空間を扱うための記号や基本的考え方は解析力学の中に自然に溶け込んでいる．これらに慣れることは数理物理学の基礎を身につけるための良い方法である．
+    \end{quotation}
+    Hamilton-Yacobiの理論は普通は１階単独偏微分方程式とそれに伴う特性曲線の理論を意味する．
+    \textbf{しかし古典的な解析学にはこれに加えて，
+    常微分方程式に帰着できる偏微分方程式系という研究の流れがあった}．
+\end{abstract}
+
+\part{NEWTONIAN MECHANICS}
+
+\chapter{実験事実}
+
+\chapter{運動方程式の精査}
+
+\part{LAGRANGIAN MECHANICS}
+
+\begin{abstract}
+    まさか，こんな定式化があるとは思わなかった．物体の可能な配置全体の集合は自然に多様体となるのか！そんな発想あるか？
+    \begin{definition}[(Fadell's) configuration space, generalized coordinates]
+        ある物体系について，その可能な布置(configuration)全てからなる集合を\textbf{配置集合}という．
+
+        これを特に以下のように数学的に構成するとき，特にFadellの配置空間という．
+        多様体$M$に対して，この上の位相的に区別可能な$N$個の点からなる$N$-組全体の集合を配置集合という．
+
+        この配置空間上の基底のことを\textbf{一般化された座標}という．
+    \end{definition}
+    ラグランジュ力学は力学系の振る舞いを配位空間(configuration space)の言葉によって記述する．
+    古典力学系系の配位空間は，可微分多様体の構造を持ち，その上に微分同相写像（滑らかな多様体の同型）が作用する．
+    この同型群についての不変量が，ラグランジュ力学の定理の主要部である．（叙述されるときは局所座標で語られようとも）．
+
+    ラグランジュ力学系は，配位空間と呼ばれる多様体と，その接束上の関数（「ラグランジアン関数」という）の組として与えられる．
+
+    この配位空間の微分同相（ラグランジアンを保つ）の任意のone-parameter群は，保存則を定める．例えば運動方程式の第一積分などである（エネルギーと呼ばれる）．
+
+    ニュートン力学における保存力系(potential system)とは，ラグランジュ力学系のうち，配位空間がEuclid空間で，ラグランジアンが運動エネルギーとポテンシャルエネルギーの差となる場合$L(q,\dot{q},t)=T-V$である．
+\end{abstract}
+
+\chapter{Variational principles}
+
+\section{仮想仕事とd'Alembertの法則}
+
+\begin{screen}
+    Lagrangian力学の構成には二通りある．Newton力学を微分法則から換言する歴史的方法と，積分法則「最小作用の法則」を与えることである．ランダウ・リフシッツの教科書は後者の方法を採用している．
+    ここでは，二通りの構成が等価であること，まずNewton力学とLagrangian力学が等価な言い換えであることを観る．
+\end{screen}
+
+\begin{axiom}[principle of virtual work (1743)]
+
+\end{axiom}
+\begin{remark}
+    仮想仕事の原理は，元はスイスの数学者Bernoulliによって静的平衡状態を特徴付けるために考案されたが，
+    フランスの数学者d'Alembertが運動方程式に適用した．『力学論(Traité de dynamique)』(1743)で発表．
+
+    なお，Bernoulli家は，Nikolausの子に２人の数学者Jacob (1654-1705), Johann (1667-1748)がおり，同じ問題を研究していたため，兄弟仲は悪かったという．
+    JacobがBernoulli数に名を残し，Johannは最急降下線の研究をした．Johannの子にDaniel (1700-1782)がおり，彼が流体力学の研究者であった．
+
+    d'Alembertは百科全書派の一人で，啓蒙運動に大きく貢献した．
+\end{remark}
+
+\section{Calculus of variations}
+
+\begin{definition}[variational calculus / secondary calculus]
+    曲線の空間（という可微分関数空間：無限次元線型空間）のうち，極値を取る関数を定める手法を\textbf{変分法}という．
+
+    換言すれば，非線型汎関数(nonlinear functional)の停留点(stationary point)／臨界点(critical point)を扱う微分法(differential calculus)である．
+\end{definition}
+
+\begin{definition}[functional]
+    無限次元多様体上の関数を特に\textbf{汎関数}という．特に，係数体(scaler)に値を取るときにいう．
+
+    特に，変分法が取り扱う汎関数を\textbf{作用(action functional)}という．
+\end{definition}
+\begin{example}[汎関数の例]\mbox{}
+    \begin{enumerate}
+        \item 変分法はJohann Bernoulli (1696) の取り上げた最速降下曲線問題を，Eulerが取り上げて著書Elementa Calculi Variationumにまとめてから変分法の名前がついて始まった．
+        \item Euclid空間の曲線$\gamma:=\{(t,x)\mid x(t)=x,\; t\in[t_0,t_1]\}$の長さ$\Phi(\gamma)=\int^{t_1}_{t_0}\sqrt{1+\dot{x}^2}dt$は，汎関数である．
+    \end{enumerate}
+\end{example}
+\begin{history}
+    マーストン・モースは変分法を今日Morse理論と呼ばれるものに応用した。
+    レフ・ポントリャーギン、ラルフ・ロッカフェラーおよび F. H. Clarke は最適制御理論において変分法に対する新しい数学的な道具を開発した。
+    リチャード・ベルマンの動的計画法は変分法の代替となるもののひとつである。
+\end{history}
+
+\subsection{変分}
+
+\begin{definition}[differentiability of functionals, variation / differential]
+    曲線$\gamma+h$とは，$\gamma+h=\{(t,x)\mid x=x(t)+h(t)\}$とする．
+    汎関数$\Phi$が\textbf{微分可能}であるとは，$h$について線型な汎関数$F$と$R(h,\gamma)=O(h^2)$を満たす汎関数$R$を用いて，
+    \[ \Phi(\gamma+h)-\Phi(\gamma) = F+R \]
+    この線型汎関数$F$を\textbf{一次変分(first variation)}または\textbf{微分(differential)}という．$h$をこの曲線$\gamma$の\textbf{変分}(variation of the curve)という．
+\end{definition}
+\begin{example}[action functional]
+    $\gamma$を$(t,x)$-平面上の曲線，$L=L(a,b,c)$を可微分な三変数関数とする．汎関数$\Phi$を次のように定める．
+    \[ \Phi(\gamma) = \int^{t_1}_{t_0}L(x(t),\dot{x}(t),t)dt \]
+    以前示した，＜曲線の長さという汎関数＞の例は，$L=\sqrt{1+b^2}$の場合である．
+\end{example}
+
+\begin{theorem}[action functionalの微分]\label{thm-differential-of-action-functional}
+    汎関数$\Phi(\gamma)$は微分可能で，そのdifferential $F(h)$は次のように表せる．
+    \[ F(h) = \int^{t_1}_{t_0}\left.\left[ \frac{\partial L}{\partial x}-\frac{d}{dt}\frac{\partial L}{\partial\dot{x}} \right]hdt+\left(\frac{\partial L}{\partial\dot{x}}h\right) \right|^{t_1}_{t_0} \]
+\end{theorem}
+\begin{proof}
+    まず，
+    \begin{align*}
+        \Phi(\gamma+h)-\Phi(\gamma) &= \int^{t_1}_{t_0}\left[L(x+h,\dot{x}+\dot{h},t)-L(x,\dot{x},t)\right]dt\\
+        &= \int^{t_1}_{t_0}\left[\frac{\partial L}{\partial x}h+\frac{\partial L}{\partial\dot{x}}\dot{h}\right]dt + O(h^2) = F(h) + R(h,\gamma)
+    \end{align*}
+    と置くと，$F(h)=\int^{t_1}_{t_0}\left[\frac{\partial L}{\partial x}h+\frac{\partial L}{\partial\dot{x}}\dot{h}\right]dt, R=O(h^2)$であるから，確かに積分可能．
+    また，部分積分より，
+    \[ F(h) = \int^{t_1}_{t_0}\left( \frac{\partial L}{\partial\dot{x}}\frac{\partial h}{\partial t} \right)dt = \left[ h\frac{\partial L}{\partial\dot{x}} \right]^{t_1}_{t_0} - \int^{t_1}_{t_0} h\frac{d}{dt}\frac{\partial L}{\partial\dot{x}} \]
+\end{proof}
+
+\subsection{極値問題}
+
+\begin{definition}[extremal]
+    微分可能汎関数$\Phi(\gamma)$について，曲線$\gamma$が\textbf{極値関数／極値点}であるとは，$\forall h,\; F(h)=0$が成り立つことをいう．
+\end{definition}
+
+\begin{theorem}[作用汎関数が極値を取る条件：Euler-Lagrange方程式]\label{thm-EL-equation}
+    曲線$\gamma$が，$x(t_0)=x_0,x(t_1)=x_1$を通る曲線の空間上で，作用汎関数$\Phi(\gamma)=\int^{t_1}_{t_0}L(x,\dot{x},t)dt$の極値点であるための必要十分条件は，
+    次が成り立つことである．
+    \[ \frac{d}{dt}\left(\frac{\partial L}{\partial\dot{x}}\right) - \frac{\partial L}{\partial x} = 0\;\;\;\mathrm{on\;}\gamma \]
+\end{theorem}
+\begin{proof}
+    定理\ref{thm-differential-of-action-functional}より，$F(h)$が$h$に依らず$0$になるための$\gamma$の条件を考えるが，
+    $F$第二項は$h(t_1)=h(t_0)=0$より$0$．従って，次の補題により，$\frac{d}{dt}\left(\frac{\partial L}{\partial\dot{x}}\right) - \frac{\partial L}{\partial x} = 0$が成り立てば良い．
+\end{proof}
+
+\begin{lemma}
+    連続関数$f:[t_0,t_1]\to\R$について，次の２条件は同値．
+    \begin{enumerate}
+        \item 任意の連続関数$h:[t_0,t_1]\to\R, h(t_0)=h(t_1)=0$に対して，条件$\int^{t_1}_{t_0}f(t)h(t)dt=0$である．
+        \item $f=0$．
+    \end{enumerate}
+\end{lemma}
+
+\begin{example}
+    $L=\sqrt{1+\dot{x}^2}$とするとき，この値は確かに$0$になり，そのとき$\gamma$は直線になることが確認できる．
+\end{example}
+
+\subsection{The Euler-Lagrange equation}
+
+\begin{definition}
+    前節の定理\ref{thm-EL-equation}で，作用汎関数が極値を取るための条件として出現した次の３変数実関数についての２階偏微分方程式を，\textbf{オイラー・ラグランジュ方程式}という．
+    \[ \frac{d}{dt}\left(\frac{\partial L}{\partial\dot{x}}\right) - \frac{\partial L}{\partial x} = 0\;\;\;\mathrm{on\;}\gamma \]
+\end{definition}
+
+これを，一次元ではなく一般の次元に拡張することを考える．
+\begin{notation}
+    以降，$\x\in\R^n$を数ベクトルとし，$\gamma=\{(t,\x)\in\R^{n+1}\mid \x=\x(t),t\in[t_0,t_1]\}$を曲線とし，$L:\R^n\times\R^n\times\R\to\R$を$2n+1$次関数とする．
+\end{notation}
+
+\begin{theorem}
+    曲線$\gamma$と作用汎関数$\Phi(\gamma)=\int^{t_1}_{t_0}L(\x,\dot{\x},t)dt$について，
+    \begin{enumerate}
+        \item 曲線$\gamma$は２点$(t_0,\x_0),(t_1,\x_1)$を通る曲線の空間上の，汎関数$\Phi$の極値点である．
+        \item $\gamma$についてEuler-Lagrange方程式が成立する．
+    \end{enumerate}
+\end{theorem}
+\begin{remark}[一般化された座標とは「適切に取られた座標」くらいの意味だろうか]\label{remark-generalized-coordinates}
+    これは，一般化の過程で重要になる事実であるが，線型汎関数とその極値点との組の関係は，座標系の取り方に依らない．これを指定する言語が「（一般化座標による）微分方程式」であるのかもしれない．
+
+    例えば，平面上の曲線の距離を表す線型汎関数は，cartesian座標をとるかpolar座標を取るかによって表示が違う．
+    \begin{align*}
+        \Phi_{\mathrm{cart}}&=\int^{t_1}_{t_0}\sqrt{\dot{x}_1^2+\dot{x}_1^2}dt, &\Phi_{\mathrm{pol}}&=\int^{t_1}_{t_0}\sqrt{\dot{r}^2+r^2\dot{\varphi}^2}dt.
+    \end{align*}
+    線型汎関数は本質的に同じく，その極値点$\gamma:\R\to\R^2$はいずれも「直線」である．
+    また，この直線も，その方程式は座標によって違うのはもちろんである．
+    座標の取り方が邪魔をしている．
+
+    しかし，一般化座標によって書かれたEuler-Lagrange方程式で直線の方程式を指定しようとすれば，
+    直線を表すベクトル値関数$\gamma:\R\to\R^2$が解になる状況が，
+    座標$x_1,x_2$とそれによるLagrangian $L(x_1,x_2)$とがセットで得られる．
+\end{remark}
+
+\section{Lagrange's equations}
+
+\begin{screen}
+    保存力系において，Newton方程式の解とEuler-Lagrange方程式の解が等しいことを示す（定理\ref{thm-classical-mechanics-in-Lagrange-formalizm}）．
+\end{screen}
+
+\begin{align}
+    \frac{d}{dt}(m_i\dot{r}_i)+\frac{\partial U}{\partial r_i}=0 \label{equation-Newton}\\
+    \frac{d}{dt}\frac{\partial L}{\partial\dot{\x}}-\frac{\partial L}{\partial\x}=0 \label{equation-Lagrange}
+\end{align}
+
+\subsection{Hamilton's principle of least action}
+
+\begin{theorem}[Hamilton's principle of least action]\label{thm-classical-mechanics-in-Lagrange-formalizm}
+    方程式\ref{equation-Newton}によって定まる力学系の運動は，次の汎関数の極値点$\gamma\subset\R^n\times\R$に等しい．
+    \begin{align*}
+        \Phi(\gamma)&=\int^{t_1}_{t_0}Ldt,&where\;L&=T-U.
+    \end{align*}
+\end{theorem}
+\begin{proof}
+    $\gamma$が線型汎関数の極値点であるためには，
+    \[ \frac{d}{dt}\left(\frac{\partial L}{\partial\dot{x}}\right) - \frac{\partial L}{\partial x} = 0\;\;\;\mathrm{on\;}\gamma \]
+    が成り立てば良い．いま$L(\x,\dot{\x},t)=T(\dot{\x},t)-U(\x,t)$より，
+    \begin{align*}
+        \frac{\partial L}{\partial\x}&=0-\frac{\partial U}{\partial\x},&\frac{\partial L}{\partial\dot{\x}}&=\sum \mathrm{m}\dot{\x}^2
+    \end{align*}
+    より，求める条件は，成分ごとに書けば$\frac{d}{dt}(m_i\dot{x}_i)+\frac{\partial U}{\partial x}=0$．
+\end{proof}
+\begin{remark}
+    この定理は，現代的には変分原理と呼ぶべきであるが，歴史的には\textbf{ハミルトンの最小作用の法則}という．
+    ほとんどの場合，作用が最大になるからであるが，正確には停留点である．
+\end{remark}
+
+\begin{corollary}
+    $\q=(q_1,\cdots,q_{3n})$を$n$質点系の配置空間内の任意の座標系とする．$\q$の時間発展は，次の方程式に従う．
+    \begin{align*}
+        \frac{d}{dt}\frac{\partial L}{\partial\dot{\x}}-\frac{\partial L}{\partial\x}&=0,&where\;L=T-U
+    \end{align*}
+\end{corollary}
+\begin{proof}
+    定理\ref{thm-classical-mechanics-in-Lagrange-formalizm}より，物体の運動は汎関数$\int Ldt$の極値点である．
+    従って，議論\ref{remark-generalized-coordinates}より，任意の座標系について，Euler-Lagrangeの方程式は成立する．
+\end{proof}
+
+\begin{definition}[Lagrange function / Lagrangian]\mbox{}
+    \begin{enumerate}
+        \item 関数$L(\q,\dot{\q},t)=T-U$を\textbf{ラグランジュ関数・ラグランジアン}という．
+        \item $q_i$を\textbf{一般化座標}という．
+        \item $\dot{q}_i$を\textbf{一般化速度}という．
+        \item $p_i:=\frac{\partial L}{\partial\dot{q}_i}$を\textbf{一般化運動量}という．
+        \item $\frac{\partial L}{\partial q_i}$を\textbf{一般化力}という．
+        \item $\int^{t_1}_{t_0}L(\q,\dot{\q},t)dt$を\textbf{作用}という（エネルギと時間の積というPlanck定数の次元を持つことに注意）．
+        \item Euler-Lagrange方程式を，特に力学の観点からは\textbf{ラグランジュの運動方程式}という．
+    \end{enumerate}
+\end{definition}
+
+\subsection{The simplest examples}
+この例は
+
+\begin{example}[等速直線運動または静止]
+    Euclid空間$\R^3$内の束縛のない質点であって，Lagrangianが$L=T=\frac{m\dot{\mathbf{r}}^2}{2}$と表される系を考える．
+    正規直交座標$q_i=r_i$を導入すれば$L=\frac{m}{2}(\dot{q}_1^2+\dot{q}_2^2+\dot{q}_3^2)$と表せる．
+    従って，この場合は，一般化速度は速度の成分で，一般化運動量は運動量の成分$p_i=m\dot{q}_i$で，Lagrangeの運動方程式はNewtonの運動方程式と同一であり，
+    極値点は必ず直線になる．
+\end{example}
+
+\begin{example}[角運動量保存則の言い換え]
+    
+\end{example}
+
+次の概念は，角運動量保存則と運動量保存則を統合した視点から総合する概念である．
+
+\begin{definition}[cyclic coordinates]
+    座標$q_i$が\textbf{サイクリック}であるとは，それがLagrangianに登場しないことをいう：$\frac{\partial L}{\partial\dot{q}_i}=0$．
+\end{definition}
+\begin{theorem}
+    サイクリックな座標に対応する一般化運動量は保存される：$p_i=const$．
+\end{theorem}
+\begin{proof}
+    Lagrangeの運動方程式\ref{equation-Lagrange}より，$\frac{dp_i}{dt}=\frac{d}{dt}\frac{\partial L}{\partial \dot{x}_i}=\frac{\partial L}{\partial x_i}=0$．
+\end{proof}
+
+\section{Legendre transformation}
+
+\begin{screen}
+    Legendre変換とは，線型空間上の実凸関数を，その双対空間上の関数に写す変換であり，従って対合である．
+
+    Legendre transformations are related to projective duality and tangental coordinates in algebraic geometry and the construction of dual Banach spaces in analysis.
+\end{screen}
+
+\subsection{Definition}
+
+\begin{definition}[Legendre transform / dual in the sense of Young]
+    ２つの可微分関数$f,\overline{f}:\R\to\R$が，互いに\textbf{ルジャンドル変換}または\textbf{ヤング双対}であるとは，これらの微分が互いに逆写像であることをいう：
+    \begin{align*}
+        Df\circ D\overline{f}&=\id,&D\overline{f}\circ Df&=\id.
+    \end{align*}
+\end{definition}
+
+\begin{definition}[Legendre transformation]
+    $y=f(x)$を凸関数とする：$f''(x)>0$．この関数$f$に対して，新たな変数$p$を持つ関数$g$を$g(p)=F(p,x(p))$対応させる対応を\textbf{ルジャンドル変換}という．
+    ただし，ここでの$x:\R\to\R$とは座標変換であって，$p$に対して$F(p,x)=px-f(x)$を最小にする$x$を$x=x(p)$と定める：$\frac{\partial F}{\partial x}=0$, i.e., $f'(x)=p$．
+    なお，$f$は凸関数であるから，このような点$x(p)$はただ一つである．
+\end{definition}
+\begin{remark}
+    $F(p,x)=px-f(x)$とは，原点を通り傾き$p$の直線$y=px$と，曲線$y=f(x)$との垂直方向の距離である．それは即ち，曲線$y=f(x)$上の点で接線の傾きが$p$となる点に他ならない．
+
+    ルジャンドル変換は点と線の双対性、つまり凸な関数$y = f (x)$は$(x, y)$の点の集合によって表現できるが、それらの傾きと切片の値で指定される接線の集合によっても等しく充分に表現できることに基いている。
+\end{remark}
+
+\begin{proposition}\mbox{}
+    \begin{enumerate}
+        \item $f$の定義域を$\R$とする．このとき，$g$の定義域は，一点か，閉区間か，半直線(ray)である．
+        \item $f$の定義域が閉区間だったとする．このとき，$g$の定義域は$\R$である．
+    \end{enumerate}
+\end{proposition}
+
+これを一般化した概念が凸共役またはLegendre-Fenchel変換である．
+
+\begin{definition}[convex conjugation]
+    $X$を実ノルム線型空間とし，$X^*$を$X$の双対空間とし，双対組を$\langle\cdot,\cdot\rangle:X^*\times X\to\R$で表す．
+    拡大実数に値を取る関数$f:X\to\R\cup\{\infty\}$の\textbf{凸共役}$f^*:X^*\to\R\cup\{\infty\}$を，次のように定める：
+    \[ f^*(x^*):=\sup\{\langle x^*,x\rangle-f(x)\mid x\in X\}. \]
+\end{definition}
+
+\subsection{Examples}
+
+\subsection{Involutivity}
+
+\begin{proposition}
+    Legendre変換は凸関数を凸関数に写す．
+\end{proposition}
+
+\begin{theorem}
+    Legendre変換はinvolutiveである．
+\end{theorem}
+
+\begin{corollary}
+    直線の族$\{y=px-g(p)\}_{p}$の包絡線は，$f=g^*$として，$\{(x,y)\in\R^2\mid y=f(x)\}$である．
+\end{corollary}
+
+\subsection{Young's inequality}
+
+\begin{definition}[Young's inequality]
+    定義より，$F(x,p)=px-f(x)\le g(p)\;(\forall x,p)$である．次の形の不等式を\textbf{ヤングの不等式}という：
+    \[ px\le f(x)+g(p). \]
+\end{definition}
+
+\subsection{The case of many variables}
+
+\section{Hamilton's equations}
+
+\begin{screen}
+    Legendre変換により，ラグランジュ力学系の$n$元二階微分方程式は，非常に対称的な$2n$元の一階微分方程式に変換される．
+    これをハミルトン方程式または正準方程式という．
+\end{screen}
+
+\subsection{Equivalence of Lagrange's and Hamilton's equations}
+
+式\ref{equation-Lagrange}の書き換えである
+ラグランジュ系
+\begin{equation}\label{equation-Lagrange-2}
+    \dot{\mathbf{p}}=\frac{\partial L}{\partial\mathbf{q}}
+\end{equation}
+であって，Lagrangian $L:\R^n\times\R^n\times\R\to\R$が第二変数$\dot{\mathbf{q}}$について凸であるとする．
+
+\begin{theorem}[Hamilton's equation / canonical equation]
+    ラグランジュ方程式系\ref{equation-Lagrange-2}は，次の方程式系と等価である．
+    \begin{align*}
+        \dot{\mathbf{p}} &= -\frac{\partial H}{\partial\mathbf{q}},\\
+        \dot{\mathbf{q}} &= \frac{\partial H}{\partial\mathbf{p}}.
+    \end{align*}
+    ただし，$H(\mathbf{p},\mathbf{q},t)=\mathbf{p\dot{q}}-L(\mathbf{q},\dot{\mathbf{q}},t)$は，Lagrangianを$\dot{\mathbf{q}}$の関数と見たときのLegendre変換とした．
+\end{theorem}
+
+\subsection{Hamilton's function and energy}
+
+\subsection{Cyclic coordinates}
+
+\section{Liouville's theorem}
+
+\subsection{The phase flow}
+
+\subsection{Liouville's theorem}
+
+\subsection{Proof}
+
+\subsection{Poincaré's recurrence theorem}
+
+\subsection{Applications of Poincaré theorem}
+
+\chapter{Lagrangian mechanics on manifolds}
+
+\section{Holonomic constraints}
+
+\section{Differentiable manifolds}
+
+\section{Lagrangian dynamical system}
+
+\section{E. Noether's theorem}
+
+\section{D'Alembert's principle}
+
+\chapter{Oscillation}
+
+\chapter{Rigid Bodies}
+
+\part{HAMILTONIAN MECHANICS}
+
+\chapter{Differential forms}
+
+\chapter{Sympletic manifolds}
+
+\chapter{Canonical formalism}
+
+\chapter{Introduction to perturbation theory}
+
+\begin{thebibliography}{99}
+    \bibitem{Arnold}
+    Vladimir I. Arnold "Mathematical Methods of Classical Mechanics" 2nd, (1991).
+    \bibitem{原島}
+    原島鮮『力学』
+    \bibitem{磯崎}
+    磯崎洋『解析力学と微分方程式』（共立出版，2020）
+\end{thebibliography}
+
+\end{document}

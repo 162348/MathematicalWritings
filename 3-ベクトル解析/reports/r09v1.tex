@@ -1,0 +1,276 @@
+\documentclass[dvipdfmx,nosetpagesize, uplatex]{jsarticle}
+%
+\newcommand\GAKUSEISHOBANGO{J4-190549}% 学生証番号
+\newcommand\NAMAE{司馬博文}% 氏名
+\newcommand\KYODOSAKUSEISHA{なし}% 共同作成者（ある場合）
+% 上の三行について，{}内に記入の上末尾の「解答欄」以降を適宜編集すれば良い．
+%
+\usepackage{amsmath,amssymb,amscd,amsthm,amsbsy,multicol}
+\usepackage[shortlabels,inline]{enumitem}
+\renewcommand\labelenumi{\theenumi)}
+\renewcommand{\thefootnote}{\dag\arabic{footnote}}
+\DeclareMathOperator{\grad}{\mathrm{grad}}
+\DeclareMathOperator{\Div}{\mathrm{div}}
+\newcommand\R{\mathbb{R}}
+\pagestyle{plain}
+%
+\usepackage{color}
+\setlength{\paperwidth}{257mm}
+\setlength{\paperheight}{364mm}
+\setlength{\textwidth}{170mm}
+\setlength{\textheight}{280mm}
+% \setlength{\oddsidemargin}{-2.0cm}
+% \setlength{\evensidemargin}{-.3cm}
+\setlength{\topmargin}{-31mm}
+%\setlength{\footskip}{2cm}
+%
+\newtheoremstyle{StatementsWithStar}% ?name?
+{3pt}% ?Space above? 1
+{3pt}% ?Space below? 1
+{}% ?Body font?
+{}% ?Indent amount? 2
+{\bfseries}% ?Theorem head font?
+{\textbf{.}}% ?Punctuation after theorem head?
+{.5em}% ?Space after theorem head? 3
+{\textbf{\textup{#1~\thetheorem{}}}{}\,$^{\ast}$\thmnote{(#3)}}% ?Theorem head spec (can be left empty, meaning ‘normal’)?
+%
+\newtheoremstyle{StatementsWithStar2}% ?name?
+{3pt}% ?Space above? 1
+{3pt}% ?Space below? 1
+{}% ?Body font?
+{}% ?Indent amount? 2
+{\bfseries}% ?Theorem head font?
+{\textbf{.}}% ?Punctuation after theorem head?
+{.5em}% ?Space after theorem head? 3
+{\textbf{\textup{#1~\thetheorem{}}}{}\,$^{\ast\ast}$\thmnote{(#3)}}% ?Theorem head spec (can be left empty, meaning ‘normal’)?
+%
+\newtheoremstyle{StatementsWithStar3}% ?name?
+{3pt}% ?Space above? 1
+{3pt}% ?Space below? 1
+{}% ?Body font?
+{}% ?Indent amount? 2
+{\bfseries}% ?Theorem head font?
+{\textbf{.}}% ?Punctuation after theorem head?
+{.5em}% ?Space after theorem head? 3
+{\textbf{\textup{#1~\thetheorem{}}}{}\,$^{\ast\ast\ast}$\thmnote{(#3)}}% ?Theorem head spec (can be left empty, meaning ‘normal’)?
+%
+\newtheoremstyle{StatementsWithCCirc}% ?name?
+{6pt}% ?Space above? 1
+{6pt}% ?Space below? 1
+{}% ?Body font?
+{}% ?Indent amount? 2
+{\bfseries}% ?Theorem head font?
+{\textbf{.}}% ?Punctuation after theorem head?
+{.5em}% ?Space after theorem head? 3
+{\textbf{\textup{#1~\thetheorem{}}}{}\,$^{\circledcirc}$\thmnote{(#3)}}% ?Theorem head spec (can be left empty, meaning ‘normal’)?
+%
+\theoremstyle{definition}
+ \newtheorem{theorem}{定理}[section]
+ \newtheorem{corollary}[theorem]{系}
+ \newtheorem{proposition}[theorem]{命題}
+ \newtheorem*{proposition*}{命題}
+ \newtheorem{lemma}[theorem]{補題}
+ \newtheorem*{lemma*}{補題}
+ \newtheorem*{theorem*}{定理}
+ \newtheorem{definition}[theorem]{定義}
+ \newtheorem{example}[theorem]{例}
+ \newtheorem{notation}[theorem]{記号}
+ \newtheorem*{notation*}{記号}
+ \newtheorem{assumption}[theorem]{仮定}
+ \newtheorem{question}[theorem]{問}
+ \newtheorem{reidai}[theorem]{例題}
+ \newtheorem{remark}[theorem]{注}
+% \newtheorem*{remarknonum}{注}
+ \newtheorem*{definition*}{定義}
+ \newtheorem*{remark*}{注}
+ \newtheorem*{question*}{問}
+%
+\theoremstyle{StatementsWithStar}
+ \newtheorem{definition_*}[theorem]{定義}
+ \newtheorem{question_*}[theorem]{問}
+ \newtheorem{example_*}[theorem]{例}
+ \newtheorem{theorem_*}[theorem]{定理}
+ \newtheorem{remark_*}[theorem]{注}
+%
+\theoremstyle{StatementsWithStar2}
+ \newtheorem{definition_**}[theorem]{定義}
+ \newtheorem{theorem_**}[theorem]{定理}
+ \newtheorem{question_**}[theorem]{問}
+ \newtheorem{remark_**}[theorem]{注}
+%
+\theoremstyle{StatementsWithStar3}
+ \newtheorem{remark_***}[theorem]{注}
+ \newtheorem{question_***}[theorem]{問}
+%
+\theoremstyle{StatementsWithCCirc}
+ \newtheorem{definition_O}[theorem]{定義}
+ \newtheorem{question_O}[theorem]{問}
+ \newtheorem{example_O}[theorem]{例}
+ \newtheorem{remark_O}[theorem]{注}
+%
+\theoremstyle{definition}
+%
+\renewcommand{\proofname}{\underline{証明}}
+%
+\raggedbottom
+\allowdisplaybreaks
+%
+\everymath{\displaystyle}
+%
+\begin{document}
+\thispagestyle{empty}
+\setlength{\parindent}{1zw}
+\setlength{\baselineskip}{13pt}
+\setcounter{section}{9}
+\newcounter{version}
+\setcounter{version}{1}
+\noindent
+2020年度ベクトル解析（足助担当）レポート問題~\thesection~v\theversion%\par\noindent
+\hfil2020/6/29（月）\par\noindent
+提出先：ITC-LMSのページの「課題」\par\noindent
+提出期間：2020/6/29（月）$\sim$ 2020/7/6（月）\textbf{9:00}\par\noindent
+返却はITC-LMSを用いて7/13日（月）を目処に行う．\par\noindent
+※ レポートの作成方法は特に指定しないが，提出ファイルはPDF形式とすること．
+なお，ファイル名は，「``回数"+``学生証番号の下7桁.pdf\/"」（例：94123456.pdf）とすること．
+ファイルの作成にあたって印刷やスキャンなどに困難があれば速やかに足助まで申し出ること．
+\vskip-18pt\noindent
+\begin{table}[h]
+\begin{tabular}{|c|c|c|} \hline
+& & \\[-13pt]
+学生証番号& 氏名 & 共同作成者（ある場合）\\[2pt] \hline
+\rule{0pt}{16pt}%
+\parbox[c]{9.2zw}{\GAKUSEISHOBANGO\hfill} & \parbox[c]{13.0zw}{\NAMAE\hfill} & \parbox[c]{25.6zw}{\KYODOSAKUSEISHA\hfill}\\[6pt] \hline
+%「\hfill」の前に必要事項を記入すること．
+\end{tabular}
+\end{table}
+
+\noindent
+% 5/31 v2：積分区間が$[0,s]$となっていたのを$[0,t]$に修正．\par
+% \noindent
+% 5/23 v3：1)の$x^i$が誤って$x^j$となっていたので修正．\par
+% \ \par
+% ここでは函数などは全て$C^\infty$級とする．
+今回のレポートは微分形式の計算になれることを目的としている．
+定義が分かっていれば，計算自体は難しくない（と思う）．
+問は算用数字（1), 2), 3), 4)）である．
+
+\begin{question*}
+$X=f^1\frac{\partial}{\partial x^1}+f^2\frac{\partial}{\partial x^2}+f^3\frac{\partial}{\partial x^3}$を$\mathbb{R}^3$上のベクトル場とする．
+ここで$\Div X=0$が成り立つとする．
+Poincar\'eの補題により，$X$はベクトルポテンシャルを持つ．
+計算を一般的に最後まで進めるのは難しいが，積分の形で表すことは次のようにすればできる（以下の方法はPoincar\'eの補題の証明をなぞっている）．\par\noindent
+I) まず$\omega=f^1dx^2\wedge dx^3+f^2dx^3\wedge dx^1\textcolor{red}{\wedge dx^2}+f^3dx^1\wedge dx^2$と定める（まあそんなものだと思えば良い）．\par\noindent
+1) $d\omega=0$が成り立つことを示せ．\par\noindent
+ヒント：まず$d\omega=(\Div X)dx^1\wedge dx^2\wedge dx^3$が成り立つことを示すとよい．\par
+\noindent
+II) まず$\omega$のポテンシャル$\eta$を求める．
+$\eta$は$d\eta=\omega$をみたす$1$-形式である．
+$\gamma\colon\R^3\times[0,1]\to\R^3$を$\gamma(p,t)=tp$により定める．
+そして，$\gamma^*\omega$を求める．
+$\gamma^*\omega$は$\R^3\times[0,1]$上の微分形式である．
+$\R^3\times[0,1]$の座標を$(p^1,p^2,p^3,t)$とする．
+\par\noindent
+2) $\gamma^*dx^i=p^i\,dt+t\,dp^i$が成り立つことを示せ．
+また，$\gamma^*(dx^i\wedge dx^j)=t\,dt\wedge(p^i\,dp^j-p^j\,dp^i)+t^2\,dp^i\wedge dp^j$が成り立つことを示せ．\par\noindent
+3)
+\begin{align*}
+\gamma^*\omega&=(f^1\circ\gamma)t\,dt\wedge(p^2\,dp^3-p^3\,dp^2)+(f^1\circ\gamma)t^2\,dp^2\wedge dp^3\\*
+&\hphantom{{}={}}+(f^2\circ\gamma)t\,dt\wedge(p^3\,dp^1-p^1\,dp^3)+(f^2\circ\gamma)t^2\,dp^3\wedge \textcolor{red}{dp^3}\\*
+&\hphantom{{}={}}+(f^3\circ\gamma)t\,dt\wedge(p^1\,dp^2-p^2\,dp^1)+(f^3\circ\gamma)t^2\,dp^1\wedge dp^2
+\end{align*}
+が成り立つことを示せ．\par\noindent
+III) $\gamma^*\omega$のうち，$dt$が現れない項は無視して
+\[
+\beta=t((f^1\circ\gamma)(p^2\,dp^3-p^3\,dp^2)+(f^2\circ\gamma)(p^3\,dp^1-p^1\,dp^3)+(f^3\circ\gamma)(p^1\,dp^2-p^2\,dp^1))
+\]
+と置く．
+\[
+\eta=\int_0^1\beta dt
+\]
+と置けば$\eta$は$d\eta=\omega$を満たし，$\omega$のポテンシャルである．\par\noindent
+IV) \textcolor{red}{$\eta$}$=g_1dx^1+g_2dx^2+g_3dx^3$と表して，$Y=g_1\frac{\partial}{\partial x^1}+g_2\frac{\partial}{\partial x^2}+g_3\frac{\partial}{\partial x^3}$と置けば，$Y$は$X$のベクトルポテンシャルである．\par\noindent
+4) $X=x^2\frac{\partial}{\partial x^1}+x^3\frac{\partial}{\partial x^2}+x^1\frac{\partial}{\partial x^3}$について，$\Div X=0$であることを確かめ，ベクトルポテンシャルを求めよ．
+\end{question*}
+
+\par
+\ \par
+\noindent
+{\small
+※ 参考文献がある場合には最後にまとめて箇条書きで示すこと．\par\noindent
+※ \textbf{全体として２ページに収めること．}\par\noindent
+※ 共同作成者に記載がないにもかかわらず，ほかのレポートとほぼ同一であるレポートが散見される．
+誰かと共同してレポートを作成することは構わないが，そのことは明記すること．
+それをしなければ剽窃であって，これは学術上の致命的な不正行為である．
+万一，写される側がそのことを承知していなかったことが露見した場合には重大な結果をもたらす可能性がある．
+}
+
+\rightline{（以上）}\par
+%
+% 以下が解答欄である．２ページ以内に収まるように注意すること．なお，紙面レイアウトやフォントサイズを変更しないこと．
+%
+\noindent
+\begin{proof}[\bf{解答}]
+    
+1) $d\omega$を計算すると，
+\begin{align*}
+    d\omega &= d\left(f^1dx^2\wedge dx^3+f^2dx^3\wedge dx^1+f^3dx^1\wedge dx^2\right) \\
+    &= d(f^1dx^2\wedge dx^3)+ d(f^2dx^3\wedge dx^1)+d(f^3dx^1\wedge dx^2) \\
+    &= df^1\wedge dx^2\wedge dx^3 + df^2\wedge dx^3\wedge dx^1 + df^3\wedge dx^1\wedge dx^1 \\
+    &= \left( \frac{\partial f^1}{\partial x^1}dx^1 + \frac{\partial f^1}{\partial x^2}dx^2 + \frac{\partial f^1}{\partial x^3}dx^3 \right)\wedge dx^2\wedge dx^3 + 
+    \left( \frac{\partial f^2}{\partial x^1}dx^1 + \frac{\partial f^2}{\partial x^2}dx^2 + \frac{\partial f^2}{\partial x^3}dx^3 \right)\wedge dx^3\wedge dx^1 + \\
+    &\;\;\;\;\;\left( \frac{\partial f^3}{\partial x^1}dx^1 + \frac{\partial f^3}{\partial x^2}dx^2 + \frac{\partial f^3}{\partial x^3}dx^3 \right)\wedge dx^1\wedge dx^2\\
+    &= \frac{\partial f^1}{\partial x^1}dx^1dx^2dx^3 + \frac{\partial f^2}{\partial x^2}dx^2dx^3dx^1 + \frac{\partial f^3}{\partial x^3}dx^3dx^1dx^2 \\
+    &= \left( \frac{\partial f^1}{\partial x^1} + \frac{\partial f^2}{\partial x^2} + \frac{\partial f^3}{\partial x^3} \right)dx^1dx^2dx^3
+\end{align*}
+より，$\mathrm{div} X=0$の時，$d\omega=0$である．
+
+2) $\gamma^*dx^i$を計算すると，
+\begin{align*}
+    \gamma^*dx^i  &= d\gamma^i \\
+    &= \frac{\partial\gamma^i}{\partial p^1}dp^1 + \frac{\partial\gamma^i}{\partial p^2}dp^2 + \frac{\partial\gamma^i}{\partial p^3}dp^3 + \frac{\partial\gamma^i}{\partial t}dt \\
+    &= \frac{\partial\gamma^i}{\partial p^i}dp^i + p^idt = tdp^i +  p^idt
+\end{align*}
+となる．これを用いて$\gamma^*(dx^i\wedge dx^j)$は，
+\begin{align*}
+    \gamma^*(dx^i\wedge dx^j) &= (\gamma^*dx^i) \wedge (\gamma^*dx^j) \\
+    &= t^2dp^i\wedge dp^j + tp^idt\wedge dp^j + tp^jdp^i\wedge dt\\
+    &= tdt\wedge (p^idp^j-p^jdp^i) + t^2dp^i\wedge dp^j
+\end{align*}
+と表せる．
+
+3) この結果を用いると，
+\begin{align*}
+    \gamma^*\omega &= \gamma^*\left( f^1dx^2\wedge dx^3+f^2dx^3\wedge dx^1+f^3dx^1\wedge dx^2 \right) \\
+    &= (f^1\circ\gamma) (tdt\wedge (p^2dp^3-p^3dp^2) + t^2dp^2\wedge dp^3) \\*
+    &\hphantom{{}={}}+ (f^2\circ\gamma) (tdt\wedge (p^3dp^1-p^1dp^3) + t^2dp^3\wedge dp^1) \\*
+    &\hphantom{{}={}}+ (f^3\circ\gamma) (tdt\wedge (p^1dp^2-p^2dp^1) + t^2dp^1\wedge dp^2) \\
+    &=(f^1\circ\gamma)t\,dt\wedge(p^2\,dp^3-p^3\,dp^2)+(f^1\circ\gamma)t^2\,dp^2\wedge dp^3\\*
+    &\hphantom{{}={}}+(f^2\circ\gamma)t\,dt\wedge(p^3\,dp^1-p^1\,dp^3)+(f^2\circ\gamma)t^2\,dp^3\wedge dp^1\\*
+    &\hphantom{{}={}}+(f^3\circ\gamma)t\,dt\wedge(p^1\,dp^2-p^2\,dp^1)+(f^3\circ\gamma)t^2\,dp^1\wedge dp^2
+\end{align*}
+と式変形できる．
+
+4) 
+\begin{align*}
+    f^1\begin{pmatrix}x^1\\x^2\\x^3\end{pmatrix} &= x^2 & f^2\begin{pmatrix}x^1\\x^2\\x^3\end{pmatrix} &= x^3 & f^3\begin{pmatrix}x^1\\x^2\\x^3\end{pmatrix} &= x^1
+\end{align*}
+と置くと，$\frac{\partial f^i}{\partial x^i}=0\;(i=1,2,3)$だから，確かに$\mathrm{div}X=0$である．また，
+\begin{align*}
+    f^1\circ\gamma\begin{pmatrix}p^1\\p^2\\p^3\\t\end{pmatrix} &= tp^2 & f^2\circ\gamma\begin{pmatrix}p^1\\p^2\\p^3\\t\end{pmatrix} &= tp^3 &f^3\circ\gamma\begin{pmatrix}p^1\\p^2\\p^3\\t\end{pmatrix} &= tp^1
+\end{align*}
+であるから，
+\begin{align*}
+    \beta &= t^2\left( ((p^3)^2-p^1p^2)dp^1 + ((p^1)^2-p^2p^3)dp^2 + ((p^2)^2-p^3p^1)dp^3 \right)
+\end{align*}
+より，
+\begin{align*}
+    \eta = \int^1_0\beta dt &= \frac{1}{3}\left( ((x^3)^2-x^1x^2)dx^1 + ((x^1)^2-x^2x^3)dx^2 + ((x^2)^2-x^3x^1)dx^3 \right)
+\end{align*}
+だから，$X$のベクトルポテンシャル$Y$は，
+\begin{align*}
+    \frac{1}{3}\left( ((x^3)^2-x^1x^2)\frac{\partial}{\partial x^1} + ((x^1)^2-x^2x^3)\frac{\partial}{\partial x^2} + ((x^2)^2-x^3x^1)\frac{\partial}{\partial x^3} \right)
+\end{align*}
+となる．
+
+\end{proof}
+\end{document}

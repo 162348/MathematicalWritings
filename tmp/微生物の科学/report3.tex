@@ -1,0 +1,172 @@
+\documentclass[uplatex, dvipdfmx]{jsarticle}
+\title{微生物の科学　レポート\\「酢酸菌が酢酸を生産する仕組み」\\（新井博之先生担当授業，６月２６日開講）}
+\author{司馬博文 J4-190549}
+\pagestyle{empty} \setcounter{secnumdepth}{4}
+\input{/Users/hirofumi.shiba48/Desktop/数理科学/preamble.tex}
+
+\begin{document}
+\maketitle
+\begin{abstract}
+    授業の構成を，①酢酸菌による酢酸発酵と人類の食文化の関わりと，②その機構の科学的解明との２つの節に分けて，
+    追加で調べた文献からの情報をその都度引用しながら，自分が理解したことをまとめた．自分で追加で調べたものについては，参考文献を付けた．
+\end{abstract}
+
+\section*{授業で扱われた主な微生物の一覧}
+
+細菌(bacteria)
+\begin{center}
+\begin{table}[h]\centering
+    \begin{tabular}{|l|c|c|}\hline
+        Proteobacteria門&Acetobacter属&aceti：酢酸菌の野生株\\
+        &&pasteurianus：食酢製造株\\\hline
+        &Gluconacetobacter属&\\\hline
+        &Komagataeibacter属&xylinus：ナタデココや紅茶昆布などを作るセルロース生産酢酸菌\\\hline
+    \end{tabular}
+\end{table}
+\end{center}
+
+\section{酢酸菌の酢酸発酵と人類の食文化の関わり}
+
+\subsection{酢酸発酵とは}
+
+酢酸発酵とはエタノールの酸化２段階（エタノール$\to$アセトアルデヒド$\to$酢酸）からなる酸化発酵の一種である．
+なおこれは人体内でのアルコール代謝と同じ反応である．
+また，ここでいう発酵とは，「微生物が人類に有用な有機物を生成する過程全般」を指す用語である．
+
+\subsection{お酢と人類史}
+お酢はもともと苦い酒と書くが，お酒を作って放って置いたり，醸造が失敗すると出来る．
+従って，酒と同様非常に古くから，調味料や食品保存料として利用もされるようになっていた．
+\begin{quote}
+    紀元前5千年ごろ，バビロニアにおけるナツメヤシや干しぶどうを原料とした酢が確認できる最も古い記録である．\cite{バイオよもやま話}
+\end{quote}
+
+お酢が商業的に生産されるのは世界的にも16,17Cで，フランスではワインから作るオルレアン法という独自の食酢醸造法が発達した．
+また日本でも，弥生時代に稲作農耕文化と同時に渡来人から輸入され，
+滋賀県の鮒（ふな）寿司などに残る熟鮓（なれずし）の文化がある．
+これは乳酸発酵により生じた乳酸で生鮮食品を長持ちさせる技術とも考えられるが，
+江戸時代後期に新たに酒粕からお酢を作る手法が発達し，手ごろな価格でお酢が流通するようになり，
+一日だけ酢で締めたものである「早寿司」から「江戸前寿司」に発展して広く一般化したという\cite{バイオよもやま話}．
+これが現在のお寿司に繋がっていると言われている．
+
+私は21歳の誕生日に熟鮓とバルサミコ酢に付けたマスカットの料理を堪能する機会を得たが，
+特にバルサミコ酢の方は，果実の甘さとお酢の酸っぱさが絶妙な均衡を保って居り，
+「発酵」と「腐敗」の境界線を綱渡りしているようで緊張したのを覚えている．
+
+\subsection{現代における食酢の製造過程}\label{section-食酢製造}
+
+大きく静置発酵法と通気発酵法の２つに大別される．
+
+静置発酵法は，壺を使用する鹿児島県霧島市福山町坂元醸造のものが代表的な，
+江戸時代に開発された食酢醸造法を踏襲した伝統的方法である．
+壺の中では麹菌によるアルコール発酵と，そのアルコールからの酢酸発酵が同時に起こっている（並行複発酵）．
+初期段階のアルコール発酵では，Aspergillus oryzaeからSaccharomyces属への移行が見られ，酢酸が蓄積を始める段階から，
+乳酸菌は乳酸耐性を持つLactobacillus acetotoleranceが優占化し，
+酢酸菌はAcetobacter acetiからAcetobacter pasteurianusへの優占化が見られた\cite{Haruta}．
+なおこのAcetobacter pasteurianusは，一世紀に渡る食酢醸造の結果自然と育種されたことが示唆されるとされている\cite{Nanda}．
+
+通気発酵法は，アセテーターと呼ばれる危機によって，酸素注入と攪拌を同時に行い，効率的に溶液中に酸素を行き届かせる装置を用いて食酢製造である．
+
+\subsection{D-アミノ酸の演じる役割}
+
+授業中に，食酢醸造過程での一部の乳酸菌(Lactobacillus属のplantarumやsalivariusなどの種)によるD-アミノ酸生産が，各食酢に独特の風味をつけたり，健康効果を促進する役割を演じている可能性
+を示唆する研究があるという紹介があった．
+しかし，味や保存性への影響や健康への影響はまだ定まったことが導きがたい現状があるとのことである\cite{解説}．
+また，生酛，山廃，長期熟成といった仕込み方法で醸造された日本酒には有意にD-アミノ酸が多く，それが官能評価との
+相関があるという研究があり，D-アミノ酸が重要な役割を演じている発酵食品は食酢にとどまったものではないことがわかる\cite{Oikawa}．
+
+\subsection{その他の酢酸発酵食品}
+
+授業中では，ナタデココと紅茶こんぶ(Kombucha)の紹介があった．
+\begin{quote}
+    ココナッツの実の内部に含まれるココナッツ水に酢酸菌Komagataeibacter xylinus (またはGluconacetobacter xylinus, Acetobacter xylinum)を加えて発酵させると、表面から凝固してゆくので、一定の厚みになったところでさいの目に切り食用に供する。
+\end{quote}
+また紅茶こんぶのゲル状の塊は、産膜性酢酸菌のコロニー（酵母のZygosaccharomyces属の菌と、酢酸菌のKomagataeibacter xylinusなどが主菌相）が形成したセルロースゲルである，とのことであった．
+
+\section{酢酸菌とはどんな微生物か}
+
+\subsection{酢酸菌にとっての酢酸発酵とは：２つの反応回路}
+
+まず酢酸菌では，細胞表面（特にペリプラズム(Periplasmic space)）に存在する酵素"PQQ(Phrroloquinoline quinone)依存型アルコールデヒドロゲナーゼ"による解糖系が，「エタノールを酢酸に酵素変換する不完全酸化」を引き起こす．
+以降この生体反応を「不完全酸化」と呼ぶ．
+これが食酢製作に応用される．
+また，この酵素の気質特異性には若干遊びがあり，ここがビタミンCや抗糖尿病薬の前駆体生産などの応用に使われる例がある．
+
+この不完全酸化と呼ばれる異化反応はNADHと電子を生産し，それがミトコンドリアに於ける酸化的リン酸化に使われるので，好気呼吸と共軛的な反応である．
+実際，酢酸菌は絶対好気性の細菌である．このことは食酢製造法の紹介をした\ref{section-食酢製造}節でも確認した．
+
+一方で，酢酸菌による酢酸製造には２段階性が観察され，不完全酸化により蓄積した酢酸が十分な量に達すると，これを消費して同化（菌体成分生産）を始める．この段階を「過酸化」と呼ぶ．
+
+\subsection{どうして最初に不完全酸化が起こり，エタノールが無くなったのを確認してから過酸化が起こるのか．}
+
+これはtranscriptome解析により，エタノール存在下ではTCA回路関連酵素遺伝子の全ての発現が抑制され，
+その結果アセチルCoAの消費が抑制され，酢酸からアセチルCoAへの代謝もされなくなるので酢酸はただ細胞外に蓄積され，
+またTCA回路ではなく酸化的リン酸化によって生命を維持するからだとわかった\cite{Arai-1}．
+
+これは，不完全酸化によって生じる電子を用いた酸化的リン酸化によって，
+生存に十分以上のATPが生産できる為，エタノールが十分な環境下では同化代謝を抑制する戦略が発達したと考えられる．
+これは一種のK-戦略と捉えられるのではないかと筆者は考えている．
+一方で解糖系関連酵素の発現は，環境によって殆ど左右されない\cite{Arai-2}．
+この代謝回路の選択戦略を，オーバーフロー代謝といい，大腸菌や癌細胞でも観察される．
+癌細胞の場合はこれをWarburg効果という．
+\begin{quote}
+    ドイツの生理学者であるオットー・ワールブルグ博士は，がん細胞が正常細胞とは異なるエネルギー代謝を行っていることを発見した．酸素が十分に存在している条件下でも，ミトコンドリア活性を抑え，主に解糖系にグルコース代謝をシフトさせるというものである．この特性は「ワールブルグ効果」として認知され，ワールブルグ効果によるがん進展説は今もなお有力な作業仮説である\cite{がん}．
+\end{quote}
+
+なお，大腸菌のプロテオーム解析によると，呼吸を行うには発酵に必要なタンパク質の２倍が，
+ATP１分子あたりに必要であるという\cite{大腸菌}．
+すると，増殖が十分に速いならば，その速さについてくるような回路が良いということで，
+効率よりも速さの方を選択して，発酵の方を優先する戦略は取り得るだろう，というように
+極めて自然な生存戦略として説明できる．
+
+\subsection{エタノールとグルコースの共存環境下での振る舞い}
+
+\ref{section-食酢製造}節で記述した通り，食酢製造においてはエタノールとグルコースの共存環境で並行複発酵の一部として酢酸発酵が進む．
+この環境下での酢酸菌の振る舞いと，変異株A. pasteurianusの特異性を，資料\cite{Arai-2},\cite{桜井}を中心としてまとめ直すと以下の通りとなった．
+
+\begin{screen}
+1. まずエタノールに対して酸化発酵をする解糖系が回るので，ピルビン酸とアセチルCoAが細胞内に余剰になる．
+
+2. 細胞外に蓄積している酢酸を食べる前に体内のこれらを処理しないと，アセトアルデヒドが毒になる．したがって，酢酸は蓄積を続ける．
+
+3. このことの証拠として，エタノールとグルコースの共存条件下では，ストレス応答関係の遺伝子が発現する適応を持つ．
+
+4. このエタノール・酢酸由来の物質を資化(anabolism)する際に，グリオキシルサン経路(Glyoxylate pathway)が利用される．
+これはA. acetiで，この時のみ発現誘導する適応が確認された為に示唆される．
+一方，A. pasteurianusではこれが欠損して居ることがその高い酢酸生産性に寄与して居る，
+生産した酢酸を自分で食べてしまわないという訳である（実際にそれが確認されて居る．Glyoxylate pathwayがない場合，エタノールグルコース共存環境下で，酢酸の過酸化が遅れる）．
+したがって，酢酸の消費はA. acetiの方が圧倒的に得意である．
+
+5. A. acetiでは，ピルビン酸デカルボキシラーゼが高発現するので，これによる経路で，グルコースは一度アセトアルデヒドになってから酢酸(acetate)に変換し，アセチルCoAになると考えられる．
+一方でA. pasteurianusは別のピルビン酸代謝関連酵素をもち，ピルビン酸デカルボキシラーゼの発現は抑制される．
+
+6. 実際，鹿児島県霧島市福山町での伝統的な壺造り純米黒酢醸造では，ツボの壁からA. aceti, pasteurianusいずれも確認されるが，発酵液からは後者が優勢に確認される．
+前者にはアセトアルデヒドが蓄積し，後者には蓄積しないからである．
+\end{screen}
+
+\begin{thebibliography}{9}
+    \bibitem{バイオよもやま話}
+        佐古田久雄，赤坂直紀，中山武吉「食酢醸造の変遷と酢酸菌の新たな利用」
+        （続・生物工学基礎講座，バイオよもやま話）
+    \bibitem{Haruta}
+        Haruta S, et al. (2006) Succession of bacterial and fungal communities during a traditional pot fermentation of rice vinegar assessed by PCR-mediated denaturing gradient gel electrophoresis. Int J Food Microbiol 109(1-2):79-87
+    \bibitem{Nanda}
+        Nanda, K. et al. (2001) Characterization of Acetic Acid Bacteria in Traditional Acetic Acid Fermentation of Rice Vinegar (Komesu) and Unpolished Rice Vinegar (Kurosu) Produced in Japan. Applied and Environmental Microbiology Feb 2001, 67 (2) 986-990
+    \bibitem{解説}
+        牟田口祐太，大森勇門，大島敏久『乳酸発酵とD-アミノ酸生産』化学と生物 Vol. 53, No. 1, (2015).
+    \bibitem{Oikawa}
+        Okada, K., Gogami, Y. \& Oikawa, T. Principal component analysis of the relationship between the D-amino acid concentrations and the taste of the sake. Amino Acids 44, 489–498 (2013). 
+    \bibitem{Arai-1}
+        Sakurai, K., Arai, H., Ishii, M., and Igarashi, Y. (2011) Transcriptome response to different carbon sources in Acetobacter aceti. Microbiology 157: 899-910.
+    \bibitem{Arai-2}
+        新井博之『酢酸菌の酸化発酵に関わるエネルギー代謝制御機構の解析』
+    \bibitem{がん}
+        昆俊亮『ワールブルグ効果様代謝変化による抗腫瘍機能』Journal of Japanese Biochemical Society 90(5): 715-718 (2018).
+        https://seikagaku.jbsoc.or.jp/10.14952/SEIKAGAKU.2018.900715/data/index.html (7/18/2020 確認)
+    \bibitem{大腸菌}
+        Basan, M., Hui, S., Okano, H. et al. Overflow metabolism in Escherichia coli results from efficient proteome allocation. Nature 528, 99–104 (2015). https://doi.org/10.1038/nature15765
+    \bibitem{桜井}
+        桜井健太『食酢醸造に関わる解糖系のオーバーフロー代謝』\\
+        \textrm{https://www.sbj.or.jp/wp-content/uploads/file/sbj/9308/9308\_biomedia\_1.pdf} (7/18/2020 確認)
+\end{thebibliography}
+
+\end{document}

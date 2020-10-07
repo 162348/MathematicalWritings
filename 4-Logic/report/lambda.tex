@@ -1,0 +1,42 @@
+\documentclass[uplatex, dvipdfmx]{jsarticle}
+\title{計算の理論　後半課題１}
+\author{司馬博文 J4-190549}
+\date{\today}
+\pagestyle{empty} \setcounter{secnumdepth}{4}
+\input{/Users/hirofumi.shiba48/Desktop/数理科学/preamble.tex}
+\begin{document}
+\maketitle
+
+1. $(\lambda x.\lambda y.x)yx$
+
+    \begin{eqnarray*}
+        (\lambda x.\lambda y.x)yx &\xrightarrow{\alpha}& (\lambda x.\lambda z.x)yx \\
+        &\xrightarrow{\beta}& (\lambda z.y)x \\
+        &\xrightarrow{\beta}& y
+    \end{eqnarray*}
+
+    2. $(\lambda b.\lambda x.\lambda y.bxy)(\lambda x.\lambda y.y)xy$
+
+    \begin{eqnarray*}
+        (\lambda b.\lambda x.\lambda y.bxy)(\lambda x.\lambda y.y)xy &\xrightarrow{\beta}& (\lambda b.\lambda x.\lambda y.bxy)(\lambda y.y)y \\
+        &\xrightarrow{\alpha}& (\lambda b.\lambda x.\lambda y.bxy)(\lambda z.z)y \\
+        &\xrightarrow{\beta}& (\lambda b.\lambda x.\lambda y.bxy)y \\
+        &\xrightarrow{\alpha}& (\lambda b.\lambda x.\lambda z.bxz)y \\
+        &\xrightarrow{\beta}& \lambda x.\lambda z.yxz \\
+        &\xrightarrow{\eta}& \lambda x.yx \\
+        &\xrightarrow{\eta}& y
+    \end{eqnarray*}
+
+    3. $(\lambda f.\lambda x.f(f(x)))(\lambda f.\lambda x.f(f(x)))$
+
+    \begin{eqnarray*}
+        (\lambda f.\lambda x.f(f(x)))(\lambda f.\lambda x.f(f(x))) &\xrightarrow{\alpha}& (\lambda f.\lambda y.f(f(y)))(\lambda f.\lambda x.f(f(x))) \\
+        &\xrightarrow{\beta}& \lambda y.(\lambda f.\lambda x.f(f(x)))((\lambda f.\lambda x.f(f(x)))(y)) \\
+        &\xrightarrow{\beta}& \lambda y.(\lambda f.\lambda x.f(f(x)))(\lambda x.y(yx)) \\
+        &\xrightarrow{\alpha}& \lambda y.(\lambda f.\lambda z.f(f(z)))(\lambda x.y(yx)) \\
+        &\xrightarrow{\beta}& \lambda y.(\lambda z.(\lambda x.y(yx))((\lambda x.y(yx))(z))) \\
+        &\xrightarrow{\beta}& \lambda y.(\lambda z.(\lambda x.y(yx))(y(yz))) \\
+        &\xrightarrow{\beta}& \lambda y.(\lambda z.(y(y(y(yz)))))
+    \end{eqnarray*}
+
+\end{document}

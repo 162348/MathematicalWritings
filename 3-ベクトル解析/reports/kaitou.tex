@@ -1,0 +1,350 @@
+\documentclass[dvipdfmx,a4paper,uplatex]{jsarticle}
+%
+\newcommand\GAKUSEISHOBANGO{J4-190549}% 学生証番号
+\newcommand\NAMAE{司馬博文}% 氏名
+% 上の二行について，{}内に記入の上末尾の「解答欄」以降を適宜編集すれば良い．
+\usepackage{tikz, tikz-cd}
+\usepackage{amsmath, amsfonts, amsthm, amssymb, ascmac, color, comment, wrap fig}
+\newtheorem*{lemma*}{補題}
+\usepackage{amsmath,amssymb,amscd,amsthm,amsbsy,multicol}
+\usepackage[shortlabels,inline]{enumitem}
+\renewcommand\labelenumi{\theenumi)}
+\renewcommand{\thefootnote}{\dag\arabic{footnote}}
+\DeclareMathOperator{\Div}{\mathrm{div}}
+\DeclareMathOperator{\grad}{\mathrm{grad}}
+\pagestyle{plain}
+%
+\setlength{\paperwidth}{257mm}
+\setlength{\paperheight}{364mm}
+\setlength{\textwidth}{170mm}
+\setlength{\textheight}{280mm}
+\setlength{\topmargin}{-31mm}
+%
+\raggedbottom
+% \allowdisplaybreaks
+%
+% \everymath{\displaystyle}
+%
+\begin{document}
+\thispagestyle{empty}
+\setlength{\parindent}{1zw}
+\setlength{\baselineskip}{13pt}
+\setcounter{section}{9}
+\newcounter{version}
+\setcounter{version}{1}
+\noindent
+2020年度ベクトル解析（足助担当）期末レポート解答用紙%\par\noindent
+\hfil2020/7/6（月）\par\noindent
+提出先：ITC-LMSのページの「課題」\par\noindent
+提出期限：2020/7/9（木）\textbf{12:00}\par\noindent
+解答は\textbf{１問につき１枚（両面使用可）}とすること（この用紙を４枚印刷するとよい．あるいは２枚目以降は白紙を用いても良いが，\textbf{全て縦向き}とすること．
+また，いずれの解答用紙の表面の上の方に\textbf{学生証番号と氏名を記入すること}）．
+\vskip-18pt\noindent
+\begin{table}[h]
+\begin{tabular}{|c|c|} \hline
+& \\[-13pt]
+学生証番号& 氏名 \\[2pt] \hline
+\rule{0pt}{16pt}%
+\parbox[c]{9.2zw}{\GAKUSEISHOBANGO\hfill} & \parbox[c]{13.0zw}{\NAMAE\hfill} \\[6pt] \hline
+\end{tabular}
+\end{table}
+
+\par\noindent
+\bf{問１　1)} 次のように定める正則な$C^\infty$級曲線$\gamma_1,\gamma_2,\gamma_3$について，その和を$\gamma:=\gamma_1+\gamma_2+\gamma_3$と置くと（向き付き曲線の和は問４の回答中での補題の証明中$(\star^1)$にて定義した），$\gamma$は$C$の向きと整合的な区分的$C^\infty$級の正則なパラメータ付けである．
+\begin{center}
+    \begin{tikzcd}
+        \gamma_1:[0,1] \ar[r] \ar[d, phantom, "\rotatebox{90}{$\in$}"] & \mathbb{R}^2 \ar[d, phantom, "\rotatebox{90}{$\in$}"] & \gamma_2:\left[0,\frac{\pi}{2}\right] \ar[d, phantom, "\rotatebox{90}{$\in$}"] \ar[r] & \mathbb{R}^2 \ar[d, phantom, "\rotatebox{90}{$\in$}"] & \gamma_3:[0,1] \ar[d, phantom, "\rotatebox{90}{$\in$}"] \ar[r] & \mathbb{R}^2\ar[d, phantom, "\rotatebox{90}{$\in$}"]\\
+        t \ar[r, mapsto] & \begin{pmatrix}t\\0\end{pmatrix} & \theta \ar[r, mapsto] & \begin{pmatrix}\cos\theta\\\sin\theta\end{pmatrix} & t \ar[r, mapsto] & \begin{pmatrix}0\\1-t\end{pmatrix}
+    \end{tikzcd}
+\end{center}
+従って，これを用いて，求める線積分の値は次のように計算できる．
+\begin{align*}
+    \int_CX(p)\cdot dp &= \int_\gamma X(p)\cdot dp = \int_{\gamma_1}X(p)\cdot dp + \int_{\gamma_2}X(p)\cdot dp + \int_{\gamma_3}X(p)\cdot dp \\
+    &= \int^1_0\left\langle X(\gamma_1(t))\;\middle|\;\frac{d\gamma_1}{dt}(t)\right\rangle dt + \int^{\frac{\pi}{2}}_0\left\langle X(\gamma_2(\theta))\;\middle|\;\frac{d\gamma_2}{d\theta}(\theta)\right\rangle d\theta + \int^1_0\left\langle X(\gamma_3(t))\;\middle|\;\frac{d\gamma_3}{dt}(t)\right\rangle dt \\
+    &= \int^1_0\left\langle\begin{pmatrix}t^3\\0\end{pmatrix}\;\middle|\; \begin{pmatrix}1\\0\end{pmatrix}\right\rangle dt + \int^{\frac{\pi}{2}}_0\left\langle\begin{pmatrix}\cos^3\theta-3\cos\theta\sin^2\theta\\3\cos^2\theta\sin\theta-\sin^3\theta\end{pmatrix}\;\middle|\; \begin{pmatrix}-\sin\theta\\\cos\theta\end{pmatrix}\right\rangle d\theta + \int^1_0\left\langle\begin{pmatrix}0\\-(1-t)^3\end{pmatrix}\;\middle|\; \begin{pmatrix}0\\-1\end{pmatrix}\right\rangle dt \\
+    &= \int^1_0\left( t^3+(1-t)^3 \right)dt + \int^{\frac{\pi}{2}}_0\sin 2\theta d\theta = \left[ \frac{t^4}{4} -\frac{(1-t)^4}{4} \right]^1_0 + \left[ -\frac{\cos 2\theta}{2} \right]^{\frac{\pi}{2}}_0 = \frac{3}{2}
+\end{align*}
+\begin{flushright}
+    $\blacksquare$
+\end{flushright}
+
+
+
+
+
+
+\bf{2)} 曲線$C_d$とは，原点中心の単位球面と，${}^t(1,1,1)$を法線ベクトルとする原点からの距離$d$の平面との共通部分である．従って，$C_d=\emptyset\;(|d|>1の時)$であり，この時線積分は$\int_{C_d}f(p)|dp|=0\;(|d|>1)$であるから，以降$|d|\le 1$の場合を考える．
+いま，$C_d$の$y$軸を中心とする$\frac{\pi}{4}$回転変換による像を$C'_d$とすると，これは単位球面と平面$x=d$との共通部分であるから，次の正則な$C^\infty$級関数$\gamma_d$によりパラメータ付けされる．
+\begin{center}
+    \begin{tikzcd}
+        \gamma_d:[0,2\pi] \ar[r] \ar[d, phantom, "\rotatebox{90}{$\in$}"] & \mathbb{R}^3 \ar[d, phantom, "\rotatebox{90}{$\in$}"]\\
+        \theta \ar[r, mapsto] & \begin{pmatrix}d\\\sqrt{1-d^2}\cos\theta\\\sqrt{1-d^2}\sin\theta\end{pmatrix}
+    \end{tikzcd}
+\end{center}
+従って，標準基底${}^t(x,y,z)$に同様に$\frac{\pi}{4}$回転変換を施して得る基底${}^t\left(-\frac{1}{\sqrt{2}}x+\frac{1}{\sqrt{2}}z,y,\frac{1}{\sqrt{2}}x+\frac{1}{\sqrt{2}}z\right)=:{}^t(x',y',z')$で表された関数$f(x',y',z')=x'^2$を
+座標${}^t(x,y,z)$について表示した関数を$g(x,y,z):=\left(-\frac{1}{\sqrt{2}}x+\frac{1}{\sqrt{2}}z\right)^2=\frac{1}{2}(z^2-2xz+x^2)$とすると，$|d|\le 1$の下で，求める線積分は次のように計算できる．
+\begin{align*}
+    \int_{C_d}f(p)|dp| &= \int_{C'_d}g(p)|dp| = \int_{\gamma_d}g(p)|dp| \\
+    &= \int^{2\pi}_0 g(\gamma_d(\theta))\left\| \frac{d\gamma_d}{d\theta} \right\|d\theta \\
+    &= \frac{1-d^2}{2}\int^{2\pi}_0\left( \frac{1+d^2}{2} -2d\sqrt{1-d^2}\sin\theta - \frac{1-d^2}{2}\cos 2\theta \right)d\theta \\
+    &= \frac{1-d^2}{2}\left[ \frac{1+d^2}{2}\theta + 2d\sqrt{1-d^2}\cos\theta - \frac{1-d^2}{4}\sin 2\theta \right]^{2\pi}_0 \\
+    &= \frac{\pi}{2}(1-d^4)\;\;\;(|d|\le 1)\hspace{11cm}\blacksquare
+\end{align*}
+\clearpage
+
+
+
+
+
+\bf{問２} 境界を含む有界な領域$D$とその境界である曲面$\partial D$について，Gau\ss の発散定理より，
+\begin{align*}
+    \int_{\partial D}X\cdot dA &= \int_D (\Div X)\;d\mathrm{vol} \\
+    &= \int_D 3x dxdydz
+\end{align*}
+であるから，次のように$D_1,D_2,D_3$を定めると，$D=D_1\cup D_2\cup D_3$であり，$D_1\cap D_3=\emptyset$，また$D_1\cap D_2,D_2\cap D_3$はいずれも単位円板で体積$0$であるから，$\int_D 3xdxdydz=\int_{D_1}3xdxdydz + \int_{D_2}3xdxdydz + \int_{D_3}3xdxdydz$が成立する．
+\begin{align*}
+    D_1 &= \left\{ \varphi_1(r,\theta,\varphi)=\begin{pmatrix}r\sin\theta\cos\varphi\\r\sin\theta\sin\varphi\\r\cos\theta\end{pmatrix}\in D \;\middle|\; 0\le r\le 1,0\le\theta\le\pi,\frac{\pi}{2}\le\varphi\le\frac{3}{2}\pi \right\} \\
+    D_2 &= \left\{ \varphi_2(r,\theta,\varphi)=\begin{pmatrix}x\\r\cos\theta\\r\sin\theta\end{pmatrix}\in D \;\middle|\; 0\le r\le 1,0\le x\le 1,0\le\theta\le 2\pi \right\} \\
+    D_3 &= \left\{ \varphi_3(r,\theta,\varphi)=\begin{pmatrix}1+r\sin\theta\cos\varphi\\r\sin\theta\sin\varphi\\r\cos\theta\end{pmatrix}\in D \;\middle|\; 0\le r\le 1,0\le\theta\le\pi,-\frac{\pi}{2}\le\varphi\le +\frac{\pi}{2} \right\}
+\end{align*}
+それぞれの境界を含んだ領域$D_1,D_2,D_3$のパラメータ付け$\varphi_1,\varphi_2,\varphi_3$のYacobianが，
+\begin{align*}
+    \det D\varphi_1=\det D\varphi_3&=\det\begin{pmatrix}\sin\theta&r\cos\theta\cos\varphi&-r\sin\theta\sin\varphi\\\sin\theta\sin\varphi&r\cos\theta\sin\varphi&r\sin\theta\cos\varphi\\\cos\theta&-r\sin\theta&0\end{pmatrix} = r^2\sin\theta \\
+    \det D\varphi_2&=\det\begin{pmatrix}1&0&0\\0&\cos\theta&\sin\theta\\0&-r\sin\theta&r\cos\theta\end{pmatrix} = r &
+\end{align*}
+であることに注意すれば，変数変換公式より，それぞれの重積分は次のように計算できる．
+\begin{align*}
+    \int_{D_1}xdxdydz &= \int^1_0\int^\pi_0\int^{\frac{3}{2}\pi}_{\frac{\pi}{2}}r\sin\theta\cos\varphi\cdot r^2\sin\theta d\varphi d\theta dr =-\frac{\pi}{4} \\
+    \int_{D_2}xdxdydz &= \int^{2\pi}_0\int^1_0\int^1_0 x\cdot rdrdxd\theta = \frac{\pi}{2} \\
+    \int_{D_3}xdxdydz &= \int^1_0\int^\pi_0\int^{\frac{\pi}{2}}_{-\frac{\pi}{2}}(1+r\sin\theta\cos\varphi)r^2\sin\theta d\varphi d\theta dr = \frac{11}{12}\pi
+\end{align*}
+従って，
+\begin{align*}
+    \int_{\partial D}X\cdot dA &= \int_D (\Div X)\;d\mathrm{vol} \\
+    &= \int_D 3x dxdydz\\
+    &=3\left(\int_{D_1}xdxdydz + \int_{D_2}xdxdydz + \int_{D_3}xdxdydz\right)\\
+    &=3\left(-\frac{\pi}{4}+\frac{\pi}{2}+\frac{11}{12}\pi\right)=\frac{7}{2}\pi
+\end{align*}
+を得る．
+\begin{flushright}
+    $\blacksquare$
+\end{flushright}
+\clearpage
+
+
+
+
+
+\bf{問３　1)} $f^1(x,y)=\frac{-2y}{x^2+y^2}+\frac{-(y-2)}{x^2+(y-2)^2},\; f^2(x,y)=\frac{2x}{x^2+y^2}+\frac{x}{x^2+(y-2)^2}$と置くとこれはいずれも$C^\infty$級の関数で，$X=f^1\frac{\partial}{\partial x}+f^2\frac{\partial}{\partial y}$と表せる．
+これが定める$D$上の$C^\infty$級の1-形式$\omega:=f^1dx+f^2dy$を，次の$C^\infty$級関数$\gamma={}^t(\gamma^1,\gamma^2)$で引き戻して考える．
+\begin{center}
+    \begin{tikzcd}
+        \gamma:\mathbb{R}^3 \ar[r] \ar[d, phantom, "\rotatebox{90}{$\in$}"] & D \ar[d, phantom, "\rotatebox{90}{$\in$}"]\\
+        \begin{pmatrix}p\\q\\r\end{pmatrix} \ar[r, mapsto] & \begin{pmatrix}p+t\\q\end{pmatrix}
+    \end{tikzcd}
+\end{center}
+この$\gamma$による$D$上の1-形式$dx,dy$の引き戻しは
+\begin{align*}
+    \gamma^*dx &= d\gamma^1 \\
+    &= \frac{\partial\gamma^1}{\partial p}dp + \frac{\partial\gamma^1}{\partial q}dq + \frac{\partial\gamma^1}{\partial t}dt\\
+    &= dp+dt\\
+    \gamma^*dy &= \frac{\partial\gamma^2}{\partial p}dp + \frac{\partial\gamma^2}{\partial q}dq + \frac{\partial\gamma^2}{\partial t}dt\\
+    &= dq
+\end{align*}
+であることより，$\gamma$による$\omega$の引き戻しは
+\begin{align*}
+    \gamma^*\omega &= (\gamma^*f^1)\;(\gamma^*dx) + (\gamma^*f^2)\;(\gamma^*dy) \\
+    &= (f^1\circ\gamma) dp + (f^2\circ\gamma )dq + (f^1\circ\gamma) dt
+\end{align*}
+となる．定数分の差は重要ではないから，$dt$の付く項のみを採用して，また$p$を$x$，$q$を$y$を書き直して$D$上の$C^\infty$級関数$g(x,y)$を次のように定義することとする．
+\[ g(x,y):=-\int^\infty_0f^1\circ\gamma(x,y,t) dt = -\int^\infty_0 \left( \frac{-2y}{(x+t)^2+y^2} + \frac{-(y-2)}{(x+t)^2+(y-2)^2} \right)dt \]
+なお，$t\ge 0$に於いて，${}^t(x,y)\in D$より$x>0$に注意して，三角不等式より，
+\begin{align*}
+    (0\le)\left| \frac{-2y}{(x+t)^2+y^2} + \frac{-(y-2)}{(x+t)^2+(y-2)^2} \right| &= \left| \frac{-2y}{(x^2+y^2+t^2+2xt)} + \frac{-(y-2)}{(x^2+y^2+t^2+2xt-4y+4)} \right|\\
+    &\le \left| \frac{-2y}{x^2+y^2+t^2} \right| + \left| \frac{-(y-2)}{x^2+y^2+t^2} \right|
+\end{align*}
+が成り立つから，
+\begin{align*}
+    \int^\infty_0 \left| \frac{-2y}{(x+t)^2+y^2} + \frac{-(y-2)}{(x+t)^2+(y-2)^2} \right|dt &\le \int^\infty_0 \left(\left| \frac{-2y}{x^2+y^2+t^2} \right| + \left| \frac{-(y-2)}{x^2+y^2+t^2} \right|\right)dt \\
+    &= |-2y|\int^{\frac{\pi}{2}}_0 \left| \frac{\cos^2\theta}{x^2+y^2} \right|\frac{\sqrt{x^2+y^2}}{\cos^2\theta}d\theta + |-(y-2)| \int^{\frac{\pi}{2}}_0 \left| \frac{\cos^2\theta}{x^2+y^2} \right|\frac{\sqrt{x^2+y^2}}{\cos^2\theta}d\theta\\
+    &= (2|y|+|y-2|)\int^{\frac{\pi}{2}}_0\left| \frac{1}{\sqrt{x^2+y^2}} \right|d\theta = \frac{\pi}{2}\frac{2|y|+|y-2|}{\sqrt{x^2+y^2}}
+\end{align*}
+と評価できるが，最右辺は有限な値だから，最左辺は有界である．従って，積分$g(x,y)=-\int^\infty_0f^1\circ\gamma(x,y,t) dt$は絶対収束し，関数$g$は確かに$D$上で定義される．
+この関数$g$がベクトル場$X$の領域$D$への制限$X|_U$のスカラーポテンシャルとなっていること，即ち$\grad g = X|_U$を証明する．$\grad g=\frac{\partial g}{\partial x}\frac{\partial}{\partial x} + \frac{\partial g}{\partial y}\frac{\partial}{\partial y}$であるから，
+係数が等しいこと，即ち$f^1=\frac{\partial g}{\partial x},f^2=\frac{\partial g}{\partial y}$を示せば良い．
+
+関数$g$の非積分関数$h(x,y,t):=\frac{-2y}{(x+t)^2+y^2} + \frac{-(y-2)}{(x+t)^2+(y-2)^2}$は$C^\infty$級で，特に連続であるから，その積分$G(x,y,s):=-\int^s_0\left( \frac{-2y}{(x+t)^2+y^2} + \frac{-(y-2)}{(x+t)^2+(y-2)^2} \right)dt$も連続で，従って$s\to\infty$の時に$g(x,y)$には一様収束する．
+このことより，$\frac{\partial g}{\partial x}$は次のように計算できる．
+\begin{align*}
+    \frac{\partial g}{\partial x} &= \frac{\partial}{\partial x}\int^0_\infty \left( \frac{-2y}{(x+t)^2+y^2} + \frac{-(y-2)}{(x+t)^2+(y-2)^2} \right)dt\\
+    &= \int^0_\infty \frac{\partial}{\partial x}\left( \frac{-2y}{(x+t)^2+y^2} + \frac{-(y-2)}{(x+t)^2+(y-2)^2} \right)dt\\
+    &= \left[ \frac{-2y}{(x+t)^2+y^2} + \frac{-(y-2)}{(x+t)^2+(y-2)^2} \right]^0_\infty = \frac{-2y}{x^2+y^2}+\frac{-(y-2)}{x^2+(y-2)^2} = f^1(x,y)
+\end{align*}
+続いて，$\frac{\partial g}{\partial y}$は次のように計算できる．
+\begin{align*}
+    \frac{\partial g}{\partial y} &= \frac{\partial}{\partial y}\int^0_\infty \left( \frac{-2y}{(x+t)^2+y^2} + \frac{-(y-2)}{(x+t)^2+(y-2)^2} \right)dt\\
+    &= \int^0_\infty \frac{\partial}{\partial y}\left( \frac{-2y}{(x+t)^2+y^2} + \frac{-(y-2)}{(x+t)^2+(y-2)^2} \right)dt\\
+    &= \int^0_\infty \left( \frac{-2((x+t)^2+y^2)+2y(2y)}{((x+t)^2+y^2)^2}+\frac{-((x+t)^2+(y-2)^2)+2(y-2)^2}{((x+t)^2+(y-2)^2} \right)dt \\
+    &= \int^0_\infty \left( -2\left( \frac{2(x+t)^2}{((x+t)^2+y^2)^2}-\frac{1}{(x+t)^2+y^2} \right) - \left( \frac{2(x+t)^2}{((x+t)^2+(y-2)^2)^2}-\frac{1}{(x+t)^2+(y-2)^2}\right) \right)dt\\
+    &= -4\int^0_\infty\frac{(x+t)^2}{((x+t)^2+y^2)^2}dt + 2\int^0_\infty\frac{dt}{(x+t)^2+y^2}-\int^0_\infty\frac{2(x+t)^2}{((x+t)^2+(y-2)^2)^2}dt+\int^0_\infty\frac{dt}{(x+t)^2+(y-2)^2}\;\;\;\cdots(\ast)\\
+\end{align*}
+部分積分の方法により，
+\begin{align*}
+    2\int^0_\infty\frac{(x+t)^2}{((x+t)^2+y^2)^2}dt &= \int^0_\infty -(x+t)\left(\frac{1}{(x+t)^2+y^2}\right)'dt\\
+    &= -\left[\frac{x+t}{(x+t)^2+y^2} \right]^0_\infty + \int^0_\infty\frac{dt}{(x+t)^2+y^2}\\
+    &= -\frac{x}{x^2+y^2} + \int^0_\infty\frac{dt}{(x+t)^2+y^2}
+\end{align*}
+であるから，$(\ast)$は，
+\begin{align*}
+    &\left( 2\frac{x}{x^2+y^2}-2\int^0_\infty\frac{dt}{(x+t)^2+y^2} \right) + 2\int^0_\infty\frac{dt}{(x+t)^2+y^2}+\left( \frac{x}{x^2+(y-2)^2} - \int^0_\infty\frac{dt}{(x+t)^2+(y-2)^2} \right)\\*
+    &\hphantom{{}={}}+ \int^0_\infty\frac{dt}{(x+t)^2+(y-2)^2} \\
+    &= \frac{2x}{x^2+y^2}+\frac{x}{x^2+(y-2)^2}=f^2(x,y)
+\end{align*}
+と計算できる．
+以上より，$D$上の関数$g(x,y)=-\int^\infty_0 \left( \frac{-2y}{(x+t)^2+y^2} + \frac{-(y-2)}{(x+t)^2+(y-2)^2} \right)dt$は，ベクトル場$X$の領域$D$への制限のスカラーポテンシャルである．
+%これが定める$C^\infty$級の1-形式を$\omega:=f^1dx+f^2dy$と置くと，これは閉形式であることが，次のように確かめられる．
+%\begin{align*}
+%    d\omega &= d(f^1dx*f^2dy) \\
+%    &= df^1\wedge dx + df^2\wedge dy\\
+%    &= \left( \frac{\partial f^2}{\partial x}-\frac{\partial f^1}{\partial y} \right) dx\wedge dy \\
+%    &= \left( 2\frac{(x^2+y^2)-2x^2}{(x^2+y^2)^2} + \frac{x^2+(y-2)^2-2x^2}{(x^2+(y-2)^2)^2} +\right.\\*
+%    &\hphantom{{}={}}- \left. 2\frac{-(x^2+y^2)+2y^2}{(x^2+y^2)^2} - \frac{-(x^2+(y-2)^2)+2(y-2)^2}{(x^2+(y-2)^2)^2} \right) dx\wedge dy \\
+%    &= 0
+%\end{align*}
+%領域$D$は星形だから（任意の$p_0\in D$について，$\forall p\in D\; \overline{pp_0}\subset D$が成り立つ．ただし，$\overline{pp_0}$とは２点$p,p_0$を結ぶ線分とした），
+%Poincaréの補題より，0-形式，即ち$C^\infty$級関数$g$が存在して$dg=\omega$を満たす．
+\begin{flushright}
+    $\blacksquare$
+\end{flushright}
+
+
+
+
+
+\bf{2)} $\mathbb{R}^2\setminus\{(0,0),(0,2)\}$上で定義された関数$g$が存在して$X=\grad g$を満たすと仮定し，矛盾を導く．
+$\gamma(\theta)=\begin{pmatrix}\cos\theta\\\sin\theta\end{pmatrix}$と自己交叉のない閉曲線$\gamma:[0,2\pi]\to \mathbb{R}^2$を定めると，$\gamma([0,2\pi])\subset\mathbb{R}^2\setminus\{(0,0),(0,2)\}$であるから，勾配ベクトル場に関する積分定理より，次のようにして曲線$\gamma$に沿ったベクトル場$X$の線積分を求めることができる．
+\begin{align*}
+    \int_\gamma X\cdot dx &= \int_\gamma\grad g\cdot dx \\
+%    &= \int_\gamma \frac{\partial g}{\partial x}dx + \frac{\partial g}{\partial y}dy \\
+%    &= \int_\gamma dg
+    &= \int_{\partial\gamma}g
+\end{align*}
+ここで$\gamma$は単純閉曲線であるから，$\partial\gamma=\emptyset$．従って，$\int_\gamma X\cdot dx=\int_{\partial\gamma}g=0$が導かれる．
+
+一方，この$\gamma$に沿ったベクトル場$X$の線積分の値は，次の$g$を用いない場合の計算結果と矛盾する．
+\begin{align*}
+    \int_\gamma X\cdot dx &= \int^{2\pi}_0\left\langle X(\gamma(\theta))\;\middle|\;\frac{d\gamma}{d\theta}(\theta)\right\rangle d\theta \\
+    &= \int^{2\pi}_0\left\langle\begin{pmatrix}-2\sin\theta+\frac{-(\sin\theta-2)}{5-4\sin\theta}\\2\cos\theta+\frac{\cos\theta}{5-4\sin\theta}\end{pmatrix}\;\middle|\;\begin{pmatrix}-\sin\theta\\\cos\theta\end{pmatrix}\right\rangle d\theta \\
+    &= \int^{2\pi}_0 \left(\frac{5}{2}-\frac{3}{2}\frac{1}{5-4\sin\theta}\right) \\
+    &\ge\int^{2\pi}_0\left(\frac{5}{2}-\frac{3}{2}\frac{1}{5-4}\right) = 2\pi
+\end{align*}
+従って，$\mathbb{R}^2\setminus\{(0,0),(0,2)\}$上で定義された$X$のスカラーポテンシャルは存在しない．$\blacksquare$
+% 実際にこの積分を計算すると$4\pi$．特異点が原点に２つ縮退しているからである．
+\clearpage
+
+
+
+
+
+\bf{問４} $f^1(x,y)=\frac{-y}{x^2+y^2}+\frac{-(y-2)}{x^2+(y-2)^2}+\frac{-(y+2)}{x^2+(y+2)^2},\; f^2(x,y)=\frac{x}{x^2+y^2}+\frac{x}{x^2+(y-2)^2}+\frac{x}{x^2+(y+2)^2}$と置くとこれはいずれも$C^\infty$級で，$X=f^1\frac{\partial}{\partial x}+f^2\frac{\partial}{\partial y}$と表せる．
+曲線$\gamma([0,1])$上の相異なる２点$a=\gamma(s),b=\gamma(t)\;(s,t\in[0,1],s<t)$を結ぶ区分的に$C^1$級かつ正則で，自己交叉を持たず，$\gamma([0,1])\setminus \{a,b\}$と共通部分を持たず，$s=0$または$t=1$である場合を除いて$C$とも共通部分を持たない曲線$\gamma':[s,t]\to\mathbb{R}^2\setminus\{p,q,r\}$を１つ取る．但し，向きは$\gamma'(s)=a,\gamma'(t)=b$とする．これについて次のように$\gamma$を部分的に変更した曲線
+\[\gamma''(u)=\begin{cases}
+    \gamma(u) & u\in [0,1]\setminus [s,t]\\
+    \gamma'(u) & u\in [s,t]
+\end{cases}\]
+は再び区分的に$C^1$級かつ正則な曲線で，i),ii),iii)を満たし，$\gamma''([0,1])$には$\gamma''$による自然な向きが定まる．この場合も同様に，$C$と$\gamma''$を繋げて得られる閉曲線を$C_{\gamma''}$とする．
+これについて，次の補題が成り立つ．
+\begin{lemma*}
+    線積分$\int_{C_\gamma}X(p)\cdot dp$の値は，積分路$C_\gamma$が囲む特異点$p,q,r$の組合わせで定まり，積分路$C_\gamma$を特異点$p,q,r$を跨がない範囲で変更しても値は変わらない．
+    但し，証明を簡明化するため，$C_\gamma$から$C_{\gamma''}$への変化分の領域（証明中の言葉では領域$\Delta D$）は星形とする．即ち，上記の通り定めた閉曲線$C_{\gamma''}$であって，$p,q,r$のいずれも通らずに$C_\gamma$から$C_{\gamma''}$へと連続的に変形できる場合（証明中に定義する記号では，$p,q,r\notin \Delta D$の場合）について，次が成り立つ．
+    \[ \int_{C_\gamma}X(p)\cdot dp = \int_{C_\gamma''}X(p)\cdot dp \]
+\end{lemma*}
+\begin{proof}[\bf{証明}]
+条件i),ii),iii)より，$C_\gamma,C_{\gamma''}$はいずれも単純閉曲線であるから，Jordanの閉曲線定理より，それぞれについて$\mathbb{R}^2\setminus C_\gamma,\mathbb{R}^2\setminus C_{\gamma''}$の２つの連結部分のうち有界な方が取れる．これをそれぞれ領域$D_\gamma,D_{\gamma''}$とする．
+この時，$\gamma'$は端点を除いて$\gamma$と共通部分を持たないので，$D_\gamma\subset D_{\gamma''}$か$D_{\gamma''}\subset D_\gamma$かのいずれかが成り立つ．ぞれぞれの場合について，$\Delta D:=D_{\gamma''}\setminus D_\gamma$，$\Delta D:=D_\gamma\setminus D_{\gamma''}$と定め，$\Delta D$が$p,q,r$のいずれをも含まない場合を考える．
+ただし，曲線$\zeta:[c,d]\to\mathbb{R}^2$に対して曲線$-\zeta:[c,d]\to\mathbb{R}^2$を$-\zeta(u):=\zeta(c+d-u)\;(u\in[c,d])$とすることにして，向き付きの閉曲線$\partial(\Delta D)\subset\mathbb{R}^2$を，それぞれの場合についてパラメータ$\partial(\Delta D)=\gamma'+(-(\gamma|_{[s,t]}))$または$\partial(\Delta D)=\gamma|_{[s,t]}+(-\gamma')$が定める閉曲線と定める．
+（但し，端点のみを共有する曲線$\zeta:[c,d]\to\mathbb{R}^2,\zeta':[c',d']\to\mathbb{R}^2$かつ$\zeta(d)=\zeta'(c')$に対して曲線$\zeta+\zeta'$とは，
+$(\zeta+\zeta')(u)=\begin{cases}
+    \zeta(u) & u\in[c,d] \\
+    \zeta'(u) & u\in[d,d+(d'-c')]
+\end{cases}$により定まる曲線$\zeta+\zeta':[c,d+d'-c']\to\mathbb{R}^2$とした$\cdots(\star^1)$）．
+いま，$X$の定める1-形式$f^1dx+f^2dy$は，
+\begin{align*}
+    d(f^1dx+f^2dy) &= df^1\wedge dx+df^2\wedge dy\\
+    &= \left( \frac{\partial f^2}{\partial x}-\frac{\partial f^1}{\partial y} \right) dx\wedge dy \\
+    &= \left( \frac{(x^2+y^2)-2x^2}{(x^2+y^2)^2} + \frac{x^2+(y-2)^2-2x^2}{(x^2+(y-2)^2)^2} + \frac{(x^2+(y+2)^2-2x^2)}{(x^2+(y+2)^2)^2}\right.\\*
+    &\hphantom{{}={}}- \left. \frac{-(x^2+y^2)+2y^2}{(x^2+y^2)^2} - \frac{-(x^2+(y-2)^2)+2(y-2)^2}{(x^2+(y-2)^2)^2} - \frac{-(x^2+(y+2)^2)+2(y+2)^2}{(x^2+(y+2)^2)^2} \right) dx\wedge dy \\
+    &= 0
+\end{align*}
+より閉形式である．従って，仮定より
+$p,q,r\notin \Delta D\cup\partial(\Delta D)$であり（$p,q,r\notin\gamma''([s,t]),p,q,r\notin\gamma([0,1])$であるので，$p,q,r\notin \Delta D$ならばこれを満たす），また領域$\Delta D$は星形としたから，$\Delta D\cup\partial(\Delta D)\subset U$を満たす或る$p,q,r$を含まない領域$U$が存在して星形になり，Poincaréの補題より，ベクトル場$X$の$U$への制限$X|_U$は，$U$上で定義されたスカラーポテンシャル$g$が存在して$\grad X|_U=g$を満たす．
+従って，$D_\gamma\subset D_{\gamma''}$の時（$D_{\gamma''}\subset D_\gamma$の場合も同様），勾配ベクトル場に関する積分定理と，$\partial(\Delta D)$が区分的に正則かつ$C^1$級な単純閉曲線$\gamma'+(-\gamma|_{[s,t]})$であることより，
+\begin{align*}
+    \int_{\partial(\Delta D)}X(p)\cdot dp &= \int_{\gamma'}X(p)\cdot dp + \int_{-\gamma|_{[s,t]}}X(p)\cdot dp \\
+    &= \int_{\gamma'}X(p)\cdot dp - \int_{\gamma|_{[s,t]}}X(p)\cdot dp 
+    = \int_{\partial(\partial(\Delta D))} g = 0
+\end{align*}
+であるから，
+\[ \int_{\gamma'}X(p)\cdot dp = \int_{\gamma|_{[s,t]}}X(p)\cdot dp \]
+従って，
+\[ \int_{C_\gamma}X(p)\cdot dp = \int_{C_{\gamma''}}X(p)\cdot dp \]
+が成り立つ．以上より，積分路を$C_\gamma$から$C_{\gamma''}$へと，特異点$p,q,r$を跨がない範囲かつ$\Delta D$が星形になる範囲で変更しても，線積分の値は一定である．
+また積分路の$C_\gamma$から$C_{\gamma''}$への変更の仮定を十分細かく分解することにより，一般の場合についても主張は成り立つ．（補題の証明終わり）
+\end{proof}
+
+補題より，積分路$C_\gamma$が内部$D_\gamma$に含む特異点$p,q,r$の数と種類に依って積分の値が変化することが分かる．
+これを調べるために，まず「$x$軸に沿った積分路$\gamma^{x=v_1\to v_2}_{y=l}$」と「$y$軸に沿った積分路$\gamma^{x=k}_{y=h_1\to h_2}$」の２つの場合について一般的な場合で線積分の値を求め，
+この結果を用いて具体的に４種類の曲線$C_{\gamma_0},R_p,R_q,R_r$に沿った線積分を計算し，この結果から線積分$\int_{C_\gamma}X(p)\cdot dp$の値は領域$D_\gamma$内の特異点の個数のみに依ることを導き，
+実際にこれらの積分路を組み合わせることで，特異点を0,1,2,3個含む積分路を全ての場合について構成して，線積分の値を求める．
+
+まず，次の２つの曲線（線分）${\gamma^{x=v_1\to v_2}_{y=l}}:{[v_1,v_2]}\to\mathbb{R}^2\setminus\{p,q,r\},{\gamma^{x=k}_{y=h_1\to h_2}}:{[h_1,h_2]}\to\mathbb{R}^2\setminus\{p,q,r\}$を，それぞれ$t\mapsto\begin{pmatrix}t\\l\end{pmatrix},t\mapsto\begin{pmatrix}k\\t\end{pmatrix}$によって定義する$\cdots(\star^2)$．
+%\begin{center}
+%    \begin{tikzcd}
+%        {\gamma^{x=v_1\to v_2}_{y=l}}:{[v_1,v_2]}\ar[r]\ar[d, phantom, "\rotatebox{90}{$\in$}"] & \mathbb{R}^2\ar[d, phantom, "\rotatebox{90}{$\in$}"]&&{\gamma^{x=k}_{y=h_1\to h_2}}:{[h_1,h_2]}\ar[r]\ar[d, phantom, "\rotatebox{90}{$\in$}"]&\mathbb{R}^2\ar[d, phantom, "\rotatebox{90}{$\in$}"]\\
+%        t \ar[r, mapsto] & \begin{pmatrix}t\\l\end{pmatrix}&&t\ar[r,mapsto]&\begin{pmatrix}k\\t\end{pmatrix}
+%    \end{tikzcd}
+%\end{center}
+$\gamma^{x=v_1\to v_2}_{y=l}$に沿った線積分の値は，各項について変数変換$t=l\tan\theta,t=(l-2)\tan\theta,t=(l+2)\tan\theta$による置換積分により，次のように計算できる（$l\ne 0,\pm 2$の時）．
+\begin{align}
+    \int_{\gamma^{x=v_1\to v_2}_{y=l}} X(p)\cdot dp &= \int^{v_2}_{v_1}\left( \frac{-l}{t^2+l^2}+\frac{-(l-2)}{t^2+(l-2)^2}+\frac{-(l+2)}{t^2+(l+2)^2} \right)dt \\
+    &= -l\int^{\arctan\left(\frac{v_2}{l}\right)}_{\arctan\left(\frac{v_1}{l}\right)}\frac{d\theta}{l} - (l-2)\int^{\arctan\left(\frac{v_2}{l-2}\right)}_{\arctan\left(\frac{v_1}{l-2}\right)}\frac{d\theta}{l-2} - (l+2)\int^{\arctan\left(\frac{v_2}{l+2}\right)}_{\arctan\left(\frac{v_1}{l+2}\right)}\frac{d\theta}{l+2}\\
+    &= -\arctan\left(\frac{v_2}{l}\right) + \arctan\left(\frac{v_1}{l}\right) - \arctan\left(\frac{v_2}{l-2}\right) + \arctan\left(\frac{v_1}{l-2}\right) \\*
+    &\hphantom{{}={}}- \arctan\left(\frac{v_2}{l+2}\right) + \arctan\left(\frac{v_1}{l+2}\right) \;(l\ne 0,\pm 2)
+\end{align}
+なお，$l=0$の時は，$\int_{\gamma^{x=v_1\to v_2}_{y=l}} X(p)\cdot dp =\int^{v_2}_{v_1} \left(0+\frac{2}{t^2+4}+\frac{-2}{t^2+4}\right)dt = 0\;(l=0)\cdots\;(*)$である．また，$\gamma^{x=k}_{y=h_1\to h_2}$に沿った線積分の値も，同様の計算により次の結果を得る．
+\begin{align}
+    \int_{\gamma^{x=k}_{y=h_1\to h_2}} X(p)\cdot dp &= \arctan\left(\frac{h_2}{k}\right) - \arctan\left(\frac{h_1}{k}\right) + \arctan\left(\frac{h_2-2}{k}\right) - \arctan\left(\frac{h_1-2}{k}\right) \\*
+    &\hphantom{{}={}}+ \arctan\left(\frac{h_2+2}{k}\right) - \arctan\left(\frac{h_1+2}{k}\right) \;(k\ne 0,\pm 2)
+\end{align}
+$\arctan$は奇関数であるから，どちらの積分の値も，それぞれ積分路に対する次の２種の変換「$y$軸対称変換$v_1\mapsto -v_1,v_2\mapsto -v_2$または$h_1\mapsto -h_1,h_2\mapsto -h_2$」と「$x$軸対称変換$l\mapsto -l$または$h\mapsto -h$」に対して符号が逆転することに注目して，次の４種の積分路について積分を計算する．
+($\star^1$)で定義した向き付き曲線の和（但し$\zeta+(-\zeta)=\emptyset$する）の記法を用いる．
+まず特異点を１つも囲まない長方形閉曲線$C_{\gamma_0}$を$C$と$\gamma_0:=\gamma^{x=2}_{y=0\to 3}+\gamma^{x=2\to 1}_{y=3}+\gamma^{x=1}_{y=3\to 0}$を繋げたものとし，各点$q,p,r$を中心とした一辺$2$の正方形閉曲線$R_q,R_p,R_r$を
+それぞれ曲線$\gamma_q:=\gamma^{x=-1\to 1}_{y=1}+\gamma^{x=1}_{y=1\to 3}+\gamma^{x=1\to -1}_{y=3}+\gamma^{x=-1}_{y=3\to 1},\;\gamma_p:=\gamma^{x=-1\to 1}_{y=-1}+\gamma^{x=1}_{y=-1\to 1}+\gamma^{x=1\to -1}_{y=1}+\gamma^{x=-1}_{y=1\to -1},\;\gamma_r:=\gamma^{x=-1\to 1}_{y=-3}+\gamma^{x=1}_{y=-3\to -1}+\gamma^{x=1\to -1}_{y=-1}+\gamma^{x=-1}_{y=-1\to -3}$
+とそれが定める自然な向きを持った閉路とする．
+それぞれに沿った線積分の値を，式$(3),(4)$と$(5),(6)$と$(*)$に当てはめて，前述した奇関数性を利用して計算すると，まず$R_0,R_q$について次のようになる．
+\begin{align*}
+    \int_{R_0}X(p)\cdot dp &= \int_CX(p)\cdot dp + \int_{\gamma^{x=2}_{y=0\to 3}}X(p)\cdot dp + \int_{\gamma^{x=2\to 1}_{y=3}}X(p)\cdot dp + \int_{\gamma^{x=1}_{y=3\to 0}}X(p)\cdot dp\\
+    &= 0 + \left( \arctan\left(\frac{1}{2}\right) + \arctan\left(\frac{3}{2}\right) + \arctan\left(\frac{5}{2}\right) \right) + \left( -\arctan\left(\frac{1}{3}\right) + \arctan\left(\frac{2}{3}\right) - \arctan\left(1\right) \right. \\*
+    &\hphantom{{}={}}+ \left. \arctan(2) - \arctan\left(\frac{1}{5}\right) + \arctan\left(\frac{2}{5}\right) \right)
+    -\left(\arctan(1)+\arctan(3)+\arctan(5)\right) = 0 \\
+    \int_{R_q}X(p)\cdot dp &= \int_{\gamma^{x=-1\to 1}_{y=1}}X(p)\cdot dp + \int_{\gamma^{x=1}_{y=1\to 3}}X(p)\cdot dp + \int_{\gamma^{x=1\to -1}_{y=3}}X(p)\cdot dp + \int_{\gamma^{x=-1}_{y=3\to 1}}X(p)\cdot dp \\
+    &= 2\left(\arctan(2)-\arctan(3)+\arctan(4)\right) + 2\left(\arctan(1)-\arctan(2)+\arctan(3)-\arctan(4) \right. \\*
+    &\hphantom{{}={}}+ \left. \arctan(5)\right) +2\left(\arctan(1)+\arctan(1/3)+\arctan(1/5)\right) - 2\arctan(1/3)
+    =2\pi
+\end{align*}
+前述した奇関数性に注意すれば，同様の計算により$\int_{R_p}X(p)\cdot dp=\int_{R_r}X(p)\cdot dp=2\pi$も得る．
+積分路$R_p,R_q,R_r$での線積分での値がどれも等しいから，補題と併せて，線積分の値は積分路が囲む特異点の数に依ることが分かる．
+すると，特異点を１つのみ囲む閉じた経路$C_{\gamma_0+\gamma_q}$について，$\int_{C_{\gamma_0+\gamma_q}}X(p)\cdot dp=2\pi$である．
+以降同様に，$\int_{C_{\gamma_0+\gamma_q+\gamma_p}}X(p)\cdot dp=4\pi, \int_{C_{\gamma_0+\gamma_q+\gamma_p+\gamma_r}}X(p)\cdot dp=6\pi$を得る．
+
+以上の結果を，($\star^2$)で定義した曲線の記法を用いてまとめると，線積分$\int_{C_\gamma}X(p)\cdot dp$の取り得る値とその時の積分路の例は次の通りとなる．
+\[
+    \int_{C_\gamma}X(p)\cdot dp = 
+    \begin{cases}
+        0 & \gamma=\gamma_0=\gamma^{x=2}_{y=0\to 3}+\gamma^{x=2\to 1}_{y=3}+\gamma^{x=1}_{y=3\to 0}の時\\
+        2\pi & \gamma=\gamma_0+\gamma_q=\gamma^{x=2}_{y=0\to 3}+\gamma^{x=2\to -1}_{y=3}+\gamma^{x=-1}_{y=3\to 1}+\gamma^{x=-1\to 1}_{y=1}+\gamma^{x=1}_{y=1\to 0}の時\\
+        4\pi & \gamma=\gamma_0+\gamma_q+\gamma_p=\gamma^{x=2}_{y=0\to 3}+\gamma^{x=2\to -1}_{y=3}+\gamma^{x=-1}_{y=3\to -1}+\gamma^{x=-1\to 1}_{y=-1}+\gamma^{x=1}_{y=-1\to 0}の時\\
+        6\pi & \gamma=\gamma_0+\gamma_q+\gamma_p+\gamma_r=\gamma^{x=2}_{y=0\to 3}+\gamma^{x=2\to -1}_{y=3}+\gamma^{x=-1}_{y=3\to -3}+\gamma^{x=-1\to 1}_{y=-3}+\gamma^{x=1}_{y=-3\to 0}の時\;\;\;\blacksquare
+    \end{cases}
+\]
+\end{document}

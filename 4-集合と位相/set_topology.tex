@@ -1,0 +1,1438 @@
+\documentclass[uplatex, 12pt, dvipdfmx]{jsreport}
+\title{集合と位相（林修平）}
+\author{司馬博文}
+\date{\today}
+\pagestyle{headings} \setcounter{secnumdepth}{4}
+\input{/Users/hirofumi.shiba48/Desktop/数理科学/preamble_CM.tex}
+\begin{document}
+\tableofcontents
+
+\begin{notation*}\mbox{}
+    \begin{enumerate}
+        \item 断らぬ限り$f:X\to Y$を写像とし，$A\subset X,B\subset Y$とする．
+    \end{enumerate}
+\end{notation*}
+
+\chapter{集合}
+
+\begin{quotation}
+    「現代の数学で，集合の概念は，写像とともに，数学の対象を確定し，構成し，操作するための厳密なことばとして，欠かせない役割を果たしている．」\cite{斎藤毅}
+
+    集合，圏，型，一階論理，形式言語などの概念は全て，単独で数学全体を形式化する力を持ち，特に集合と論理は一番最初に発見・採用されたものである．この集合論（ZFC公理系など）を特にmaterial set theoryといい，
+    圏論的な定式化をstructural set theoryと呼ぶ．
+
+    書籍\cite{斎藤毅}では，論理と集合（特に用語「形式論理」「集合」「条件」あたり）を定義なしで認めるという公理的集合論の立場を取る．
+
+    集合は共通部分・合併・冪集合などの構成を許す．条件は部分集合を定める．
+    積の上の条件は関係を定める．これらの基盤から数学の全てが育つ．
+
+    \begin{itemize}
+        \item 論理記号と集合演算との混じり合いの構造は明らかにSequent演算みたいだ．
+    \end{itemize}
+\end{quotation}
+
+\section{集合の元と部分集合，論理記号}
+
+\begin{screen}
+    material set theory（公理的集合論）と現在は呼ばれる考え方では，二項関係$\in$を無定義用語として，
+    それを中心として集合の存在とその許される構成法を公理的に定義し，
+    全ての数学的対象を集合として構成する．
+    特に，ZFC公理系は一階論理の言語で記述される．
+\end{screen}
+
+\begin{axiom}[二項関係$\in$]
+    集合$X$について，$x\in X$を，$x$は$X$に含まれるという関係とし，$x$を$X$の元という．
+\end{axiom}
+
+\begin{axiom}[集合の相等]
+    $X,Y$を集合とする．集合$X,Y$が等しい：$X=Y$とは，その包含する元が一致することとする：\[\forall z(z\in x\leftrightarrow z\in y)\;\;\;\rightarrow\;\;\; x=y \;\;\;\mathrm{(Extentionality)}.\]
+\end{axiom}
+\begin{definition}[包含関係]
+    集合$X$が$Y$の部分集合である$X\subset Y$とは，$X$の元は全て$Y$の元でもあることをいう：\[x\subset y\;\;\;:\Leftrightarrow\;\;\;\forall z(z\in x\rightarrow z\in y).\]
+\end{definition}
+
+\begin{definition}[論理の用語]\mbox{}
+    \begin{enumerate}
+        \item 自然言語の文章を，（一階）論理記号と集合の記号のみを使って表すことを\textbf{形式化(formalization)}という．
+        \item 一階述語論理の構文規則に従って書かれるものを\textbf{論理式(formula)}と呼ぶ．
+        \item 論理式のうち，一階述語論理の推論規則に従って公理系から導かれるものを\textbf{定理}と呼ぶ．通常の数学では，命題，補題，系などとも呼び得る．
+    \end{enumerate}
+\end{definition}
+
+\section{元についての条件と部分集合}
+
+\begin{screen}
+    公理的集合論の立場では，全体集合$X$を定めると，条件$P$と部分集合$A:=\{x\in X\mid P(x)\}$とを同一視する．
+    即ち，論理記号として，条件$P$と条件$x\in A$を同値とする．
+    同一視の結果得られる集合論の定理に，分配則やde Morganの法則などがある．
+\end{screen}
+
+\begin{notation}
+    条件$P$について，論理式$\forall x(x\in X\rightarrow P)$を$\forall x\in X\;P$，論理式$\exists x(x\in X\land P)$を$\exists x\in X\;P$と略記する．
+\end{notation}
+
+\begin{axiom}[全体集合，部分集合]
+    全体集合(universal set)を$X$，形式化可能な条件を$P$とする．
+    $P$を満たす$X$の元全体からなる集合は$X$の部分集合を定め，これを$\{x\in X\mid P(x)\}$と表す(Comprehension Scheme)．
+    \begin{enumerate}
+        \item 特に，恒偽条件$x\ne x$が定める部分集合を空集合と呼び，記号$\varnothing,\emptyset$で表す．
+        \item 部分集合$A,B\subset X$に対して，条件$x\in A,x\in B$が定める部分集合$\{x\in X\mid x\in A\land x\in B\}=:A\cap B$を，$A$と$B$の\textbf{共通部分／交叉}と呼ぶ．
+        \item 部分集合$A,B\subset X$に対して，条件$x\in A$または$x\in B$が定める部分集合$\{x\in X\mid x\in A\lor x\in B\}=:A\cup B$を，$A$と$B$の\textbf{合併}と呼ぶ．
+        \item 部分集合$A\subset X$に対して，条件$x\notin A$が定める部分集合$\{x\in X\mid x\notin A\}=:X\setminus A$を，$A$の\textbf{補集合}と呼ぶ．
+    \end{enumerate}
+\end{axiom}
+\begin{remark}
+    補集合演算が対合的であることが生み出す双対性を，de Morgan dualという．
+\end{remark}
+
+\begin{proposition}[共通部分と合併についての分配則]
+    \begin{align*}
+        (A\cup B)\cap C&=(A\cap C)\cup(B\cap C),&(A\cap B)\cup C&=(A\cup C)\cap(B\cup C).
+    \end{align*}
+\end{proposition}
+\begin{proof}
+    適切な一階論理のモデルから示せる．
+    直観的にはVenn図を示せば十分である．
+\end{proof}
+\begin{remark}
+    共通部分と合併を集合への演算だとみなすとき，特にそれぞれを積と和と呼ぶ．
+\end{remark}
+
+\begin{proposition}[de Morganの法則]
+    \begin{align*}
+        X\setminus(A\cup B)&=(X\setminus A)\cap(X\setminus B),&X\setminus(A\cap B)&=(X\setminus A)\cup(X\setminus B).
+    \end{align*}
+\end{proposition}
+\begin{proof}
+    適切な一階論理のモデルから示せる．Venn図を示せば十分である．また，前層の圏$[\Set^{op},\Set]$を考えることで，反変冪集合関手は集合$2$によって表現されることから，
+    Bool代数$2$上の等式$\lnot(A\lor B)=\lnot A\land \lnot B$と同値であることが示せる．
+\end{proof}
+
+\begin{proposition}$A,B,C\subset X$とする．次の２つの条件は同値である．
+    \begin{enumerate}
+        \item $A\cup B\subset C$
+        \item $A\subset C\wedge B\subset C$
+    \end{enumerate}
+\end{proposition}
+
+\begin{proposition}[Russellの逆理]
+    $X$を集合とする．
+    \begin{enumerate}
+        \item $X$の部分集合$A:=\{x\in X\mid x\notin x\}$は$X$の元ではない．
+        \item 「全ての集合を元として含む集合」は存在しない．
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    1. $A\in X$とすると，$A\in A$または$A\notin A$である．$A\in A$の時，$A$は条件$A\notin A$を満たすことになってしまうから，$A\notin A$である．しかし$A\notin A$を満たすとすると$A$は条件$x\notin x$を満たすから$A$の要素であるはずである．
+    従って，$A\notin X$．
+
+    2. 全ての集合からなる集合が存在するとし，$Y$とする．その部分集合を$B=\{y\in Y\mid y\notin y\}$と定めると，これは$B\notin Y$である．これは$Y$が全ての集合からなる集合であることに矛盾．
+\end{proof}
+
+\section{冪集合と積}
+
+\begin{screen}
+    集合論の公理を完成させ，積と自然数を構成する．
+\end{screen}
+
+\begin{axiom}[冪集合]
+    $X$を集合とする．$Y$が
+    \[\exists y\forall z(z\subset x\rightarrow z\in y),\;\;\;(\mathrm{Power set})\]
+    を満たす時，$Y$も集合として認め，$X$の冪集合といい，$Y=P(X)$と表す．
+\end{axiom}
+
+以上で，殆どの集合論の公理は登場した．
+続いて，数学で頻繁に登場する対象を構成する．
+
+\begin{definition}[積]
+    $X,Y$を集合とする．
+    \begin{enumerate}
+        \item $a\in X,b\in Y$に対して，$(a,b):=\{\{a\},\{a,b\}\}$を\textbf{対}と呼ぶ．
+        \item このような対全体からなる集合を$X$と$Y$の\textbf{積}と呼ぶ：
+        \[ X\times Y:=\{x\in P(P(X\cup Y))\mid \exists x\exists y(x\in X\land y\in Y\land z=\{\{x\},\{x,y\}\})\}. \]
+        \item 対を帰納的に考えたもの$(x_1,\cdots,x_n):=(x_1,\cdots,x_{n-1},x_n)\in( X_1\times\cdots\times X_{n-1})\times X_n$を\textbf{$n$-組}という．対とは2-組のことである．
+    \end{enumerate}
+\end{definition}
+
+\begin{definition}[自然数 (von-Neumannの構成, 1923)]
+    空集合$\emptyset$と後者関数(ordinal successor function) $n+1:=n\cup\{n\}$によって再帰的に定義されるデータ構造を自然数とする．
+    即ち，
+    \begin{align*}
+        0&:=\emptyset=\{\}\\
+        1&:=P(\emptyset)=\{\emptyset\}=\{\{\}\}=\{0\}=0\cup\{0\}\\
+        2&:=P(P(\emptyset))=\{\emptyset,\{\emptyset\}\}=\{0,1\}=1\cup\{1\}\\
+        3&:=2\cup\{2\}=\{0,1\}\cup\{2\}=\{0,1,2\}\\
+        \vdots&\hphantom{:=2\cup\{2\}=\{0,1\}}\;\vdots\\
+        n+1&:=n\cup\{n\}=\{0,1,2,\cdots,n\}\\
+        \vdots&\hphantom{:=2\cup\{2\}=\{0,1\}}\;\vdots
+    \end{align*}
+    とし，この方法で$\emptyset$からの有限回操作で得られる元全てからなる集合を$\N=\{0,1,2,\cdots\}$とする．
+\end{definition}
+\begin{remark}[基数と順序数]
+    $n+1=\{0,1,2,\cdots,n\}$と書いたとき，これには$\in$による全順序が入る．また特に，この関係$\in$は整礎的である（無限降下列を持たない）．
+    推移的でもある：$\cup n\subset n$．これは自然数$1,2,\cdots$が，（有限な）整列集合が同型について作る同値類の代表元となる．これを順序数という．実は有限の順序数はこのように作った自然数に限る．
+    整礎性公理(ZFC公理系の１つ)により，全ての集合に対して$\in$は整礎的だとしたから，全ての集合は階数(ordinal rank)を持つ．
+\end{remark}
+\begin{definition}[ordinal number, (von Neumann) ordinal]
+    推移的で$\in$によって全順序づけられる集合$a$を\textbf{順序数}という，順序数全体のクラス（真のクラスである）を$\ORD$と表す．
+    順序数同士の関係を$\alpha<\beta:\Leftrightarrow\alpha\in\beta$と定めるとこれは$\ORD$上に全順序を定める．
+    また，$\alpha=\{\beta\in\Ord\mid\beta<\alpha\}$と表せる．
+\end{definition}
+\begin{lemma}\mbox{}
+    \begin{enumerate}
+        \item 順序数の元も順序数である．
+        \item 二つの順序数が同型ならば等しい．
+    \end{enumerate}
+\end{lemma}
+\begin{definition}[cardinal number, cardinality]
+    順序数$\alpha$が\textbf{基数}であるとは，$\forall\beta<\alpha,\;\beta\not\simeq\alpha$となることをいう．
+    即ち，集合の同型による同値類の元が持ち得る階数のうち最小の順序数を特に基数という．また\textbf{始数(initial ordinal)}ともいう．
+    従って基数は$\Set$のskeltonを構成する．
+
+    集合$A$の濃度とは，こうして集合の同型による同値類に対応づけられた基数のことをいう：
+    \[card(A)=|A|:=\mid\{\alpha\in\ORD\mid A\simeq\alpha\}.\]
+\end{definition}
+\begin{remark}
+    このデータ構造$\N$上では，集合の和は
+
+    積$X^n$は配置集合の記法と見ても整合的である．
+\end{remark}
+
+\section{同値関係と順序}
+
+\begin{screen}
+    二項関係$R$は，$X$の積集合$X\times X$上の条件（即ち部分集合）と同一視される．
+\end{screen}
+
+\begin{definition}[binary relation]
+    $X$を集合とする．
+    \begin{enumerate}
+        \item $X\times X$上の条件$R$を，$X$の\textbf{二項関係}という．
+        \item 二項関係$R$が定める部分集合$\{(x,y)\in X\times X\mid R\}$を，その\textbf{グラフ}という．
+        \item ２つの二項関係$R,R'$とそのグラフ$C,C'$について，$C\subset C'$の時，$R$は$R'$より\textbf{細かい}といい，逆を\textbf{粗い}という．$C=C'$であるときに，２つの二項関係$R,R'$を同値とする．
+    \end{enumerate}
+\end{definition}
+
+\begin{example}[trivial relation]
+    公理など先天的に認められた記号$=$について，関係$x=y$を\textbf{相等関係／自明な同値関係}という．
+    この相等関係のグラフを\textbf{対角集合}といい，$\Delta_X:=\{(x,y)\in X\times X\mid x=y\}$と表す．
+    この集合の特性関数$\chi_{\Delta_X}$を\textbf{Kroneckerのデルタ}ともいう．
+\end{example}
+
+\begin{definition}[equivalence relation]
+    $R\subset X\times X$を関係とし，$x\sim_R y$などと表す．
+    \begin{enumerate}
+        \item $R$が反射律，対称律，推移律を満たすとき，$R$は\textbf{同値関係}であるという．
+        \item $R$が各$a\in X$について定める$X$の部分集合$[a]=\{x\in X\mid x\sim_Ra\}$を\textbf{$a$の同値類}という．
+    \end{enumerate}
+\end{definition}
+
+\begin{definition}[order]
+    $R\subset X\times X$を関係とする．
+    \begin{enumerate}
+        \item $R$が反射律，反対称律，推移律を満たすとき，$R$は\textbf{順序}であるという．
+        \item $R$がさらに任意の２元について比較可能であるとき，特に\textbf{全順序}であるという．
+    \end{enumerate}
+\end{definition}
+
+\begin{problem}[AP1.4.4：部分集合Aによって生成される同値関係]
+    $X$を集合とする．$A\subset X\times X$とし，${}^t\!A=\{ (x,y)\in X\times X\mid(y,x)\in A\}$と置く．$X$の元の対$(x,y)$についての次の条件$(R_A)$は$X$上の同値関係である．
+    \begin{quote}
+        $(R_A)$：自然数$n\ge 0$と，$X$の元$x=x_0,x_1,\cdots,x_n=y$で，全ての$i\in [n]$に対して$(x_{i-1},x_i)\in A\cup {}^t\!A$を満たすものが存在する．
+    \end{quote}
+\end{problem}
+\begin{remark}
+    このAP1.4.4は，$A$は$X$上の有向グラフを，$A\cup {}^t\!A$は$A$の定める$X$上の無向グラフを表し，条件$(R_A)$は$X$の２つの元が道で結ばれていることを表し，集合$X$をいくつかの道に直和分解する，と捉えられる．
+\end{remark}
+
+\section{ZFC公理系}
+
+\begin{definition}[axiom schema]
+    論理式全体$Fml_L$を走る変数を伴った２階の論理式が存在して，その変数に論理式を代入した結果だと捉えられる，論理式の集合のことを\textbf{公理図式}という．
+\end{definition}
+\begin{example}
+    推論規則は公理図式である．
+\end{example}
+
+\begin{shadebox}
+    \begin{definition}[集合の公理系ZF]\label{def-ZF-theory}集合の公理は，集合論の言語$L=\{=,\in\}$による一階述語論理の言葉で，次のように表せる．ただし，自由変項から始まる公理は，全称量子化(universally quantified)されているものとする．
+        \begin{enumerate}\setcounter{enumi}{-1}
+            \item (Set Existence). $\exists x(x=x)$
+            \item (Extentionality). $\forall z(z\in x\leftrightarrow z\in y)\rightarrow x=y$
+            \item (Foundation). $\exists y(y\in x)\rightarrow\exists y(y\in x\land \lnot\exists z(z\in x\land z\in y))$
+            \item (Comprehension Scheme). 自由変項$y$を持たないような全ての式$\varphi$について，
+            \[\exists y\forall x\;(x\in y\leftrightarrow x\in z\land\varphi(x))\]
+            \item (Pairing). $\exists z(x\in z\land y\in z)$
+            \item (Union). $\exists A\forall Y\forall x(x\in Y\land Y\in\mathcal{F}\rightarrow x\in A)$
+            \item (Replacement Scheme). 自由変項$B$を持たないような全ての式$\varphi$について，
+            \[\forall x\in A\exists!y\varphi(x,y)\rightarrow\exists B\forall x\in A\exists y\in B\varphi(x,y)\]
+        \end{enumerate}
+        以降，一階述語論理の文字列に対して，次の略記となるような述語を採用する．
+        \begin{screen}
+            \begin{notation}\mbox{}
+                \begin{enumerate}[(i)]
+                    \item $x\subset y:\Leftrightarrow\forall z(z\in x\rightarrow z\in y)$
+                    \item $x=\emptyset:\Leftrightarrow\forall z(z\notin x)$
+                    \item (Ordinal successor function). $y=S(x):\Leftrightarrow\forall z(z\in y\leftrightarrow z\in x\lor z=x)$
+                    \item $w=x\cap y:\Leftrightarrow\forall z(z\in w\leftrightarrow z\in x\land z\in y)$
+                    \item (isSingleton). $\mathrm{SING}(x):\Leftrightarrow\exists y\in x\forall z\in x(z=y)$
+                \end{enumerate}
+            \end{notation}
+        \end{screen}
+        \begin{enumerate}\setcounter{enumi}{6}
+            \item (Infinity). $\exists x(\emptyset\in x\land \forall y\in x(S(y)\in x))$
+            \item (Power Set). $\exists y\forall z(z\subset x\rightarrow z\in y)$
+            \item (Choice). $\emptyset\in F\land\forall x\in F\forall y\in F(x\ne y\rightarrow x\cap y=\emptyset)\rightarrow \exists C\forall x\in F(\mathrm{SING}(C\cap x))$
+        \end{enumerate}
+    \end{definition}
+\end{shadebox}
+\begin{remark}\mbox{}
+    \begin{enumerate}
+        \item このZermelo-Fraenkel styleでは，宇宙は，全ての遺伝的集合のクラスとなる．
+        特に7.無限公理の採用の仕方が，順序数を念頭においている．これが特徴的で最初は慣れなかった．
+        2.整礎性公理は，全ての集合$x$について，順序数$\alpha$が存在して$x\in V_\alpha$であることに同値である．
+        \item 1~9をZFC, 1~9をZF，これらから6.置換公理を除いたものをそれぞれZC, Zといい，
+        これら４つからそれぞれ2.整礎性公理を除いたものを$\mathrm{Z^-,ZF^-,ZC^-,ZFC^-}$という．
+    \end{enumerate} 
+\end{remark}
+
+
+\chapter{写像}
+
+\begin{quotation}
+    特別な「関係」として写像の言葉を定義すると，一気に議論が動き出す．
+    グラフのことばから集合論的に構成されるが，写像を先に認める数学基礎論もあり得る．
+\end{quotation}
+
+\section{写像の定義}
+
+\begin{definition}[mapping]$X,Y$を集合とする．
+    \begin{enumerate}
+        \item 部分集合$\Gamma\subset X\times Y$が「$X$から$Y$への写像のグラフである」とは，\[\forall x\in X\, \exists y\in Y \, ((x,y)\in\Gamma\wedge \forall z\in Y((x,z)\in\Gamma\Rightarrow y=z))\]が成立することを言う．
+        \item $\Gamma\subset X\times Y$を，$X$から$Y$への写像のグラフとするとき，３つ組$f=(\Gamma,X,Y)$を写像$X\to Y$と呼び，$f:X\to Y$と表す．
+        \item $X$から$Y$への写像からなる集合を次のように置く．
+        \[\mathrm{Map}(X,Y):=\left\{ f\in P(X\times Y)\times \{ X\}\times\{ Y\} \;\middle|\; \begin{cases}
+            f=(\Gamma,X,Y)\\
+            \Gamma はXからYへの写像のグラフ
+        \end{cases}\right\}\]
+    \end{enumerate}
+\end{definition}
+従って，写像$f:X\to Y,g:Z\to W$が等しいとは，$X=Z\land Y=W\land \Gamma_f=\Gamma_g$であることをいう．
+特に写像のグラフの定義より，$\Gamma_f=\Gamma_g$とは$\forall x\in X=Z,\;f(x)=g(x)$と同値である．
+
+\subsection{写像の例}
+
+種々の写像を定義する．
+\begin{example}\mbox{}
+    \begin{enumerate}
+        \item 対角集合$\Delta_X$をグラフとする写像$X\to X$を\textbf{恒等写像}$\id_X$と呼ぶ．
+        \item 次の写像を$X$の\textbf{対角写像}と呼ぶ．
+        \[ \xymatrix@R-2pc{
+            X\ar[r]&X\times X\\
+            \rotatebox[origin=c]{90}{$\in$}&\rotatebox[origin=c]{90}{$\in$}\\
+            x\ar@{|->}[r]&(x,x)
+        } \]
+        \item $U\subset X$であるとき，集合$\Delta_X\cap X\times U$をグラフとする写像$X\to Y$を\textbf{包含写像}$i$と呼ぶ．
+        \item 写像$f:X\to Y$に対して，$U\subset X$であるとき，集合$\Gamma_f\cap U\times Y$をグラフとする写像$(\Gamma_f\cap U\times Y,U,Y)$を\textbf{制限}$f|_U$と呼ぶ．逆に，$f|_U$からみて$f$を\textbf{延長}と呼ぶ．
+        \item 殆どの場合，写像$f:X\to Y$に対して$V\subset Y$であるとき，集合$\Gamma_f\cap X\times V$をグラフとする写像は記号を流用して$f:X\to V$と書いてしまう．
+        \item $\Map(X,Y)$は，$X=\emptyset$であるとき，包含写像$i=(\emptyset,\emptyset,Y)$のみからなる一元集合である（$Y$も空集合であるとき，これは特に$\id_\emptyset$となる）．$Y=\emptyset\land X\ne\emptyset$であるとき，グラフとなるべき条件を満たす集合$\Gamma\subset X\times Y$を作れないから，これは空集合である．
+        \item $c\in Y$に対して，$(X\times\{c\},X,Y)$という写像$c:X\to Y$を，$c\in Y$への\textbf{定値写像}といい，記号を混用する．ただし，空集合の恒等写像$\id_\emptyset$も定値写像と呼ぶ．
+        \item $Y$が数の集合$\N,\Z,\Q,\R,\C$やその積であるとき，$f$を関数と呼ぶ．
+        \item $X$が$\N$やその部分集合であるとき，$f$を列といい，$(x_1,x_2,\cdots)=(x_n)_{n\in\N}\in X^\N$などとも書く．$X$が一般の場合は\textbf{族}という．
+        \item $X$の部分集合$A$に対して定まる関数\[f(x)=\begin{cases}
+            1&x\in Aのとき,\\0&x\notin Aのとき
+        \end{cases}\]を，$A$の\textbf{特性関数}と呼び，$\chi_A:X\to 2=\{0,1\}$で表す．$X$の部分集合とその特性関数は一対一に対応する：$P(X)\simeq\Map(X,2)$．これは特に順序を保つ単調写像になる：$A\subset B\Leftrightarrow\chi_A\le\chi_B$．
+        条件が定める部分集合の特性関数のことを，元の条件から見て\textbf{真理値関数}という．
+        \item 次のような写像を\textbf{第$i$射影}という．\[\xymatrix@R-2pc{
+            X_1\times\cdots X_i\cdots\times X_n\ar[r]&X_i\\
+            \rotatebox[origin=c]{90}{$\in$}&\rotatebox[origin=c]{90}{$\in$}\\
+            (x_1,\cdots,x_i,\cdots,x_n)\ar@{|->}[r]&(0\cdots,0,x_{i},0,\cdots,0)
+        }\]
+        \item $f_1:X_1\to Y_1,f_2:X_2\to Y_2$に対して，写像の積$f_1\times f_2:X_1\times X_2\to Y_1\times Y_2$を，$(x_1,x_2)\mapsto (f_1(x_1),f_2(x_2))$と定義する．
+    \end{enumerate}
+\end{example}
+
+\begin{definition}[restriction mapping]
+	集合$X$の各部分集合$A$に対して定まる次の写像を\textbf{制限写像}という．
+    \[\xymatrix@R-2pc{
+        \Map(X,Y)\ar[r]&\Map(A,Y)\\
+        \rotatebox[origin=c]{90}{$\in$}&\rotatebox[origin=c]{90}{$\in$}\\
+        f:X\to Y\ar@{|->}[r]&f|_A:A\to Y
+    }\]
+    同様に$B\subset Y$についても考えられるが名前はない．
+\end{definition}
+\begin{definition}[evaluation mapping]
+	$x\in X$に対して定まる次の写像$\ev_x$を\textbf{$x$での値写像}という．
+    \[\xymatrix@R-2pc{
+        \ev_x:\Map(X,Y)\ar[r]&Y\\
+        \rotatebox[origin=c]{90}{$\in$}&\rotatebox[origin=c]{90}{$\in$}\\
+        f:X\to Y\ar@{|->}[r]&f(x)
+    }\]
+	これを各$x\in X$に関してcurryingする考え方より，大局的には次の写像$e$も定義されるが，定まった名前はない：
+    \[\xymatrix@R-2pc{
+        e:\Map(X,Y)\times X\ar[r]&Y\\
+        \rotatebox[origin=c]{90}{$\in$}&\rotatebox[origin=c]{90}{$\in$}\\
+        (f,x)\ar@{|->}[r]&f(x)
+    }\]
+	この写像の第二変数$x\in X$を定める度に，値写像を得る．
+\end{definition}
+
+\begin{remark}[双対性]
+    1つの対象に対し2つの等価な記述法が存在するとき，2つの記述法を取り替える操作を双対（そうつい）とよぶ。より一般に，2つの記述法（概念・理論・モデル・…）$A$,$B$が，どちらも同じ対象を表す（と信じられる）とき，$A$と$B$は互いに双対であるという。双対性は知りたい対象について特定の記述法を越えた深い構造を浮かび上がらせるため，数学や物理の最前線で活発に研究されている。\footnote{https://www.s.u-tokyo.ac.jp/ja/story/newsletter/keywords/21/06.html}
+    \begin{quote}
+        この写像(currying)によれば，写像の値$f(x)$は，対$(f,x)$に対して定まるものとなる．このように，対に対して値の定まる写像が定められているとき，
+        一方を他方の双対的な対象と考えることが出来る．関数と点に限らず，測度と関数，ベクトル場と微分形式など，双対的な対象は数学のいろいろなところで出てくる．
+    \end{quote}
+    いまならわかった，積分領域と微分形式も対に対して値が定まる．また，外微分と境界作用素は双対的に感じる（というより「逆」？）．
+    さらに一般化すれば，基底とその係数も双対で（双対空間の双対），この組に対して値が定まる，これは積分の考え方の一般化になっている．
+    さらに一般化すれば前層$\hom(-,-):C^{op}\times C\to\Set$となるのだろうか．
+\end{remark}
+
+\section{写像の合成}
+
+\begin{screen}
+    共変と反変と可換図式，というように，写像の大事な代数が「合成」である．これは結合則を満たす．
+\end{screen}
+
+\begin{definition}[composition]
+    写像$f:X\to Y,g:Y\to Z$の合成とは，
+    \[\Gamma_{g\circ f}:=\{(x,z)\in X\times Z\mid \exists y\in Y\;((x,y)\in\Gamma_f\land(y,z)\in\Gamma_g)\}\]
+    としたときに$g\circ f:=(\Gamma_{g\circ f},X,Z)$のことである．
+	すると，写像の合成に関して，以下の写像が定まる．なお，各写像を$f:X\to Y, g:Y\to Z$とする．
+    \[\xymatrix@R-2pc{
+        \circ :\Map(Y,Z)\times\Map(X,Y)\ar[r]&\Map(X,Z)\\
+        \rotatebox[origin=c]{90}{$\in$}&\rotatebox[origin=c]{90}{$\in$}\\
+        (g,f)\ar@{|->}[r]&g\circ f
+    }\]
+	また，各写像を$f:X\to Y, g:W\to X, h:Y\to Z$として，
+    \[\xymatrix@R-2pc{
+        f_*:\Map(W,X)\ar[r]&\Map(W,Y)\\
+        \rotatebox[origin=c]{90}{$\in$}&\rotatebox[origin=c]{90}{$\in$}\\
+        g:W\to X\ar@{|->}[r]&f\circ g:W\to Y}\]
+    \[\xymatrix@R-2pc{f^*:\Map(Y,Z)\ar[r]&\Map(X,Z)\\
+        \rotatebox[origin=c]{90}{$\in$}&\rotatebox[origin=c]{90}{$\in$}\\
+        h:Y\to Z\ar@{|->}[r]&h\circ f:X\to Z
+    }\]
+    この時の反変性，共変性とは，元となった写像$f$との向きが同じかどうかにより定まる．
+\end{definition}
+\begin{remark}\mbox{}
+    \begin{enumerate}
+        \item $U\subset X$について，$f|_U=f\circ i$．
+        \item 定値写像とは，$X\to 1\to Y$と分解できる写像のことである．
+    \end{enumerate}
+\end{remark}
+
+\begin{definition}[写像の可換図式]
+    $X,Y,S,T$を集合とし，$f,g,p,q$を写像とする．
+    この時，次の\textbf{図式が可換である}とは，
+    $f\circ p=g\circ q$が成立すること，
+    即ち$\forall x\in T \; [f(p(x))=g(q(x)) \in S]$が成立することである．
+    \[
+        \xymatrix{
+        T\ar[r]^-p\ar[d]_-q&X\ar[d]^-f\\
+        Y\ar[r]_-g&S
+        }
+    \]
+\end{definition}
+\begin{remark}
+    つまり，図式を有向グラフ（集合$X,Y,W,Z$を頂点，写像$f,g,h,k$を辺とした有向グラフ）だと思った時に，両端点を共有する全ての有向道(directed path)が，
+    写像の合成について，等しい写像を与えるような図式を，可換図式であるという．
+    この概念の集合論的に書いたからといって，必ずしもわかりやすいとは言い難い．
+\end{remark}
+
+\begin{proposition}[associativity]
+    写像$f:X\to Y,g:Y\to Z,h:Z\to W$について，次の図式は可換である．
+    \[\xymatrix{
+        \Map(Y,Z)\ar[r]^-{f^*}\ar[d]_-{h_*}&\Map(X,Z)\ar[d]^-{h_*}\\
+        \Map(Y,W)\ar[r]^-{f^*}&\Map(X,W)
+    }\]
+\end{proposition}
+
+\section{可逆写像}
+
+\begin{screen}
+    多くの数学の概念は，何かの写像が可逆であることによって定まっている．
+\end{screen}
+
+\begin{proposition}[部分集合と特性関数]
+	$X$を集合とする．$X$の部分集合$A$に対して，特性関数$\chi_A:X\to 2$を対応させる写像$\chi :P(X)\to \mathrm{Map}(X,2)$は可逆である．
+\end{proposition}
+
+\begin{proposition}[普遍性による特徴付け：集合を，他の集合への写像についての述語で特徴付けること]$f:X\to Y$を写像とする．次の２つの条件は同値である．\rm{}\\
+    1.\, $f$は可逆である．\\
+    2.\, 任意の集合$Z$に対して，写像$f^*:\mathrm{Map}(Y,Z)\to\mathrm{Map}(X,Z)$は可逆である．
+\end{proposition}
+
+\section{集合族}
+ここから集合と写像が入り乱れて，幾何学的対象を定義するための強力な道具となってくる．
+その先にあるのがtopologyである．集合とは不思議過ぎる．
+
+\subsection*{集合族の定義}
+集合族自体は，添字集合と呼ばれる集合から，集合の集合への写像として定義される．「集合族の間の演算」として，集合間の演算を，無限項の場合にまで含めて統一的に定義できることになる（写像も集合なので，写像の積も含めて）．自然数の集合論における定義と響き合って，記法$X^n$もうまく配置集合の記法として説明される．特に，自然数の計算規則（指数法則など）は全て集合論的な構成として説明がつくようだ．
+いつだってそうだ，写像によって無限項の場合が議論されるのは微分積分学の列という対象も含めて共通で，その基盤が集合族という考え方となる．組やそれに定義される射影なども，無限集合の場合にまで一般化される．
+
+一方で，こういった集合論的定義とは裏腹に，直和や積なども遍性から定義できるが，対象としては段々と複雑で不自然になって来ており，集合論の方からは選択公理の議論が生じる．
+なお，線型空間の基底は集合族$n\to V$のうち，その値域が，一次独立な$V$-生成系となるものである，とすると，「基底を取る」という語が理解しやすい．このように基底を集合族として定式化するなら，その基底の存在性は選択公理とZF上同値になる．
+つまり，具体的な構成を，一般の場合にcanonicalに与えることは出来ない．
+
+\begin{definition}[集合族]
+    以下の写像を，\textbf{集合$I$で添字づけられた集合の族}という．
+    \begin{center}\begin{tikzcd}
+        (X_i)_{i\in I}:I \ar[r] \ar[d, phantom, "\rotatebox{90}{$\in$}"] & \mathfrak{X} \ar[d, phantom, "\rotatebox{90}{$\in$}"] \\
+        i \ar[r, mapsto] & X_i
+    \end{tikzcd}\end{center}
+    $\mathfrak{X}\subset P(X)$である時，族$(X_i)_{i\in I}$を\textbf{集合$X$の部分集合族}という．\\
+    $I=\varnothing$である時，族$(X_i)_{i\in I}$は包含写像$i:\varnothing\to\mathfrak{X}$であり，特に\textbf{空な族}という．\\
+    有限族の場合は，例えば$I=n\in\mathbb{N}$である時，$X_1,X_2,\cdots,X_n$というような列挙が可能である．\\
+    集合$\mathcal{A}\subset P(X)$を集合族と言ってしまう場合は，この$\mathcal{A}$を添字集合とした包含写像$(A)_{A\in\mathcal{A}}:\mathcal{A}\to P(X)$のことを指す，と形式的に考えられる．この場合，$\bigcup_{A\in\mathcal{A}}A$を指して，$\bigcup\mathcal{A}$などと書く．
+    $\bigcup\mathcal{A}=X$となる時，集合族$\mathcal{A}$を$X$の被覆という．（$\mathcal{A}\subset P(X)$である必要はないこともある．）
+\end{definition}
+\begin{remark}
+    線型空間$0$の基底は空な族$\varnothing\to\{ 0\}$である（$0$は加法の中立元かつ逆元）．その次元は$|0|=|\varnothing |=0$である．
+\end{remark}
+\begin{definition}[集合の演算の一番一般的な形／無限項への拡張]
+    $$\bigcup_{i\in I}X_i:=\{ x\in X\, |\, \exists i\in I x\in X_i \},\hspace{3mm}\bigcap_{i\in I}X_i:=\{ x\in X\, |\, \forall i\in I x\in X_i \}$$
+    今までの$X\cup Y$などは，$I=2$など$I\in\mathbb{N}$となる有限族の場合と捉えられる．添字集合$I$の概念をはっきりさせることで，この２つの集合演算（構成）と一階述語論理との対応が対称的に理解される．\\
+    $I=\varnothing$の場合，$\bigcup_{i\in\varnothing} X_i=\varnothing ,\bigcap_{i\in\varnothing} X_i=X$
+\end{definition}
+\begin{definition}[無縁和と直和]
+    合併$\cup_{i\in I}X_i$が，$\forall i,j\in I \, i\ne j\Rightarrow X_i\cap X_j=\varnothing$を満たす時，特に\textbf{無縁和}であるという．これを強調して$\coprod_{i\in I}X_i$で表す．\\
+    族$(X_i)_{i\in I}$に対して，次のように構成された集合を直和と呼ぶ．
+    $$\coprod_{i\in I}X_i := \{ (x,i)\in X\times I\, |\, x\in X_i \}$$
+    この族$(X_i)_{i\in I}$の合併$\cup_{i\in I}X_i$が無縁和になるときは，標準写像$j_k$
+    \begin{center}\begin{tikzcd}
+        j_k:X_k \ar[r] \ar[d, phantom, "\rotatebox{90}{$\in$}"] & \coprod_{i\in I}X_i \ar[d, phantom, "\rotatebox{90}{$\in$}"] \\
+        x \ar[r, mapsto] & (x,k)
+    \end{tikzcd}\end{center}
+    によって，各$X_k$と$j_k(X_k)=X_k\times \{k\}$は同一視できる．$\forall i,j\in I\, i\ne j\Rightarrow X_i\cap X_j=\varnothing$のとき，自然に誘導された標準写像によって$\cup_{i\in I}X_i\simeq \coprod_{i\in I}X_i$となるから，無縁和にも直和の記号を混用して同じもののように扱う．
+\end{definition}
+\begin{definition}[積]
+    集合$\cup_{i\in I}X_i$の部分集合族$(X_i)_{i\in I}$について，次を満たす$\mathrm{Map}(I,X)$の部分集合を\textbf{積}と呼ぶ．
+    $$\prod_{i\in I}X_i := \{ (x_i)_{i\in I}\in \mathrm{Map}(I,X)\, |\, \forall i\in I \, x_i\in X_i \}$$
+    この元$(x_i)_{i\in I}$は値の取り方について特別な条件（各$i\in I$に対して，先に決まっている写像$(X_i)_{i\in I}$に対して，$(x_i)_{i\in I}(i)\in X_i$である必要がある．）を満たした写像$I\to \cup_{i\in I}X_i$で，これを\textbf{$(X_i)_{i\in I}$の元の族}という．\\
+    $I=n$であるとき，次の標準写像による同型が存在するから，一般の$I$に対しても，$(x_i)_{i\in I}(j) (j\in I)$を$j$成分と呼ぶ．
+    \begin{center}\begin{tikzcd}
+        \prod_{i\in n}X_i \ar[r] \ar[d, phantom, "\rotatebox{90}{$\in$}"] & X_0\times \cdots\times X_{n-1} \ar[d, phantom, "\rotatebox{90}{$\in$}"] \\
+        (x_i)_{i\in n} \ar[r, mapsto] & (x_0,\cdots,x_{n-1})
+    \end{tikzcd}\end{center}
+    次の写像を$j$成分への射影と呼ぶ．
+    \begin{center}\begin{tikzcd}
+        \mathrm{pr}_j:\prod_{i\in I}X_i \ar[r] \ar[d, phantom, "\rotatebox{90}{$\in$}"] & X_j \ar[d, phantom, "\rotatebox{90}{$\in$}"] \\
+        (x_i)_{i\in I} \ar[r, mapsto] & x_j
+    \end{tikzcd}\end{center}
+    全ての$i\in I$に対して，$X_i=\cup_{i\in I}X_i=X$であるとき，積$\prod_{i\in I}X$は単に写像の集合$\mathrm{Map}(I,X)$と一致し，これを$X^I$と書く．\underline{$X^n$という表記の一般化と見れる}．\\
+    従って，特に$X^0=\{\varnothing\to X\}$は，$X=0$の時も，包含写像のみを元とする，一元集合である．$id_0:0\to 0$を$0$と書くこととすると，$0^0=1$が成り立つ（集合としての相等）．（随分怪しい話だ．圏としての相等と言った方が良いかも知れない）．
+\end{definition}
+\begin{axiom}[選択公理：直積の性質への言及として]
+    上のように集合族の積を定義するとき，$\exists i\in I\, X_i=\varnothing$である場合は，$\prod_{i\in I}X_i=\varnothing$となる．そうではない場合，$\prod_{i\in I}X_i\ne\varnothing$となる．
+\end{axiom}
+\begin{remark}
+    積集合は正しい構成をしていて，必ず集合となる．また，全ての$i$について$X_i\ne\varnothing$である場合は特に，$\cup_{i\in I}X_i$は空でない．従って，各$i\in I$に対して，ある全体集合$\cup_{i\in I}X_i$の，$I$と同じ個数存在する空でない部分集合$X_i$から，それぞれ一つずつ元$x_i\in X_i$を選び取ることが出来る（論理式$\forall i\in I\, x_i\in X_i$を満たす集合$(x_i)_{i\in I}$が存在する）ことを主張している．
+    $I$が有限集合である場合は，$I=n$である場合と同一視でき，帰納的に証明できる．一方で，元$(x_i)_{i\in I}$がしっかり書き下せる場合も多い．
+    しかし$I$を一般の集合とすると，これは集合論の公理である．
+\end{remark}
+以上，集合に対する演算子$\cup,\cap,\coprod,\prod$を定義した．
+\begin{definition}[写像の積]
+    ２つの添字集合を共有した積集合$(X_i)_{i\in I},(Y_i)_{i\in I}$について，各写像$f_i:X_i\to Y_i$から以下のように構成される写像を，写像の族$(f_i)_{i\in I}$の積と呼ぶ．
+    \begin{center}\begin{tikzcd}
+        \prod_{i\in I}f_i:\prod_{i\in I}X_i \ar[r] \ar[d, phantom, "\rotatebox{90}{$\in$}"] & \prod_{i\in I}Y_i \ar[d, phantom, "\rotatebox{90}{$\in$}"] \\
+        (x_i)_{i\in I} \ar[r, mapsto] & (f_i(x_i))_{i\in I}
+    \end{tikzcd}\end{center}
+    特に，$X_i=X, Y_i=Y, f_i=f:X\to Y$である時，$\prod_{i\in X}X_i=\mathrm{Map}(I,X), \prod_{i\in Y}Y_i=\mathrm{Map}(I,Y)$となり，ある一定の$f:X\to Y$に対して，$(f_i)_{i\in I}=f_*$である．
+\end{definition}
+
+
+\begin{proposition}[集合族とその演算についての分配則とde Morgan則]
+    \begin{align*}
+        \left(\bigcup_{i\in I}X_i\right)\cap Y &= \bigcup_{i\in I}(X_i\cap Y), &\left(\bigcap_{i\in I}X_i\right)\cup Y &= \bigcap_{i\in I}(X_i\cup Y)\\
+        X\setminus\left(\bigcup_{i\in I}X_i\right)&=\bigcap_{i\in I}(X\setminus X_i), &X\setminus\left(\bigcap_{i\in I}X_i\right)&=\bigcup_{i\in I}(X\setminus X_i)\;\;\;(この等式の\rightarrow 方向がNK)
+    \end{align*}
+\end{proposition}
+$I=2$の場合は，ベン図を使って証明した．
+
+\begin{shadebox}\begin{definition}[積の普遍性]
+    $A,B,C$はある圏の対象とする．次の条件を満たすとき，$C$は$A\times B$と書かれる．
+
+    ２つの射$\pi_1:C\to A,\pi_2:C\to B$が存在し，各$f_1:X\to A, f_2:X\to B$について，唯一つ$f:X\to C$が存在して次の図式が可換になる．
+
+    \begin{center}\begin{tikzcd}
+        & X \ar[dl] \ar[d] \ar[dr] & \\
+        A & C \ar[l, "\pi_1"] \ar[r, "\pi_2"'] & B
+    \end{tikzcd}\end{center}
+\end{definition}\end{shadebox}
+特に，これが集合の圏であった場合，$X=1$とした時の条件から，$\pi_1\circ f = (f_1:X\to A) \simeq a$より，各$(f:1\to C) \simeq (f_1,f_2) \simeq (a,b)$であり，$f:1\to C$のそれぞれとは，$C$の元１つ１つと一対一対応するから，$C=A\times B$の各元は$(a,b)$と（少なくとも）同一視できることは，普遍性の主張に含まれていることがわかる．
+
+\begin{remark}
+    上の状況下で，
+    \begin{center}\begin{tikzcd}
+        \varphi : \hom_C(C,A)\times\hom_C(C,B) \ar[r] \ar[d, phantom, "\rotatebox{90}{$\in$}"] & \hom_{[C^{op},Set]}(h^C,\hom_C(-,A)\times\hom_C(-,B)) \ar[d, phantom, "\rotatebox{90}{$\in$}"] \\
+        (f_1,f_2) \ar[r, mapsto] & \varphi_{(f_1,f_2)}
+    \end{tikzcd}\end{center}
+    というbijectionが存在する．特に，$(\pi_1,\pi_2)$の像は次の自然変換である．
+    \begin{center}\begin{tikzcd}
+        \varphi_{\pi_1,\pi_2}:\hom_C(-,C) \ar[r] \ar[d, phantom, "\rotatebox{90}{$\in$}"] & \hom_C(-,A)\times\hom_C(-,B) \ar[d, phantom, "\rotatebox{90}{$\in$}"] \\
+        f \ar[r, mapsto] & (\pi_1\circ f, \pi_2\circ f)
+    \end{tikzcd}\end{center}
+    これは対象$C$が$A,B$と何の関係が無くても成り立つ．この時，この自然変換$\varphi_{\pi_1,\pi_2}$が可逆でもある時，$C=A\times B$と書き，この唯一の射の組$(\pi_1,\pi_2)$を射影という．
+
+    また従って以上より，積の普遍性は，米田の補題の特別な場合に付けた名前である．
+\end{remark}
+
+\begin{proposition}[集合の和と積との関係]
+    次が成り立つ．
+    \begin{align*}
+        1.&& \bigcup_{i\in I}A_i = \mathrm{pr}_1(\coprod_{i\in I}A_i)\\
+        2.&& \bigcap_{i\in I}A_i = \delta^{-1}(\prod_{i\in I}A_i)
+    \end{align*}    
+\end{proposition}
+
+\begin{shadebox}\begin{proposition}[積の普遍性]
+    $(T)_{i\in I}, (X_i)_{i\in I}$を集合の族，$(f_i)_{i\in I}$を写像$f_i:T\to X_i$の族とする．$(X_i)_{i\in I}$の直積を$X=\prod_{i\in I}X_i$とする．$(f_i)_{i\in I}$の直積は
+    \begin{center}\begin{tikzcd}
+        \prod_{i\in I}f_i:\prod_{i\in I}T=\mathrm{Map}(I,T) \ar[r] \ar[d, phantom, "\rotatebox{90}{$\in$}"] & \prod_{i\in I}X_i=X \ar[d, phantom, "\rotatebox{90}{$\in$}"]\\
+        (t_i)_{i\in I} \ar[r, mapsto] & (f_i(t_i))_{i\in I}
+    \end{tikzcd}\end{center}
+    であるが，今回特に，$(t_i)_{i\in I}$が定値写像$(t)_{i\in I}$となる場合に注目し，次の写像を$(f_i)\subset \prod_{i\in I}f_i$とする．
+    \begin{center}\begin{tikzcd}
+        (f_i):\mathrm{Map}(I,T) \ar[r] \ar[d, phantom, "\rotatebox{90}{$\in$}"] & X \ar[d, phantom, "\rotatebox{90}{$\in$}"]\\
+        (t)_{i\in I} \ar[r, mapsto] & (f_i(t))_{i\in I}
+    \end{tikzcd}\end{center}
+    これは結局次の写像$f$と同一視できる．
+    \begin{center}\begin{tikzcd}
+        f:T \ar[r] \ar[d, phantom, "\rotatebox{90}{$\in$}"] & X \ar[d, phantom, "\rotatebox{90}{$\in$}"]\\
+        t \ar[r, mapsto] & (f_i(t))_{i\in I}
+    \end{tikzcd}\end{center}
+    この時，こうして定義した$f$は，条件$$\forall i\in I \hspace{2mm} f_i=\mathrm{pr}_i\circ f$$
+    によって特徴付けられる．
+\end{proposition}\end{shadebox}
+\begin{proof}
+    $j\in I, t\in T$を任意に取る．$f(t)=(f_i(t))_{i\in I}$より，$\mathrm{pr}_j(f(t))=f_j(t)$である．
+
+    $g:T\to X$が任意の$i\in I$に対して$f_i=\mathrm{pr}_i\circ g$を満たすとする．$t\in T$を任意に取り，$g(t)=(x_i)_{i\in I}$とする．すると，全ての$j\in I$に対して，$\mathrm{pr}_j(g(t))=x_j=f_j(t)$が仮定から成り立つが，これは$g$が各$t\in T$に対して，写像$I\ni i\mapsto f_i(t)\in X_i$を対応づけていることを表す．この対応は$f$に他ならず，$f=g$である．
+\end{proof}
+この普遍性は，任意の$i\in I$に対して全ての写像$\mathrm{pr}_i$について同時に成り立つと言及しているから，写像１つを定めるほどの強さを持つ主張である．このことを，ある図式を用いて，「次の図式を可換にする$f$がただ一つ存在する」とよく表現される．
+写像$f:T\to \prod_{i\in I}X_i$も積といい，$(f_i)$と表すらしいが，写像$f_i:T\to X_i$の族$(f_i)_{i\in I}$の積$\prod_{i\in I}f_i:\mathrm{Map}(I,T)\to\prod_{i\in I}X_i$とは別物である．
+定値写像$t_j:T\ni t\to t_j\in T$を用いて，各$j\in I$について$f\circ\mathrm{pr}_j = \prod_{i\in I}f_i\circ t_{j*}$が成り立つ．
+\begin{proposition}
+    定値写像$t_j:T\ni t\to t_j\in T$を用いて，各$j\in I$について$f\circ\mathrm{pr}_j = \prod_{i\in I}f_i\circ t_{j*}$が成り立つ．
+\end{proposition}
+\begin{remark}
+    特に$X_i=T$でもあり，写像$f_i:T\to T$の族$(id_T)_{i\in I}$の積$T\to\mathrm{Map}(I,T)$を対角写像$\delta$と呼ぶ．
+    \begin{center}\begin{tikzcd}
+        \delta :T \ar[r] \ar[d, phantom, "\rotatebox{90}{$\in$}"] & \mathrm{Map}(I,T) \ar[d, phantom, "\rotatebox{90}{$\in$}"] \\
+        t \ar[r, mapsto] & (t)_{i\in I}=\mathrm{Map}(I,\{ t\} )
+    \end{tikzcd}\end{center}
+    対角写像の値域を対角集合といい，その$n=2$の場合の特性関数をクロネッカーのデルタと言う．
+\end{remark}
+圏論的には，組$(X, (\mathrm{pr}_i)_{i\in I})$を直積と呼ぶ．対象の族$(t(pr_i))_{i\in I}$の直積が，複数存在するなら，それらは同型である（可逆な射が存在する）ことが，普遍性から証明できる．
+
+\section{逆像と像}
+「写像が定める冪集合の間の写像」を考えると，写像の一段階マクロな動きを捉えられるのでより詳しく調べられる．
+このための言葉に「逆像」と「像」がある．
+この「全体と個別の間に中間的なものを設定する」のが，開集合系と位相空間の定義であるが，同様に大域と局所のズレを捉える概念装置が層である．
+
+\begin{definition}[image, inverse image]\mbox{}
+    \begin{enumerate}
+        \item $f(A):=\{y\in Y\mid\exists x\in A\;y=f(x)\}=\{f(x)\in Y\mid x\in A\}$
+        \item $f^{-1}(B):=\{x\in X\mid f(x)\in B\}$
+    \end{enumerate}
+\end{definition}
+\begin{remark}
+    像と逆像は非対称である，写像という概念が非対称であるように．これが，1がreplacementによる集合定義，2が論理式による集合定義
+    であることにも現れている気がする．そして集合定義はこの２通りであるのと同様，写像の方向も２つである．
+\end{remark}
+\begin{proposition}[fiberの言葉による特徴付け]\mbox{}
+    \begin{enumerate}
+        \item $f(A)=\{y\in Y\mid f^{-1}(y)\cap A\ne\varnothing\}$
+        \item $f^{-1}(B)=\cup_{y\in B}f^{-1}(y)$
+    \end{enumerate}
+\end{proposition}
+\begin{proposition}[グラフと射影の言葉による特徴付け]\mbox{}
+    \begin{enumerate}
+        \item $f(A)=\pr_2(\pr_1^{-1}(A)\cap\Gamma)$
+        \item $f^{-1}(B)=\pr_1(\pr_2^{-1}(B)\cap\Gamma)$
+    \end{enumerate}
+\end{proposition}
+
+\begin{example}[像と逆像の言葉による，和と積の特徴付け]\mbox{}
+    \begin{enumerate}
+        \item $\cup_{i\in I}A_i=\pr_1(\coprod_{i\in I}A_i)$
+        \item $\cap_{i\in I}A_i=\delta^{-1}(\prod_{i\in I}A_i)$
+    \end{enumerate}
+\end{example}
+
+\begin{example}[逆像の言葉による，グラフの特徴付け]
+    $f=(X,Y,\Gamma)$として，$\Delta_Y\subset Y\times Y$とする．
+    \[\Gamma=(f\times\id_Y)^{-1}(\Delta_Y)\]
+\end{example}
+
+\begin{proposition}[像と逆像と集合演算の絡み合い]\mbox{}
+    \begin{enumerate}
+        \item $f(A)\subset B$と$A\subset f^{-1}(B)$とは同値である．
+        \item $f$の像について次が成り立つ．
+        \begin{enumerate}[(1)]
+            \item $A\subset f^{-1}(f(A))$
+            \item $A'\subset A\Rightarrow f(A')\subset f(A)$
+            \item $f(\cup_{i\in I}A_i)=\cup_{i\in I}f(A_i)$，$f(\cap_{i\in I}A_i)\subset \cap_{i\in I}f(A_i)$
+        \end{enumerate}
+        \item $f$の逆像について，次が成り立つ．
+        \begin{enumerate}[(1)]
+            \item $f(f^{-1}(B))=B\cap f(X)$，$f^{-1}(Y\setminus B)=X\setminus f^{-1}(B)$
+            \item $B\subset B'\Rightarrow f^{-1}(B)\subset f^{-1}(B')$
+            \item $f^{-1}(\cup_{i\in I}B_i)=\cup_{i\in I}f^{-1}(B_i)$，$f^{-1}(\cap_{i\in I}B_i)=\cap_{i\in I}f^{-1}(B_i)$．
+        \end{enumerate}
+    \end{enumerate}
+\end{proposition}
+\begin{remark}
+    確か二重否定則を使わないと戻ってこれないのも，de Morganのうち，$\lnot\forall$や$\lnot\land$だったよな？
+    絶対つながっているよな．
+\end{remark}
+
+\begin{problem}[A2.5.3]
+    $f_*:P(X)\to P(Y)$の値域について，$f_*(P(X))=P(f(X))$．
+\end{problem}
+\begin{proof}
+    
+\end{proof}
+
+\section{商集合と写像の標準分解}
+
+\begin{screen}
+    商集合とは，部分集合と双対的な対象である．
+\end{screen}
+
+\begin{proposition}[canonical decomposition]
+    $f:X\to Y$を写像とする．\\
+    1.\, 次の図式を可換にする写像$\overline{f}$が唯一つ存在する．この分解$f=i\circ\overline{f}\circ q$を\textbf{$f$の標準分解}という．
+    \begin{center}\begin{tikzcd}
+        X \ar[r, "f"] \ar[d, "q"'] & Y \\
+        X/R_f \ar[r, dotted, "\overline{f}"] & f(X) \ar[u, "i"']
+    \end{tikzcd}\end{center}
+    2.\, 写像$\overline{f}$は可逆である．これを\textbf{$f$によって引き起こされる可逆写像}と呼ぶ．\\
+    $f$が定める同値関係$R_f$についての商集合$X/R_f$を，\textbf{$f$の余像}と呼ぶ．
+\end{proposition}
+
+\section{写像の全射・単射による分解と「引き起こされた写像」}
+
+\begin{proposition}[単射と一般の写像]\rm{}
+    $i:X\to Y$を単射，$T$を勝手な集合，$f:T\to Y$を写像とする．次の２つの条件は同値である．
+    
+    1.\, $f(T)\subset i(X)$である．
+
+    2.\, 下の図式を可換にする写像$g:T\to X$が存在する．
+    \begin{center}\begin{tikzcd}
+        X \ar[r, rightarrowtail, "i"] & Y \\
+        T \ar[u, dashed, "g"] \ar[ur, "f"'] &
+    \end{tikzcd}\end{center}
+\end{proposition}
+$f(T)\supsetneq i(X)$の時，$g$をどう取っても$f(T)\setminus i(X)\ne\varnothing$となってしまうため，写像として一致し得ない．
+
+\begin{definition}[同値関係の関係]\label{def-relationship-between-equivalence-relation}
+    同値関係$R_p$が$R_f$より細かいとは，論理式
+    \[ \forall x,x'\in X \, p(x)=p(x')\Rightarrow f(x)=f(x') \]
+    が成り立つと言うことである．この時，それぞれのグラフを$C_p, C_f$とすれば，
+    \[ C_p \subset C_f \]
+    と同値である．
+\end{definition}
+
+\begin{proposition}[全射と一般の写像]\label{prop-induced-mapping}\rm{}
+    $X,Y,Z$を集合，$p:X\to Y$を全射，$f:X\to Z$を写像とする．
+
+    1.\, 次の条件(1)と(2)は同値である，
+
+    (1)\, $f=g\circ p$を満たす写像$g:Y\to Z$が存在する．
+    \begin{center}\begin{tikzcd}
+        X \ar[r, twoheadrightarrow, "p"] \ar[dr, "f"'] & Y \ar[d, dashed, "g"]\\
+        & Z
+    \end{tikzcd}\end{center}
+
+    (2)\, 全射$p$が定める同値関係$R_p$は，写像$f$が定める同値関係$R_f$よりも細かい．
+
+    2.\, いま，$R_p$が$R_f$よりも細かいとする．この時，次の２つの条件は同値である．
+
+    (1)\, $f=g\circ p$を満たすこの$g:\to Z$は単射である．
+
+    (2)\, $R_p$と$R_f$は同値である．
+\end{proposition}
+\begin{remark}
+    写像$p$の時点で重要な何かが潰れていなければいい．このための条件は，「写像が定める同値関係」として，共通する始域$X$上の関係，またはそのグラフ（部分集合）の包含関係などで議論できる．
+    $R_p$の方が$R_f$よりも細かければ，より豊富な情報を含んでいて還元出来ない部分はないから，$g$を上手く潰すように設定すれば，$f=g\circ p$と出来る．
+
+    なお，２つの同値関係の間の関係として，「よりも細かい」とは，$\forall x,x'\in X \, p(x)=p(x')\Rightarrow f(x)=f(x')$が成り立つと言うことである．この逆も成り立つ時，２つの同値関係は同値であると言う．
+\end{remark}
+「気持ち」と定式化された「理論」の違いをご覧に入れたい．おそらくこれは定義\ref{def-relationship-between-equivalence-relation}の同値関係同士の「細かい」と言う関係の定式化が上手だからである．
+でもそれにしても$(2)\Rightarrow (1)$の証明は，今までの集合論の議論が要点を得ていることを実感する，大海の上を，非常に頑健でかつ絶妙に配置された足場を飛びながら自由に旅をしているの感がある．
+
+まず$(1)\Rightarrow (2)$は，$R_f=R_{g\circ p}$であるが，$R_{g\circ p}$は，$R_p$よりも$g$の分だけ同値類が統合されて粗くなっている（$g$が全単射でない限り）．従って，$R_f$は$R_p$よりも粗い．
+
+次に，$(2)\Rightarrow (1)$は，$p$が引き起こす可逆写像$\tilde{p}$により$Z\simeq X/R_p$だから，下の図式を可換にするような$g':X/R_p\to Z$を構成すれば良い．
+\begin{center}\begin{tikzcd}
+    X/R_p \ar[r, dashed, "g'"] \ar[dr, twoheadrightarrow, tail, "\tilde{p}" near end] & Z \\
+    X \ar[u, "q_p"] \ar[ur, "f" near start] \ar[r, twoheadrightarrow, "p"] & Y \ar[u, dashed, "g"']
+\end{tikzcd}\end{center}
+これは，$R_p$の同値類を巧妙に潰して$R_f$にするような$g'$，即ち$f(x)=f(x'),\hspace{0.5em} x,x'\in X \Rightarrow g(p(x))=g(p(x'))$の仕事をしてくれる$g$を選べば良い．
+
+これ以上踏み込めない感覚がするのは，$(1)\Rightarrow (2)$も$(2)\Rightarrow (1)$も，上記の議論では集合論的見地から，具体的な要素について論理を用いて論証していないからであろう．それを実行するには正しい道具の整備を訓練が居る，さもないとこの「所感」のように，表面だけさらって正しいような気がしてしまう．それにしてもここが突破出来るとはとても思えなかった，集合論の威力はここにある．
+\begin{proof}
+    $(1)\Rightarrow (2)$は\[ \forall x,x'\in X \, p(x)=p(x')\Rightarrow f(x)=f(x') \]を示せば良い．いま，実際$p(x)=p(x')$を満たす$x,x'\in X$について，$q(p(x))=q(p(x'))$であるから，$f(x)=f(x')$が従う．
+
+    次に$(2)\Rightarrow (1)$を考える．写像$g$を構成するために，写像
+    \begin{center}\begin{tikzcd}
+        (p,f):X \ar[r] \ar[d, phantom, "\rotatebox{90}{$\in$}"] & Y\times Z \ar[d, phantom, "\rotatebox{90}{$\in$}"] \\
+        x \ar[r, mapsto] & (p(x),f(x))
+    \end{tikzcd}\end{center}
+    を考える．この値域$(p,f)(X)=\{ (p(x),f(x))\mid x\in X \}=:\Gamma_g$は(A)写像のグラフとなっており，そして(B)このグラフが定める写像$(Y,Z,\Gamma_g)=:g$が求める唯一つの写像であることを示す．
+
+    (B)については，全ての$x\in X$について，$g$の定め方より$g(p(x))=f(x)$が成り立つから，確かにこれは$f=g\circ p$を満たす写像である．
+
+    (A)\,$\Gamma_g$が写像のグラフとなっていることの証明を，$\mathrm{pr}_1:Y\times Z\to Y$を第一射影として，$\mathrm{pr}_1|_{\Gamma_g}$が全単射であることを示すことによって行う．
+    $\mathrm{pr}_1|_{\Gamma_g}\circ (p,f)=id_Y\circ p=p$より，$p$は全射であるから$\mathrm{pr}_1|_{\Gamma_g}$も全射である．また，$(y,z),(y',z')\in\Gamma_g$について$\mathrm{pr}_1(y,z)=\mathrm{pr}_1(y',z')$即ち$y=y'$即ち
+    $\exists x,x'\in X \,\mathrm{s.t.}\, p(x)=p(x')$ならば，$R_p\subset R_f$より，$f(x)=f(x')$即ち$z=z'$より，$\mathrm{pr}_1|_{\Gamma_g}$は単射でもある．
+\end{proof}
+\begin{remark}
+    この証明の始め方自体がキーとなっている．集合論という方法論を完全に乗りこなしているかのような，先を見据えた定式化によって，いとも簡単に論理の意図を手繰り寄せる証明で，びっくりした．
+\end{remark}
+\begin{proof}
+    $(2)\Rightarrow(1)$． $R_p=R_f$の時，$X/R_p=X/R_f$であるから，$p,f$の標準分解は，可逆写像$\tilde{p}:X/R_p\to Y$と単射$\overline{f}:X/R_p\to Z$を定める．
+    \begin{center}\begin{tikzcd}
+        X \ar[r, "p"] \ar[d, "q"'] \ar[dr, "f"' near end, "\circlearrowright"' near start] & Y \ar[d, "g"] \\
+        X/R_p \ar[ur, "\tilde{p}" near end, "\circlearrowright"' near start] \ar[r, "\overline{f}"'] \ar[d, dashed, "\tilde{f}"] & Z \\
+        f(X) \ar[ur, dashed, "i"']
+    \end{tikzcd}\end{center}
+    この図式は結局全体として可換であり（$f=g\circ p$かつ$f=\overline{f}\circ q$より，$\overline{f}\circ q=g\circ p$を得る．これと$p=\tilde{p}\circ q$より），$\overline{f}\circ\tilde{p}^{-1}=g$となる．従って$g$は全射である．
+
+    $(1)\Rightarrow(2)$．$g$が単射ならば，$g(y)=g(y')\Rightarrow y=y'$より，
+    \begin{eqnarray*}
+        p(x)=p(x') &\Leftrightarrow& g(p(x))=g(p(x')) \\
+        &\Leftrightarrow& f(x)=f(x')
+    \end{eqnarray*}
+    より，$R_f=R_p$である．
+\end{proof}
+
+\begin{definition}[induced mapping]\rm{}
+    $p:X\to Y$を全射とし，$f:X\to Z$を写像とする．
+    \begin{center}\begin{tikzcd}
+        X \ar[r, rightarrowtail, "i"] & Y \\
+        T \ar[u, dashed, "g"] \ar[ur, "f"'] &
+    \end{tikzcd}\end{center}
+    $p$が定める同値関係$R_p$が，$f$が定める同値関係$R_f$より細かい時，$y\in Y$に対して，\textbf{$f(x)=g\circ p(x)\in Z$は$x\in X$の取り方に依らない}といい，\textbf{写像$g$はwell-definedである}という．なお，
+    この写像$g$を\textbf{$f$によって引き起こされた写像}という．
+\end{definition}
+\begin{remark}
+    あまり世界観の具体例の想像がつかない．
+\end{remark}
+
+\begin{corollary}[商集合の普遍性]
+    $R$を集合$X$上の同値関係とし，$q:X\to X/R$を商写像とする．\rm{}
+    
+    1.\, 写像$f:X\to Y$について，次の２条件は同値である．
+
+    (1)\, 次の図式を可換にする写像$g:X/R\to Y$が存在する．これは$f$によって引き起こされた写像である．
+    \begin{center}\begin{tikzcd}
+        X \ar[r, "q"] \ar[dr, "f"'] & X/R \ar[d, "g"] \\
+        & Y
+    \end{tikzcd}\end{center}
+
+    (2)\, $R$は，$f$が定める同値関係$R_f$より細かい．
+
+    2.\, $R'$を$Y$の同値関係とし，$q':Y\to Y/R'$を商写像とする．写像$f:X\to Y$に対して，次の２条件は同値である．
+
+    (1)\, 写像$g:X/R\to Y/R'$で，次の図式を可換にするものが存在する．
+    \begin{center}\begin{tikzcd}
+        X \ar[r, "f"] \ar[d, "q'"'] & Y \ar[d, "q'"] \\
+        X/R \ar[r, "g"'] & Y/R'
+    \end{tikzcd}\end{center}
+
+    (2)\, $C\subset X\times X$を$R$のグラフとし，$C'$を$R'$のグラフとすると，$C\subset (f\times f)^{-1}(C')$である．
+\end{corollary}
+\begin{proof}
+    $1.$全射$p$について命題\ref{prop-induced-mapping}を適用して得る主張である．なお，$q$が定める同値関係$R_q$とは$R$に他ならない．
+    
+    $2.$全射$q'\circ f$について命題\ref{prop-induced-mapping}を適用して得る主張である．
+\end{proof}
+
+\begin{definition}[Universal propoerty of quotient set]
+    写像$q:X\to X'$について，任意の集合$Y$と写像$f:X\to Y$に対して，次の図式を可換にする$g$が存在するとき，この$X'$を，$q$が定める同値関係$R_q$による商集合といい，$q$をその商写像と呼ぶ．
+    \begin{center}\begin{tikzcd}
+        X \ar[r, "q"] \ar[dr, "f"'] & X' \ar[d, "g"] \\
+        & Y
+    \end{tikzcd}\end{center}
+\end{definition}
+\begin{remark}
+    これは$q$が全射であるための条件となっている．でもこのままでは明らかに，全ての$f$に対応できるわけではない，$f$が全単射であった場合，$q$は自明な同値関係による商写像を与える全単射である．
+\end{remark}
+
+\section{数の構成}
+
+\begin{definition}[Natural numbers]\rm{}
+    次を満たす集合$\mathbb{N}$を自然数と呼ぶ．
+
+    1.\, $\varnothing\in\mathbb{N}$
+
+    2.\, $\forall n(n\in\mathbb{N}\Rightarrow n\cup\{ n\}\in\mathbb{N})$
+
+    3.\, $\forall A((A\subset\mathbb{N}\wedge\varnothing\in A\wedge\forall n(n\in A\Rightarrow n\cup\{n\}\in A))\Rightarrow A=\mathbb{N})$
+\end{definition}
+\begin{remark}\rm{}
+    1.2.を満たす最小の閉包が自然数であるから，条件$P(n)$を1.2.の場合について示せれば，自然数$\mathbb{N}$全体で成り立つことを得る．この自然数の定義上の約束を数学的帰納法と呼ぶ．
+
+    また，$a_0\in X_0$と，$a_0\in X_0,\cdots,a_n\in X_n$がすでに定まっている際に$a_{n+1}\in X_{n+1}$を与えるルールを定めると，列$a=(a_n)\in\prod_{n\in\mathbb{N}}X_n$を定めたことになる．これを帰納的定義(recursive definition)という．
+\end{remark}
+
+\begin{proposition}[well-definedness of recursive definition]\rm{}
+    $(X_n)_{n\in\mathbb{N}}$を集合列とし，$c\in X_0$とする．
+
+    1.\, $(f_n)_{n\in\mathbb{N}}$を写像$f_n:X_0\times\cdots\times X_n\to X_{n+1}$の族とする．この時，列$(a_n)\in\prod_{n\in\mathbb{N}}X_n$であって，$a_0=c, a_{n+1}=f_n(a_0,\cdots,a_n)(n\in\mathbb{N})$を満たすものは，唯一つ存在する．
+
+    2(AC).\, $(F_n)_{n\in\mathbb{N}}$を写像$F_n:X_0\times\cdots\times X_n\to P(X_{n+1})\setminus\varnothing$の族とする．この時，列$(a_n)\in\prod_{n\in\mathbb{N}}X_n$であって，$a_0=c, a_{n+1}\in F_n(a_0,\cdots,a_n)(n\in\mathbb{N})$を満たすものは，唯一つ存在する．
+\end{proposition}
+\begin{remark}\rm{}
+    構成数学と非構成数学とで，使える道具の差ACを目の当たりにしている．
+\end{remark}
+
+\begin{definition}[algebraic/order structure of the natural numbers]
+    $m\in\mathbb{N}$への加算と乗算を，それぞれ次のようにして，帰納的に定義する．
+    \[ m+0=m, m+(n+1):=(m+n)+1, \]\[ m\cdot 0=0, m\cdot (n+1):=(m\cdot n)+m \]
+    順序関係を$m\le n:\Leftrightarrow m\subset n$と定める．
+\end{definition}
+\begin{remark}
+    なお，$m\in n$は$m<n$を定める．これが自然数の特徴かもしれない．
+\end{remark}
+
+整数は，自然数の差演算についての閉包として構成できる．
+\begin{definition}[Integers]
+    $\mathbb{N}^2$上の同値関係$\sim$を，$(n,m)\sim (n',m'):\Leftrightarrow n+m'=n'+m$として定義する（２数の差が同じ）．この時，$\mathbb{Z}:=\mathbb{N}^2/\sim$を整数全体の集合と呼ぶ．同値類$\overline{(n,m)}$を$n-m$で表すこととする．
+
+    $Z:=\{(n,m)\in\mathbb{N}^n\mid n=0\lor m=0\}$は$\mathbb{Z}$の完全代表系である．単射$\mathbb{N}\to\mathbb{Z}:n\mapsto n-0$により，$\mathbb{N}$を$\mathbb{Z}$の部分集合と同一視し，$0-n=:-n$と表すこととする．
+\end{definition}
+
+\begin{definition}[algebraic/order structure of integers]
+    \[ (n-m)+(n'-m'):= (n+n')-(m+m')=\overline{(n+n',m+m')} \]
+    \[ (n-m)\cdot (n'-m'):=(nn'+mm')-(mn'+nm')=\overline{(nn'+mm',mn'+nm')} \]
+    として$\mathbb{N}^2/\sim$上の加法と乗法を定義し，順序関係は$n-m\le_\mathbb{Z} n'-m' :\Leftrightarrow n+m'\le_\mathbb{N} n'+m$で定める．
+    また，$n\in\mathbb{N}$の時，$n,-n\in\mathbb{Z}$の絶対値を$|n|,|-n|=n$と定める．
+\end{definition}
+
+有理数は，整数の除算についての閉包として構成できる．
+\begin{definition}[Rational numbers]
+    $\{ (n,m)\in\mathbb{Z}^2\mid m>0 \}$上に同値関係$\sim$を，$(n,m)\sim (n',m'):\Leftrightarrow nm'=n'm$として定める（２数の比が同じ）．$\mathbb{Q}:=\{ (n,m)\in\mathbb{Z}^2\mid m>0 \}/\sim$を有理数全体の集合という．
+    同値類を$\overline{(n,m)}=:\frac{n}{m}$と表す．$Q:=\{(n,m)\in\mathbb{Z}^2\mid m>0\land \gcd(n,m)=1\}$はこの完全代表系である．
+    標準全射$p:\{ (n,m)\in\mathbb{Z}^2\mid m>0 \}\to\mathbb{Q}$の$Q$への制限の逆写像$p|_Q^{-1}:\mathbb{Q}\to Q$は，有理数に対して，その既約分数表現の分子と分母の組を対応させる写像である．単射$\mathbb{Z}\to\mathbb{Q}:n\mapsto\frac{n}{1}$により，$\mathbb{Z}$を，$\mathbb{Q}$の部分集合と同一視する．
+\end{definition}
+
+\begin{definition}[algebraic/order structure of the rational numbers]
+    \[ \frac{n}{m} +_\mathbb{Q} \frac{n'}{m'} := \frac{nm'+_\mathbb{Z}mn'}{mm'} \]
+    \[ \frac{n}{m}\cdot_\mathbb{Q}\frac{n'}{m'} := \frac{nn'}{mm'} \]
+    順序関係を$\frac{n}{m}\le\frac{n'}{m'}:\Leftrightarrow nm'\le n'm$で定め，絶対値は$\left| \frac{n}{m} \right|:\Leftrightarrow \frac{|n|}{m}$で定める．
+\end{definition}
+四則演算が自由に出来る体まで構成できた．最終到達点が実数の構成である．
+これは$\mathbb{Q}$の部分集合から構成される$P(\mathbb{Q})$内部の存在で，何ら集合としての華やかな発展はない．ただし，これは華やかな位相情報を持ち，それが有理数との主な違いである．
+
+\chapter{実数と位相}
+
+\begin{screen}
+    基本的に，位相の最も豊かな集合の一つとしてEuclid空間$\R^n$があり，
+    この模様として位相概念を一つずつ抽出し理解していくのが筋が良い．
+\end{screen}
+
+\section{実数の構成}
+
+\begin{definition}[Dedekind's cut]\rm{}　
+
+    1.\, $\mathbb{Q}$の部分集合$L$が次の３条件を満たすとき，$L$はデデキントの切断であるという．
+
+    (1)\, $\varnothing\subsetneq L\subsetneq\mathbb{Q}$
+
+    (2)\, $x\in L \,\wedge\, y\le x \,\Rightarrow\, y\in L$
+
+    (3)\, $x\in L \,\Rightarrow \exists y\in L \,\,\, x<y$
+
+    2.\, デデキントの切断$L$を実数と呼び，実数全体の集合を$\mathbb{R}:=\{ L\in P(\mathbb{Q})\mid Lは切断 \}$と書く．
+
+
+    3.\, 実数$L,M$について，順序関係を$L\le M :\Leftrightarrow L\subset M,\hspace{1em} L<M :\Leftrightarrow \subsetneq$と定める．
+\end{definition}
+
+\begin{proposition}\rm{}\label{prop-order-of-the-real-numbers}　
+
+    1.\, $r\in\mathbb{Q}\Rightarrow L(r):=\{ x\in\mathbb{Q}\mid x<r \}$is a Dedekind's cut.　が成り立つ．
+
+    2.\, 実数$L, L(r)\,(r\in\mathbb{Q})$について，次の３条件は同値である．
+
+
+    (1)\, $r\in L$
+
+    (2)\, $L(r)< L$
+
+    (3)\, $L(r)\ngeq L$
+\end{proposition}
+\begin{proof}\rm{}
+    $1.$少なくとも$r-1\in L$であり，また$r\notin L$より，条件(1)を満たす．有理数体上の順序関係の推移性より，(2)も成り立つ．$x\in L$を勝手に取った時，$x<\frac{x+r}{2}<r$となる$\frac{x+r}{2}\in L(r)$が作れるから，(3)も成り立つ．
+
+    $2.\,(1)\Rightarrow(2)$．$r\notin L(r)$より$L(r)\neq L$であるが，勝手に取った$x\in L(r)$について，$x<r$だから$r\in L$と併せて$x\in L$が従う．従って，$L(r)\subsetneq L$である．
+
+    $(2)\Rightarrow(3)$．$L(r)\subsetneq L$とは$L\setminus L(r)\neq\varnothing$ということであるから，$L(r)\nsupseteq L$が従う．
+
+    $(3)\Rightarrow(1)$．$L(r)\ngeq L$の時，$L\setminus L(r)\neq\varnothing$より，$x\in L\setminus L(r)$が取れる．$x\notin L \Leftrightarrow r<x$であるが，$x\in L$より，条件(2)から$r\in L$を得る．
+\end{proof}
+\begin{remark}\rm{}
+    $L$がDedekind's cutならば，$\exists r\in\mathbb{Q}\,\mathrm{s.t.}\, L=L(r)$とはならない点が，実数が有理数の拡張になっている点である．
+    つまり，写像$\mathbb{Q}\ni r\mapsto L(r)\in\mathbb{R}$は単射である．系\ref{corollary-order-of-the-real-numbers}より，この写像は順序構造を保つから，この埋め込みによって$\mathbb{Q}$を$\mathbb{R}$の部分集合として同一視する．
+    これを，順序の言葉で指定した抽象的な集合の集まりとして実数を定義することによって成し遂げているのが魔法使いみたいだ．
+
+    また，この命題は(1)をよく抽出したと思う．$x\in M$となった途端に，$x$より大きいが$M$には含まれる有理数は無限個存在するから，$L(x)<M$なのである．これはそのまま有理数の実数上での稠密性の翻訳になっているのだな．
+\end{remark}
+
+\begin{corollary}[実数体の順序]\rm{}\label{corollary-order-of-the-real-numbers}　
+
+    1.\, $r,s\in\mathbb{Q}$について，$r<s$と$L(r)<L(s)$とは同値である．
+    
+    2.\, $L,M\in\mathbb{R}$について，$L\leq M, M\leq L$のいずれかが成り立つ．また，次が成り立つ．
+    \[ \forall L,M\in\mathbb{R} \, L<M \Longrightarrow \exists s\in\mathbb{Q} (L<L(s)<M) \]
+\end{corollary}
+\begin{proof}\rm{}
+    $1.$命題\ref{prop-order-of-the-real-numbers}より，各$L(r)<L(s)\Leftrightarrow r\in L(s)\Leftrightarrow r<s$．
+
+    $2.$命題\ref{prop-order-of-the-real-numbers}の$(2)\Leftrightarrow(3)$より，$L<M$または$L\ngeq M$である．従って，$L\le M$または$L\ge M$である．
+    今，$L<M:\Leftrightarrow L\subsetneq M$とすると，勝手に取った$x\in M\setminus L$に対して，$x\in M$より$L(x)<M$が，$x\notin L$より$L(x)\nless L$即ち$L(x)\ge L$が，命題\ref{prop-order-of-the-real-numbers}より従い，$L\le L(x)<M$が成り立つ．
+    今，$M$について条件(3)を用いて，$x<s$を満たす$s\in M$を取り直すことにより，再び命題\ref{prop-order-of-the-real-numbers}から，$L\le L(x)<L(s)<M$が成り立つ．
+\end{proof}
+
+有理数体の順序を引き継ぐ埋め込みによって実数を定義したが，その演算の構造は，次のように定義することで，集合として構成された有理数$\mathbb{Q}$から自然に，というより無意識的に？引き継ぐ．
+\begin{definition}[実数の演算]\label{def-algebraic-structure-of-real-numbers}
+    
+    $L,M\in\mathbb{R}$とする．和を次のように定義する．
+    \[ L+M = \{ x+y\in\mathbb{Q}\mid x\in L, y\in M \} \]
+    $L$の加法逆元を，$L':=\{x\in\mathbb{Q}\mid \forall y\in L (x+y<0)\}$を用いて，次のように定義する．
+    \[ -L :=\{x\in\mathbb{Q}\mid \exists y\in L'(x<y)\} \]
+    これは確かに切断になっており，$L+(-L)=(-L)+L=L(0)$を満たす．また，$L\ge L(0)\Leftrightarrow -L\le L(0)$となる．
+
+    積を次のように定義する．
+    \[ L\cdot M=(-L)\cdot (-M) := \{ x\in\mathbb{Q}\mid \exists y\in L, z\in M \,\mathrm{s.t.}\, y>0, z>0, x<yz \} \]
+    $(-L)\cdot M=L\cdot (-M)=:-(L\cdot M)$と定める．$L=L(0)$または$M=L(0)$である場合は，$LM=L(0)$と約束する．
+\end{definition}
+\begin{remark}\rm{}
+    $L,M$が有理数と同一視出来る場合について議論すると様子が掴みやすい．$s\in\mathbb{Q}$として$L=L(s)$である場合h，$L'=L(-s)\cup\{-s\}$である．これに対して，最大元を省いた集合を$-L$と定義している．
+
+    この定義がうまくいくのは全てDedekind's cutの定義が絶妙なのである．$L+M=L(r)+L(s)$と表される場合は退化していて分かりにくいが，$L,M=L(s)$となる$s\in\mathbb{Q}$が見つからない場合でもこの定義は整合的にできている．
+    つまりは，$L=L(x)(x\in\mathbb{R})$を，実数を一切登場させることなく，順序関係$<$のことばだけで指定可能であるということを言っている．これに成功している時点で，数や距離以外の情報／ことばの体系が実数には含まれていることが予感される．
+    これらのことばの自然言語への翻訳の一部が，「上界」「上限」として用意されている．
+\end{remark}
+\begin{proposition}[実数体]
+    定義\ref{def-relationship-between-equivalence-relation}による実数の演算について，$\mathbb{Q}$に引き続き体となっている．
+\end{proposition}
+
+\begin{proposition}[上限の特徴付け]
+    $\varnothing\ne A\subset\mathbb{R}$とする．実数$S\in\mathbb{R}$に対して，次の３つの条件は同値である．\rm{}
+
+    1.\, $S$は$A$の上限である．$S=\min\{ x\in\mathbb{R}\mid \forall a\in A\,a\le x \}$
+
+    2.\, $\forall L\in A \;(L\le S)$かつ$\forall T<S \; \exists L\in A\; (T<L)$
+\end{proposition}
+\begin{proof}
+    上界$S$が上限であるとは，$S$が上界のうち最小のものであるということである．即ち，$T<S$を満たす全ての$T\in\mathbb{R}$は上界ではない，つまり，$\exists L\in A\; (T<L)$．
+\end{proof}
+
+\begin{theorem}[実数の連続性]
+    $A\subset\mathbb{R}$とする．$A\ne\varnothing$かつ上に有界ならば，$A$の上限が存在する．
+\end{theorem}
+\begin{proof}
+    $S:=\bigcup_{L\in A}L\subset\mathbb{Q}$と構成すれば，これは確かに切断となっており，$A$の上限に他ならないことを示す．
+
+    (1)仮定$A\ne\varnothing$より，切断$L\in A$が存在するから，$\varnothing\subsetneq L\subset S$．また$A$は上に有界だから，切断$M\in\mathbb{R}$が存在して$A\subset M\subsetneq\mathbb{Q}$．
+    
+    (2),(3)$x\in S$を任意に取ると，或る切断$L\in A$が存在して$x\in L$である．従って，$\forall y<x\; y\in L$かつ$\exists z>x z\in L$である．よって，$\forall y<x\; y\in S$かつ$\exists z>x z\in S$であり，確かに$S$も切断．
+
+    $S$が求める上限であることを示す．$\forall a\in A\; a\le S$は，$S$の定義上任意の$a\in A$について$a\subset S$であることから従う．
+    また，既に示した$A\subset M\subsetneq\mathbb{Q}$より，$S$は上界のうち最小のものであることが分かる．
+\end{proof}
+\begin{remark}
+    なんだよ，上限の特徴付けの方を使うわけではないのか，と思ったが，その試みの中で，切断において$L(x)\subsetneq \cup A$と，$L(x)\in A$は同値だと気付いた．これは自然数の定義と，切片の議論と，似ている．
+\end{remark}
+
+以降$[-\infty,\infty]:=\mathbb{R}\coprod\{-\infty,\infty\}\;(-\infty\ne\infty)$という記法を用いると，この範囲で実数の部分集合は必ず上限を持つ．
+ただし，$A\subset [-\infty,\infty]$について，$\sup A=-\infty \; (A\subset \{-\infty\}の時)$とする．
+写像$f:X\to\mathbb{R}\coprod\{-\infty,\infty\}\;(-\infty\ne\infty)$についても同様に定める．
+$\sup f(X)=:\sup_{x\in X}f(x)$とも書く，あるいは同値な条件を下に添えて書く．
+
+\begin{definition}[実数列の収束]
+    $(x_n)\in{}^{<\omega}\mathbb{R},a\in\mathbb{R}$とする．\textbf{数列$(x_n)$が$a$に収束する}とは，次が成り立つことである．
+    \[ \inf_{m\ge 0}\left(\sup_{n\ge m}|x_n-a|\right)=0 \]
+    この関係を$\lim_{n\to\infty}x_n=a$と書き，$a$を極限という．
+
+    数列$(x_n)$が有界であるという時には，その値域が上に有界であることを言う．
+\end{definition}
+\begin{remark}
+    $\sup_{n\ge m}|x_n-a|$とは，$m$番目以降の項の，$a$からの距離の振れ幅の範囲が，この中に収まることを意味する．数列が収束するとは，$m$を十分大きく取ることで，その範囲をいくらでも小さくする／$0$に近づけることが出来ることを意味する．
+
+    この定義なら，絶対値の構造を備える距離空間一般について拡張できそうである．
+\end{remark}
+
+\begin{proposition}[実数上の$\epsilon-\delta$論法]$(x_n)$を十数列とする．
+    
+    1.\, 次の２条件は同値である．
+
+    (1)\, $\lim_{n\to\infty}x_n=a$
+
+    (2)\, $\forall r\in\mathbb{R}_{>0}\; \exists m\in\mathbb{N} \; \forall n\in\mathbb{N}_{n\ge m} \; |x_n-a|<r$
+
+    2.\, 収束する数列$(x_n)$は有界である．
+
+    3.\, $(x_n)$は有界かつ単調増加であるとする．$s=\sup_{x\ge n}x_n$とすれば，$\lim_{n\to\infty}x_n=s$である．
+\end{proposition}
+\begin{remark}
+    2.の逆はそのままでは成り立たないが，Bolzano-Weierstrassの定理が成り立つ．
+
+    3.は実数の連続性の特徴付けとなる．
+\end{remark}
+
+\section{Euclid空間上の開集合}
+以降$n\in\mathbb{N}$として，$n$次元Euclid空間$\mathbb{R}^n$の位相を考えるための言葉を整備する．
+距離の概念から位相の言葉を定義し，そのうち位相の概念の一般化の足掛かりとなるような性質をみる．
+
+\begin{definition}[内積と長さ]
+    $x=(x_1,\cdots,x_n),y=(y_1,\cdots,y_n)\in\mathbb{R}^n$に対し，$\langle x,y\rangle =x_1y_1+\cdots +x_ny_n\in\mathbb{R}$と定めた内積を，\textbf{標準内積}といい，$||x||:=\sqrt{\langle x,x\rangle}$を\textbf{$x$の長さ}という．
+\end{definition}
+\begin{definition}[距離]\rm{}
+    $x=(x_1,\cdots,x_n),y=(y_1,\cdots,y_n)\in\mathbb{R}^n$に対し，
+    \[ d(x,y)=\sqrt{(x_1-y_1)^2+\cdots +(x_n-y_n)^2} \]
+    を，２点$x,y$間の距離という．この，２点の距離をベクトル$x-y$の長さ$d(x,y)=||x-y||$によって定めた距離を備えた系$(\mathbb{R}^n,d)$をEuclid空間という．
+\end{definition}
+
+\begin{proposition}[距離の性質]\rm{}$x,y,z\in\mathbb{R}^n$に対して，次の３つが成り立つ．
+
+    1(non-negativity，identity of indicernibles).\, $d(x,y)\ge 0$で，等号成立条件は$x=y$である．
+
+    2(symmetricity).\, $d(x,y)=d(y,x)$
+
+    3(subadditivity).\, $d(x,z)\le d(x,y)+d(y,z)$
+\end{proposition}
+
+開区間の定義を$n$次元に拡張すると，球という概念が表面化する．「端点」と呼べる部分が一気に無限個になる．
+\begin{definition}[開集合]\rm{}
+
+    1.\, $p\in\mathbb{R}^n, \delta\in\mathbb{R}_{>0}$とする．
+    $$B_\delta (p)=\{ q\in\mathbb{R}^n \mid d(q,p)<\delta \} $$
+    を開球という．
+    
+    2.\, $U\subset\mathbb{R}^n$が$\mathbb{R}^n$-開集合であるとは，次の論理式を満たすことである．
+    $$\forall p\in U,\, \exists\delta >0,\, B_\delta (p)\subset U$$
+
+    3.\, $A\subset\mathbb{R}^n$の補集合$\mathbb{R}^n\setminus A$が$\mathbb{R}^n$-開集合である時，$A$は$\mathbb{R}^n$-閉集合であるという．集合$\{d(x,y)\in\mathbb{R}\mid x,y\in A\}$が有界である時，$A$は有界であるという．
+\end{definition}
+
+\begin{example}\rm{}
+
+    1.\, $\varnothing,\mathbb{R}^n$はいずれも，開集合かつ閉集合である．前者は自明な形で，後者は普通に開集合の定義を満たし，２つは互いに補集合であるからである．
+
+    2.\, $a\in\mathbb{R}^n$とする．$\mathbb{R}^n\setminus \{a\}(n=0,1,2,\cdots)$は開集合なので，$\{a\}$は閉集合である．また，$n>0$の時，$a$を中心とした$\{a\}$に含まれる開球は存在しないので，$\{a\}$は開集合でない．$n=0$の時は，$\mathbb{R}^0=\{id_0\}\simeq 1$となり，全ての部分集合が開集合でもあり，閉集合でもある．
+
+    3.\, $\ge m<n$とし，$\mathbb{R}^m$を$\mathbb{R}^n$の部分集合$\{(x_1,\cdots,x_m,0,\cdots,0)\mid (x_1,\cdots,x_m)\in\mathbb{R}^m\}$と同一視すると，$\mathbb{R}^n\setminus\mathbb{R}^m$はあいも変わらず開集合より$\mathbb{R}^m$は$\mathbb{R}^n$-閉集合であるが，$\mathbb{R}^m$は，全く行けない次元が$n-m$次元あるので，$\mathbb{R}^n$上の開球を中に含めることは出来ず，開集合ではない．
+\end{example}
+
+\begin{proposition}
+    $\varnothing,\mathbb{R}^n$以外に，$\mathbb{R}^n$の部分集合であって，開集合でも閉集合でもあるものは存在しない．
+\end{proposition}
+\begin{proof}
+    $\mathbb{R}^n$が連結であるかららしいが，何故かは分からない．
+\end{proof}
+
+\begin{proposition}[開集合の特徴付け１]\rm{}
+    $U\subset\mathbb{R}^n$とする．次の２条件は同値である．
+
+    1.\, $U$は開集合である．
+
+    2.\, $U$は開球の族の和集合である．
+    
+\end{proposition}
+\begin{proof}
+    1$\to$2を示す．$U$は開集合だから，全ての点$p$について，対応する開球$B_{\delta_p}(p)$が存在し，$B_{\delta_p}(p)\subset U$を満たす．
+    従って，$U':=\bigcup_{p\in U}B_{\delta_p}(p)$とすれば，即座に$U'\subset U$である．また，$p\in U$に対して$p\in B_{\delta_p}(p)\subset U$だったのだから，$p\in U'$であるため，$U'\supset U$でもある．従って，$U=U'=\bigcup_{p\in U}B_{\delta_p}(p)$を得る．
+
+    2$\to$1を示す．開集合の族$U:=\bigcup_{\lambda\in\Lambda}B_\lambda$を考える．勝手に取った点$p\in U$に対して，対応する$\lambda\in\Lambda$と開球$B_\lambda$が存在して，$p\in B_\lambda$を満たす．仮に$B_\lambda=B_{\delta}(q)$だったとすると，$r=\delta -||p-q||$として，$B_{r}(p)$は，$B_{r}(p)\subset B_\lambda\subset U$を満たす．
+    こうして各点$p$に対して，それを中心として$U$に含まれる開球が存在するから，この$U:=\bigcup_{\lambda\in\Lambda}B_\lambda$は開集合である．
+\end{proof}
+
+主にこちらが，一般の集合についても位相の言葉を考えるにあたって，基点となる．
+\begin{proposition}[開集合の特徴付け２]\rm{}
+
+    1.\, $(U_i)_{i\in I}$が$\mathbb{R}^n$-開集合の族であるならば，合併$\bigcup_{i\in I}U_i$も$\mathbb{R}^n$-開集合である．
+
+    2.\, $(U_i)_{i\in I}$が$\mathbb{R}^n$-開集合の有限族であるならば，共通部分$\bigcap_{i\in I}U_i$も$\mathbb{R}^n$-開集合である．
+\end{proposition}
+\begin{remark}
+    $A$を一般に$\mathbb{R}^n$の部分集合とすると，無限集合族を用いて$\bigcap_{x\in\mathbb{R}^n\setminus A}\mathbb{R}^n\setminus\{x\}$として$A$が表現出来てしまう．すごい怖い．
+\end{remark}
+
+\begin{definition}[数列の収束の点列への拡張]
+    $(x_m)\in{}^{<\omega}\mathbb{R}^n,a\in\mathbb{R}^n$とする．\textbf{点列$(x_m)$が$a$に収束する}とは，次が成り立つことである．
+    \[ \lim_{m\to\infty}d(x_m,a)=0 \]
+    この関係を$\lim_{m\to\infty}x_m=a$と書き，$a$を極限という．
+
+    点列$(x_m)$が有界であるという時には，その値域が$\mathbb{R}^n$の有界な部分集合であることを言う．
+
+\end{definition}
+\begin{remark}
+    ２点の間の距離という実数値関数を利用して，実数列の収束から点列の収束を定めた．
+\end{remark}
+
+\begin{proposition}[点列の収束の位相的特徴付け]\rm{}
+    $(x_m)\in{}^{<\omega}\mathbb{R}^n, a\in\mathbb{R}^n$とする．次の３条件は同値である．
+
+    1.\, $\lim_{m\to\infty}x_m=a$
+
+    2.\, $\forall r\in\mathbb{R}_{>0}\;\exists l\in\mathbb{N}\;\forall m\in\mathbb{N}_{\ge n}\; d(x_m,a)<r$
+
+    3.\, $a$を元として含む任意の開集合$U\subset\mathbb{R}^n$について，$\{m\in\mathbb{N}\mid x_m\notin U\}$は有限集合である．
+
+    条件3.を「十分大きな$n$について$x_m\in U (m\ge n)$である，ということがある．
+\end{proposition}
+\begin{remark}
+    点列が収束することを開集合のことば
+    によって純粋に表現することに成功したわけであるが，閉集合のことばだとどうなるのであろうか？
+\end{remark}
+
+\section{連続写像}
+
+\chapter{位相}
+
+\chapter{位相空間の構成}
+
+\section{生成される位相}
+
+\section{距離空間}
+
+\begin{screen}
+    距離とは，Euclid空間を模倣したというよりかは，我々の知覚の様式があまりにもEuclid空間的というべきではないか？
+    任意の２点間に実数的な構造を埋め込める時，距離が入るなどという．
+    一方物理空間が距離空間かというと，検証不可能である．
+
+    こうして，特に歴史の早くから登場した（歴史的に）自然な位相空間の構成法を，距離空間としての構成法という．
+    Euclid空間$\R^n$には距離の観念がある．この特徴をいくつか抽出して公理化し，距離空間の概念を立てる．
+    そして位相はこの距離から定まる．
+
+    このように距離概念による位相の構成は，特に関数の空間を考える際に肝要となる．
+\end{screen}
+
+\begin{definition}[metric space]
+    $X$を集合とする．
+    \begin{enumerate}
+        \item 関数$d:X\times X\to[0,\infty)$が次の３条件を満たす時，$d$は$X$の\textbf{距離}であるという．
+        \begin{enumerate}[(1)]
+            \item $\forall x,y\in X,\; d(x,y)=0\Leftrightarrow x=y$．
+            \item $\forall x,y\in X,\; d(x,y)=d(y,x)$．
+            \item $\forall x,y,z\in X,\; d(x,z)\le d(x,y)+d(y,z)$．
+        \end{enumerate}
+        \item $d$を$X$の距離とする．$a\in X,r\in\R_{>0}$に対し，$U_r(a):=\{x\in X\mid d(x,a)<r\}$と定め，\textbf{開球}と呼ぶ．開球からなる$P(X)$の部分集合$\{U_r(x)\mid x\in X,r>0\}$を，\textbf{$d$が定める位相}という(Why this works?)．
+        \item $X$の部分集合$A$が有界であるとは，$\R$の部分集合$\{d(x,y)\in\R\mid x,y\in A\}$が有界であることをいう．$A$が有界である時，$d(A):=\sup_{x,y\in A}d(x,y)\in [0,\infty)$と定め，\textbf{$A$の直径}という．
+        \item $d_1,d_2$はいずれも$X$の距離とする．$d_1,d_2$が$X$に同じ位相を定める時，$d_1,d_2$は\textbf{同値}であるという．
+    \end{enumerate}
+    $X$とその上の距離$d$の組$(X,d)$を\textbf{距離空間}という．
+\end{definition}
+\begin{example}[discrete metric]\mbox{}
+    \begin{enumerate}
+        \item 任意の集合$X$に対し，$X\times X\setminus\Delta_X$の特性関数は$X$の距離である．これが定める$X$の位相は離散位相である．
+    \end{enumerate}
+\end{example}
+
+\begin{definition}[距離空間の射 isometry]
+    $(X,d_X),(Y,d_Y)$を距離空間とする．写像$f:X\to Y$が$\forall x,x'\in X,\; d_Y(f(x),f(x'))=d_X(x,x')$を満たす時，これを\textbf{等長写像}という．
+\end{definition}
+
+Euclid空間だけでなく，（無限次元）実線型空間にも標準的な距離構造の構成法があり，これをノルムという．
+すると，関数の空間にも，ノルムが定める位相が入る．
+このことが，位相の研究の源の一つになった．
+
+\begin{definition}[normed space]
+    $V$を実線型空間とする．関数$\|\;\;\|:V\to\R$が次の３条件を満たす時，$\|\;\;\|$は$V$の\textbf{ノルム}であるという．
+    \begin{enumerate}
+        \item $\forall x\in V,\; \|x\|>0$．（ただし，統合成立条件は$x=0$）．
+        \item $\forall x\in V,a\in\R,\; \|ax\|=|a|\|x\|$．
+        \item $\forall x,y\in V,\;\|x+y\|\le\|x\|+\|y\|$．
+    \end{enumerate}
+    組$(V,\|\;\;\|)$を\textbf{ノルム空間}といい，$d(x,y):=\|x-y\|$を\textbf{ノルムが定める距離}という．
+\end{definition}
+\begin{remark}
+    $V$が有限次元ならば，ノルムの定める距離は全て等しいが，無限次元の時にはそうとは限らない．
+\end{remark}
+
+\chapter{位相空間の性質}
+
+\begin{quotation}
+    位相とは，集合と数の間に存在する静的な模様である．
+    そのうち特に普遍的な模様，即ち広汎な範囲に仕える概念装置を考える．
+    集合とはある意味で論理を写しとったobjectであるが，ひたすらそれをいじくりまわしたのを感じる．
+
+    実数の区間うち，中間値の定理を成り立たせるのに必要な性質は正確に「連結性」である．
+
+    実数の閉区間のうち，最大値の定理を成り立たせるのに必要な性質は正確に「コンパクト性」である．
+\end{quotation}
+
+\section{Hausdorff空間}
+
+\begin{definition}[Hausdorff]
+    $X$を位相空間とする．$X$が次の条件(H)を満たす時，$X$は\textbf{ハウスドルフ空間}であるという．
+    \begin{quote}
+        (H) $\forall x,y\in X,\; x\ne y\Rightarrow [\exists (x\in )U\in\mathcal{O}, (y\in)V\in\mathcal{O},\;U\cap V=\varnothing]$
+    \end{quote}
+\end{definition}
+\begin{remark}[separated space]
+    ドイツの数学者Hausdorffが公理的位相空間論を確立した際にこの条件(H)を含めていたことに因む．フランス系の文献では\textbf{分離空間}という．
+\end{remark}
+
+\begin{remark}\mbox{}
+    \begin{enumerate}
+        \item 密着空間$X$がハウスドルフであるならば，$|X|\le 1$が必要．
+        \item $\mathbb{S}$では，$0\in\mathbb{S}$を含む開集合は$\mathbb{S}$のみであり，$1$と区別ができないのでハウスドルフではない．
+    \end{enumerate}
+\end{remark}
+
+\section{連結性}
+
+\begin{screen}
+    閉区間上で定義された実数値関数については中間値の定理が成り立つ．
+    この「区間」が持つ性質を，中間値の定理を頼りに一般化する形で，連結性の概念を得る．
+\end{screen}
+
+\begin{definition}[connected]
+    $X$を位相空間とし，$\varnothing\subsetneq A\subset X$について，
+    \begin{enumerate}
+        \item $A$が\textbf{連結}であるとは，$X$の開集合$U,V$であって$A\subset U\cup V,A\cap U\cap V=\varnothing, A\cap U\ne\varnothing, A\cap V\ne\varnothing$を満たすものは存在しないことをいう．
+        \item $A$が\textbf{弧状連結}であるとは，任意の２点$x,y\in A$に対して，これらを結ぶ連続写像$f:[0,1]\to A, f(0)=x, f(1)=y$が存在することをいう．
+    \end{enumerate}
+\end{definition}
+\begin{remark}[連結性とは何か]\mbox{}
+    \begin{enumerate}
+        \item その本質は，「開かつ閉な空でない部分集合が，全体集合のみ」ということである（命題\ref{prop-charactorization-of-connectedness}.4）．
+        \item 連結性は位相空間に限らず，その任意の部分集合に定義される．そのために一般的に記述されているが，$A$の相対位相であるための表記を省いて読めば，$A\subset U\cup V\Leftrightarrow A=(A\cap U)\cup(A\cap V), A\cap U\cap V=\varnothing\Leftrightarrow (A\cap U)\cap(A\cap V)=\varnothing$だから，「集合$A$が連結とは，$A$が２つ以上の互いに素な開集合に直和分割することが出来ない」ことを主張している．即ち，空でない位相空間$X$が連結とは，$X=U\rotatebox[origin=c]{180}{$\prod$}V\Rightarrow U=\varnothing\lor V=\varnothing$」．
+        空間を複数の（空でない）開集合に分割できることを指摘すれば，連結でないことを示したこととなる（命題\ref{prop-charactorization-of-connectedness}.3）．
+        \item 位相空間の連結性は，開集合の梯子が全体集合にまで直通していることを表していると見ると，\textbf{帰納法の連続濃度対応版}ともみれる．例えば，連結な空間全体で何かの性質が満たされることを示す時，1. 空でないある部分集合で成立する 2. その部分集合は開かつ閉 を示せば，連結な空間で開かつ閉な空でない部分集合とは全体集合に他ならない．
+        \item なお今回の定義では，空集合には連結性は定義されないとした．
+    \end{enumerate}
+\end{remark}
+
+\begin{example}\mbox{}
+    \begin{enumerate}
+        \item 離散空間$X$が連結であるためには$|X|=1$が必要．
+        \item $\mathbb{S}=(2,\{\emptyset,\{1\},2\})$は，$0\in S$が開集合ではないので連結．また，開集合$U:=[0,1)$の特性関数$\chi_U:[0,1]\to\mathbb{S}$は連続（$\chi_U^{-1}(1)=[0,1)$が開集合）だから，$\mathbb{S}$は弧状連結でもある．
+    \end{enumerate}
+\end{example}
+
+\begin{proposition}[連結性の特徴付けとintermediate value theorem]\label{prop-charactorization-of-connectedness}
+    空でない位相空間$X$に対し，次の４条件は同値である．
+    \begin{enumerate}
+        \item $X$は連結である．
+        \item （\textbf{中間値の定理}）任意の連続関数$f:X\to\R$と任意の$u,v\in X, c\in\R$に対し，$f(u)\le c\le f(v)\Rightarrow[\exists t\in X\;(c=f(t))]$．
+        \item $f:X\to 2$が離散位相空間$2=\{0,1\}$への連続写像ならば，$f$は定数関数である．
+        \item $U$が$X$の開集合であり閉集合でもあるならば，$U=X\lor U=\varnothing$．
+        \item $p:X\to 1$を定値写像とすると，任意の離散位相空間$Y$に対して，$p^*:C(1,Y)\to C(X,Y)$が可逆である．
+    \end{enumerate}
+\end{proposition}
+
+\begin{corollary}[連結性の伝播]
+    $X$を位相空間とする．$A,B\subset X$とする．
+    \begin{enumerate}
+        \item $A$が連結とする．この時$\overline{A}$も連結で，また$B$が$A\subset B\subset\overline{A}$を満たすならば，$B$も連結である．
+        \item $A,B$が連結とする．$A\cap B\ne\varnothing$ならば，$A\cup B$も連結である．
+    \end{enumerate}
+\end{corollary}
+
+\begin{proposition}
+    $a<b$を実数とする．閉区間$[a,b]$は連結である．
+\end{proposition}
+
+\begin{corollary}
+    $a<b$を実数とする．
+    \begin{enumerate}
+        \item $f:[a,b]\to\R$を連続関数とする．$f(a)\le f(b)$ならば，$[f(a),f(b)]\subset f([a,b])$である．
+        \item $f:(a,b)\to\R$を連続関数とする．任意の$a<s<t<b$に対し，$f(s)<f(t)$ならば，$f:(a,b)\to\R$は開埋め込みである．
+    \end{enumerate}
+\end{corollary}
+
+\begin{corollary}
+    位相空間$X$が弧状連結ならば，$X$は連結である．
+\end{corollary}
+
+\begin{proposition}[$\R$の連結集合]
+    $\R$の部分集合$A$に対し，次の３条件は同値である．
+    \begin{enumerate}
+        \item $A$は連結である．
+        \item $A$は弧状連結である．
+        \item 次の条件のどれか１つが成り立つ．
+        \begin{enumerate}[(i)]
+            \item $A=\R$である．
+            \item $a\in R$であって，$A$が$[a,\infty),(a,\infty),(-\infty,a),(-\infty,a]$のどれかと等しくなるようなものが存在する．
+            \item 実数$a<b$であって，$A$が$(a,b),(a,b],[a,b),[a,b]$のどれかと等しくなるものが存在する．
+            \item $a\in R$であって，$A=\{a\}$となるものが存在する．
+        \end{enumerate}
+    \end{enumerate}
+\end{proposition}
+
+\begin{proposition}[連続写像（位相空間の射）は連結性を保存する]
+    $f:X\to Y$を連続写像とする．$A$が$X$の連結部分集合ならば，$f(A)$は$Y$の連結部分集合である．
+\end{proposition}
+
+\begin{proposition}
+    $X,Y$を位相空間とする．次の２条件は同値である．
+    \begin{enumerate}
+        \item $X,Y$はそれぞれ連結である．
+        \item $X\times Y$は連結である．
+    \end{enumerate}
+\end{proposition}
+
+\begin{proposition}[連結性だけからここまで言えてしまう]\label{prop-connected-component}
+    $X$を位相空間とする．
+    \begin{enumerate}
+        \item $x,y\in X$に対し，$x$と$y$を元として含む連結な部分集合$A\subset X$が存在するという条件は，$X$上の同値関係$R$を定める．
+        \item $A$をこの同値関係$R$に関する同値類とすると，$A$は連結な閉集合である．
+    \end{enumerate}
+\end{proposition}
+
+\begin{definition}[connected component, totally disconnected]
+    $X$を位相空間とし，$R$を命題\ref{prop-connected-component}による同値関係とする．
+    $X$の$R$による同値類を，$X$の\textbf{連結成分}という．商集合$X/R$を$\pi_0(X)$と表す．
+
+    $R$が自明な同値関係となる時，$X$は\textbf{全不連結}であるという．
+\end{definition}
+
+\section{コンパクト性と実数}
+
+\begin{screen}
+    閉区間$[a,b]$で定義された連続関数$f$の積分$\int^b_af(x)dx$は必ず収束するのに対して，開区間の場合は発散することもある．
+    この差の元となる開区間と閉区間の違いをクリティカルに捉えた概念がコンパクト性である．
+    さらに言えば，閉区間の持つ性質のうち，最大値の定理の証明の中で使われる部分を抽象化したものである．
+\end{screen}
+
+\begin{definition}[compact]
+    $X$を位相空間とし，$A$を部分集合とする．$A$が\textbf{コンパクト}であるとは，
+    $X$の開集合の任意の族$\{U_i\}_{i\in I}$について，次の条件(C)が成り立つことをいう．
+    \begin{quote}
+        (C) $A\subset\cup_{i\in I}U_i$ならば，$I$の有限部分集合$\{i_1,\cdots,i_n\}$であって，$A\subset U_{i_1}\cup\cdots\cup U_{i_n}$を満たすものが存在する．
+    \end{quote}
+    任意の開被覆に必ず有限な部分被覆が存在する，ということである．
+\end{definition}
+\begin{remark}[quasicompact]
+    Bourbakiやその他フランス系の文献では，この概念を\textbf{準コンパクト}と呼び，
+    それが分離である時に特にコンパクトと呼ぶ．
+    位相が粗ければ粗いほどコンパクト（準コンパクト）になりやすく，細かければ細かいほどハウスドルフ（分離）になりやすい．
+    そのちょうどいい具合をハウスドルフかつコンパクト（コンパクト）というのである．
+\end{remark}
+
+\begin{example}\mbox{}
+    \begin{enumerate}
+        \item 離散空間$X$がコンパクトであるためには，$|X|<\infty$が必要．
+        \item 密着空間$X$はコンパクトである．開被覆がそもそも$\{X\}$のみである．
+    \end{enumerate}
+\end{example}
+
+\chapter{濃度}
+
+\chapter{距離空間と可算性}
+
+\begin{thebibliography}{9}
+    \bibitem{斎藤毅}
+        斎藤毅『集合と位相』（東京大学出版会．2016）
+    \bibitem{松坂和夫}
+        松坂和夫『集合・位相入門』（岩波書店．2015）
+\end{thebibliography}
+\end{document}

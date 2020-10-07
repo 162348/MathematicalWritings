@@ -1,0 +1,20 @@
+\documentclass[uplatex, dvipdfmx]{jsarticle}
+\usepackage{amsmath, amsfonts, amsthm, mathptmx, amssymb, ascmac, color, comment, graphicx}
+\usepackage{tikz, tikz-cd}
+\begin{document}
+
+\begin{center} \begin{tikzcd}
+    M_s\underset{C}{\times}{}_tM \ar[r, "\omega"] \ar[d, phantom, "\rotatebox{90}{$\in$}"] & M_t\underset{C}{\times}{}_sM \ar[d, phantom, "\rotatebox{90}{$\in$}"] \ar[r, "F_M\times F_M"] & M'_{t'}\underset{C}{\times}{}_{s'}M' \ar[d, phantom, "\rotatebox{90}{$\in$}"]\\
+    (g,f) \ar[r, mapsto] & (f,g) \ar[r, mapsto] & (F_M(f), F_M(g))=(f_*,g_*)
+\end{tikzcd} \end{center}
+
+\end{document}
+
+
+
+\begin{figure}[ht]\begin{center} \caption{\label{cd-10} 写像$F_M\times F_M\circ\omega$の定義}
+    \begin{tikzcd}
+        M_s\underset{C}{\times}{}_tM \ar[r, "\omega"] \ar[d, phantom, "\rotatebox{90}{$\in$}"] & M_t\underset{C}{\times}{}_sM \ar[d, phantom, "\rotatebox{90}{$\in$}"] \ar[r, "F_M\times F_M"] & M'_{t'}\underset{C}{\times}{}_{s'}M' \ar[d, phantom, "\rotatebox{90}{$\in$}"]\\
+        (g,f) \ar[r, mapsto] & (f,g) \ar[r, mapsto] & (F_M(f), F_M(g))=(f_*,g_*)
+    \end{tikzcd}
+end{center}\end{figure}

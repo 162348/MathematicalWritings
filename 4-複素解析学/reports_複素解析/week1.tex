@@ -1,0 +1,78 @@
+\documentclass[uplatex, 12pt, dvipdfmx]{jsarticle}
+\title{複素解析学Ⅰレポート}
+\author{司馬博文 J4-190549}
+\date{\today}
+\pagestyle{empty} \setcounter{secnumdepth}{4}
+\input{/Users/hirofumi.shiba48/Desktop/数理科学/preamble_CM.tex}
+\begin{document}
+\maketitle
+\section*{[R1]}
+\subsection*{(a)}
+$z\in\C$とする．$\Im z=\frac{z-\overline{z}}{2i}\Leftrightarrow (\overline{z}-z)i=2\Im z$より，
+\begin{align*}
+    |\psi(z)|^2 &= \psi(z)\overline{\psi(z)}\\
+    &= \frac{z-i}{z+i}\overline{\frac{z-i}{z+i}}\\
+    &= \frac{z-i}{z+i}\frac{\overline{z}+i}{\overline{z}-i}\\
+    &= \frac{|z|^2+(-\overline{z}+z)i+1}{|z|^2+(\overline{z}-z)i+1}\\
+    &= \frac{|z|^2-2\Im z+1}{|z|^2+2\Im z+1} &\cdots\cdots(*)
+\end{align*}
+であるが，$z\in\R$だから$\Im z=0$より，
+\begin{align*}
+    |\psi(z)|^2= \frac{z^2+1}{z^2+1}=1
+\end{align*}
+\begin{flushright}
+    $\blacksquare$
+\end{flushright}
+
+\subsection*{(b)}
+
+$(*)$より，$\Im z>0$の時，$\frac{|z|^2-2\Im z+1}{|z|^2+2\Im z+1}<1$より，$|\psi(z)|<1$．
+従って，$(0<)|\psi(z)|<1$．
+\begin{flushright}$\blacksquare$\end{flushright}
+
+\section*{[R2]}
+\subsection*{(a)$\Rightarrow$(b)}
+
+(a)より，次が成り立つ．
+\begin{equation}\label{1}
+    \forall\varepsilon>0,\;\exists\delta>0,\;|a-z|<\delta\Rightarrow|f(a)-f(z)|<\varepsilon.
+\end{equation}
+$a$に収束する数列$\{z_n\}$を任意に取ると，次が成り立つ．
+\begin{equation}\label{2}
+    \forall\delta>0,\;\exists N>0,\;n>N\Rightarrow|a-z_n|<\delta.
+\end{equation}
+任意の$\epsilon>0$を取ると，\ref{1}より，$|a-z|<\delta\Rightarrow|f(a)-f(z)|<\varepsilon$を満たす$\delta>0$が存在し，この$\delta$に対して
+\ref{2}より，$n>N\Rightarrow|a-z_n|<\delta$を満たす$N>0$が存在する．
+以上より，次の論理式，即ち$\lim_{n\to\infty}f(z_n)=f(a)$が示せた．
+\[\forall\epsilon>0,\;\exists\delta>0,\;\exists N>0,\;n>N\Rightarrow|a-z_n|<\delta\Rightarrow|f(a)-f(z_n)|<\varepsilon.\]
+数列$\{z_n\}$は任意にとったから，(b)が示せた．
+
+\begin{flushright}$\blacksquare$\end{flushright}
+
+\subsection*{(b)$\Rightarrow$(a)}
+
+Gauss平面上の点$w\in\C$に対して，$z^w_n=a+\frac{w-a}{n}\;(n=1,2,3,\cdots)$と定めることにより，点$w$を通り$a$に収束する（$|z_n-a|$の値が単調減少するという意味で）単調な数列$\{z_n^w\}_{n=1,2,\cdots}$が取れる．
+（こうして，数列の族$(\{z^w_n\}_{n=1,2,\cdots})_{w\in\C}$を定めた）．
+任意に$\varepsilon>0$を取る．これに対して，各$w\in\C$に対して$\{z^w_n\}$は$a$に収束するから，(b)から非負整数$N^w\ge 0$が存在し，$n>N^w\Rightarrow|f(z^w_n)-f(a)|<\varepsilon$を満たす（こうして，族$\{N^w\}_{w\in\C}$が定まる）．
+このとき，$\delta=\min_{w\in\C}|z^w_{N+1}-a|$とすれば，$|z-a|<\delta\Rightarrow|f(z)-f(a)|<\varepsilon$が成り立つことを示せば良い．
+
+$|w-a|<\delta$を満たす$w\in\C$を任意に取る．
+これを通る数列$\{z_n^w\}$について，$n>N\Rightarrow |f(z_n^w)-f(a)|<\varepsilon$が成り立つ．
+いま，$\{z_n^w\}$は単調だったから，$\delta$は$\delta=\min_{w\in\C}|z^w_{N+1}-a|$と定めたことから，
+$|w-a|<\delta$を満たす$w$に対して，$w=z^w_m$を満たす整数$m>N$が存在する．
+従って，$|f(z_m^w)-f(a)|=|f(w)-f(a)|<\varepsilon$が導かれる．
+
+以上より，次の主張，即ち(a)が示せた．
+\[ \forall\varepsilon>0,\;\exists\delta>0,\;|z-a|<\delta\Rightarrow|f(z)-f(a)|<\varepsilon \]
+\begin{flushright}$\blacksquare$\end{flushright}
+
+\subsection*{(b)$\Rightarrow$(a)（より簡潔な回答）}
+対偶を示す．(a)が成り立たないとすると，$\exists\varepsilon>0,\;\forall\delta>0,\;|z-a|<\delta\land|f(z)-f(a)|\ge\varepsilon$．
+この時の$\varepsilon$を一つ取り，$\epsilon_0$とする．
+ここで，勝手に$a$に収束する数列$\{z_n\}$を取る．
+すると$\forall\varepsilon>0,\;\exists N>0,n>N\Rightarrow|z_n-a|<\varepsilon$．
+従って，$\epsilon_0$に対して，$\forall\delta>0,\;\exists N>0,\;n>N\Rightarrow|f(z_n)-f(a)|\ge\epsilon_0$が成り立つから，
+$\lim_{n\to\infty}f(z_n)\ne f(a)$．よって(b)の否定が導けた．
+
+\begin{flushright}$\blacksquare$\end{flushright}
+\end{document}

@@ -1,0 +1,236 @@
+\documentclass[dvipdfmx,nosetpagesize, uplatex]{jsarticle}
+%
+\newcommand\GAKUSEISHOBANGO{J4-190549}% 学生証番号
+\newcommand\NAMAE{司馬 博文}% 氏名
+\newcommand\KYODOSAKUSEISHA{なし}% 共同作成者（ある場合）
+% 上の三行について，{}内に記入の上195行以降を適宜編集すれば良い．
+%
+\usepackage{amsmath,amssymb,amscd,amsthm,amsbsy,multicol}
+\usepackage[shortlabels,inline]{enumitem}
+\renewcommand\labelenumi{\theenumi)}
+\renewcommand{\thefootnote}{\dag\arabic{footnote}}
+\DeclareMathOperator{\grad}{\mathrm{grad}}
+\newcommand\R{\mathbb{R}}
+\pagestyle{plain}
+%
+\setlength{\paperwidth}{257mm}
+\setlength{\paperheight}{364mm}
+\setlength{\textwidth}{170mm}
+\setlength{\textheight}{280mm}
+% \setlength{\oddsidemargin}{-2.0cm}
+% \setlength{\evensidemargin}{-.3cm}
+\setlength{\topmargin}{-31mm}
+%\setlength{\footskip}{2cm}
+%
+\newtheoremstyle{StatementsWithStar}% ?name?
+{3pt}% ?Space above? 1
+{3pt}% ?Space below? 1
+{}% ?Body font?
+{}% ?Indent amount? 2
+{\bfseries}% ?Theorem head font?
+{\textbf{.}}% ?Punctuation after theorem head?
+{.5em}% ?Space after theorem head? 3
+{\textbf{\textup{#1~\thetheorem{}}}{}\,$^{\ast}$\thmnote{(#3)}}% ?Theorem head spec (can be left empty, meaning ‘normal’)?
+%
+\newtheoremstyle{StatementsWithStar2}% ?name?
+{3pt}% ?Space above? 1
+{3pt}% ?Space below? 1
+{}% ?Body font?
+{}% ?Indent amount? 2
+{\bfseries}% ?Theorem head font?
+{\textbf{.}}% ?Punctuation after theorem head?
+{.5em}% ?Space after theorem head? 3
+{\textbf{\textup{#1~\thetheorem{}}}{}\,$^{\ast\ast}$\thmnote{(#3)}}% ?Theorem head spec (can be left empty, meaning ‘normal’)?
+%
+\newtheoremstyle{StatementsWithStar3}% ?name?
+{3pt}% ?Space above? 1
+{3pt}% ?Space below? 1
+{}% ?Body font?
+{}% ?Indent amount? 2
+{\bfseries}% ?Theorem head font?
+{\textbf{.}}% ?Punctuation after theorem head?
+{.5em}% ?Space after theorem head? 3
+{\textbf{\textup{#1~\thetheorem{}}}{}\,$^{\ast\ast\ast}$\thmnote{(#3)}}% ?Theorem head spec (can be left empty, meaning ‘normal’)?
+%
+\newtheoremstyle{StatementsWithCCirc}% ?name?
+{6pt}% ?Space above? 1
+{6pt}% ?Space below? 1
+{}% ?Body font?
+{}% ?Indent amount? 2
+{\bfseries}% ?Theorem head font?
+{\textbf{.}}% ?Punctuation after theorem head?
+{.5em}% ?Space after theorem head? 3
+{\textbf{\textup{#1~\thetheorem{}}}{}\,$^{\circledcirc}$\thmnote{(#3)}}% ?Theorem head spec (can be left empty, meaning ‘normal’)?
+%
+\theoremstyle{definition}
+ \newtheorem{theorem}{定理}[section]
+ \newtheorem{corollary}[theorem]{系}
+ \newtheorem{proposition}[theorem]{命題}
+ \newtheorem*{proposition*}{命題}
+ \newtheorem{lemma}[theorem]{補題}
+ \newtheorem*{lemma*}{補題}
+ \newtheorem*{theorem*}{定理}
+ \newtheorem{definition}[theorem]{定義}
+ \newtheorem{example}[theorem]{例}
+ \newtheorem{notation}[theorem]{記号}
+ \newtheorem*{notation*}{記号}
+ \newtheorem{assumption}[theorem]{仮定}
+ \newtheorem{question}[theorem]{問}
+ \newtheorem{reidai}[theorem]{例題}
+ \newtheorem{remark}[theorem]{注}
+% \newtheorem*{remarknonum}{注}
+ \newtheorem*{definition*}{定義}
+ \newtheorem*{remark*}{注}
+ \newtheorem*{question*}{問}
+%
+\theoremstyle{StatementsWithStar}
+ \newtheorem{definition_*}[theorem]{定義}
+ \newtheorem{question_*}[theorem]{問}
+ \newtheorem{example_*}[theorem]{例}
+ \newtheorem{theorem_*}[theorem]{定理}
+ \newtheorem{remark_*}[theorem]{注}
+%
+\theoremstyle{StatementsWithStar2}
+ \newtheorem{definition_**}[theorem]{定義}
+ \newtheorem{theorem_**}[theorem]{定理}
+ \newtheorem{question_**}[theorem]{問}
+ \newtheorem{remark_**}[theorem]{注}
+%
+\theoremstyle{StatementsWithStar3}
+ \newtheorem{remark_***}[theorem]{注}
+ \newtheorem{question_***}[theorem]{問}
+%
+\theoremstyle{StatementsWithCCirc}
+ \newtheorem{definition_O}[theorem]{定義}
+ \newtheorem{question_O}[theorem]{問}
+ \newtheorem{example_O}[theorem]{例}
+ \newtheorem{remark_O}[theorem]{注}
+%
+\theoremstyle{definition}
+%
+\renewcommand{\proofname}{\underline{証明}}
+%
+\raggedbottom
+\allowdisplaybreaks
+%
+\everymath{\displaystyle}
+%
+\begin{document}
+\thispagestyle{empty}
+\setlength{\parindent}{1zw}
+\setlength{\baselineskip}{13pt}
+\setcounter{section}{3}
+\newcounter{version}
+\setcounter{version}{2}
+\noindent
+2020年度ベクトル解析（足助担当）レポート問題~\thesection~v\theversion%\par\noindent
+\hfil2020/5/11（月）\par\noindent
+提出先：ITC-LMSのページの「課題」\par\noindent
+提出期間：2020/5/11（月）$\sim$ 2020/5/18（月）\textbf{9:00}\par\noindent
+返却はITC-LMSを用いて5/25日（月）以降に行う．\par\noindent
+※ レポートの作成方法は特に指定しないが，提出ファイルはPDF形式とすること．
+なお，ファイル名は，「``回数"+``学生証番号の下7桁.pdf\/"」（例：34123456.pdf）とすること．
+ファイルの作成にあたって印刷やスキャンなどに困難があれば速やかに足助まで申し出ること．
+\vskip-18pt\noindent
+\begin{table}[h]
+\begin{tabular}{|c|c|c|} \hline
+& & \\[-13pt]
+学生証番号& 氏名 & 共同作成者（ある場合）\\[2pt] \hline
+\rule{0pt}{16pt}%
+\parbox[c]{9.2zw}{\GAKUSEISHOBANGO\hfill} & \parbox[c]{13.0zw}{\NAMAE\hfill} & \parbox[c]{25.6zw}{\KYODOSAKUSEISHA\hfill}\\[6pt] \hline
+%「\hfill」の前に必要事項を記入すること．
+\end{tabular}
+\end{table}
+% 
+\begin{question*}
+$(x,y)$を$\R^2$の標準的な座標とし，
+\[
+X=-2xy\frac{\partial}{\partial x}+(x^2-y^2)\frac{\partial}{\partial y}
+\]
+とする．
+また，区分的に$C^\infty$級の閉曲線$\gamma,\zeta\colon[0,1]\to\R^2$をそれぞれ
+\begin{align*}
+\gamma(t)&=\begin{cases}
+{}^t(\cos2\pi(t-1/4),\sin2\pi(t-1/4)), & t\in[0,1/2],\\
+{}^t(0,3-4t), & t\in[1/2,1]
+\end{cases},\\*
+\zeta(t)&=\begin{cases}
+{}^t(4t,-1), & t\in[0,1/4],\\
+{}^t(1,8t-3), & t\in[1/4,1/2],\\
+{}^t(-4t+3,1), & t\in[1/2,3/4],\\
+{}^t(0,-8t+7), & t\in[3/4,1]
+\end{cases}
+\end{align*}
+により定める．
+\begin{enumerate}
+\item[0-1)]
+$\gamma,\zeta$の像の概形を図示せよ．
+また，矢印を用いて向きを表せ．
+本問については自分で解けば良い（図を描いてもよいが，\TeX を用いると図版の貼り込みはやや面倒である）．
+\item[0-2)]
+$X$を図示せよ．
+本問についても自分で解けば良い（図の貼り込みは0-1)と同様に面倒である）．
+\item
+$\int_{\gamma}X(p)\cdot dp$および$\int_{\zeta}X(p)\cdot dp$を求めよ．
+ただし$p=(x,y)$とする．
+\end{enumerate}
+\end{question*}
+\par
+\ \par
+\noindent
+{\small
+※ 参考文献がある場合には最後にまとめて箇条書きで示すこと．\par\noindent
+※ \textbf{全体として２ページに収めること．}\par\noindent
+※ 共同作成者に記載がないにもかかわらず，ほかのレポートとほぼ同一であるレポートが散見される．
+誰かと共同してレポートを作成することは構わないが，そのことは明記すること．
+それをしなければ剽窃であって，これは学術上の致命的な不正行為である．
+万一，写される側がそのことを承知していなかったことが露見した場合には重大な結果をもたらす可能性がある．
+}
+
+\rightline{（以上）}\par
+%
+% 以下が解答欄である．２ページ以内に収まるように注意すること．なお，紙面レイアウトやフォントサイズを変更しないこと．
+%
+\noindent
+
+$X=-2xy\frac{\partial}{\partial x}+(x^2-y^2)\frac{\partial}{\partial y}$より，
+\[f^1\left(\begin{array}{c}x \\ y\end{array}\right)=-2xy,\;\;\; f^2\left(\begin{array}{c}x \\y\end{array}\right)=x^2-y^2\]
+と置く．
+
+\subsubsection*{$\int_{\gamma}X(p)\cdot dp$について}
+
+$\gamma={}^t(\gamma^1,\gamma^2)$と置くと，定義より，計算をするめると
+\begin{eqnarray*}
+    \int_\gamma X(p)\cdot dp &=& \int^1_0 \left( f^1(\gamma(t))\frac{d\gamma^1}{dt}(t)+f^2(\gamma(t))\frac{d\gamma^2}{dt}(t) \right) dt \\
+    &=& \int^{1/2}_0  \left( -2(\cos 2\pi(t-\frac{1}{4})) (\sin 2\pi(t-\frac{1}{4}))(-2\pi\sin 2\pi (t-\frac{1}{4})) \right.\\
+    & & \left. + \left(\cos^2 2\pi (t-\frac{1}{4})-\sin^22\pi (t-\frac{1}{4}) \right) (2\pi\cos 2\pi (t-\frac{1}{4}))\right) dt \\
+    & & + \int^1_{1/2} \left\{ -2\cdot 0(3-4t)\cdot 0 + (0^2-(3-4t)^2)(-4) \right\}dt \\
+    &=& \int^{1/2}_0 2\pi\cos 2\pi (t-\frac{1}{4}) \left( \sin^22\pi (t-\frac{1}{4}) +\cos^22\pi (t-\frac{1}{4}) \right)dt \\
+    & & + \int^1_{1/2} 4(3-4t)^2dt \\
+    &=& \int^{1/2}_0\sin 2\pi (t-\frac{1}{4}) - \int^1_{1/2}\frac{(3-4t)^3}{3} \\
+    &=& 2 - \left( -\frac{1}{3} - \frac{1}{3} \right) = \frac{8}{3}
+\end{eqnarray*}
+というように，答え$\underline{\frac{8}{3}}$を得る．
+
+\subsubsection*{$\int_{\zeta}X(p)\cdot dp$について}
+
+$\zeta={}^t(\zeta^1,\zeta^2)$と置く．すると，ベクトル場$X$が$\mathbb{R}^2$上に定める１形式$\omega$は$\omega=f_1dx+f_2dy$
+であり，今回$x=\gamma^1(t),y=\gamma^2(t)$であるから，外微分$dx=\frac{d\zeta^1}{dt}(t)dt, dy=\frac{d\zeta^2}{dt}(t)dt$より，
+\[ \zeta^*\omega=f_1(\zeta(t))\frac{d\zeta^1}{dt}(t)dt+ f_2(\zeta(t))\frac{d\zeta^2}{dt}(t)dt \]
+となる．よって，求める線積分は，次のように計算できる．
+\begin{eqnarray*}
+    \int_\zeta X(p)\cdot dp &=& \int_\zeta\omega \\
+    &=& \int^1_0\gamma^*\omega \\
+    &=& \int^{1/4}_0\left( 4f_1\left(\begin{array}{c}4t \\ -1\end{array}\right)+0f_2\left(\begin{array}{c}4t \\ -1\end{array}\right) \right)dt\\
+    & & + \int^{1/2}_{1/4}\left( 0f_1\left(\begin{array}{c}1 \\ 8t-3\end{array}\right) + 8f_2\left(\begin{array}{c}1 \\ 8t-3\end{array}\right) \right) dt \\
+    & & + \int^{3/4}_{1/2}(-4)f_1\left(\begin{array}{c}-4t+3 \\ 1\end{array}\right) dt + \int^1_{3/4} (-8)f_2\left(\begin{array}{c}0 \\ -8t+7\end{array}\right) \\
+    &=& \int^{1/4}_032tdt+\int^{1/2}_{1/4}8(1-(8t-3)^2)dt+\int^{3/4}_{1/2}8(-4t+3)dt+\int^1_{3/4}8(-8t+7)^2dt\\
+    &=& 1+\frac{4}{3}+1+\frac{2}{3} = \underline{4}
+\end{eqnarray*}
+\vspace{1cm}
+
+
+あまり数学的な発言ではないが，今回の積分路はベクトル場の方向に「沿って」居て，従って積分路が$\zeta$の方が長い分，線積分の値が大きく（$\frac{8}{3}<4$）なっている．
+
+
+\end{document}

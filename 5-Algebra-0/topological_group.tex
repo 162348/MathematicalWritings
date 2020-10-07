@@ -1,0 +1,376 @@
+\documentclass[uplatex,dvipdfmx]{jsreport}
+\title{連続群論}
+\author{}
+\pagestyle{headings} \setcounter{secnumdepth}{4}
+\input{/Users/hirofumi.shiba48/Desktop/数理科学/preamble_CM.tex}
+\begin{document}
+
+\chapter{群}
+
+\begin{notation*}\mbox{}
+    \begin{enumerate}
+        \item 断りなく$G$を群$(G,\cdot,e,{}^{-1})$とする．
+        \item 行列の共役転置を$A^*$または$A^\dagger$で表す．
+        \item 複素共役を$\tilde{A}$で表す．
+    \end{enumerate}
+\end{notation*}
+
+\section{群の概念}
+
+\begin{definition}[group]
+    集合$G$とその上の写像$\mathbf{m}:G\times G\to,\; \mathbf{I}:G\to G,\;e:1\to G$が定義されていて次の３公理を満たすとき，
+    データの4-組$(G,\mathbf{m},\mathbf{I},e)$を\textbf{群}と呼ぶ．ただし，$\mathbf{m}(a,b)$の値を$ab$，$\mathbf{I}(a)$の値を$a^{-1}$
+    ，$e$の値も$e\in G$と書く．
+    \begin{enumerate}
+        \item $\forall a,b,c\in G,\; (ab)c=a(bc)$,
+        \item $\forall a\in G, ea=a$,
+        \item $\forall a\in G,\;\exists a^{-1}\in G,\; a^{-1}a=e$.
+    \end{enumerate}
+    即ち，次の３つの図式が可換になる．
+    \[\xymatrix{
+        G\times G\times G\ar[r]^-{(m,1)}\ar[d]_-{(1,m)}&G\times G\ar[d]^-m&G\times G\ar[r]^-{I\times 1}\ar[d]_-{(1\times I)}&G\times G\ar[d]^-m&G\times G\ar[r]^-{!\times 1}\ar[drr]_-{\pr_2}&1\times G\ar[r]^-{e\times 1}&G\times G\ar[d]^-m\\
+        G\times G\ar[r]_-m&G&G\times G\ar[r]_-m&G&&&G
+    }
+    \]
+\end{definition}
+\begin{remark}\mbox{}
+    \begin{enumerate}
+        \item 元の性質と見るよりも写像$m,I,e$の性質として見ることで，各構造と各公理が１つずつ対応するようにデータ化する方法である．斎藤先生の本を見習った．この記述法はどんな応用を孕んでいるのだろうか……．
+        \item 構造$\mathbf{I}$を落とすと，モノイドと呼ばれる．
+        \item 構造$\mathbf{m,I}$がさらに連続写像であった場合，位相群と呼ばれる．
+        \item $G$が多様体で，$\mathbf{m,I}$が局所座標について実解析的(real analytic)であった場合，Lie群と呼ばれる．
+    \end{enumerate}
+\end{remark}
+
+\begin{definition}[元の位数]
+    $a\in G$について，
+    \begin{enumerate}
+        \item $\exists m\in\N_{>0},\; a^m=e$が成り立つ時，$a$は\textbf{有限の位数を持つ}という．
+        \item そうでない場合，$a$は\textbf{位数が無限}または$0$または\textbf{自由元}であるという．
+        \item $a$が有限の位数を持つ時，条件を満たす$m\in\N_{>0}$のうち最小の数を\textbf{$a$の位数}と定める．
+    \end{enumerate}
+\end{definition}
+
+\begin{definition}[subgroup]
+    群$(G,\mathbf{m},\mathbf{I},e)$と$H\subset G$について，
+    構造$\mathbf{m,I},e$の$H$への制限が自然に定まる時，
+    4-組$(H,\mathbf{m}\restriction_{H\times H},\mathbf{I}\restriction_H,e)$を$G$の部分郡という．
+\end{definition}
+\begin{remark}
+    本来は「$G$から受け継がれる演算について，$H$も群をなす」を部分群の定義とする．
+    しかし，群の構造を写像$m,I,e$の構造と見れば，上記のように書ける．
+    その透過性については，次の命題が成り立つ．
+\end{remark}
+
+\begin{proposition}[群の公理の集合論的特徴付け]\label{prop-characterization-of-groups}
+    $(G,m,I,e)$を群とする．空でない部分集合$H\subset G$に対して，次の３条件は同値である．
+    \begin{enumerate}
+        \item $(H,\cdot,e,{}^{-1})$が群の公理を満たす．
+        \item $G$上の写像$m,I$の$H\times H,H$への制限の値域は$H$に含まれる．即ち，任意の$a,b\in H$に対し，$ab,a^{-1}\in H$．
+        \item $\forall a,b\in H,\; a^{-1}b\in H$．
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    1と2は同値である．2ならば3はわかるから，3から2を導く．
+
+    $H$は空でないから$a\in H$が取れる．すると，3より$aa^{-1}=e\in H$を得る（$a^{-1}\in H$かどうかには触れていない）．
+    続いて$a,e\in H$がわかったから，再び3より結局$a^{-1}e=a^{-1}\in H$．以上より$a,b\in H$の時特に$a^{-1},b\in H$でもあるから，
+    ３度目の3より$ab=(a^{-1})^{-1}b\in H$を得る．
+    これより結局，$a^{-1},ab\in H$を得た．
+\end{proof}
+\begin{remark}
+    この$a^{-1}b$という形は繰り返し出る．
+    これを命題として抽出したのは意味が大きいだろう．
+    例えば次の主張は系として従う．
+    任意に取った具体的な元$a^{-1}b$の行方を追うだけで閉性を示せる．
+\end{remark}
+
+\begin{corollary}
+    $H_1,H_2$を$G$の部分群とする．$H_1\cap H_2$も$G$の部分群である．
+\end{corollary}
+\begin{proof}
+    $\forall a,b\in H_1\cap H_2,\; a^{-1}b\in H_1\cap H_2$を示す．
+    $a,b\in H_1\cap H_2$の時，$a,b\in H_1$かつ$a,b\in H_2$である．
+    命題\ref{prop-characterization-of-groups}の証明中の議論より，$a^{-1}b\in H_1$かつ$a^{-1}b\in H_2$．
+    よって$a^{-1}b\in H_1\cap H_2$．
+\end{proof}
+
+\begin{notation}
+    群$G$の部分集合$S,T\subset G$と元$a,b\in S$に対して，集合を
+    \begin{align*}
+        ST&=\{ st\mid s\in S,t\in T \} &S^{-1}&=\{s^{-1}\mid s\in S\}\\
+        aS&=\{ax\mid x\in S\}&Sb&=\{xb\mid x\in S\}&aSb&=\{axb\mid x\in S\}
+    \end{align*}
+    と定義する．また，帰納的に
+    \begin{align*}
+        S^0&=\{e\} & S^{-1}&=\{x^{-1}\mid x\in S\} & S^{m+1}&= S^mS 
+    \end{align*}
+\end{notation}
+\begin{remark}
+    線型空間の理論でも，内部の構造が，その全体空間同士の関係にも同じ構造・記号を流用するのはよくあることである．
+\end{remark}
+\begin{proposition*}[\ref{prop-characterization-of-groups} 言い換え]\mbox{}
+    \begin{enumerate}\setcounter{enumi}{1}
+        \item $H^2=HH\subset H$かつ$H^{-1}\subset H$．
+        \item $H^{-1}H\subset H$．
+    \end{enumerate}
+\end{proposition*}
+\begin{remark}
+    これはあまりに集合論的に筋が良い．元の間の論理関係に落とし込まれててそれ以外の次元を必要とする気配がない．
+\end{remark}
+
+\begin{definition}[生成される群]\mbox{}
+    \begin{enumerate}
+        \item 部分集合$S\subset G$に対して，$S$を含む最小の$G$の部分群を\textbf{$S$から生成される部分群}といい，$\langle S\rangle$と書く．
+        \item $S$を含む$G$の部分群の族を$(G_i)_{i\in I}$とすると，$\langle S\rangle =\cap_{i\in I}G_i$である．
+        \item $\langle S\rangle = \{ a_1^{n_1}a_2^{n_2}\cdots a_r^{n_r}\mid a_i\in S, n_i\in\Z, r\in \N_{>0}\; (1\le i\le r) \}$．
+    \end{enumerate}
+\end{definition}
+
+\section{群の例}
+
+\subsection{変換のなす群}
+
+\begin{history}
+    1832にガロアが正規部分群を導入し，$A_n(n\ge 5)$と$PSL2(F_p)(p \ge 5)$が単純群であることを発見する．
+    1854にケイリーが集合の変換からなる群から抽象して，抽象群を定義する．
+    Cayley表現は圏論にも繋がる．
+\end{history}
+
+\begin{example}[1-torus]
+    次の群$T$を\textbf{一次元トーラス}という．
+    \[ T=\{ z\in \C\mid |z|=1 \} \]
+\end{example}
+
+\begin{example}[the group of the n-th roots of unity]
+    $Res(N)\;(N\in\N)$を，1の$N$乗根とすると，
+    \begin{align*}
+        Res(N)&=\{1,\omega,\omega^2,\cdots,\omega^{N-1}\},&\omega=&e^{\frac{2\pi i}{N}}.
+    \end{align*}
+    となる．この群を$\mu_N$と書く．
+\end{example}
+
+\begin{question}
+    全ての無限群は，無限の正規部分群を持つか？
+\end{question}
+\begin{counterexample}[Prüfer $p$-group]
+    \textbf{ブリューファー$p$群}とは，次のように定義できる．
+    \begin{align*}
+        \Z(p^\infty) = \{ \exp\left(\frac{2\pi im}{p^n}\right)\mid n,m\in\N \}
+    \end{align*}
+    または$p$進数の加法群$\Q_p$と$p$進整数からなる部分群$\Z_p$を用いて，$\Z(p^\infty)=\Q_p/\Z_p$と表せる．
+
+    この$p^\infty$群または$p$準巡回群の部分群は包含関係によって全順序づけられる唯一の無限群の系列である（素数$p$の取り方だけ違う）．
+\end{counterexample}
+\begin{counterexample}[Tarski Monster group]
+    Tarski Monster groupは全ての部分群に対して素数$p$が存在して位数$p$の巡回群に同型になる無限群である．
+\end{counterexample}
+
+\begin{example}[the residue classes of modulo $N$]
+    $N$を法とした剰余群$\Z/N\Z$または$\Z_N$は，位数$N$の巡回群である．
+\end{example}
+
+\subsection{巡回群}
+
+\begin{example}[cyclic group]
+    任意の群は勝手な１元$x$の全ての整数冪からなる集合を部分群として持つ．
+    群全体がそれで尽くされる時，これを$x$が生成する\textbf{巡回群}という．
+    無限巡回群のことを\textbf{自由巡回群}ともいう．全ての元が自由元だからである．
+\end{example}
+
+\subsection{対称群}
+
+\subsection{二面体群}
+
+\subsection{matrix group}
+
+\begin{definition}[Greneral linear group]
+    $K$を体とする（環$R$としても良い）．\textbf{一般線型群}
+    \[ GL(n,K)=\{ A\in M(n,K)\mid Aは可逆 \} \]
+    は$n=1$の時abelianで$n>1$の時nonabelianである．
+
+    この部分群をmatrix groupという．
+\end{definition}
+
+\begin{definition}[Special linear group]
+    \begin{align*}
+        SL(n,K) &= \{ A\in GL(n,K)\mid \det A=1 \}
+    \end{align*}
+\end{definition}
+
+\begin{definition}[orthogonal group]
+    \begin{align*}
+        O(n,K) &= \{ A\in GL(n,K)\mid AA^{tr}=1 \}\\
+        SO(n,K) &= \{ A\in O(n,K)\mid \det A=1 \}
+    \end{align*}
+\end{definition}
+
+\begin{definition}[Special unitary group]
+    \begin{align*}
+        U(n) &= \{ A\in GL(n,\C)\mid AA^\dagger =1\}\\
+        SU(n) &= \{ A\in U(n)\mid \det A=1 \}
+    \end{align*}
+\end{definition}
+
+\begin{definition}[sympletic form]
+    \textbf{$\R^{2n}$上のシンプレティック形式}$J$とは，
+    \[ J=\begin{pmatrix}0&1_{n\times n}\\-1_{n\times n}&0\end{pmatrix}\in M_{2n}(\R) \]
+\end{definition}
+\begin{remark}
+    \[ J=J^*=-J^{tr}=-J^{-1} \]
+\end{remark}
+
+\begin{definition}[sympletic group]
+    \textbf{シンプレティック行列}とは，シンプレティック形式$J$に対して$A^{tr}JA=J$を満たす行列$A$をさす．
+
+    \textbf{シンプレティック群}とは，この行列がなす群
+    \[ Sp(2n,K) := \{ A\in GL(2n,K)\mid A^{tr}JA=J \} \]
+    を指す．
+\end{definition}
+
+\subsection{位相群の例}
+
+
+
+\section{正規部分群，剰余群，中心化群，交換子群}
+
+\subsection{群の中心と正規部分群と単純群の分類}
+
+\begin{definition}[center]
+    群$G$に対して，その\textbf{中心}$Z(G)$とは，次のように構成される$G$のアーベル部分群である．
+    \[ Z(G) :=\{ z\in G\mid \forall g\in G,\; zg=gz \} \]
+\end{definition}
+\begin{example}
+    $GL(n,K)\;(K=\R,\C)$の場合，その核は単位行列に相似(proportional)な行列からなる集合である．
+\end{example}
+
+この概念を一般化した生成的な概念が中心化群，さらに緩めた概念を正規化群と呼ぶ．
+
+\begin{definition}[centralizer,  normalizer]
+    群$G$の部分集合$S$について，その\textbf{中心化群，正規化群}と呼ばれる群を次のように定義する．
+    \begin{align*}
+        Z(S) := \{ x\in G\mid \forall s\in S,\; xsx^{-1}=s \}\\
+        N(S) := \{ x\in G\mid xSx^{-1}=S \}
+    \end{align*}
+\end{definition}
+\begin{remark}
+    $S$が一点集合の場合，$Z(S)=N(S)$となる．
+\end{remark}
+
+$G$を$N(H)$として生成するような部分群$H$を正規部分群という（命題\ref{prop-charactor-of-normal-subgroup}.1）．
+
+\begin{definition}[normal subgroup]
+    群$G$の部分群$N$が
+    \[ \forall x\in G,\; xNx^{-1}\subset N \]
+    を満たす時，$N$を$G$の\textbf{正規部分群}といい，$N\triangleleft G$と書く．
+\end{definition}
+
+\begin{proposition}[正規部分群の性質]\label{prop-charactor-of-normal-subgroup}
+    $H$を$G$の部分群とする．次の３条件が成立する．
+    \begin{enumerate}
+        \item $G\triangleright H\Leftrightarrow N(H)=G$．
+        \item $G\supset N(H)\triangleright H$．
+        \item $G\triangleright Z(G)$．
+    \end{enumerate}
+\end{proposition}
+
+\begin{definition}[simple group]
+    群$G$が，自身と自明な部分群以外に正規部分群を持たない時，$G$を\textbf{単純群}という．
+\end{definition}
+
+\begin{theorem}[classification of finite simple noncommutative groups]
+    非可換有限単純群は次のいずれかになる．
+    \begin{enumerate}
+        \item 交代群$A_n\;(n\ge 5)$．
+        \item Lie型の単純群．
+        \item 26個の散在型単純群(sporadic group)．
+    \end{enumerate}
+\end{theorem}
+\begin{remark}
+    位数の小さい非可換有限単純群は$A_5$の60，次が$A_1(7)$の168である．
+
+    散在型の単純群のうち位数が最大のものはMonsterと呼ばれ，その位数は54桁の整数である．
+    楕円modular関数と立川先生の研究とも関係しており，これを記述する理論をムーンシャイン理論という．
+    今ではその背景として，モンスター群を対称性として持つある共形場理論があることが知られている．
+    他にもMathieu群やConwey群などが散在型に分類される．
+    \begin{quote}
+        $J$関数とモンスター群とのMonstrous Moonshine．
+        「ある特別な24次元トーラスを動く弦理論のスペクトルが$J$関数であることが関係する．」
+        $K3$曲面を動く弦理論のスペクトルとMathieu群との対応．
+    \end{quote}
+\end{remark}
+
+\begin{theorem}[classification theorem]
+    全ての有限単純群は，次のいずれかと同型である．
+    \begin{enumerate}
+        \item 素数位数の巡回群$C_p$
+        \item 位数５以上の交代群$A_n$
+        \item Lie型の単純群
+        \item 散在型単純群
+        \item Tits群
+    \end{enumerate}
+\end{theorem}
+
+\subsection{剰余群}
+
+近代数学で新しい概念を構成する際に，屢々「同値関係」の概念が用いられる．
+これを群に応用すると剰余群の理論を得る．
+
+群にとって自然な同値関係$ab^{-1}\in H:\Leftrightarrow a\sim b$を考察する．
+\begin{proposition}[right residue class]
+    関係$\sim$は同値関係である．
+
+    この同値関係により得る類を，群$G$の部分群$H$に関する\textbf{右剰余類}という．
+\end{proposition}
+\begin{proof}
+    勝手にとった$a,b,c\in H$について，$aa^{-1}=e\in H$より反射律を満たす．
+    $ab^{-1}\in H$とすると，$(ab^{-1})^{-1}=ba^{-1}\in H$より対称的である．
+    また$ab^{-1},bc^{-1}\in H$とすると，$(ab^{-1})(bc^{-1})=ac^{-1}\in H$より推移的である．
+\end{proof}
+\begin{proof}
+    なんとなく３つの公理が完全に対応している気までする．どうしてだろう．
+\end{proof}
+
+\begin{proposition}
+    $A$を$H$に関する右剰余類とする．任意の$a\in A$について，$A=Ha$となる．
+\end{proposition}
+\begin{proof}
+    
+\end{proof}
+
+\begin{proposition}
+    各右剰余類の濃度は全て部分群$H$の濃度に等しい．
+\end{proposition}
+\begin{proof}
+    方程式$c=xa$の解の一意性より．
+\end{proof}
+\begin{corollary}
+    $G$の位数を$g$，$H$の位数を$h$とすると，$h|g$であり，$g/h$は右剰余類の数となる．
+\end{corollary}
+
+\section{群の射}
+
+
+
+\section{群の構成}
+
+\section{共役類}
+
+\section{可解群}
+
+\section{可換群}
+
+\chapter{位相群}
+
+\begin{thebibliography}{9}
+    \bibitem{Pontragin}
+        ポントリャーギン『連続群論』
+    \bibitem{桂先生}
+        桂利行『大学数学の入門１代数学１郡と環』
+    \bibitem{Gregory Moore}
+        Gregory Moore "Abstract group theory"
+    \bibitem{Steve Awodey}
+        Steve Awodey "Basic Category Theory"
+\end{thebibliography}
+
+\end{document}

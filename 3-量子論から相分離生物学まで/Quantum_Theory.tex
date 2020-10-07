@@ -1,0 +1,4127 @@
+\documentclass[uplatex, dvipdfmx]{jsreport}
+\title{線型代数から物性を通じて生命に至るまで}
+\author{司馬博文 J4-190549\\hirofumi-shiba48@g.ecc.u-tokyo.ac.jp}
+\date{\today}
+\pagestyle{headings} \setcounter{secnumdepth}{4}
+\input{/Users/hirofumi.shiba48/Desktop/数理科学/preamble.tex}
+
+\begin{document}
+\maketitle
+\begin{abstract}
+    現代の宇宙観に迫りたい．数学が支える点が違うから，そこから追って行くことに基礎を置いた．(Bourbaki)
+    「世界は線型代数のことばで理解出来たね．」という１つの到達点を確認したい．
+\end{abstract}
+\tableofcontents
+
+\part{線型代数の世界}
+\chapter{行列と線型空間}
+
+体$K$，その直積$K^n$やその元についての数ベクトルの概念はすでに与えられているとする．
+
+\section{基底と次元}
+
+\begin{shadebox}\begin{definition}[基底]\rm{}
+    $V$を$K$-線型空間，$x_1,\cdots,x_n\in V$とする．このとき，以下の２条件は同値．これらの同値な条件を満たすことを，「$x_1,\cdots,x_n$は$V$の基底である」という．\\
+    1. $\forall x\in V \, \exists ! a_1,\cdots, a_n\in K \, [x=a_1\cdot x_1 +\cdots +a_n\cdot x_n]$\\
+    2. 以下のように定める写像$f$は可逆である．
+    \begin{center}\begin{tikzcd}
+        f:K^n \ar[r] \ar[d, phantom, "\rotatebox{90}{$\in$}"] & V \ar[d, phantom, "\rotatebox{90}{$\in$}"] \\
+        (a_1,\cdots,a_n) \ar[r, mapsto] & x=a_1\cdot x_1 +\cdots +a_n\cdot x_n
+    \end{tikzcd}\end{center}
+    この写像$f$を「$V$の基底$x_1,\cdots,x_n$が定める写像」と呼ぶ．これは線型写像の公理を満たす．
+\end{definition}\end{shadebox}
+
+\begin{proof}
+$a_1,\cdots,a_n$が条件1を満たすとは，任意の$x\in V$に対して，ただ１つの$K^n$の元が対応して，$x=a_1\cdot x_1 +\cdots +a_n\cdot x_n \in V$と表されること，即ち$f^{-1}(x)$は常に一元集合であることだから，$f$は全単射であることに等しい．このとき写像$f$は可逆になる．従って，２つの条件は同値．
+\end{proof}
+
+\section{行列表示}
+
+\begin{shadebox}\begin{definition}[行列表示(matrix representation)]
+    $K$を体とし，$V,W$を有限次元$K$-線型空間とする．$B=(x_1,x_2,\cdots,x_n), B'=(y_1,y_2,\cdots,y_m)$をそれぞれ$V,W$の基底とする．$g_B:K^n\longrightarrow V,\; g'_{B'}K^m\longrightarrow W$を，それぞれ基底$B,B'$が定める同型とする．
+    この時，以下の図式を可換にする行列$A\in M_{mn}(K)$が存在する．
+    \begin{center}\begin{tikzcd}
+        V \ar[r,"f"] & W \ar[d, "g'^{-1}_{B'}"] \\
+        K^n \ar[u, "g_B"] \ar[r, "f_A"'] & K^m
+    \end{tikzcd}\end{center}
+    この行列$A$を，\textbf{基底$B,B'$に関する$f$の行列表示}という．
+\end{definition}\end{shadebox}
+
+\begin{definition}[底の変換行列(transformation matrix)]
+    $x_1,\cdots,x_n$と$y_1,\cdots,y_n$とを$V$の基底とする．$x_1,\cdots,x_n$を$y_1,\cdots,y_n$に写す$V$の自己同型の，基底$x_1,\cdots,x_n$に関する行列表示$A\in GL_n(K)$を，\textbf{$x_1,\cdots,x_n$から$y_1,\cdots,y_n$への底の変換行列}という．
+\end{definition}
+
+\chapter{自己準同型}
+\section{最小多項式}
+\subsection{特別な自己準同型}
+
+\begin{definition}[Frobeniusのcompanion matrix]　\\
+    \rm{}monicな多項式$F(X) = X^n+a_1X^{n-1}+\cdots +a_{n-1}X+a_n \in K[X]$に対して，
+        $$C(F)=\begin{bmatrix}
+        0 & 0 & \dots & 0 & -a_n \\
+        1 & 0 & \dots & 0 & -a_{n-1} \\
+        0 & 1 & \dots & 0 & -a_{n-2} \\
+        \vdots & \vdots & \ddots & \vdots & \vdots \\
+        0 & 0 & \dots & 1 & -a_1
+        \end{bmatrix}$$
+    と定義される正方行列$C(F)\in M_n(K)$のことを\textbf{多項式$F$の同伴行列}と呼ぶ．
+\end{definition}
+\begin{definition}[Jordan matrix]\rm{}
+        行列$$J(a,n)=\begin{bmatrix}
+        a & 1 & 0 & \dots & 0 \\
+        0 & a & 1 & \dots & 0 \\
+        \vdots & \vdots & \ddots & \vdots & \vdots \\
+        0 & 0 & \dots & a & 1 \\
+        0 & 0 & \dots & 0 & a
+        \end{bmatrix}$$
+    を\textbf{Jordan行列}という．
+\end{definition}
+
+\section{固有値と対角化}
+\begin{definition}[eigenspace, eigenvalue, eigenvector]
+    $V$を$K$-線型空間とし，$f$を$V$の自己準同型とする．$V$の特別な部分空間$V_a$
+    $$V_a := \{ x\in V \,|\, f(x)=ax \} = \mathrm{Ker} (f-a)$$
+    のことを，\textbf{$a$に属する固有空間}という．$V_a\ne 0$である時，\textbf{$a$は$f$の固有値である}という．固有空間$V_a$の$0$でない元を，\textbf{固有値$a$の固有ベクトル}という．
+\end{definition}
+
+\begin{definition}[conjugate]
+    $A,B\in M_n(K)$とする．$B=P^{-1}AP$を満たす$P\in GL_n(K)$が存在するとき，\textbf{$A$と$B$は共軛である}という．
+\end{definition}
+
+\begin{definition}[generalized eigenspace]
+    $V$を$K$-線型空間とし，$f$を$V$の自己準同型とする．$a\in K$とし，$d$を$f$の最小多項式$\varphi$の根$a$の重複度とする．$V$の部分空間
+    $$\widetilde{V}_a:=\mathrm{Ker}(f-a)^d$$
+    を，\textbf{$a$に属する一般固有空間}という．
+\end{definition}
+
+\begin{definition}[generalized eigenspace decomposition]
+    $V$を有限次元$K$-線型空間とし，$f$を$V$の三角化可能な自己準同型とする．$a_1,\cdots,a_r\in K$を$f$の固有値とし，$\widetilde{V}_{a_i}$を固有値$a_i$の一般固有空間とする．\\ この時，直和分解
+    $$V=\widetilde{V}_{a_i}\oplus\cdots\oplus\widetilde{V}_{a_r}$$
+    を，\textbf{$f$に関する$V$の一般固有空間分解}という．
+\end{definition}
+
+\clearpage
+
+\chapter{双線型形式}
+
+\begin{definition}[行列Aが定める双線型形式]　\\
+    $A\in M_{mn}(K)$とする．$x\in K^m,\,y\in K^n$に対して，$$b_A(x,y)={}^txAy\in K$$と置くと，$b_A:K^m\times K^n\longrightarrow K$は双線型形式である．
+\end{definition}
+\begin{definition}[標準双線型形式]　\\
+    写像$<\hspace{2mm},\hspace{2mm}>:V\times V^*\longrightarrow K$を$$<x,f>=f(x)\in K$$で定めると，$<\hspace{2mm},\hspace{2mm}>$は双線型形式である．
+\end{definition}
+
+\begin{proposition}
+    $b:V\times W\longrightarrow K$を双線型形式とする．$V$の基底$B=(x_1,\cdots,x_m)$から$B'=(x_1',\cdots,x_m')$への底の変換行列を$P\in GL_m(K)$とし，$W$の基底$D=(y_1,\cdots,y_n)$から$D'=(y_1',\cdots,y_n')$への底の変換行列を$Q\in GL_n(K)$とする．
+    $B,D$に関する$b$の行列表示を$A$とし，$B',D'$に関する$b$の行列表示を$A'$とすると，$$A'={}^tPAQ$$である．
+\end{proposition}
+
+\begin{proposition}[転置と随伴関手]
+    $V,W$を有限次元$K$-線型空間とし，$b:V\times W\longrightarrow K$を非退化な双線型形式とする．$f:V\longrightarrow V$を線型写像とし，$f^*:W\longrightarrow W$をその右随伴写像とする．\\
+    $B,B'$をそれぞれ$V,W$の基底とし，$B,B'$に関する$b$の行列表示を$P\in GL_n(K)$とする．$f$の$B$に関する行列表示が$A\in M_n(K)$ならば，$B'$に関する随伴写像$f^*$の行列表示は，
+    $$P^{-1}{}^tAP\in M_n(K)$$
+    である．
+\end{proposition}
+
+\begin{definition}$b$を$V$上の対称双線型形式とする．\rm{}\\
+    1. 部分空間$W\subset V$に対し，$W^\perp = \{ x\in V\,|\, \forall y\in W \hspace{3mm}[b(x,y)=0] \}$を，\textbf{$W$の$b$に関する直交(orthogonal)}と言う．$V^\perp$を\textbf{$b$の核}と言う．\\
+    2. $W\subset V$を部分空間とする．$b:V\times V\longrightarrow K$の制限$W\times W\longrightarrow K$が定める$W$の双線型形式を\textbf{$b$の$W$への制限}と呼び，$b_W$で表す．\\
+    3. $V$の基底$x_1,\cdots,x_n$に関する$b$の行列表示が対角行列であるとき，$x_1,\cdots,x_n$は\textbf{$b$の直交基底}であると言う．$b$の行列表示が単位行列であるとき，$x_1,\cdots,x_n$は\textbf{正規直交基底(orthonormal basis)}であると言う．
+\end{definition}
+
+\begin{definition}[hermitian form]$V$を$\mathbb{C}$-線型空間とする．\rm{}\\
+    1. 写像$h:V\times V\longrightarrow\mathbb{C}$が\textbf{エルミート形式}であるとは，次の条件を満たすことを言う．\\
+    \hspace{3mm}(1) $\forall x,x',y\in V \hspace{3mm} [h(x+x',y)=h(x,y)+h(x',y)]$\\
+    \hspace{3mm}(2) $\forall x,y,y'\in V \hspace{3mm} [h(x,y+y')=h(x,y)+h(x,y')]$\\
+    \hspace{3mm}(3) $\forall a\in\mathbb{C}, x,y\in V \hspace{3mm} [h(ax,y)=h(x,\overline{a}y)=ah(x,y)]$\\
+    \hspace{3mm}(4) $\forall x,y\in V \hspace{3mm} h(y,x)=\overline{h(x,y)}$\\
+    2. $h:V\times V\longrightarrow\mathbb{C}$をエルミート形式とする．$\forall x\in V, x\ne 0 \hspace{3mm}[h(x,x)>0]$であるとき，$h$は\textbf{正定値}であると言う．\\
+    3. $A\in M_n(\mathbb{C})$に対して，$A^*=\overline{{}^t\!A}$と置き，これを$A$の\textbf{随伴行列(adkoint matrix)}と呼ぶ．$A\in M_n(\mathbb{C})$が$A=A^*$を満たす時，$A$は\textbf{エルミート行列}であると言う．
+\end{definition}
+\begin{definition}$V$を$\mathbb{C}$-線型空間とし，$h:V\times V\longrightarrow\mathbb{C}$をエルミート形式とする．\rm{}\\
+    1. $\mathbb{R}$-線型写像$r_h:V\longrightarrow V^*$が単射である時，$h$は\textbf{非退化}であるという．\\
+    2. $h$が非退化であるとする．$V$の自己準同型$f$が随伴写像（共軛とも呼ぶ）$f^*$と等しい時，$f$は\textbf{$h$に関してエルミート変換（自己共軛変換）である}という．$f^*$が$f$の逆写像であるとき，$f$は\textbf{$h$に関してユニタリ変換である}という．
+\end{definition}
+
+\begin{center}\begin{tikzcd}
+    V^* \ar[r, "i^*"] \ar[d, phantom, "\rotatebox{90}{$\in$}"] & W^* \ar[d, phantom, "\rotatebox{90}{$\in$}"] \\
+    f:V\to K \ar[r, mapsto] & f|_W:W\to K
+\end{tikzcd}\end{center}
+$$(f+g)|_W = f|_W + g|_W \hspace{3mm}かつ\hspace{3mm} (af)|_W = a\cdot f|_W$$
+よって$$W^\perp = \mathrm{Ker}(i^*:V^*\to W^*)$$
+また$$W^{\rotatebox{180}{$\perp$}}=\bigcap_{f\in W}\mathrm{Ker}(f:V\to K)$$
+
+\begin{center}\begin{tikzcd}
+    S_V \ar[r, "\perp"] \ar[d, phantom, "\rotatebox{90}{$\in$}"] & S_{V^*} \ar[d, phantom, "\rotatebox{90}{$\in$}"] & S_V \ar[d, phantom, "\rotatebox{90}{$\in$}"] & S_{V^*} \ar[d, phantom, "\rotatebox{90}{$\in$}"] \ar[l, "\rotatebox{180}{$\perp$}"'] \\
+    W \ar[r, mapsto] & W^\perp & W'^{\rotatebox{180}{$\perp$}} & W' \ar[l, mapsto]
+\end{tikzcd}\end{center}
+\begin{center}\begin{tikzcd}
+    V \ar[r, "e_V"] \ar[d, phantom, "\rotatebox{90}{$\in$}"] & (V^*)^* \ar[d, phantom, "\rotatebox{90}{$\in$}"] & \\
+    x \ar[r, mapsto] & ev_x : V^* \ar[r] \ar[d, phantom, "\rotatebox{90}{$\in$}"] & V^{**} \ar[d, phantom, "\rotatebox{90}{$\in$}"]   \\
+    & f \ar[r, mapsto] & f(x)
+\end{tikzcd}\end{center}
+
+$C=$［有限次元$K$-線型空間］とし，$V,U\in C$を取る．
+\begin{center}\begin{tikzcd}
+    
+\end{tikzcd}\end{center}
+
+\begin{theorem}[Cauchy列による実数体の構成]　\\
+    $\mathbb{Q}^\mathbb{N}$を有理数列の空間，
+    $$V=\{ x=(x_n)_{n\in\mathbb{N}} \in\mathbb{Q}^\mathbb{N} \,|\, \lim_{n\to\infty} x_nは収束する \}$$
+    を収束列のなす部分空間，
+    $$W=\{x=(x_n)_{n\in\mathbb{N}}\in\mathbb{Q}^\mathbb{N}\, |\, \lim_{x\to\infty} x_n=0\}$$
+    を$0$に収束する列のなす部分空間とする．\\
+    このとき，$x\in V$に対し，$\lim_{n\to\infty}x_n\in\mathbb{R}$を対応させる写像$f:V\longrightarrow \mathbb{R}$は，同型$\overline{f}:V/W\longrightarrow\mathbb{R}$をひきおこす．\\
+    つまり，$W$を核とする全射線型写像$g:V\longrightarrow V/W\subset V$が存在して（標準全射），以下の図式は可換になる．
+    \begin{center}
+    \begin{tikzcd}
+        V \ar[dr, "f"] \ar[d, "g"'] \\
+        V/W \ar[r, "\overline{f}"'] & \mathbb{R}
+    \end{tikzcd}
+    \end{center}
+
+\end{theorem}
+
+\section{スペクトル定理}
+
+\part{量子論の枠組み}
+
+\chapter{閉じた有限自由度系の純粋状態についての枠組み}
+
+\begin{notation}[ヒルベルト空間と状態]　
+
+    1. 共役転置／Hermite共役のことを随伴と呼び，${}^*$で表す．
+\end{notation}
+\begin{notation}[可観測量と作用素]自己共役演算子を$\hat{A}$などで表す．
+
+    1. $\mathrm{eg}(\hat{A})\subset\mathbb{R}$を自己共役演算子$\hat{A}$の固有値全体の集合とする．
+
+    2. $|a_l\rangle$を，固有値$a$に属する固有空間$V_a$の元（固有ベクトル）の１つとする．$d_a$を$V_a$の次元として，$l$は$1$から$d_a$を走る．
+    即ち，基本的に，ketベクトルとしての表記$|\cdot\rangle$の有無で，固有値を指しているのか，それに属する固有ベクトルを指しているのかを識別する．
+\end{notation}
+
+\section{状態ベクトル：(Ⅰ) 系の状態はヒルベルト空間の規格化された射線で表される．}
+
+\begin{definition}[複素Hilbert空間]
+    係数体$\mathbb{C}$上の完備な内積空間$H$を，複素ヒルベルト空間と呼ぶ．
+\end{definition}
+\begin{example}[ベクトルの空間としての複素Hilbert空間]
+    \[\mathbb{C}^n=\left\{\left(\begin{array}{c}\xi_1 \\ \vdots \\ \xi_n\end{array}\right)\in\mathbb{C}^n\mid z_1,\cdots,z_n\mathbb{C}\right\}\]
+    を縦ベクトルの空間とする．$|\Psi\rangle=\left(\begin{array}{c}\xi_1 \\ \vdots \\ \xi_n\end{array}\right)\in\mathbb{C}^n$に対して$\langle\Psi|:=|\Psi\rangle^*\in(\mathbb{C}^n)^*$を随伴（Hermite共役）とする．内積$\mathbb{C}^n\times\mathbb{C}^n\ni (|\Psi\rangle, |\Psi'\rangle)\mapsto\langle\Psi|\Psi'\rangle\in\mathbb{C}$を，
+    \[ \langle\Psi |\Psi'\rangle := (\xi_1^* \cdots \xi_n^* )\left(\begin{array}{c}\xi_1 \\ \vdots \\ \xi_n\end{array}\right) \]
+    で定める．これはHermite内積と呼ばれる半線型形式となる．ノルムはこの内積が定めるものとする．
+    \[ ||\;|\Psi\rangle ||:=\sqrt{\langle\Psi|\Psi\rangle} \]
+\end{example}
+\begin{definition}[Hermite内積]$H$を複素線型空間とする．次を満たす半線型形式$H\times H\to\mathbb{C}$をHermite内積という．以下，$x,y,z\in H, c\in\mathbb{C}$とする．
+    
+    1(第一変数反線型性). $\langle cx+y|z\rangle = c^*\langle x+y|z\rangle$
+
+    2(第二変数線型性). $\langle x|cy+z\rangle = c\langle x|y+z\rangle$
+
+    3(Hermite対称性). $\langle x|y\rangle = \langle y|x\rangle^*$
+
+    4(非退化性). $\langle x|x\rangle=0\Rightarrow x=0$
+
+    5(正定値性). $\langle x|x\rangle\ge0$
+\end{definition}
+\begin{remark}
+    双線型形式$V\times V\to V^*$が非自明な核を持つとき，これを退化形式という．
+
+    この定義は独立でない条件も含んでいる．例えば，2, 3, 5のみを採用する流儀もある．
+\end{remark}
+
+\begin{definition}[$L^2$空間]
+    $d\in\mathbb{N}$とする．可測関数$\psi:\mathbb{R}^d\to\mathbb{C}$であって，次を満たすものを$L^2$関数という．
+    \[ \int_{\mathbb{R}^d}|\psi(x)|^2dx<\infty \]
+    ここに次のように内積を定めると，これはエルミートである．
+    \[ \langle\psi,\xi\rangle:=\int_{\mathbb{R}^d}\psi^*(x)\xi(x)dx \]
+    また，この内積が誘導するノルムについて完備である．即ち，組$(L^2(\mathbb{R}^d),\langle\cdot,\cdot\rangle)$は複素ヒルベルト空間である．
+    これを\textbf{$\mathbb{R}^d$上の$L^2$空間}という．
+\end{definition}
+
+\begin{proposition}
+    可分な無限次元Hilbert空間は，同型を除いて一意である．
+\end{proposition}
+\begin{remark}
+    この命題により，ヒルベルト空間としては何を持ってきてもanalogousな議論ができる．
+    通常$L^2$空間を用いるが（定義\ref{def-wave-function}波動関数参照），全ての議論が厳密に定式化されるわけではない．
+\end{remark}
+
+\begin{definition}[射線]
+    位相因子$e^{i\theta}$の倍数だけの違いを持つ２つの元を同じとみなす同値関係についての同値類を射線という．すなわち，次の集合を$|\Psi\rangle$の射線という．
+    \[ \{ e^{i\theta}|\Psi\rangle\in H\mid\theta\in\mathbb{R}  \} \]
+    $e^{i\theta}$は回転変換を施す写像ともみなせることに注意すれば，$e^{i\theta}$を乗じてもノルムは変わらない．
+    即ち，複素係数は実係数である場合と違って２つの自由度があるが，そのうち１つのノルムを変えない自由度については同値類として潰してしまって，無視する．
+    以降，射線としては専ら規格化されているもの$||\;|\Psi\rangle||=1$のみを考える．
+\end{definition}
+
+\begin{axiom}[状態ベクトル]\label{postulate-state-vector}
+    量子系の純粋状態は，ある複素ヒルベルト空間$H$の規格化された射線に対応する．
+
+    状態とは，複素ヒルベルト空間の単位ベクトルである．
+\end{axiom}
+
+\subsection{状態の重ね合わせと干渉効果}
+
+\begin{quote}
+    結局電子などの「波動性」とは、状態の線形重ね合わせからくる干渉効果を指しているだけ。電子が波になってるわけではない。\footnote{堀田昌寛}
+\end{quote}
+
+\begin{definition}[principle of superposition]
+    Hilbert空間の性質として，２つの状態の線型結合として，別の状態が表現できる．
+    \[ |psi\rangle = c_1|\psi_1\rangle + c_2|\psi_2\rangle\;\;\; (c_1,c_2\in\mathbb{C}, |c_1|^2+|c_2|^2=1) \]
+    ただし，$|\psi_1\rangle,|\psi_2\rangle$は直交しているものとした．
+\end{definition}
+
+\begin{proposition}[interference effect]
+    この時，一般に
+    \begin{equation}\label{formula-mixed-state}
+        P_\psi(a)\ne |c_1|^2P_{\psi_1}(a) + |c_2|^2P_{\psi_2}(a)
+    \end{equation}
+    状態ベクトル$\Psi$の射影と，それを分解してからの射影は，一般に違う．
+    \begin{eqnarray*}
+        P_\psi(a)&=& ||\hat{P}(a)\;(c_1|\psi_1\rangle + c_2|\psi_2\rangle)||^2 \\
+        &=& || c_1\hat{P}(a)|\psi_1\rangle + c_2\hat{P}(a)|\psi_2\rangle ||^2 \\
+        &=& |c_1|^2P_{\psi_1}(a) + |c_2|^2P_{\psi_2}(a) + \left\langle c_1\hat{P}(a)|\psi_1\rangle\mid c_2\hat{P}(a)|\psi_2\rangle\right\rangle + \left\langle c_2\hat{P}(a)|\psi_2\rangle\mid c_1\hat{P}(a)|\psi_1\rangle\right\rangle \\
+        &=& |c_1|^2P_{\psi_1}(a) + |c_2|^2P_{\psi_2}(a) + \underline{c_1^*c_2\langle\psi_1|\hat{P}(a)|\psi_2\rangle + c_1c_2^*\langle\psi_2|\hat{P}(a)|\psi_1\rangle}
+    \end{eqnarray*}
+    となり，下線部を干渉項という．
+\end{proposition}
+\begin{remark}
+    ここで初めて位相因子$e^{i\theta}$の働きを見ることができる．
+
+    新たに作った重ね合わせの状態は，元の２つの純粋状態の位相因子の差に依存する．
+    同じ２つの状態から重ね合わせの状態を作ったからといって，一意に新たな状態が定義できるわけではない．
+    $e^{i\theta}(|\psi\rangle +|\varphi\rangle)$の位相因子は無視していいが，$|\psi\rangle +e^{i\theta}|\varphi\rangle$と$|\psi\rangle +|\varphi\rangle$は一般に違う状態である．
+\end{remark}
+\begin{definition}
+    一方で，式\ref{formula-mixed-state}が成り立つ状態$\psi$のことを混合状態と呼ぶ．
+    これは状態ベクトルではなく，密度演算子$\hat{\rho}$で表される．
+
+    混合状態との比較の中で，状態ベクトルとしての表現を持つ純粋状態とは，我々が理想的に想定するもので，僕らが知り得ない変数まですでに確定していると思える「系の状態」である．
+\end{definition}
+
+\begin{fact}[double slit experiment]
+    photonという１粒子系の状態を，無理やり重ね合わせるのがこの実験である．
+    スクリーン中央からの変位に応じて，２つのスリットからの光子の相対位相が変化するために，スクリーンに縞模様が浮かび上がる．
+    ここまでは干渉の議論として，古典的な議論とパラレルであるが，量子的な干渉の結果は違う．
+    １つ１つの粒子を順番に照射しても干渉縞が出来る．
+
+    従って，「粒子間の相互作用」として理解されていた「波動性」は，実は「そもそも物質を還元した果ての粒子にinnateな性質」だったとわかる．そう思うと何も不思議じゃない，今までが勘違いしていただけか．
+    粒子と想定していた存在は，最初から空間の中で特殊な存在容態を持っている．
+\end{fact}
+\begin{remark}
+    1982年に光子１個分以下にまで弱めたレーザー光による二重スリット実験が浜松ホトニクス株式会社中央研究所によって行われたのが，YouTube上にある．
+
+    粒子の「波動性」という言葉は，空間全体に存在性が浸透している様子を捉えた表現，「粒子性」と言った場合は人間が還元主義的に把握可能な，物質を分析・還元した果てとしての存在の，境界や相互作用の意識を表す言葉である．特に後者は光電効果から始まった．
+    これは両立可能な概念だったのである．
+\end{remark}
+
+\section{可観測量：(Ⅱ) 系の可観測量はエルミート演算子で表される．}
+
+\begin{definition}[Hermitian operator]
+    複素Hilbert空間$H$に対して，演算子$\hat{H}\in\mathrm{Hom}(H,H)$が次の同値な条件を満たす状況を考える．
+    条件1.を満たすとき，特にHermite演算子であるといい，2.を満たすときに特に自己共役演算子であるという．
+    
+    1. $\langle\Psi |\hat{A}\Psi'\rangle = \langle\hat{A}\Psi |\Psi'\rangle \; (=:\langle\Psi|\hat{A}|\Psi\rangle)$
+
+    2. $A=A^*$
+\end{definition}
+
+\begin{proposition}[自己共役演算子の固有値]
+    自己共役演算子の固有値は実数である．
+\end{proposition}
+
+\begin{definition}[重複度]
+    $a\in\mathbb{R}$をある自己共役演算子$\hat{A}$の固有値とする．これに属する固有空間の次元を，固有値$a$の重複度という．
+    物理学的には，縮退・縮重に対応するため，縮退度・縮重度ともいう．
+\end{definition}
+
+\begin{proposition}[対角化]
+    有限次元の線型空間について，エルミート行列はユニタリー行列で対角化できる．
+\end{proposition}
+\begin{definition}[complete system]
+    ベクトル空間の部分集合が完全系であるとは，全体空間の位相的生成系になることをいう．
+\end{definition}
+\begin{corollary}
+    自己共役演算子の固有ベクトルの全体は，完全系をなす．
+\end{corollary}
+
+\begin{axiom}[observable]
+    可観測量を，$H$上の自己共役演算子によって表す．
+\end{axiom}
+\begin{example}
+    系$\psi$がエネルギー固有値$E$を取る時，ある演算子$H$が存在して
+    \[ H|\psi\rangle = E|\psi\rangle \]
+    が成り立っている．これをHamiltonianという．
+    系のエネルギーとは，系の状態ベクトルがどのHamiltonianの固有ベクトルになっているか，という問題だと捉えられる．
+\end{example}
+
+\begin{remark}
+    観測量が写像であることが大事なのではなく，その写像がHilbert空間に定める一般固有空間分解の構造（「どう分解するか」）と，それに渡って取ることができる状態ベクトルから構成された正規直交基底の方が大事．
+    そっちを指定するためには，自己共役演算子を１つ定めれば良い．
+
+    系は自由度に依存して，１つの状態空間内の元で表されていて，時間発展やその他操作はUnitaryに変換していく．
+    測定をする毎に，観測したい物理量によって状態空間の現前の仕方（空間全体を仕分けする固有値の組合わせ（物理量の候補）と，それぞれの確率の組み合わせ）が変わり，
+    従って得られる測定結果の分布や期待値も違う．
+\end{remark}
+
+\section{作用素：(Ⅲ) 系への観測以外の操作は（反）ユニタリ演算子で表される．}
+\subsection{ヒルベルト空間の射}
+
+\begin{definition}[有界作用素]
+    $H_1,H_2$をヒルベルト空間として，線型作用素$T:H_1\to H_2$を考える．線型作用素が有界であるとは，次が成立することである．
+    \[ \exists C\in\mathbb{R}_{\ge 0}\;\forall\psi\in H_1\; ||T(\psi)||_{H_2}\le C||\psi ||_{H_1} \]
+\end{definition}
+この定義は取り敢えずのものだが，うまく出来ているものである．
+\begin{proposition}[連続線型作用素]
+    線型作用素が有界であるための必要十分条件は，それが連続であることである．
+\end{proposition}
+
+\begin{definition}[Unitary Operator]
+    $H$を複素ヒルベルト空間とする．自己線型作用素$U:H\to H$が，次の２条件を満たす時，ユニタリ作用素という．
+
+    1. $U$は全射である．
+
+    2. $\forall\psi,\varphi\in H\; \langle U(\psi),U(\varphi)\rangle =\langle\psi,\varphi\rangle $
+\end{definition}
+\begin{remark}
+    このとき，$U(\psi)=U(\varphi)$の時条件から即$\psi=\varphi$が従うから，$U$は単射でもある．従って，Unitary作用素は，ヒルベルト空間の自己同型である．これがなす自己同型群をヒルベルト群$\mathrm{Hilb}(H)$という（恒等写像はユニタリ作用素である）．
+    また，この時のユニタリ作用素の逆射は随伴作用素（Hermite共役）である．
+
+    ユニタリ行列は有限次元ヒルベルト空間のユニタリ作用素であり，直行行列は$\mathbb{R}^n$上のユニタリ作用素である．最も簡単な例は，$\mathbb{R}^n$に於ける回転である．
+
+    これらのたくさんの性質がユニタリの１つで理解出来る．
+
+    また，$H$が有限次元である場合は，単射性から全射性が従うが，無限次元である場合はそうとは限らないため，全射の条件が必要になる．
+\end{remark}
+
+\subsection{射影}
+\begin{definition}[projection operator]
+    $\hat{P}(\mathbf{a}):=|\mathbf{a}\rangle\langle\mathbf{a}|$を，ベクトル$|\mathbf{a}\rangle$への射影演算子という．
+    なお，これは「$|\mathbf{a}\rangle$との内積をとって，$|\mathbf{a}\rangle$の係数とする」という操作であるから，確かに$H$の各ベクトルに対して$|\mathbf{a}\rangle$方向の成分を取り出す演算となっている．
+\end{definition}
+\begin{definition}[固有空間への射影演算子]
+    あるobservable$\hat{A}$が存在して，$a\in\mathbb{R}$はその固有値であるとする．$d_a$を$a$に属する固有空間の次数（縮退度）として
+    $\hat{P}(a):=\sum_{l=1}^{d_a}|a_l\rangle\langle a_l|$
+    とする．これを\textbf{固有値$a$に属する$\hat{A}$の固有空間への射影演算子}という．要は$a$に属する固有ベクトルの基底についての射影演算子たちの和写像である．
+\end{definition}
+\begin{proposition}[well-definedness]
+    固有空間$V_a$への射影演算子$\hat{P}(a)$は，固有空間$V_a$の基底$|a_1\rangle,\cdots,|a_{d_a}\rangle$の取り方に依らない．
+\end{proposition}
+
+射影の言葉を用いて，ベクトルの族の完全性を特徴付けることができる．
+\begin{proposition}[completeness relation / resolution of the identity]
+    次の２条件は同値である．
+
+    1. ベクトルの集合$\{|\mathbf{a}\rangle\}$は正規直交完全系である．
+
+    2. $\sum_{\mathbf{a}\in\{|\mathbf{a}\rangle\}}|\mathbf{a}\rangle\langle\mathbf{a}|=\hat{1}$が成り立つ（完全性関係）．
+\end{proposition}
+\begin{proof}
+    $\sum_{\mathbf{a}\in\{|\mathbf{a}\rangle\}}|\mathbf{a}\rangle\langle\mathbf{a}|=\hat{1}$の時，
+    $\left(\sum_{\mathbf{a}\in\{|\mathbf{a}\rangle\}}|\mathbf{a}\rangle\langle\mathbf{a}|\right)|\psi\rangle=\sum_{\mathbf{a}\in\{|\mathbf{a}\rangle\}}\langle\mathbf{a}|\psi\rangle|\mathbf{a}\rangle=|\psi\rangle$
+    が導ける．
+\end{proof}
+\begin{remark}
+    直観的には，演算子$\sum_a\hat{P}(a)$が恒等写像に等しくなる時というのは，「分解して足し合わせたら元のベクトルに戻る」という条件であるから，「独立な方向に分解できている」ということである．
+\end{remark}
+
+\section{波動関数}
+
+複素ヒルベルト空間の，$e^{i\theta}$倍だけ無視した正規な元$\psi\in H$を状態ベクトルと言った．
+これを正規直交基底の下での，係数だけ集めた組（無限次元に拡張した場合のことも考えて関数とする）も等価な表現形式である．
+（多様体上のベクトル場と，多変数ベクトル値関数が，基底を介して等価になる事のanalogousである）．
+今回は一般に複素ベクトル値関数となり，これを波動関数$\psi={}^t(\psi_1,\cdots,\psi_n)$という（状態ベクトル$\psi\rangle$との間に，$\psi_i=\langle i|\psi\rangle$の関係を保つ）．線型形式$H\to\mathbb{C}$の組である．
+\begin{definition}[wave function]\label{def-wave-function}
+    $H$を複素ヒルベルト空間，$\hat{A}:H\to H$をobservable，その固有ベクトルからなる$H$の正規直交基底を$(|\mathbf{a}\rangle)$とする．
+    次のように，状態ベクトル$|\psi\rangle\in H$に対して，各基底$|\mathbf{a}\rangle$にそれによる展開係数を対応させる関数$\psi\subset H\times\mathbb{C}$を，状態ベクトル$|\psi\rangle$に対応する「（$\hat{A}$の固有ベクトルによる）基底$(|\mathbf{a}\rangle)$表示での波動関数」という．
+    \begin{center}\begin{tikzcd}
+        \psi :\{\mid\!\mathbf{a}\rangle\} \ar[r] \ar[d, phantom, "\rotatebox{90}{$\in$}"] & \mathbb{C}\ar[d, phantom, "\rotatebox{90}{$\in$}"] \\
+        \mid\mathbf{a}\rangle \ar[r, mapsto] & \psi(\mathbf{a}):=\langle\psi\mid\mathbf{a}\rangle
+    \end{tikzcd}\end{center}
+    基底$|\mathbf{a}\rangle$の下で状態ベクトルと波動関数とは同一視出来るが，基底$|\mathbf{a}\rangle$はしばしば言及されない．
+\end{definition}
+\begin{remark}
+    「基底を取るごとに，ベクトル空間$V$から，その双対空間$V^*$への同型が定まる」という話の良い例である．
+    ヒルベルト空間$H$を縦ベクトルの空間などとして想定した場合，有限の場合は$l^2$空間に，無限の場合は$L^2$空間に対応がついたことになる．
+    例えば内積の対応は，離散の場合$\langle\psi|\psi'\rangle=\sum_\mathbf{a}|\psi(\mathbf{a}|^2$となる．
+\end{remark}
+
+\begin{axiom*}[波動関数の規格化条件]
+    要請\ref{postulate-state-vector}を波動関数の場合に翻訳すると，
+    有限量子系の純粋状態は複素ヒルベルト空間$l^2$の，正規化された関数$\psi:\mathbb{N}^d\to\mathbb{C}\in l^2$で表される．
+    \[ \sum_\mathbf{a}|\psi(\mathbf{a})|^2=1 \]
+\end{axiom*}
+
+\begin{proposition}[波動関数の基底変換]
+    同じ状態$|\psi\rangle\in H$に対して，２つのobservable$\hat{A},\hat{B}$の固有ベクトルによる正規直交基底$(|\mathbf{a}\rangle),(|\mathbf{b}\rangle)$表示の波動関数$\psi_{\hat{A}},\psi_{\hat{B}}$を考える．
+    次が成り立つ．
+    $\psi_{\hat{A}} (\mathbf{a}) = \sum_\mathbf{b} \psi_{\hat{B}} (\mathbf{b}) \langle\mathbf{a}|\mathbf{b}\rangle$ 　
+    $\psi_{\hat{B}}(\mathbf{b})=\sum_\mathbf{a}\psi_{\hat{A}}(\mathbf{a})\langle\mathbf{a}|\mathbf{b}\rangle$
+    ２式それぞれについて，左辺に出現する$\mathbf{a},\mathbf{b}$は特定の基底であるが，右辺に出現する$\mathbf{b},\mathbf{a}$は基底を走るパラメータとして使われている混用に注意．
+\end{proposition}
+\begin{proof}
+    いま，$|\psi\rangle=\sum_\mathbf{a}\psi_{\hat{A}}(\mathbf{a})|\mathbf{a}\rangle=\sum_\mathbf{b}\psi_{\hat{B}}(\mathbf{b})|\mathbf{b}\rangle$on $H$である．
+    この両辺と$|\mathbf{a}\rangle$または$|\mathbf{b}\rangle$と内積を取ることにより得る．
+\end{proof}
+
+\begin{definition}[eigenfunction]
+    ある可観測量$\hat{B}$の固有ベクトルに対応する波動関数を，特に固有関数という．
+\end{definition}
+
+\section{bra と ket：内積記法の構造}
+
+内積を，状態ベクトルに対して，双対な汎線型形式を作用させるもの，とcurry化して考える．
+前者をket，後者をbraとして，所属する空間を定義し直す．
+すると，$|\psi\rangle\langle\varphi|$は，左から作用する$\mathcal{H}$上の変換を表すと思える．
+
+\begin{definition}
+    複素ヒルベルト空間$H$の元をcketベクトル，その双対空間の元$H^*$をbraベクトルという．
+\end{definition}
+\begin{proposition}
+    ヒルベルト空間$(H,+,\cdot, \langle\cdot,\cdot\rangle)$に対して，$a\times\psi=a^*\psi\;(a\in\mathbb{C},\psi\in H)$により定まる演算$\times$を用いた$(H,+,\times,\langle\cdot,\cdot\rangle)$もヒルベルト空間となる．これを共役ベクトル空間(complex conjugate of a complex vector space)という．
+    これは元のヒルベルト空間$H$の（連続的）双対空間$H^*$に他ならない．
+\end{proposition}
+\begin{remark}
+    この主張は，Rieszの表現定理のヒルベルト空間への適応から得られる．
+    Rieszの表現定理より，ヒルベルト空間とその連続的双対空間とは，係数体が$\mathbb{R}$ならば等長同型であり，$\mathbb{C}$ならば等長反同型(antiisomorphic)である．
+
+    いま$x\in H$である時，$\varphi_x(y):=\langle y,x\rangle\; (\forall y\in H)$
+    と定めた関数は連続線型汎関数であり，従って$\varphi_x\in H^*$である．逆に$H^*$の元はこのような場合でつくされる，というのがRieszの表現定理から得られる結果である．
+\end{remark}
+
+\begin{theorem}[Rieszの表現定理]
+    
+\end{theorem}
+\begin{remark}
+    従って全てのbraベクトルには対応するcketベクトルが標準的に取れる．
+\end{remark}
+
+\section{スペクトル分解}
+
+スペクトル分解定理は，大雑把に言うと作用素あるいは行列が対角化可能（すなわち、ある基底において対角行列として表現可能）となる条件を与えるもので，作用素の定義されるベクトル空間に対して正準分解を与えるものと考えられる．
+\begin{proposition}[spectral resolution / eigendecomposition]
+    自己共役演算子$\hat{A}$について，$|a\rangle$を$\hat{A}$の固有ベクトルから作った正規直交基底，$a$を固有値，$P(a):=|a\rangle\langle a|$とすると，
+    \[ \hat{A} = a\hat{P}(a) \]
+    と表示できる．
+\end{proposition}
+\begin{proof}
+    \begin{eqnarray*}
+        \hat{A} &=& \hat{1}\hat{A}\hat{1} \\
+        &=& \sum_{|a\rangle}\sum_{|a'\rangle}|a\rangle\langle a| \hat{A} |a'\rangle\langle a'| \\
+        &=& \sum_{|a\rangle}\sum_{|a'\rangle}\langle a| \hat{A} |a'\rangle\langle a'|a\rangle \\
+        &=& \sum_{|a\rangle}\sum_{|a'\rangle}a\langle a |a'\rangle\langle a'|a\rangle \\
+        &=& \sum_{|a\rangle} a|a\rangle\langle a| \\
+        &=& \sum_{|a\rangle} a\hat{P}(a)
+    \end{eqnarray*}
+\end{proof}
+
+\begin{definition}[スペクトル分解可能な作用素に対する関数]
+    $\hat{A}$を自己共有演算子，$f:\mathbb{C}\to\mathbb{C}$を関数とする．$\hat{A}$を組み合わせた新たな関数として，
+    \[f(\hat{A}):=\sum_af(a)\hat{P}(a)\]
+    と定める．
+\end{definition}
+
+\section{Bornの確率規則：(Ⅳ)}
+
+\begin{axiom}[離散固有値の場合]\label{axiom-4}
+    状態$|\Psi\rangle$について，物理量$A$の，誤差がないとみなして良い測定を行ったとする．
+    
+    1. 測定値$a_\Psi$は，物理量$A$に対応する演算子$\hat{A}$の固有値のいずれかに限られる．
+
+    2. $\hat{A}$の各固有値$a$に対して，それが観測される確率$P(a)$は状態ベクトルによって決まる．その規則は，状態ベクトルを，その物理量$\hat{A}$の固有値の属する固有空間への射影の長さの自乗
+    \[ P(a)=||\hat{P}(a)|\Psi\rangle||^2 \]
+    で与えられる．
+\end{axiom}
+
+\begin{proposition}[計算規則]
+    $|a\rangle$は正規直交基底であることに注意して，
+    \begin{eqnarray*}
+        P(a) &=& \sum_{l=1}^{d_a}||\langle a_l|\psi\rangle |a\rangle||^2 \\
+        &=& \sum_{l=1}^{d_a}|\langle a_l|\psi\rangle |^2 \\
+        &=& \sum_{l=1}^{d_a}|\psi (a,l)|^2
+    \end{eqnarray*}
+    即ち，状態$|a\rangle$と基底$(|a\rangle)$についての波動関数$\psi$が与えられれば，それが固有ベクトル$|a_l\rangle$について取る値の自乗和を取ればいい．
+    縮退がない場合（$d_a=1$），波動関数$\psi$の固有値$a$の値の自乗がそのまま確率であり，
+\end{proposition}
+
+測定による期待値の計算は，Hilbert空間の仕組みに由来するより簡単な計算規則がある．
+\begin{proposition}[期待値]
+    状態$|\psi\rangle$下の物理量$A$の測定の平均値／期待値を，各$a_\psi^{(j)}$を$j$回目の測定結果として
+    \[ \langle A\rangle :=\lim_{N\to\infty}\frac{1}{N}\sum^N_{j=1}a_\psi^{(j)} \]
+    と定めると，次が成り立つ．
+    \[ \langle A\rangle = \langle\psi|\hat{A}|\psi\rangle \]
+\end{proposition}
+\begin{proof}
+    各測定値は$A$のある固有値で，その確率が，その固有値に属する状態ベクトル方向への射影の長さであるから，
+    \[ \langle A\rangle = \sum_aaP(a) \]
+    これは状態ベクトル$|\psi\rangle$と物理量$A$に対応する自己共役演算子$\hat{A}$を用いて，
+    \begin{eqnarray*}
+        \sum_aaP(a) &=& \sum_{a\in\mathrm{eg}(\hat{A})}a||\hat{P}(a)|\psi\rangle||^2\;\;\;(\mathrm{definition}\ref{axiom-4}) \\
+        &=& \sum_{a\in\mathrm{eg}(\hat{A})} a||\;|a_l\rangle||^2 \\
+        &=& \sum_{a\in\mathrm{eg}(\hat{A})} a\langle a_l|a_l\rangle \\
+        &=& \langle\psi |\left( \sum_{a\in\mathrm{eg}(\hat{A})}a|a_l\rangle \right) \\
+        &=& \langle\psi|\hat{A}|\psi\rangle
+    \end{eqnarray*}
+\end{proof}
+
+\subsection{連続化}
+
+\begin{definition}[delta funciton]
+    連続関数$f(x)$について，
+    \[ \int^\infty_{-\infty}\delta (x'-x)dx'=f(x) \]
+    を満たす関数$\delta(x)$をデルタ関数と呼ぶ．
+\end{definition}
+\begin{remark}
+    数学にはこれを定義する超関数の枠組みがあるが，量子論の体系では元々この部分はどうでも良く，これを積分した後の確率などが定義できていて実験に合えば良いので，ここではまだ深掘りしない．
+\end{remark}
+
+これを用いて，
+
+\section{時間発展と観測：(Ⅴ)}
+
+\subsection{閉じた系の時間発展：Schrödinger方程式}
+
+\begin{definition}
+    マクロな系との相互作用全般を測定という．
+    このような他の系からの干渉がない系のことを閉じた系という．
+\end{definition}
+
+\begin{definition}
+    ハミルトニアン$\hat{H}$は自己共役演算子である．
+
+    1. この自己共役演算子の固有値を，エネルギー固有値という．
+
+    2. 固有ベクトルを，エネルギー固有状態と呼ぶ．
+\end{definition}
+
+\begin{axiom}
+    閉じた量子系の時刻$t$に於ける状態ベクトル$|\psi(t)\rangle$は，次のSchrödinger方程式に従う．
+    \[ i\hslash\frac{d}{dt}|\psi(t)\rangle = \hat{H}|\psi (t)\rangle \]
+\end{axiom}
+\begin{remark}　
+
+    1. これは１階の微分方程式となっており，閉じた量子系の時間発展は決定論的である．
+
+    2. 関数$|\psi(t)\rangle:\mathbb{R}\to H$の微分は，component-wiseに定められる．
+
+    3. 系がエネルギー固有状態の１つ$|n\rangle$であれば，系が閉じている限り，同じ状態に留まり続ける．これを定常状態という．
+    \[ |\psi(t)\rangle = e^{-iE_nt/\hslash}|n\rangle \]
+
+    4. 時間発展の基礎方程式に，謎の微分と複素数倍の作用素と，ハミルトニアンが出現するのは，非自明な物理法則である．
+\end{remark}
+
+Schrödinger方程式は，一般の時間発展について，どのようなことを主張しているか．
+
+\subsection{測定直後の状態：射影仮説}
+
+\part{量子化学：原子とその化学結合論}
+
+\chapter{元素と原子}
+\section{宇宙内の元素}
+George Gamow (Russia) 04-68
+
+はBig Bang理論の始祖の一人とされているが，この理論を元素の理論と結びつけた．
+\begin{hypothesis}[Gamowのinflation理論]\rm{}
+    十分な高温下で，原子核反応が十分に起こったために，熱平衡に反応が至ると，宇宙の元素の主成分は原子核の結合エネルギーが最も大きいFe付近になるはずであるが，実際はHやHeである．
+
+    従って，宇宙は超高温の状態からの冷却が，熱平衡に至らないくらいには急激に進んだはずである．
+\end{hypothesis}
+\begin{theory}[cosmic inflation theory]
+    インフレーション理論では、宇宙は誕生直後の10-36秒後から10-34秒後までの間にエネルギーの高い真空（偽の真空）から低い真空（真の真空）に相転移し、この過程で負の圧力を持つ偽の真空のエネルギー密度によって引き起こされた指数関数的な膨張（インフレーション）の時期を経たとする。\footnote{https://ja.wikipedia.org/wiki/宇宙のインフレーション}
+\end{theory}
+\begin{fact}[1965]
+    宇宙全体からの黒体放射（マイクロ波）が発見され，それによると現在の宇宙の温度が約$3\si{\kelvin}$と分かった．
+\end{fact}
+\begin{hypothesis}
+    現在，宇宙に於ける全ての元素の合成過程は，星の中で起こる以下の６つの反応のいずれかとして理解される．\rm{}
+
+    1(Hの燃焼).\, \ce{4^1H -> ^4He + 2e^+ + 2\nu}
+
+    2(Heの燃焼).\, 水素が燃え尽きて重力収縮した$10^8\si{\kelvin}$環境で，\ce{^4He + ^4He -> ^8Be}などとして\ce{^12C, ^16O, ^20Ne}などの核種が生成する．
+\end{hypothesis}
+
+\chapter{結合の理論と分子}
+電子による原子の仲介という原子論的世界観から，軌道の相互作用という量子論的世界観へ．
+
+\begin{quotation}
+「電子が原子間の結合を媒介する」という理解はLewisによって歴史上初めて提案された．
+この時，電子は特別な役割を果たす，という意味で，「原子価状態にある」と呼び分けられた．
+即ち，原子同士が結合して分子を作っている時（0でない原子価を持つとき）の電子の状態のことを指して「原子価状態」という．
+これは明らかに，「分子軌道間の相互作用」などと言った量子力学的理解の前夜に想定された古典的な言葉である．
+この理解を土台として建設された古典的理論を「原子価結合法」という．
+
+一方で，電子の概念は軌道に託され，原子軌道間の相互作用として結合を理解する方法を，
+相互作用の結果得られる電子分布を「分子軌道」と呼ぶことから，「分子軌道法」という．
+
+第\ref{section-vb}章で解説される，ルイスにより提案された
+「化学結合とは，原子間での電子対の共有である」という前提理解と，
+そのための記法であるLewis構造式の上で花咲いた，古典的な化学結合論(1916~)は，
+最終的には「原子価結合法」と呼ばれる手法に大成された，量子力学前夜に開発された経験則である．
+これはHeitlerとLondonが最初に水素に対して量子論を導入して
+開発した手法(1927)を基盤として，更なる発展としてLinus Paulingによる
+「共鳴」(1928)，「混成軌道」(1930)などの概念による修正を受けたものである．
+併し，ここで理論としての発展は頭打ちになる．
+確かに，殆どの分子現象に対して，「分子は原子が結合によって集まったもの」
+という立場から見通しの良い理解を得る．最初に発見されただけあり，原子論的世界観を
+得るには非常に良い直観を与えてくれる理論であるが，定量的な予測には向かなかった．
+
+第\ref{section-language-for-molecules}章で，分子軌道に言及するための
+適切な言葉の整理をして，第\ref{section-mo}章で，より自然な形で量子論的枠組みを適用する
+「分子軌道法」の理論を紹介する．
+
+最後に，第\ref{section-frontier}章で，分子軌道法の上に開花した
+普遍的かつすっきりした化学反応論であるフロンティア軌道論で締める．
+\end{quotation}
+
+\section{古典的な理論から直接の延長としての化学結合論：VB法}\label{section-vb}
+「化学結合とは，電子対の共有である．」という，量子論前夜の第一近似のような理論である．
+この理論の基本言語としてはLewis構造式が最適となる．
+これを，まず初めに見て，Paulingによる修正である「共鳴」そして
+「昇位」「混成軌道」という概念による，有機化合物の
+結合への説明の成功をみる．
+
+最後に，問題点を確認して，分子軌道法へ接続する．
+
+\subsection{ルイス構造式(Lewis structure)}
+Gilbert Lewis (America) 1875-46が論文"{\it The Atom and the Molecule} (16)"で提唱し，以降定着した経験的な記法．
+しかし，(1)オクテット則の例外は原子番号が大きくなるほど多く，(2)実際の描像とのズレも大きいという欠点がある．
+
+\begin{definition}[Lewis structure]
+    元素記号の周りに，最外殻電子を黒点$\cdot$で，単結合／二重結合／三重結合を，対応する個数の黒点の対$:$か，価標$-$で表した構造式を，Lewisの構造式という．\rm{}
+\end{definition}
+\begin{example}[オクテット則の例外]\rm{}
+
+    1.\, \ce{BF_3}において，Bの価電子は６つである．\ce{BeCl_2}において，Beの価電子は４つである．
+    
+    2.\, \ce{SF_6}において，Sの価電子は12個である．これは3d軌道が化学結合に関与しているためである．
+\end{example}
+
+\subsection*{形式電荷}
+
+\begin{definition}[formal charge]
+    Lewis構造式において，電子の振る舞いは，共有結合を形成しているか，孤立電子対であるかの２通りしかないと理想化しているが，この状況下において考えた個々の分子の電荷を形式電荷という．
+
+    1. 非共有電子対は全てその原子に属する．
+
+    2. 共有電子対は，２つの原子間で１つずつ保有する．
+\end{definition}
+
+\subsection{共鳴(28, Pauling)}
+
+１つのLewis構造式では正確に状況が表せない場合に用いられる補正である．
+数種類の構造の間を両方向の矢印で結んで，共鳴混成体として目的の構造を説明・表現する．
+
+\begin{example}
+    1. ベンゼン
+
+    2. アミド：実はN原子から電子がOにまで流入する共役系を持つ為，アミド結合やペプチド結合は平面構造を取っている．
+    \begin{center}
+        \chemfig{R-[1]C(=[:90]O)-[-1]N(-[:-90]H)-[1]H} $\longleftrightarrow$ \chemfig{R-[1]C(-[:90]O^{-})=[-1]N^{+}(-[:-90]H)-[1]H}
+    \end{center}
+
+    ＊従って，Lewis構造式にて，共役系は単結合-と二重結合=との連続した部分に発生する事になる．
+
+    3. 共役ブタジエンへの1,4-付加：これが起こることが，何よりも共鳴構造の存在の証明になる．
+\end{example}
+
+\subsection{原子価電子対反発(VSEPR)則}
+分子の立体的な形を予測するのに，価電子の数の違いを用いてする模型．特にLewis構造式を定めた時に使える理論である．
+また，分子の立体的な形ついての全く別の模型として，軌道の混成によっても説明される．
+
+\begin{model}[VSEPR model]
+    1. 原子の周りの立体構造は，電子対間の反発が最小になるように決定される．
+\end{model}
+
+\begin{fact}
+    水の結合角は，正四面体配置の109.5度より小さな，104.5度になる．
+    次の仮説を付け加えれば良い．
+    
+    2. 非共有電子対は，共有電子対よりも大きな空間を占める．
+\end{fact}
+
+\subsection{原子価結合理論(Valence Bond Theory)}
+前述のLewis構造式で表される考え方の大前提には，価電子しか結合に関与しないというものであった．
+これでは，炭素の結合の殆どを説明できない．
+これを，価電子が属する最外殻の原子軌道を「原子価軌道」と呼ぶことから，「原子価結合理論」と呼んだ．
+そこで，HeitlerとLondonが量子論を初めて水素分子に応用した際に生み出した枠組みがVB法である．
+
+異なる原子の２つの（不対電子が所属する）最外殻軌道が，重ね合わさって，新しい分子軌道が作り出され，そこに電子対が入る，というパラダイムを
+量子論の結果(Schrödinger方程式(26))を取り入れて，Paulingが整理した．
+
+s-s, s-p, p-s軌道同士が重なると，軸について回転対称な軌道が出来る．これを$\sigma$結合という．これは，結合軸を含むような節面(node)を持たない結合として特徴付けられる．
+p-p, d-d軌道同士が重なると，軸について180°回転で反転する軌道が出来る．これを$\pi$結合という．これは，結合軸を含むような節面(node)を１つだけ持つ結合として特徴付けられる．
+d-d軌道同士の重なりのうち，90°回転で符号反転する軌道が出来る，これを$\delta$結合という．これは，結合軸を含むような節面(node)を２つだけ持つ結合として特徴付けられる．
+
+\subsection{昇位と混成軌道(30, Pauling)}
+
+出来た軌道は，昇位(promotion)を伴って，すでに電子対が占めていた内部の軌道も参加して，混成軌道(hybrid orbital)という均された１つの軌道を作る．
+全体として安定である．
+
+\begin{example}　
+
+    1. $sp^3$混成軌道：\ce{CH^4}の電子配置は$(1s)^2(sp^3)^4$
+    \begin{eqnarray*}
+        1&:& \frac{1}{\sqrt{2}}(2s)+\frac{1}{2}((2p_x)+(2p_y)+(2p_z)) \\
+        2&:& \frac{1}{\sqrt{2}}(2s)+\frac{1}{2}((2p_x)-(2p_y)-(2p_z))\\
+        3&:& \frac{1}{\sqrt{2}}(2s)+\frac{1}{2}(-(2p_x)+(2p_y)-(2p_z))\\
+        4&:& \frac{1}{\sqrt{2}}(2s)+\frac{1}{2}(-(2p_x)-(2p_y)+(2p_z))
+    \end{eqnarray*}
+
+    2. $sp^2$混成軌道：電子配置は$(1s)^2(sp^2)^3(2p)^1$．この形が２つ集まって，2p軌道を重ねて$\pi$結合を作ったのがエチレン\ce{H_2C=CH_2}である．
+    新しい軌道の状態ベクトルは\begin{eqnarray*}
+        1&:& \frac{1}{\sqrt{3}}(2s)+\frac{\sqrt{2}}{\sqrt{3}}(2p_x) \\
+        2&:& \frac{1}{\sqrt{3}}(2s)-\frac{1}{\sqrt{6}}(2p_x)+\frac{1}{\sqrt{2}}(2p_y)\\
+        3&:& \frac{1}{\sqrt{3}}(2s)-\frac{1}{\sqrt{6}}(2p_x)-\frac{1}{\sqrt{2}}(2p_y)
+    \end{eqnarray*}
+    
+    3. $sp$混成軌道：電子配置は$(1s)^2(sp)^2(2p)^2$
+    \begin{eqnarray*}
+        1&:& \frac{1}{\sqrt{2}}(2s)+\frac{1}{\sqrt{2}}(2p_x) \\
+        2&:& \frac{1}{\sqrt{2}}(2s)-\frac{1}{\sqrt{2}}(2p_x)
+    \end{eqnarray*}
+\end{example}
+これら残ったp軌道は$\pi$結合を形成するが，これをフロンティア軌道といい，フロンティア軌道論で議論される．
+
+\subsection*{混成軌道のs性}
+これが高いほど結合距離は短く，電子吸引性が増す．
+
+\subsection*{問題点}
+それぞれの電子対に，オーダーメイドの混成軌道１つずつを分配している．
+つまり，軌道の数を電子対の数とみなせば，混成軌道の提供する空間的配置についての示唆はVSEPRのそれと一致する．
+これだと，$\pi$結合を持つ二重結合が作る共役系に於ける特別な安定化構造を作ることと相性が悪い理論となってしまう．
+
+自然界の指導原理は最大安定化であり，それの結果として対称的な軌道が出来ているというだけである．
+結合相手との結合を最強にして，フロンティア軌道も含めて最安定構造を実現する過程にたまたま混成で説明できる均一化があったというだけである．
+
+ただし，例えば，複雑な分子の形を予測するにあたって，非共有電子対を無視してルイスの構造式を書くと，概ね正しく予測できる．
+
+\begin{quotation}
+    原子価結合法の概念はそれまでの化学結合論の延長上にあるため当時の化学者に受け入れやすかった。しかし量子化学計算に応用するには複雑な理論となってしまった。そのため量子化学計算が盛んになってくると分子軌道法が主流となっていった。\footnote{https://ja.wikipedia.org/wiki/原子価結合法}
+\end{quotation}
+
+\section{分子の構造と対称性}\label{section-language-for-molecules}
+結晶学のための準備をする．実際，軌道の名前はこの分類法から名前がついている．
+
+\subsection{分子の対称性}
+分子を表すのに構造式が沢山発明された．これは主に原子とその間の結合（炭素骨格など）を表すが，実際の分子は周囲に電子雲を纏っている．
+それを考慮に入れるとまた違った描像になる．
+この２つの見方に左右されない，対称性を主軸とした数学的な扱いを考えたい．
+
+\begin{notation}[Symmetry operation and Sch\"{o}enflies notation]３次元Euclid空間に於ける対称操作には次の７種類がある．
+
+    1. 恒等変換を$E$で表す．
+    
+    2. ある直線（$n$回回転軸という）を中心に$\frac{2\pi}{n}$度だけ回転させた時に元の分子と重なる時，この対称操作をn回回転といい，これに対して不変な図形の点群を$C_n$で表す．
+    $n$が最大になる時の回転軸を主軸という．
+
+    3. ある平面（対称面，鏡面という）について面対称に変換する操作を鏡映と呼び，$\sigma$または点群記号に下添字${}_s$を付けて表す．
+
+    4. ある点（対称中心という）について点対称に変換する操作を反転といい，$i$または点群記号に下添字${}_i$を付けて表す．
+
+    5. ある回転軸についての$n$回回転に続いて，その回転軸に垂直な平面で鏡映した操作を，$n$回回映といい，これについて対称な図形の点群を$S_n$(spiegel)で表す．
+
+    6. ある回転軸についての$n$回回転に続いて，その回転軸上の点について反転させる操作を，回反という．
+
+    7. 並進操作．
+\end{notation}
+\begin{example}
+    1. メタン\ce{CH_4}は３本の４回回映軸$S_4$を持つ．
+\end{example}
+
+\begin{definition}[point group]
+    ある図形に成立する対称変換のうち，少なくとも１つの不動点を持つような(1~6)ものは群をなす．これを点群という．
+\end{definition}
+\begin{definition}[space group]
+    ある図形に成立する対称変換がなす群のことを空間群という．結晶構造の対称性を記述するのに用いられるため，並進操作も重要になってくる．
+\end{definition}
+
+\subsection{分子軌道の分類}
+
+結合軸についてのあらゆる回転変換について，波動関数が不変であるような分子軌道を$\sigma$軌道という．
+結合軸を含む節面を１つ持つ分子軌道を$\pi$軌道，２つ持つ分子軌道を$\delta$軌道という．
+
+\section{量子論による化学結合論の基礎：分子軌道法(Moleculer Orbital theory)}\label{section-mo}
+VB法では原子に局在した原子軌道から，分子軌道を構成したから，電子は局在化している状態から考え始めることになり，共役系を説明するために共鳴という概念を用意する必要があった．
+しかし実際の分子では，その殆どの電子は最初から分子全体に非局在化して居る．
+従ってこれをもっと自然に捉える方向の理論があるはずである．
+こうして，量子論の枠組みで分子軌道を捉える正道に着手したい．
+
+\subsection{様々な精度の近似}
+現状物理学は近似の学問である．
+
+「系の波動関数は，電子と原子のものとの積で表せる」という結果を得るような近似理論は，いくつか存在する．\\
+1. Born-Oppenheimer近似：非断熱項全てを無視する．\\
+2. Born-Huang近似\\
+3. 粗い断熱近似(Crude Adiabatic Approximation)：非断熱項の非対角成分のみを無視する．\\
+＊断熱近似：電子の運動と原子核の運動を独立に考察する近似．
+
+\begin{theory}[Born-Oppenheimer近似(1927)]
+    原子核は電子より十分重い(1840倍)ので，十分短い時間では止まっているものとして扱う．
+    
+    実際，電子の質量$m$と原子核の換算質量$\mu$との比の４乗根$\kappa:=\left(\frac{m}{\mu}\right)^{\frac{1}{4}}$を展開パラメータとした摂動論で，
+    電子エネルギー$E_e$，振動エネルギー$E_v$，回転エネルギー$E_r$の関係は，原子核の運動エネルギーは電子の運動エネルギーより十分小さい(\ce{H_2}で約3\%)ことがわかる．
+\end{theory}
+
+\subsection{多原子分子の理論}
+
+
+\begin{theory}[LCAO近似(Linear Combination of Atomic Orbital)]
+    元の原子軌道の線型結合によって，分子軌道を得るという枠組みの理論．
+
+    1. 元の原子の原子軌道の総数と，同数の分子軌道が存在する．
+
+    2. $\Psi_+ = C_1\Psi_1 + C_2\Psi_2$を結合性軌道(bonding orbital)という．ここに電子が入ると，$\Psi_+^2$の分析から，核間の電子密度は高いことがわかり，従ってここに電子が入ると結合は安定化する．
+
+    $\Psi_- = C_1\Psi_1 - C_2\Psi_2$を反結合性軌道(antibonding orbital)という．$\Psi_-^2$から分かるように，電子分布に節と呼ばれる電子密度$0$の平面を持つことが特徴で，それにより，この軌道に電子が入ると結合は成立しない．
+
+    $\Psi = C_1\Psi_1 + 0\Psi_2$というように，特定の１つの原子軌道がそのまま分子軌道になったものを非結合性軌道(nonbonding orbital)という．
+    このような軌道に存在する電子対を「非共有電子対」という．
+
+    3. こうして得た軌道のエネルギーは，次の変分原理に従う．
+    \[ \Psi_{MO} = C_1\Psi_1 + C_2\Psi_2 \]
+    として，
+    \[ E = \frac{\int\Psi^*\hat{H}\Psi d\tau}{\int \Psi^*\Psi d\tau}  \]
+    を最小にする$\Psi$が求める定常状態の軌道の波動関数である．
+
+    従って，$\Psi_+$の安定化の度合い／$\Psi_-$の安定化の度合いは，次の式で定性的に議論できる．
+    \[ \Delta E\propto \frac{S^2}{\varepsilon} \]
+    \rightline{$\blacksquare$}
+\end{theory}
+
+\subsubsection{水素分子イオン}
+
+\begin{example}[水素分子イオン$\mathrm{H}_2^+$とorbital overlap]　
+
+    \begin{center}
+        \begin{tikzcd}
+            & \bullet(-e,m) & \\
+            A(+e,M) \ar[ur, "r_A"] \ar[rr, "R"] & & B(+e,M) \ar[ul, "r_B"']
+        \end{tikzcd}
+    \end{center}
+    系の状態を$\psi$とすると，Time-independentなSchrödinger方程式は，
+    \[ \hat{H}= -\frac{\hslash^2}{2m}\nabla^2 - \frac{\hslash^2}{2M}\nabla^2_A  - \frac{\hslash^2}{2M}\nabla^2_B  - \frac{e^2}{4\pi\epsilon_0r_A}- \frac{e^2}{4\pi\epsilon_0r_B}- \frac{e^2}{4\pi\epsilon_0R} \]
+    を用いて，$\hat{H}\psi=E\psi$である．
+    まず，Born-Oppenheimer近似により，２つの原子核の運動エネルギーを落として$\hat{H}=  -\frac{\hslash^2}{2m}\nabla^2  - \frac{e^2}{4\pi\epsilon_0r_A}- \frac{e^2}{4\pi\epsilon_0r_B}- \frac{e^2}{4\pi\epsilon_0R}$
+    とする．この時，$r_A,r_B$は変数のままであるが，$R$は定数として扱うことになることを意味する．
+    すると，これを解いて得られる$E$は，（核との相互作用も含めて）電子系のエネルギーとエネルギー固有状態$\psi$を表すことになる．この各状態を分子軌道と呼ぶ．
+    次に，LCMO近似により，今回は１電子系であるから，解を，陽子周りの1s軌道$\phi_A,\phi_B$を用いて，$\psi=C_A\phi_A+C_B\phi_B$と置く．なお，1s軌道の波動関数は次のようになるとわかっている（Bohr半径$a_0=0.0529\;\mathrm{nm}$）．
+    \[ \phi_A=\sqrt{\frac{1}{\pi a_0^3}}\exp\left( -\frac{r_A}{a_0} \right),\;\;\; \phi_B=\sqrt{\frac{1}{\pi a_0^3}}\exp\left( -\frac{r_B}{a_0} \right)  \]
+    以上２つの近似の下で，改めてSchrödinger方程式は
+    \[ \hat{H}(C_A\phi_A+C_B\phi_B)=E(C_A\phi_A+C_B\phi_B) \]
+    これに，左から，$\phi_A,\phi_B$を乗じると，実数上の２本の等式を得る．
+    \begin{eqnarray*}
+        C_A\int \langle\phi_A|\hat{H}|\phi_A\rangle d\tau + C_B\int \langle\phi_A|\hat{H}|\phi_B\rangle d\tau &=& C_AE\int \langle\phi_A|\phi_A\rangle d\tau + C_BE\int \langle\phi_A|\phi_B\rangle d\tau \\
+        \Leftrightarrow\;\;\;\; C_AH_{AA}+C_BH_{AB} = C_AE+SC_BE \\
+        C_A\int \langle\phi_B|\hat{H}|\phi_A\rangle d\tau + C_B\int \langle\phi_B|\hat{H}|\phi_B\rangle d\tau &=& C_AE\int \langle\phi_B|\phi_A\rangle d\tau + C_BE\int \langle\phi_B|\phi_B\rangle d\tau \\
+        \Leftrightarrow\;\;\;\; C_AH_{BA}+C_BH_{BB} = SC_AE+C_BE
+    \end{eqnarray*}
+    ただし，非積分関数は位置$\tau$の関数であり，$d\tau$は「宇宙全体」という多様体上の１形式である．大域的な座標$(\mathbb{R}^3;x,y,z)$を取ると，$\int^\infty_{-\infty}\int^\infty_{-\infty}\int^\infty_{-\infty}\cdots dxdydz$となる．
+    重なり積分$S:=\int \langle\phi_A|\phi_B\rangle d\tau =\int \langle\phi_B|\phi_A\rangle d\tau$（今回$\phi_A$と$\phi_B$は陽子周りの1s軌道として等価であるため），Coulomb積分$H_{AA}=H_{BB}=\alpha\in\mathbb{R}$，共鳴積分$H_{AB}=H_{BA}=\beta\in\mathbb{R}$と置くと，これは次のような１本の式に簡約できる．
+    \[ \left(\begin{array}{cc}\alpha-E &\beta-SE \\ \beta-SE & \alpha-E \end{array}\right) \left(\begin{array}{c}C_A\\C_B\end{array}\right)=0\]
+    この式は次の式に同値変形できる．これを一般には特性方程式というが，この文脈では，歴史的に永年方程式という．惑星運動の永年変化を解析する際に最初に出現した式であるからである．
+    \begin{eqnarray*}
+        \mathrm{det}\left(\begin{array}{cc}\alpha-E &\beta-SE \\ \beta-SE & \alpha-E \end{array}\right) &=& 0 \\
+        \mathrm{det}\left(\begin{array}{cc}\alpha-E &\beta-SE \\ \beta-SE & \alpha-E \end{array}\right) &=& (1-S^2)E^2+2(\alpha+\beta S)E+(\alpha^2-\beta^2) \\
+        E &=& \frac{-(\alpha+\beta S)\pm\sqrt{(\alpha+\beta S)^2-(1-S^2)(\alpha^2-\beta^2)}}{1-S^2} \\
+        E &=& \frac{S(\alpha-\beta)+(\beta-\alpha)}{S^2-1}\lor -\frac{S(\alpha+\beta)+(\alpha+\beta)}{S^2-1} \\
+        E_2 &=& \frac{\alpha-\beta}{1+S} \lor E_1= \frac{\alpha+\beta}{1-S}
+    \end{eqnarray*}
+    従って，これらにそれぞれ対応するエネルギー固有状態$\psi_1,\psi_2$が定まる．次の規格化条件に注意して${}^t(C_A,C_B)$を決定すれば，
+    \[ \int\psi^2d\tau = \int(C_A\phi_A+C_B\phi_B)^2d\tau = C_A^2+2C_AC_BS+C_B^2=1 \]
+    に注意して，新たな分子軌道$\psi_1,\psi_2$は，元の原子軌道$\phi_A,\phi_B$を用いて次のように構成される．
+    \[ \psi_1=\sqrt{\frac{1}{2+2S}}(\phi_A+\phi_B),\;\;\psi_2=\sqrt{\frac{1}{2-2S}}(\phi_A-\phi_B) \]
+    
+    波動関数は，元の軌道と，それらによって定まる重なり積分(overlap integral) $S$（「重なり度合い」$\langle\phi_A|\phi_B\rangle$を空間全体について積分したもの）の値のみに依ることがわかる．
+    ２つの原子が同一である時，即ち$R\to 0$とした時，$S=1$となる．$R$が$0$から大きくなるにつれて，$S$は$1$から小さくなり，今回の場合$R>0.5\;\mathrm{nm}$において高い精度で$S=0\pm 0.01$になる．
+
+    Coulomb積分$\alpha$をさらに細かく観察すると，
+    \begin{eqnarray*}
+        \alpha&=&\int\langle\phi_A|\hat{H}|\phi_A\rangle d\tau \\
+        &=& \int\phi_A\left\{ - \frac{\hslash^2}{2m}\nabla^2  - \frac{e^2}{4\pi\epsilon_0r_A}\right\}\phi_Ad\tau +\int\phi_A\left\{ - \frac{e^2}{4\pi\epsilon_0r_B}\right\}\phi_Ad\tau - \int\phi_A\left\{ \frac{e^2}{4\pi\epsilon_0R}\right\}\phi_Ad\tau \\
+        &=& E_{1s} + \int\left( - \frac{e^2\phi_A^2}{4\pi\epsilon_0r_B} \right)d\tau + \frac{e^2}{4\pi\epsilon_0R}
+    \end{eqnarray*}
+    となる．ただし，$E_{1s}$は水素原子の1s軌道の電子のエネルギー固有値$E_{1s}=13.606\;\mathrm{eV}$とした．また，$r_A$は変数であり，$R$は定数であることに注意．従って，第二項の演算子は$\mathbb{R}$倍演算子ではあるが位置によって値が違い，$\phi_A$は消えず，
+    第２項は電子（各位置について電荷密度$e\phi_A^2$）と核間の引力，第３項は核同士の反発のCoulomb potentialであるが，$R<0.1\;\mathrm{nm}$以降は第２項が小さくなるのに比べて第３項が爆発的に大きくなる．しかし，$R>0.1\;\mathrm{nm}$では第２項と
+    第３項は常に足して$0$になるので，全体としてCoulomb積分の値は殆ど$E_{1s}$である．これが，電子が原子同士の結合を媒介している様子であるが，あまり積極的に結合を発生させる要因にはならない．
+
+    共鳴積分$\beta$が分子軌道形成において一番興味深い項である．
+    \begin{eqnarray*}
+        \beta &=&\int\langle\phi_A|\hat{H}|\phi_B\rangle d\tau \\
+        &=& \int\phi_A\left\{ - \frac{\hslash^2}{2m}\nabla^2  - \frac{e^2}{4\pi\epsilon_0r_B}\right\}\phi_Bd\tau +\int\phi_A\left\{ - \frac{e^2}{4\pi\epsilon_0r_A}\right\}\phi_Bd\tau - \int\phi_A\left\{ \frac{e^2}{4\pi\epsilon_0R}\right\}\phi_Bd\tau \\
+        &=& E_{1s}S + \int\left( - \frac{e^2\phi_A\phi_B}{4\pi\epsilon_0r_A} \right)d\tau + \frac{e^2S}{4\pi\epsilon_0R}
+    \end{eqnarray*}
+    重なり積分の出現が多く，この値は２つの軌道の間の相互作用と理解される．ここから「共鳴」積分と呼ぶ．$R\to 0$の時，同様に第３項は発散するが，重なり積分が大きくなるため，第１，２項は小さくなる．$R\to\infty$とした時，$\beta\to 0$となる．その間の$R=0.1\;\mathrm{nm}$で最小値を取り，これ付近の$|\beta|$の振る舞いは$S$に比例して線型に増大していく．
+    第２項が謎だな．２つの軌道の共鳴部分と核との相互作用による安定化を表した項だと思われる．１，３項は，Coulomb積分に出現したものに重なり積分を乗じたものとなる．
+
+    前者を$\phi_1$は$S$が大きくなるにつれてエネルギー$E_1$は安定化するから結合性軌道，後者を反結合性軌道という．これらの電子雲の様子を調べる．
+
+    \begin{eqnarray*}
+        \psi_1^2 &=& \frac{1}{2+2S}(\phi_A^2+2\phi_A\phi_B+\phi_B^2) \\
+        \psi_2^2 &=& \frac{1}{2-2S}(\phi_A^2-2\phi_A\phi_B+\phi_B^2)
+    \end{eqnarray*}
+    $\psi_1^2$の値は，$\phi_A+\phi_B$の値が最大になる位置で最大になる．従って，２つの原子の中間が一番存在確率が大きい．一方，$\psi_2^2$は$\phi_A=\phi_B$となるような，２つの原子にとって対称的な位置に，零点を持つ．従って，２つの原子の間の対称面は完全に電子が存在しなくなっている．これを節とよび，２つの軌道の「位相が反対」になっている．
+
+    また，この模型の予言は$E_1-E_{s1}=-1.76\;\mathrm{eV}\;(R=0.132\;\mathrm{nm})$で，実験結果は$D_e=2.79\;\mathrm{eV}\;(R_e=0.106\;\mathrm{nm})$
+\end{example}
+\begin{remark}[まとめ\cite{現代物性化学の基礎} pp.73]
+    \begin{quotation}
+        以上のように，化学結合の本質は原子核と原子核の間で電子密度が増すことにある．この事情は図3.7によってさらに明らかになる．
+        ２つの原子核のみがある場合，当然のことながらクーロン反発によって２つの原子核は互いに離れて行く．ところが，２つの原子核の中央に電子が入ると，電子と原子核に働くクーロン引力が原子核間のクーロン反発に打ち勝つため，２つの原子核は互いに引きつけ合う．この引力ポテンシャルは核間距離$R$が短いほど顕著になるから，最後には電子と原子核が合体してしまうように思われるかもしれない．しかし，古典的な粒子とは異なり，電子は狭い空間内で静止することが出来ず，しかも空間を狭くするほど運動エネルギーは増加する．その結果，電子が２つの原子核の中間だけでなく原子核の周辺にも存在領域を拡大することで，運動エネルギーの増加が抑えられ，また原子核間で存在確率を高めることでポテンシャルエネルギーが低下しているのである．
+        言い換えれば，電子の運動エネルギーの存在が分子の形成をもたらしている訳であるが，その代わり分子の結合エネルギーも数eVとわずかな値に止まってしまうのである．
+    \end{quotation}
+\end{remark}
+\begin{screen}
+    定性的には「結合性軌道では２つの原子の間に電子密度の高い領域が出来ることで，Coulomb potential的には核間反発を相殺し（Coulomb積分），また共鳴積分$\beta$による安定化が起こるため（重なり積分の分だけ），全体として安定化する．」と言える．
+    その安定化の度合いは，
+    \[E_1=\frac{\alpha+\beta}{1-S}\]
+    と表されるが，$\alpha$は近づき過ぎない限りほぼ一定であり，$\beta$も近づき過ぎない限り$S$の線型関数である．従って，分子軌道の安定化度合いは，殆ど１変数$S$の大きさに依って定まるという直観は有用なことが多い．
+    この直観には名前がついていて，「最大重なりの原理」などという．
+\end{screen}
+
+\subsubsection{一般の等核２原子分子}
+
+\begin{example}
+    結合する原子軌道が共に1s軌道である場合
+    \begin{eqnarray*}
+        \sigma_g&=& \sqrt{\frac{1}{2+2S}}(\phi_{1sA}+\phi_{1sB}) \\
+        \sigma_u &=& \sqrt{\frac{1}{2-2S}}(\phi_{1sA}-\phi_{1sB})
+    \end{eqnarray*}
+    という２つの軌道が生成される．$\sigma$は$z$軸周りの任意の回転操作について，波動関数が不変であることから，添え字の$g$と$u$は原点に関する反転操作について，対称であるか歪対称であるかを表す．これは，結合に際して２つの
+    原子軌道の位相が揃っているかの別による．
+
+    結合する原子軌道が共に$2\mathrm{p}_z$軌道である場合
+    \begin{eqnarray*}
+        \sigma_g&=& \sqrt{\frac{1}{2-2S}}(\phi_{2p_zA}-\phi_{2p_zB}) \\
+        \sigma_u &=& \sqrt{\frac{1}{2+2S}}(\phi_{2p_zA}+\phi_{2p_zB})
+    \end{eqnarray*}
+    $\sigma_g$は原点対称で，結合領域においては同位相であるから，関数形は以前と違うが（重なり積分の値が負になっている事による！），結合性軌道になる．
+    これらの軌道は$z$軸対称であるから，引き続き$\sigma$という名前をつける．
+
+    結合する原子軌道が共に$2\mathrm{p}_x$軌道である場合
+    \begin{eqnarray*}
+        \pi_u &=& \sqrt{\frac{1}{2+2S}}(\phi_{2p_xA}+\phi_{2p_xB}) \\
+        \pi_g &=& \sqrt{\frac{1}{2-2S}}(\phi_{2p_xA}-\phi_{2p_xB})
+    \end{eqnarray*}
+    という分子軌道が形成される．ここで$\pi$とは，$z$軸周りの180度回転について波動関数の符号が変わる変換性を意味する．
+    そして今回は，原点についての変換について，符号が逆転する$u$の方が，$2p_x$軌道が同位相で混じり，結合性軌道である．
+
+    以上，これ以外の組み合わせは重なり積分が$0$となる．これは波動関数の，鏡映変換に対する偶奇性を用いて説明できるが，理解ができなかった．
+\end{example}
+
+\begin{definition}[結合次数]
+    \[ \frac{1}{2}\times\{ (結合性軌道内の電子数)-(反結合軌道内の電子数)\} \]
+    の値を結合次数といい，化学結合の強さの相対評価に使われる．
+    これは，古典論の「単結合」「二／三重結合」に相当する概念だと言える．
+\end{definition}
+\begin{example}　
+    \ce{H_2}は１であり，単結合に相当する．\ce{He_2}は，$\frac{1}{2}(2-2)=0$より，このような（安定な）結合は生じない．一方で，\ce{He_2^+}イオンは存在する．
+
+    \ce{N_2}は３である．
+\end{example}
+\begin{example}[\ce{B_2}分子などの絶妙な大きさの分子での，$2s-2p_z$起動間相互作用]
+    \ce{B_2}は$(1\sigma_g)^2(1\sigma_u)^2(2\sigma_g)^2(2\sigma_u)^2(3\sigma_g)^2$と期待され，これだと閉殻構造をなすため，反磁性を示すはずだが，実際の\ce{B_2}分子は常磁性である．
+    実際の電子配置は$(1\sigma_g)^2(1\sigma_u)^2(2\sigma_g)^2(2\sigma_u)^2(1\pi_u)^2$であると予想されている．Bの2s準位と2p準位は接近しているため（？），同じ原子内での$\mathrm{2s-2p}_z$起動間の相互作用によって，$2\sigma_g$軌道（$2_s$軌道同士が作るもの）がより安定化する代わりに，$3\sigma_g$軌道（$2p_z$軌道同士が作るもの）が不安定化するためだと考えられる．
+
+    この傾向は\ce{C_2}\ce{N_2}分子でみられ，一方\ce{O_2}\ce{F_2}分子では見られなくなる．これも，$\mathrm{2s-2p}_z$間の準位差が大きくなるためだと理解される．
+\end{example}
+
+\begin{screen}
+    いまいち，「エネルギー準位の差が大きい原子軌道同士の相互作用は小さく，原子軌道が殆どそのまま分子軌道となる」の論理がわからなかった．エネルギー準位が違うということは，必然的にそれらの原子軌道間の重なり積分の値が違うから，ということであろうか？
+\end{screen}
+
+\subsubsection{異核２原子分子}
+
+LCMO近似により，$\psi=C_A\phi_A+C_B\phi_B$と置く．次の永年方程式を計算すると，
+\begin{eqnarray*}
+\mathrm{det}\left(\begin{array}{cc}\alpha_A-E &\beta-SE \\ \beta-SE & \alpha_B-E \end{array}\right) &=& 0 \\
+(1-S^2)E^2-(\alpha_A+\alpha_B-2\beta S)E+(\alpha_A\alpha_B-\beta^2)&=& 0 \\
+E^2-(\alpha_A+\alpha_B)E+(\alpha_A\alpha_B-\beta^2)&=& 0\\
+2E&=&\alpha_A+\alpha_B\pm(\alpha_A-\alpha_B)\left(\sqrt{1+\frac{2\beta}{\alpha_A-\alpha_B}}\right)^2 \\
+&\simeq & \alpha_A+\alpha_B\pm(\alpha_A-\alpha_B)\left( 1+\frac{1}{2}\left( \frac{2\beta}{\alpha_A-\alpha_B} \right)^2 \right) \\
+E_1 &=& \alpha_A-\frac{\beta^2}{\alpha_B-\alpha_A} \lor E_2=\alpha_B+\frac{\beta^2}{\alpha_B-\alpha_A}
+\end{eqnarray*}
+となる．ただし，$\alpha_A<\alpha_B$を仮定し，$S^2,\beta S$の項は十分小さいとして落とし，$\left| \frac{\beta}{\alpha_A-\alpha_B} \right|\ll 1$とした．
+
+従って，２つの分子軌道のエネルギー準位は，原子軌道のエネルギー準位からの変位
+\[ \Delta=\frac{\beta^2}{\alpha_B-\alpha_A} \]
+で捉えられる．従って，異核２原子分子の分子軌道は，２つの原子軌道のエネルギー差（Coulomb potential）が小さいほど，また，共鳴積分$\beta$（従って，主に重なり積分$S$）の絶対値が大きいほど安定化する．
+
+また，波動関数は，原子軌道の波動関数を用いて
+\begin{eqnarray*}
+    \psi_1&=&C_A\left( \phi_A-\frac{\beta}{\alpha_B-\alpha_A}\phi_B \right) \\
+    \psi_2&=&C_B\left( \phi_B+\frac{\beta}{\alpha_B-alpha_A}\phi_A \right)
+\end{eqnarray*}
+と表せる．見かけの符号に騙されなければ，$\beta<0,\alpha_A<\alpha_B$より，$\psi_1$が確かに結合性起動である．
+そして，異核分子の特徴として，$\psi_1$には（エネルギー準位の近い）$\phi_A$の寄与が大きく．必然的な非対称性だが，これが分極を招く．
+分極は，古典論では電気陰性度という指標によって予測されるのであった．
+
+\begin{definition}[電気双極子モーメント]
+    分極は電気双極子モーメントという値で理解される．等しい大きさの電荷$+\delta,-\delta$がベクトル$\mathbf{l}$だけの変位で置かれている時，
+    \[ \mathbf{\mu}:=\delta\mathbf{l} \]
+    と定める．単位は$\mathrm{D}=3.3336\times 10^{-30}\;\mathrm{Cm}$
+\end{definition}
+
+\begin{screen}
+    1. 原子軌道間のエネルギーが近いほど，
+    2. 原子軌道間の重なり積分の値が大きいほど，
+
+    結合性軌道は安定化し，反結合性軌道は不安定化する．
+\end{screen}
+
+\subsubsection{多原子分子}
+
+\section{$\pi$電子についての理論}\label{section-frontier}
+有機化合物の共役系の$\pi$電子が作る分子軌道は，$\sigma$結合と直交しているため，全く独立に考えることができる．
+この枠組みを建設する．
+
+\subsection{様々な精度の近似}
+
+$\pi$電子について行う近似には以下のようなものがある．\\
+1. $\pi$電子近似：一番粗い経験的なもの．\\
+2. PPP(Pariser-Parr-Pople)法 \\
+3. VESCF(Variable Electronegativity Self-Consistent Field)法
+
+\subsection{HMO法による分子軌道の定性的説明}
+Hückel法とは，Erich Hückelが1930sに提案した分子軌道計算法で，大胆な近似を行なっているが，$\pi$電子共役系を持つ分子については定性的に示唆に富む結果を得るので，
+$\pi$共役系の分子軌道計算については現在でもよく考慮される．
+簡単に言えば，永年方程式がものすごくNilpotentっぽくなる．
+
+\begin{theory}[単純ヒュッケル法(H\"{u}ckel method)]
+    構造の判明している分子について，LCAOに対して適用される，次の３つの近似約束の組のことである．
+
+    1. 重なり積分の値は，同じ原子軌道同士の時$1$，違う原子軌道同士の場合$0$とする．
+    \[ S_{nm}=\delta_{nm} \]
+    $n=m$の時は規格化条件に他ならない．$n\ne m$の時は，原子間の原子軌道の重なりを無視するという近似を意味する．
+    電子は所属する原子からの引力しか受けないという仮定を定式化したものである．
+
+    2. Coulomb積分(Hamiltonian行列の対角成分)の値は同じ種類の原子では等しい．
+    \[ H_{nn}=\int\Psi_n\hat{H}\Psi_n d\tau = \alpha \;\;\; (\alpha :負定数) \]
+    同一原子の$\pi$軌道は全て同じエネルギーを持つという仮定の定式化である．
+
+    3. 共鳴積分(Hamiltonian行列の非対角成分)は，結合を持つ原子間でのみ$0$でない値を持つ．
+    \[ H_{mn}=\int\Psi_m\hat{H}\Psi_n d\tau = \begin{cases}
+        \beta & nとmは結合していない \\
+        0 & nとmは結合している
+    \end{cases} \;\;\; (\beta :負定数) \]
+
+    これとLCAO近似を組み合わせると，変分原理の基礎方程式は$n$元連立一次方程式となり，結合定数$C_1,\cdots, C_n$は必ず求まる．
+\end{theory}
+\begin{example}
+    $N$個の$2p_z$軌道$\phi_1,\cdots,\phi_N$の作る分子軌道を考える．$\sigma$結合の影響を考えず，LCMO近似より$\psi=\sum^N_{i=1}C_i\phi_i$として良い．
+    \begin{eqnarray*}
+        \int\langle\psi|\psi\rangle d\tau &=& \int\langle\psi|H|\psi\rangle d\tau \\
+        E&=& \int\left( \sum^N_{i=1}C_i\psi_1 \right) H\left( \sum^N_{i=1}C_i\phi_i \right)d\tau \\
+        &=& \sum^N_{i=1}C_i^2\alpha_i + 2\sum_{j>i}C_iC_j\beta_{ij}
+    \end{eqnarray*}
+    ここで，Hückel法の1),2)より，規格化条件は次のようになる．
+    \[ \int\left( \sum^N_{i=1}C_i\phi_i \right)^2d\tau = \sum^N_{i=1}C_i^2=1 \]
+    これより，$\sum^N_{i=1}C_i^2=1$を両辺に乗じた式
+    \[ E\sum^N_{i=1}C_i^2=\sum^N_{i=1}C_i^2\alpha_i + 2\sum_{j>i}C_iC_j\beta_{ij} \]
+    から，$E$が最小値を取る際の$\{C_i\}_{i\in [n]}$を見つけ出すという極値問題になる．
+    Hückel法の3)を用いると，この式を各$C_i$で偏微分したものから，未知数$N$の連立一次方程式を得るので，解が定まる．
+\end{example}
+
+\begin{example}[エチレンの場合]
+    ２つの$\pi$軌道が作る分子軌道は，Hückel法による$S$の扱いに注意すると，永年方程式は次の通り．
+    \[ \mathrm{det}\left(\begin{array}{cc}\alpha-\epsilon&\beta \\ \beta&\alpha-\epsilon \end{array}\right)=0  \]
+    これを解くと，
+    \[ \psi_1=\frac{1}{\sqrt{2}}(\phi_1+\phi_2),\;\;\; \epsilon_1=\alpha+\beta\;\;\; (\lambda=1=-\frac{\alpha-\epsilon}{\beta}) \]
+    \[ \psi_2=\frac{1}{\sqrt{2}}(\phi_1-\phi_2),\;\;\; \epsilon_2=\alpha-\beta\;\;\; (\lambda=-1=-\frac{\alpha-\epsilon}{\beta}) \]
+\end{example}
+
+\begin{example}[1,3-ブタジエンの場合]
+    ４$\pi$電子系である．式と図示の対応がいよいよ美しくなってくる．分子軌道の安定性と節の数の対応に注目．
+\end{example}
+
+\begin{example}[ベンゼン環の場合]
+    ６$\pi$電子系である．エネルギー準位の縮重が起こって，合計で４種類のエネルギー固有値を得る．
+    その縮重の起こり方は，節の数が一致する分子軌道について起こっている．ちょうど６員環の対称性を分類しているようで，もはや美しい．
+    ベンゼンは，ここから生成される６つの分子軌道のうちの３つの結合性軌道に６つの電子が入った閉殻構造，という意味で，非常に安定な結合を形成している．
+\end{example}
+
+\begin{example}[ポリエンの共役系]
+    直鎖状／平面環状ポリエンの共役系については，各$n$についての一般解が得られる例である．
+
+    1. 直鎖状
+    \[ \epsilon_k=\alpha+2\beta\cos\frac{k\pi}{n+1}\;\;(k=1,\cdots,n) \]
+
+    2. 平面環状
+    \[ \epsilon_k=\alpha+\beta\cos\frac{2k\pi}{n}\;\;(k=1,\cdots,n) \]
+    これは簡単な作図による求解法が知られていて，鮮やかなので動画化したい．
+
+    3. Hückel則：$4n+2$個の$\pi$電子を持つ環状共役ポリエンは安定なのに対して，$4n$個のものは不安定になる．
+    cyclooctatetraene（別名アヌレン[8]）炭素数$8$で$(n=2)$を例に取る．もしこれが平面環状の分子であったら，２つの電子は，縮重した２種の非結合性軌道に１つずつ入る（不対電子）．この状態は不安定で，実際このような構造は取らない．
+    実際，cyclooctatetraeneは浴槽型を取る．そして，２価の陰／陽イオンは閉殻構造を取れるので再び平面環状分子となる．
+    この閉殻可能かどうかの議論を一般化したものがHückel則である．
+\end{example}
+
+\subsection{芳香族性：H\"{u}ckel ruleの一般化} 
+芳香族は，特にシナモン等に含まれる環状化合物に特殊な匂いがしたことから名前がつけられた（実際はその一部に発癌性が認められている）が，
+芳香族と呼ばれるからといって必ずしも芳香を持つわけではなく，真の定義は化学的な安定性，即ち反応のしにくさにある．
+芳香属性(aromaticity)とは「平面環状分子」，cyclicとplanarとの２つに特徴付けられる特異的な安定性を持つ物質として定義される．
+より詳しくは，Hückel則「$\pi$電子の個数で安定性を予測できる」と合わせて，次の通りである．
+
+\begin{definition}
+    芳香族性：殆どの$4n+2$電子共役系のように，全ての電子対が結合軌道に入ると，大きな非局在化エネルギーを得られる安定な物質が得られる．
+
+    非芳香族性：縮重した軌道に１つずつFund則を満たして電子が入ることで，開殻状態（biradical構造）になり，
+\end{definition}
+\begin{theory}[Hückel則：$\pi$電子の数と安定性]
+    Hückel則：$\pi$電子の数が$4n+2\; n\in\mathbb{N}$と表せることが，環状化合物が芳香属性を得るための必要条件である．
+
+    1. 平面環状分子が，$\pi$電子の数が$4n+2$個であれば，芳香族(aromatic)性を有する（＝安定である）．
+
+    2. 環状分子について，平面的ではない（立体的要因により平面構造は取れない）が$\pi$電子の数が$4n, 4n+2$は，非芳香族である（＝不安定である）．環の歪みにより，$\pi$共役系が途中で途切れるためである．
+
+    3. 平面環状分子について，$\pi$電子の数が$4n$個であれば，共役の結果分子は不安定化する．これを反芳香属性という．
+
+    つまり，$(4n+2)\pi$系の安定環は，殆ど平面構造を持つ．（これが，$10$員環のナフタレンと[10]アヌレン，$14$員環のアントラセンと[14]アヌレンの違いである）．
+\end{theory}
+\begin{remark}
+    ビシクロ環は，奇数員環であるが，芳香属性を持つ．
+\end{remark}
+
+\subsection{$\pi$電子の振る舞いと分子の性質}
+以上で，近似の精度は不問にして，ひとまず分子軌道の理論は揃った．
+ここから，分子の物性，例えば紫外吸収スペクトルを説明するための言葉を整えたい．
+なお，分子の物性を支配するのは，一番不安定な$\pi$電子の振る舞いに他ならない．
+
+\subsubsection{全$\pi$電子エネルギーと非局在化エネルギー}
+
+\begin{definition}[$\pi$電子の全エネルギー]
+    Hückel法による理論の下では，$\pi$電子の全エネルギー$E_\pi$は各$n_m\in 3$を分子軌道$\psi_m$（エネルギー$\epsilon_m$）内に入っている$\pi$電子の個数として，次のように表される．
+    \[ E_\pi =\sum_mn_m\epsilon_m \]
+    すると，この値が定める，「$\pi$電子が結合していない場合からの安定化した分$\Delta E:=E_\pi(hypothetical)-E_\pi(real)$」が定まる．これを非局在化エネルギーという．
+\end{definition}
+
+\subsubsection{電子密度}
+
+\begin{definition}[$\pi$電子密度]　
+
+    1. $\pi$分子軌道$\psi_k$を，$i$番目の原子の近傍で見つける確率として，
+    \[ p_{ii}^{(k)}:=C_{ki}^2\]
+    を，部分$\pi$電子密度という．
+
+    2. 各原子$i$について，全ての$\pi$分子軌道$\psi_k$の部分$\pi$電子密度を足し合わせたものを，$\pi$電子密度という．
+    \[ P_{ii}:=\sum_kn_kp_{ii}^{(k)}=\sum_kn_kC^2_{ki} \]
+\end{definition}
+
+\subsubsection{$\pi$結合次数}
+
+\begin{definition}[$\pi$結合の結合次数(bond order)]　
+
+    1. $\pi$分子軌道$\psi_k$の部分$\pi$結合次数を
+    \[ p_{ij}^{(k)}:=C_{ki}C_{kj} \]
+    と定める．
+
+    2. $i,j$番目の原子同士の$\pi$結合の結合次数とは，
+    \[ P_ij:=\sum_kn_kp_{ij}^{(k)}=\sum_kn_kC_{ki}C_{kj} \]
+\end{definition}
+\begin{example}
+    1. エチレン：$P_{12}=2\frac{1}{2}\frac{1}{2}=1$
+
+    2. 1,3-ブタジエンの$\pi$結合次数は，$P_{12}=P_{34}=0.89,\; P_{23}=0.45$である．
+
+    3. シクロブタジエン
+
+    4. ベンゼン：$0.67$であり，２つのケクレ構造の混成共鳴体と見做した場合の$0.5$より大きい！
+\end{example}
+\begin{remark}
+    $\pi$結合次数と，その２つの炭素原子の結合距離との間には，線型な関係がある．吉久先生は，エタン，エチレン，アセチレンの系列を，結合長の言葉で教えてくれた．あれは科学だった．
+\end{remark}
+
+\subsubsection{$\pi$分子軌道と紫外可視吸収スペクトル}
+
+\begin{fact}[紫外可視光のエネルギー]
+    \[ E\;(\mathrm{kJ\;mol^{-1}}) = 1.196\times 10^5/\lambda\; (\mathrm{nm}) \]
+より，紫外光$300~600\;\mathrm{kJ\;mol^{-1}}$，可視光$170~300\;\mathrm{kJ\;mol^{-1}}$の感覚．
+\end{fact}
+\begin{fact}
+    $\Delta E:=E(\mathrm{LUMO})-E(\mathrm{HOMO})$の値は，共役鎖が長いほど小さくなり，従って最長波長の吸収帯内での極大吸収波長は長くなる．
+\end{fact}
+\begin{example}[直鎖共役ポリエンで考える]
+    \[ \epsilon_k=\alpha+2\beta\cos\frac{k\pi}{n+1}\;\;(k=1,\cdots,n)\]
+    であったから，
+    \[\Delta E=\epsilon_{\frac{n}{2}+1}-\epsilon_{\frac{n}{2}}=-4\beta\sin\frac{\pi}{2(n+1)}\]
+    である（$n$は偶数）．
+
+    この例として，$\beta$-カロテンはオレンジ色$\lambda_{\mathrm{max}}=484\;\mathrm{nm}$だが（人参，南瓜），リコピンは赤色$\lambda_{\mathrm{max}}=548\;\mathrm{nm}$である（トマト，西瓜）．
+\end{example}
+\begin{example}[phenolphthalein]　
+
+    \chemfig{*6(([,0.7]-{\color{red}O}H)-=-(>[:30]([2]*5(-{\color{red}O}-([,0.7]={\color{red}O})-(*6(-=-=-=))--))(<:[:-30]*6(-=-([,0.7]-{\color{red}O}H)=-=)))=-=)}\ce{<=>C[-2H+][+2H+]}
+    は酸性条件下（左辺）で，ラクトン環（＝環状エステル構造）を作っている．中心炭素が$\mathrm{sp}^3$混成軌道の正四面体構造なので，ベンゼン環同士で共役系は作らず，吸収スペクトルはフェノールと安息香酸との２つが単純に見えているようなもので，紫外域に逸れている．
+
+    しかし，ラクトン環が解列すると，中央炭素原子は$\mathrm{sp}^2$混成になり，$\pi$電子は分子全体に非局在化される．その結果，HOMOとLUMOのエネルギー差は縮小して，緑色可視光域に吸収波長を持ち，その補色である濃紅色が我々の目に見える．
+\end{example}
+
+\subsection{分子軌道論による化学反応の理論}
+
+$\pi$分子軌道の言葉，特にHOMOとLUMOのエネルギー差が分子の紫外可視吸収スペクトルとして観測できることを説明した．
+実は，このような物性だけでなく，分子同士の化学反応も，実はHOMOとLUMOが特異的に重要な役割を演じる．これらの軌道をフロンティア軌道と呼ぶ．
+
+\subsubsection{フロンティア軌道理論}
+
+\begin{definition}[福井謙一(52)]
+    化学反応において，反応性・位置選択性に関わる分子軌道は主にHOMOとLUMOのみである．（これらをフロンティア軌道と呼ぶ．）
+
+    この理論は，最初にナフタレンのニトロ化反応に於ける位置選択性を説明する形で産声をあげた．
+\end{definition}
+\begin{example}[naphthaleneのnitration]　
+
+    \chemfig{*6(=-*6(-=-=-)=-=-)}\ce{->C[HNO3/H2SO4]}\chemfig{*6(=-*6(-=-(-NO2)=-)=-=-)}\ce{+}\chemfig{*6(=-*6(-=-=(-NO2)-)=-=-)}
+
+    前者の１位付加が圧倒的に(95\%)起こりやすい．
+
+    まず，混酸内での酸塩基反応により，nitronium ion \ce{NO2+}が生じ，これがナフタレンを攻撃することとなる．
+    しかし，ナフタレンの炭素原子上の$\pi$電子密度はいずれも$1$であるから，これだけでは説明がつかない．併しHOMOに入っている電子の密度は，１位で$2\times 0.4253^2=0.362$，
+    位で$2\times 0.2629^2=0.138$となっている．
+    
+    理論の萌芽はこれであったが，この後，驚くべく普遍性を持った見方だと判明した．
+\end{example}
+
+\begin{theory}[フロンティア軌道理論：閉殻分子同士の反応では，HOMOとLUMOが相互作用する．]
+    ２つの$\pi$軌道が相互作用する時，異核２原子分子の計算から抽象して，次のことが成り立つ．
+
+    1. 結合性軌道は元の２つの軌道のいずれよりも安定化し（$\Delta:=\epsilon_a-\epsilon_1$とする），反結合性軌道は元の２つの軌道のいずれよりも不安定化する（$\Delta^*=\epsilon_2-\epsilon_b$とする）．
+
+    2. 相互作用する２つの軌道のエネルギー準位が近いほど，$\Delta,\Delta^*$の絶対値は大きい．
+
+    3. 一般に$\Delta^*>\Delta$
+
+    4. 生成した分子軌道のエネルギー準位は，元の軌道のうち，エネルギー準位が近い方の軌道に，強い影響を受ける．
+
+    すると，相互作用する２つの軌道の間で，合計３つの電子が入っていた場合までは，分子軌道を形成することで恩恵を得られるが，いずれの軌道も２つの電子を持っていた場合，これらは定常的な分子軌道を形成しない．
+
+    従って，閉殻分子同士の相互作用は，被占軌道と空軌道との間の相互作用に限られる．
+
+    このような組み合わせのうち，一番エネルギー準位が近い２つは，HOMOとLUMOの組み合わせに他ならない．
+\end{theory}
+\begin{remark}
+    閉殻でない分子，例えばラジカルなどでは，電子が１つしか入っていない軌道を半占有分子軌道SOMO (singly occupied molecular orbital)と呼び，これもフロンティア軌道に数える．
+\end{remark}
+
+\subsubsection{付加環化反応(cycloaddition)への応用}
+
+\begin{fact}[Diels-Alder反応]ethyleneに1,3-butadieneを混合して加熱するとcyclohexeneを生成する．
+
+    \chemfig{=[:150]-[:90]=[:30]}\ce{+}\chemfig{=[:90]}\ce{->C[\Delta]}\chemfig{*6(-----=)}
+    
+    1. この反応の進行は熱力学的なものであることが知られている．
+
+    2. また，反応が立体特異的である．即ち，出発物質の（この場合は1,3-butadieneの）立体構造（cisであるか，transであるか）が保持されたまま反応が進行する．
+\end{fact}
+\begin{model}
+    ethyleneがHOMO，butadieneがLUMOを提供する場合も，ethyleneがLUMO，butadieneがHOMOを提供する場合も，エネルギー準位は縮重しているため全く同一で，また幾何学的配置を変えることなく，同位相の軌道の重なりを作ることができる．
+
+    Ethyleneの二量化ではこれは起こらない（片方の炭素同士の軌道を重ね合わせれば，もう片方が立たなくなる）．従って，熱力学的に進行しないことがわかる．
+\end{model}
+
+\subsubsection{電子環状反応への応用：Woodward-Hoffmann則}
+名前の由来は，「（構造式上の模式図で）電子が環状に動くことによって生じる反応」という意味である．
+
+\begin{definition}[pericyclic reaction]
+    $\pi$電子系を持ついくつかの結合が，特殊な環状の遷移状態(the bond orbitals involved in the reaction overlap in a continuous cycle at the transition state)を経て，反応中間体を生成せずに同時に（concerted)形成・切断される反応の総称．\footnote{en.wikipedia.orgのpericyclic reactionから．}
+\end{definition}
+
+\begin{fact}
+    butadieneを加熱するか，光を照射すると，閉環反応が進行して，cyclobuteneが生成する．
+    
+    \chemfig{=[:150]-[:90]=[:30]}\ce{->[\Delta,h\nu]}\chemfig{=[:90]-[:0]-[:-90]-[:180]}
+
+    この反応は，生成物の立体配置が反応条件によって異なる．熱的に進行した場合に，trans体が，光照射下で反応が進行した場合はcis体が生成する．
+\end{fact}
+\begin{model}
+    一般に，熱反応は電子的には基底状態で進行するので，反応の進行はHOMOに支配される．これに対して，光
+    による反応では，HOMOの電子がLUMOに１つ押し上げられるため，反応の進行はLUMOによって支配される．
+
+    \chemfig{H3C-[:0]1=[:60]2-[0]3=[:-60]4-[0]CH2}
+
+    HOMOは，1,4炭素上の$\pi$軌道の位相は原点対象になっているので，「同旋的回転」をすることで，$\sigma$結合が形成される．
+
+    LUMOは，1,4炭素上の$\pi$軌道の位相は結合軸について任意角度の回転対称になっているので，「逆旋的回転」をすることで，$\sigma$結合が形成される．
+\end{model}
+
+この例を，全てのpericyclic reactionに普遍的だと見出した法則を，Woodward-Hoffmann則という．
+\begin{theory}[Woodward-Hoffmann則／軌道対称性保存則]
+    $[i+j]$環化反応の選択性は，次の通りになる．
+
+    1. $\pi$電子数が$4n$である場合，熱反応禁制，光反応許容である．
+
+    2. $\pi$電子数が$4n+2$である場合，熱反応許容，光反応禁制である．
+
+    そしてこの性質により，cyclic reactionの反応の前後において反応に関与する電子の所属する分子軌道の対称性は保存される
+\end{theory}
+
+\subsubsection{Photochromism}
+
+\begin{fact}[Spiropyran]
+    spiropyran分子はspiro形分子と呼ばれる閉環構造を持ち，紫外線を吸収して電子環状反応を起こし，merocyanine形と呼ばれる開環構造に変化する．
+
+    これと同時に，spiro形ではspiro炭素という不斉炭素によって分断されていた共役系が，分子全体に広がる．
+
+    併し，紫外線が当たることで進行するように，熱的にはmerocyanine形分子は不安定であり，光が当たらなくなると元に戻る．
+\end{fact}
+\begin{remark}
+    diarylethene (1988, 入江正浩)，fulgideなども，反応の様子は違えど，共役系の出現による着色という意味では，発生原理は共通である．
+\end{remark}
+
+\section{配位結合の理論}
+
+\begin{quotation}
+    遷移金属イオンに複数の原子・分子が集合した錯塩は，一番目を引く色を持つが，非常に説明は難しかった．
+    まず，原子価結合理論がとりあえずの試みとして登場した．$p$軌道だけでなく，$s$軌道も結合に参与する有機化合物の
+    からの類比で，金属錯体とは，$(n+1)\mathrm{s},(n+1)\mathrm{p}, n\mathrm{d}$軌道が参与する混成軌道と考えられる．
+    そして，ここでのアノマリーは，高スピン錯体になったり低スピン錯体になったりする機構，可視光域にも複数現れる沢山の吸収帯の定量的説明であった．
+
+    そのあと，化学結合を「軌道の相互作用」として説明する分子軌道論の上に建てられた理論としては，50s~60sにかけて成立した配位子場理論を待たねばならない．
+    この節ではこちらを説明する．
+\end{quotation}
+
+\subsection{配位結合}
+
+\begin{definition}[coordinate bond]
+    共有結合（分子軌道の形成）のうち，生成した分子軌道内の共有電子対を，完全に片方の原子のみが提供している共有結合のことを，特に配位結合という．
+
+    電子対を提供して配位している原子・分子を配位子(ligand)という．配位子のうち，特に複数の部位にて配位結合をするものを，$n$座配位子といい，生じた錯体をchelate錯体という．
+\end{definition}
+
+\subsection{Lewis酸／塩基}
+
+\begin{definition}[Lewis, 1923]
+    酸とは，共有結合を形成するために，他の物質から１対の電子対を受容するものである．
+
+    Lewisは，Brønstedによる酸と塩基の定義である「プロトンの授受」から，「非共有電子対の授受」という双対概念の方に乗り移ることで定義を拡張した．（従って，プロトンとは，Lewisの立場からは強い酸の１つである）．
+    こうすることで，「酸化」という言葉とも相性が良くなり，概念としての連続性が明確になった．
+    併し，日常用語との解離を意識して，特に「Lewis塩基」などと呼び分けることが多い．
+\end{definition}
+\begin{example}
+    ligandはLewis塩基である．
+\end{example}
+
+\begin{definition}[Ralph Pearson, 1963]
+    1. 各ハロゲン化物イオン\ce{F-},\ce{Cl-},\ce{Br-},\ce{I-}に対して，この順に生成定数が増大するLewis酸を柔らかい酸，この順に減少するものを硬い酸と
+    定める．
+
+    2. hard acids bind strongly to hard bases and soft acids bind strongly to soft bases. ただし，ここでの酸／塩基とは，Lewisの定義に拠る．
+\end{definition}
+\begin{remark}
+    「硬い」ものに共通する性質は，半径が小さくて分極しにくい性質，「柔らかい」とは，半径が大きくて分極しやすい性質を意味する．
+\end{remark}
+\begin{example}
+    酸化数３のコバルトは硬い酸であるが，酸化数０のコバルト原子は柔らかい酸である．
+\end{example}
+
+\begin{theory}[Hard and Soft Acids and Bases]
+    The explanations for such behavior include: 
+    
+    (1) various degrees of ionic and covalent $\sigma$-binding; 
+    
+    (2) $\pi$-bonding; 
+    
+    (3) electron correlation phenomena; 
+    
+    (4) solvation effects.
+\end{theory}
+
+\subsection{配位子場理論}
+
+\subsubsection{結晶場理論に拠るd軌道の分裂：点電荷モデル}
+
+\begin{model}[crystal field theory]
+    配位子を点負電荷と見做し，中心金属イオンへの静電ポテンシャルによる影響のみに注目する．
+    このモデルのみで，d軌道のエネルギー準位の振る舞い（分裂など）が，
+    d軌道と配位子との相互作用として定性的に説明がつく．
+    即ち，錯体の形状と，d軌道のエネルギー準位とに正しい対応を与える理論である．
+\end{model}
+\begin{example}[６配位，正八面体]
+    中心金属イオンのd軌道は５重に縮退しており，そこに１つの電子が収容されているものとする．ここに６つの同種の配位子を，距離$a$だけ離れた点電荷$-Ze$としてモデル設定をする．
+
+    すると，この電場による（この系唯一の）d電子のポテンシャルエネルギー$V$は，d電子の位置$\mathbf{r}$と各配位子の位置$\mathbf{R}_i\;(i\in [6])$を用いて，
+    \[ V(\mathbf{r})=\sum_{i\in [6]}\frac{Ze^2}{|\mathbf{R}_i-\mathbf{r}|} \]
+    と表せる．すると，d軌道のエネルギー準位は，Hamiltonianを$H=H'+V(\mathbf{r})$と分解すれば，$H'$とは６つの配位子が存在しなかった場合のHamiltonianに等しいから，その固有値$E_0$を孤立している時の中心金属イオンでのd軌道のエネルギー準位とすると，
+    \begin{eqnarray*}
+        E(\mathrm{d}_{x^2-y^2}) &=& E(\mathrm{d}_{z^2}) = \int \langle\phi_{\mathrm{d}_{x^2-y^2}} |H'|\phi_{\mathrm{d}_{x^2-y^2}}\rangle d\tau +  \int \langle\phi |V(\mathbf{r})|\phi\rangle d\tau \\
+        &=& E_0 + \frac{6Ze^2}{a}+6Dq\\
+        E(\mathrm{d}_{xy}) &=& E(\mathrm{d}_{yz})=E(\mathrm{d}_{xz}) \\
+        &=& E_0+  \int \langle\phi_{\mathrm{d}_{xy}} |V(\mathbf{r})|\phi_{\mathrm{d}_{xy}}\rangle d\tau \\
+        &=& E_0 + \frac{6Ze^2}{a}-4Dq
+    \end{eqnarray*}
+    と表せる．ただし，パラメータを，$\overline{r}$をd軌道半径として，
+    \[ D=\frac{35Ze}{4a^5},\;\;\; q=\frac{2e\overline{r}^4}{105} \]
+    と置いた．
+    
+    第２項により，中心金属イオンのd軌道は，６つの配位子から受ける静電ポテンシャルにより一律にエネルギー準位が上がる．
+    併し，第３項にあるように，うち２種類の軌道は，必ず電子密度がx,y,z軸のいずれかで大きな値を持ち，反発を受けてエネルギーが高くなる．これらを$\mathrm{e_g}$軌道と呼び，それ以外を$\mathrm{t_{2g}}$軌道という．
+    また，このような軌道の分裂を配位子場分裂という．
+
+    各パラメータ$D,q$から，次のことがわかる．
+
+    1. 配位子場分裂の大きさは，金属イオンの酸化数が大きいほど大きくなる．配位子がより近づくので$a$が減少し，軌道との相互作用がより大きくなるためである．
+
+    2. 同じ酸化数の金属イオンでは，3d, 4d, 5d軌道の順に，開裂が大きくなる．d軌道が広がって$\overline{r}$が大きくなり，配位子との相互作用が大きくなるためである．
+\end{example}
+\begin{remark}
+    配位子とd軌道が重なる場合に$+6Dq$は納得できるが，重ならない場合はこの項の符号が変わって$-4Dq$となる理由がわからない．
+\end{remark}
+\begin{anomaly}
+    配位子を点電荷で近似しているので，分裂の大きさについての予測には力不足である．
+    例えば，配位子の陰イオンの価数が同じでも，実際は\ce{I-},\ce{Br-},\ce{Cl-},\ce{F-}の順に分裂が大きい．
+    また，中性の一酸化炭素を配位子とする錯体でd軌道分裂が大きくなることも説明できない．
+\end{anomaly}
+
+
+\subsubsection{分子軌道理論によるd軌道の分裂}
+
+\begin{quotation}
+    配位子場という言葉は結晶場という言葉に対して用いられたものである。結晶場は配位子を単なる負電荷として見た場合の静電場であるから、クーロン反発しか考慮していない。それに対して配位子場は配位子の原子核と電子を分子軌道法に従って考慮しているから、配位子との電子の共有による軌道の安定化も考慮した静電場となっている。
+    
+    分子軌道法において2つの軌道が相互作用するのはそれらの軌道が点群の同じ対称種に属する場合に限られる。
+    
+    そこで、配位子場理論においては複数の配位子の分子軌道の線形結合を考え、その対称性によって分類して、金属錯体のd軌道との相互作用を考える。この対称性によって分類した配位子の軌道を配位子群軌道という。\footnote{jp.wikipedia.orgの，配位子場理論から．}
+\end{quotation}
+
+\begin{theory}
+    点電荷だと思っていた配位子を，モデル設定を元に戻し，その分子軌道を考えよう．
+    すると，$\mathrm{e_g}$軌道とは，配位子と$\sigma$結合性の相互作用をするd軌道で，$\mathrm{t_{2g}}$軌道とは，非結合性軌道である．
+
+    この時，正八面体錯体でいえば，非結合性軌道$\mathrm{t_{2g}}(\mathrm{3d_{xy},3d_{yz},3d_{xz}})$と，反結合性軌道$\sigma_d^*(\mathrm{3d_{x^2-y^2},3d_{z^2}})$とのエネルギー順位の差が$10Dq$に当たる．
+    従って，$\sigma_d^*$軌道の反結合性が大きいほど，$10Dq$は大きくなる．
+
+    なお，$\mathrm{e_g}$軌道，4s軌道，$\mathrm{4p_{z,y,z}}$軌道は，それぞれ独立に配位子と$\sigma$結合を作り，分子を安定化させている．
+\end{theory}
+
+\subsubsection{強い配位子場と弱い配位子場}
+
+\begin{theory}
+    $\mathrm{d^4,d^5,d^6,d^7}$軌道への電子の入りかたとして，基底状態は常に２通り可能性が存在し，どちらになるかはさらに微妙なパラメータ（分裂の大きさと電子対形成のエネルギーと相談）の違いによって定まる．
+
+    より不対電子が多い方を高スピン状態といい，不対電子が少ない方を低スピン状態という．
+
+    一般に，配位子場分裂が小さい場合は，Hund則に従って電子配置は高スピン状態になるが，配位子場分裂が大きい場合はHund則が破れ，基底状態の電子配置は低スピン状態になる．
+\end{theory}
+
+\subsection{遷移金属錯体の色}
+
+色を作り出す要因は，大きく分けて２つある．
+
+1. 配位子場遷移
+
+2. 電荷移動遷移
+
+である．
+
+\subsubsection{配位子場遷移：d-d遷移}
+
+\begin{theory}
+    d-d遷移のことを配位子場遷移とも呼ぶ．これはスピン許容遷移である．
+\end{theory}
+
+\begin{example}[アクア錯イオン]$[\mathrm{M(H_2O)_6}]^{n+}$は正八面体構造を取る．
+    
+    1. $\mathrm{3d}^1$である$[\mathrm{Ti(H_2O)_6}]^{3+}$では，基底状態ではそのただ一つの電子は$\mathrm{t_{2g}}$軌道に入っており，$\mathrm{e_g}$への遷移に要するエネルギーは約$500\;\mathrm{nm}$の光に当たる．その結果，水溶液は，その補色である赤紫色に見える．
+
+    2. $[\mathrm{Mn(H_2O)_6}]^{2+}$は$\mathrm{3d}^5\to\mathrm{t_{2g}^3}\mathrm{e_g^2}$であり，基底状態は高スピン状態であり，半閉殻をなす．この時スピン許容遷移$\mathrm{t_{2g}}\to\mathrm{e_g}$は存在せず，水溶液はこれによる吸収帯を持たず，無色透明である．
+    一方で，非常に弱い，スピン禁制遷移は見られる．モル吸光係数は，２桁ほど小さくなる．
+\end{example}
+
+\subsubsection{電荷移動遷移}
+
+\begin{theory}[電荷移動遷移]
+    大きく次の３種類に分類される．
+
+    1. LMCT (Ligand-Metal Charge Transfer)：配位子の軌道から，中心金属イオンのd軌道へ．
+
+    2. MLCT (Metal-Lidand)：中心金属イオンのd軌道から，配位子の軌道へ．
+
+    3. IVCT (Inter-Valence)：低原子価状態の金属イオンから，高原子価状態の金属イオンへ．
+
+    これらの電荷移動遷移は，いずれも配位子場遷移に比べ，吸光度が$10^3\sim 10^4$も強い．
+\end{theory}
+\begin{example}
+    
+    1. 過マンガン酸イオン$[\mathrm{MnO_4}]^-$の濃い赤紫色は，LMCTである．Mnの3d軌道は空になっており，そこへ配位子$\mathrm{O}^{2-}$の2p軌道電子が遷移する．
+    $\mathrm{e_g}$軌道，$\mathrm{t_{2g}}$軌道のどちらに遷移するかによって，吸収スペクトルは違い，結果として２本の強い吸収帯が可視光域に現れる．
+
+    2. 鉄イオンへのフェナントロリンの配位$[\mathrm{Fe(phen)_3}]^{2+}$の赤色は，MLCTによる．低スピンであるFe(Ⅱ)の$\mathrm{t_{2g}}$軌道から，phenの$\pi^*$軌道への遷移が，濃い赤色の原因となる．
+    一般に，\underline{金属イオンへの配位子に不飽和結合があると，このようなMLCTが，紫外領域にかぶる形で現れ，色は赤色になる}．
+
+    3. プルシアンブルー$\mathrm{Fe^{I\hspace{-.1em}I\hspace{-.1em}I}}_4[\mathrm{Fe^{I\hspace{-.1em}I}(CN)_6}]_3\cdot \mathrm{15H_2O}$の濃い青色はIVCTである．
+    これは，CNを架橋として，$\mathrm{Fe^{I\hspace{-.1em}I\hspace{-.1em}I}}$と$\mathrm{Fe^{I\hspace{-.1em}I}}$が交互に結合した立方体のネットワークである．このネットワークの中で，$\mathrm{Fe^{I\hspace{-.1em}I}}\to\mathrm{Fe^{I\hspace{-.1em}I\hspace{-.1em}I}}$
+    という遷移による吸収スペクトルが$660\;\mathrm{nm}$付近に強く現れるため，錯体は濃い青色を呈する．
+\end{example}
+
+\subsubsection{Luminescence}
+励起された電子が基底状態に戻る過程では，ほとんどの場合は，分子・格子の振動モードにエネルギーを与えて，熱的に拡散する非放射過程を辿る．
+併し，例えばchlorophyllは，光子の自然放出によって基底状態に戻る．
+この過程を発光過程といい，この発光現象(luminescence)を特にPL (photoluminescence)という．
+
+\begin{definition}
+    一般に，luminescenceの全てを蛍光とも呼ぶが，化学的には，
+    励起一重項からの失活に伴う，励起源からのエネルギーを立つとすぐに止む発光を蛍光と呼び，三重項からの失活に伴う残光を持つ発光を燐光と呼ぶ．
+\end{definition}
+
+\begin{example}[chlorophyll]
+    クロロフィルは，$\sim 650\;\mathrm{nm}$と$\sim 450\;\mathrm{nm}$に２峰性の吸収帯を持っているので，吸収されずに透過する緑色の領域を双対的に強く感じる．
+
+    また，最低励起状態からの緩和で，$650\;\mathrm{nm}$付近の光を放出して基底状態に戻る．
+
+    この２つが混ざり，新緑は黄緑色を帯びて見える．この特殊な色が若草色である．実際，高波長帯のみを通すフィルターなどを使えば，植物の若葉が発光しているのがわかる．
+\end{example}
+
+\begin{definition}[誘導放出]
+    物質に入射した光より，出てくる光の方が強くなる現象をLASER (Light Amplification by Stimulated Emission of Radiation)と呼ぶ．このような性質を持つ物質をレーザー媒質と呼ぶ．
+    励起状態の光子が，外部の別の電磁波の入射をきっかけとして基底状態に戻ることで，光の増幅として観測される．
+
+    基底状態の電子よりも，励起状態の電子の方が多い系を反転分布系と呼び，この状態のレーザー媒質に光が入射すると，レーザー発振が起こる．
+    これは1960年に，Theodore Maimanにより，Rubyで初めて実装された．
+\end{definition}
+
+\begin{example}[誘導放出による発光]
+    Rubyは酸化アルミニウム$\mathrm{Al_2O_3}$に，不純物として$\mathrm{Cr}^{3+}$が0.1\% 入ったもので，$\mathrm{Cr}^{3+}$には６つの$\mathrm{O}^{2-}$が配位し，八面体を形成している．
+    これは可視光域に４つの吸収スペクトルが現れ，低エネルギー側から順にR線，U帯，B線，Y帯と呼ばれている．
+    最低励起状態R線の寿命が10 msと非常に長く，すぐ上に強い吸収帯U帯を持つという状況に注目して，R線からのレーザー発振が実現された．
+\end{example}
+
+\subsection{金属錯体の磁性}
+ギリシャMagnesia地方が語源である．
+
+\subsubsection{反磁性と常磁性}
+
+\begin{definition}
+    物質に（十分弱い）外部磁場をかけると，物質内部にも磁場が生じる．その単位体積あたりの磁気モーメントを磁化$M$と呼び，次の比例定数$\chi$を磁化率(magnetic susceptibility)という．
+    \[ M=\chi H \]
+    $\chi>0$である物質を常磁性(paramagnetism)体，$\chi<0$である物質を反磁性(diamagnetism)体という．
+\end{definition}
+
+\begin{proposition}
+    常磁性体は磁石に引きつけられ，反磁性体は磁石に反発する．
+
+    即ち，$x$正方向に磁石が存在するとして，z向きの磁場に大きさの勾配$\frac{d|H_z|}{dx}>0$が存在する時に，これに因って系がうける力$F_x$を考える．
+    以降，関数$H_z:\mathbb{R}\to\mathbb{R}_{>0}$はz方向の磁場の大きさの絶対値を意味する関数であり，向きは問わないものとする．
+\end{proposition}
+\begin{proof}
+    質点のエネルギーを$U:=\frac{1}{2}\chi H_z^2$とすると，$F_xx+U=0$であるから，
+    \[ F_x=-\frac{dU}{dx}=\chi H_z\frac{dH_z}{dx} \]
+    より．
+\end{proof}
+\begin{remark}
+    このモデル設定は，十分近くには磁石は１つしか存在せず，それのN極が近いかS極が近いかは問わない普遍的な設定になっていると思う．
+\end{remark}
+
+\begin{model}[磁性]原子内部では，常に常磁性と反磁性の２つが競合している．
+
+    1. 原子に磁場をかけると，軌道半径$R$の環状の導体があった場合，誘導電流が流れて磁場の変化が打ち消される．これが反磁性であり，この設定での磁荷率は次のようになる．
+    \[ \chi = -\frac{e^2}{6m}\langle R^2\rangle \]
+    ただし，$\langle R^2\rangle$とは軌道半径の自乗$R^2$の平均値である．
+    従って，最外殻電子や，ベンゼン環の共役系などが，軌道半径も大きく，もっとも反磁性に寄与する．
+
+    2. 常磁性は電子スピンが持つ磁気モーメントが起源であり，その大きさは，軌道角運動量$L$，スピン角運動量$S$，温度$T$を用いて次のように表せる．
+    \[ \chi = \frac{N\mu^2}{3k_BT}\;\;\; (\mu=\frac{L+2S}{\mu_B},\;\mu_B=\frac{e\hslash}{2m}) \]
+    ここで，$\mu_B$は磁気モーメントの最小単位であり，Bohr磁子(magneton)と呼ばれる．この式のうち，特に温度に対する反比例則を歴史的にはCurie則という．
+
+    基本的には，ベンゼンのような大きな共役系がない限り，反磁性は各物質一定である．これが常磁性によってマスクされるかどうかが違う．
+    常磁性は，不対電子の存在によって増強する．何故なら，同じ軌道に２つ電子が入っている場合，スピンが逆向きで磁気モーメントが互いに相殺されるからである．
+    磁場をかけると，それら不対電子の磁気モーメントが揃う．
+\end{model}
+\begin{example}[高スピン錯体は常磁性が強い]
+    電子配置$(\mathrm{t_{2g}}^6)$を持つ低スピン錯体$[\mathrm{Fe(I\hspace{-.1em}I)(CN)_6}]^{4-}$は反磁性を示し，
+    電子配置$(\mathrm{t_{2g}}^4\mathrm{e_g}^2)$を持つ高スピン錯体$[\mathrm{Fe(I\hspace{-.1em}I)(H_2O)_6}]^{2+}$は常磁性を示す．
+\end{example}
+
+\subsubsection{金属錯体の磁気モーメント}
+
+\begin{theory}[錯体の磁気モーメントの計算]
+    電子のスピン角運動量は$\frac{\hslash}{2}$である．スピン量子数$\mathbf{s}$を，スピン角運動量がDirac定数の何倍かを表す半整数と定めると，
+    このスピンによる磁気モーメント$\mu_s$は次のように表せる．
+    \[ \mu_s=-2\mu_B\mathbf{s}=-2\frac{e\hslash}{2m}\mathbf{s} \]
+
+    $n$個の不対電子は，合計スピン量子数$S=\frac{n}{2}$を持つ．従ってこれらによる磁気モーメントは
+    \[\mu_n = 2\sqrt{S(S+1)}\mu_B = \sqrt{n(n+2)}\mu_B \]
+    となる．
+\end{theory}
+
+\subsubsection{常磁性とスピン秩序状態}
+
+\begin{theory}
+    不対電子が占有する軌道同士が，隣接するような金属イオン間で重なり合う場合，スピンを反平行に整列させる引力（反強磁性相互作用）が働く．
+
+    隣接する金属イオン同士で直行する場合には，スピンを平行に整列させる引力（強磁性相互作用）が働く．
+\end{theory}
+
+\begin{fact}[スピン秩序状態]
+    スピンの方向が無秩序である常磁性状態は，温度を下げていくとスピンが整列する．この現象を磁気相転移といい，後者の状態をスピン秩序状態と呼ぶ．
+
+    これは，ある温度$T_C$において，常磁性状態とスピン秩序状態で，Gibbsエネルギーが入れ替わるからである．
+
+    スピン秩序状態には２種類ある．
+
+    1. 強磁性(ferromagnetism)：同じ向きにスピンが整列し，全体として巨大な磁気モーメントを持つ．
+
+    2. 反強磁性(antiferromaginetism)：隣合うスピンがそれぞれ反対方向で，全体として磁気モーメントを持たない状態．
+
+    併し，異なる原子や分子が集合したものの反強磁性状態は，全体として磁性が残る場合があり，そうして得た磁石をferrimagnetismと呼ぶ．
+\end{fact}
+
+\subsubsection{スピンクロスオーバー錯体}
+
+\begin{definition}
+    基底状態が低スピン状態と高スピン状態を容易に行き来するような錯体のことを，特にSCO(Spin Cross-Over)錯体という．
+\end{definition}
+\begin{example}
+    Feに1-propyltetrazoleが６配位した$\mathrm{d}^6$電子系である$\mathrm{[Fe(ptz)_6](BF_4)_2}$は，120 Kより高温ではFe(Ⅱ)は低スピン状態で
+    反磁性（赤紫色）であるが，120 Kより高温になると高スピン状態となり常磁性（無色）を示す．これはTheromochromismの例でもある．
+
+    また，50 K以下では可視光領域の光で，スピン状態を制御できる．
+\end{example}
+
+\begin{example}[大越慎一研究室]
+    当研究室では、新規物性および新規機能性を備えた強磁性体の創製を通じて、新しい物性化学の学術的フィールドを開くことをめざし研究を行っています。
+
+    光を当てると非磁石の状態(常磁性状態)から磁石の状態(強磁性状態)へと変化する新種の光スイッチング磁石の開発に成功しました。
+    この物質は、鉄(Fe)イオンと有機分子(4-ピリジンアルドキシム)、オクタシアノニオブを組み合わせた固体物質で、光照射により、鉄イオンのスピン状態が低スピン状態と高スピン状態の間で変化するスピンクロスオーバー現象を起こすことにより、非磁石の状態から磁石の状態に変換する新しいメカニズムの光磁石です。光磁石の磁気相転移温度は、20 Kであり、加熱処理により元の非磁石の状態に戻ります。スピンクロスオーバー分子が三次元的に連結した物質では、光によって磁石の状態に変換できるであろうという予想に基づき、今回、大越教授らは、スピンクロスオーバーを示す鉄イオンを、スピンを持つオクタシアノニオブ酸イオンを介して三次元的に架橋することにより達成しました。スピンクロスオーバー光磁性体は有機分子を多量に含むことが可能であり、将来、構造的に柔軟性があるフレキシブル光磁性材料への第一歩であると考えています。
+    (S. Ohkoshi et al., Nature Chemistry, (2011).)
+
+    ちなみに，大越教先生は，2010年には光によって金属状態と半導体状態を行き来する化合物（五酸化三チタン）の開発に成功し、高密度記録媒体の開発に道を拓く研究として注目を受けた．
+    (S. Ohkoshi et al., Nature Chemistry, (2010). Synthesis of a metal oxide with a room-temperature photoreversible phase transition.)
+\end{example}
+
+\subsubsection{地磁気}
+
+\begin{fact}[松山基範, 1929]
+    水に溶けている鉄イオンは一部，酸化を受けて$\mathrm{Fe_3O_4}, \mathrm{Fe_2O_3}$などの酸化鉄となり，底に堆積していく．
+    この時，微視的に，鉄イオンのスピン同士が互いに整列して磁石のように振舞うため，これは地磁気の方向に向き，それらがさらに集合して，その後も永遠に残留磁化として観測できる．
+
+    松山基範博士は，兵庫県玄武洞など国内外36箇所の火成岩に含まれる酸化鉄の向きを調べ，地磁気逆転の可能性を示唆した．
+    当時は受け入れられなかったが，その後50年代から急速に見直され，258.1万年前から77万年前の逆転期が松山逆磁極期と名付けられた．
+    なお，77万年前以降は地磁気は一定で，Brunhes正磁極期と呼ぶ．過去360万年の間に，地磁気の逆転は11回起こっている．
+\end{fact}
+
+\section{分子の異性体}
+
+\section{化学結合と結晶学}
+\begin{quotation}
+    個体は大きく分けて，結晶と非晶質(amorphous)とがある．結晶は，集合に用いる力の分類から，次の４種類に分類される．
+
+    1. 分子結晶：分子間力による
+
+    2. 金属結合結晶：金属結合による
+
+    3. 共有結合結晶：共有結合による
+
+    4. イオン結晶：イオン間の静電気力による
+
+    ここでは，1.の分子結晶は\ref{section-self-assembly}節に譲り，他の３つを検討する．
+\end{quotation}
+
+\section{超分子化学導入}\label{section-self-assembly}
+
+dimerから$n$量体までは自己集合と呼ばれ，特にHost-Gustの構図で理解する場合を分子認識と呼ぶ．
+いずれも，化学結合ではなく，分子間力による現象である．
+（但し，フラーレンなど，数十個の原子分子が集合したものは，相互作用の種類に依らずclusterと呼ぶことも多い）．
+
+
+\part{分子間力論とそれを基調とした宇宙観}\label{part-supermolecule}
+
+\begin{quotation}
+    殆どの場合，分子は孤立して存在するというより，常に他の分子と相互作用している．特に溶液中では，必ず分子間における相互作用が存在する．このような分子間相互作用は分子骨格を形成する化学結合（共有結合）に比べとても弱いが，分子間相互作用が生命系の複雑な仕組みと深く関わり，秩序立ったシステムの形成・維持に寄与している．本授業では，ほぼ全ての分子間相互作用を扱い，さらに分子間相互作用の理解を深めるため，分子軌道により解釈される共有結合との比較も行う．水素結合やファンデルワールス力は分子間相互作用の一つで，高校化学の教科書でも取り扱われている．しかし，分子間相互作用について，いくつもの基本的な疑問がある．水素結合はどういう元素間で形成されやすく，なぜそうなるのか？DNAの塩基対は水素結合で形成されているが，ATペアよりGCペアの方が強いのはなぜか？単に水素結合の数だけで説明して良いのか？タンパク質はポリペプチドから形成され，アミド間の水素結合により一義構造へ折り畳まれるが，なぜアミド結合が選ばれたのか？なぜ水に溶けにくい物質は水を嫌って集合化するのか？また，水以外にこのような特性を示す溶媒は存在するのか？ファンデルワールス力は分子間相互作用の中で最も弱いが，無視できるほど弱いのか？分子が自発的に集合し，秩序構造を形成する自己集合という現象は，生命システムの形成に欠かせないが，どうやって自己集合体が形成されるのか？自己集合も化学反応の一つだが，その反応機構は，一般的な化学反応と同じような考え方で解釈できるのか？
+    本授業では，これらの問題について「分子間相互作用」というキーワードをもとに合理的に考え，結論を導き出していく．
+\end{quotation}
+
+\chapter{溶媒の役割と性質の取り扱いの基礎}
+共有結合よりも次元を下げた相互作用の圏を考えると，溶媒の効果が見逃せなくなっていき，
+生体内では相分離こそが生体反応を進めるにあたって
+主要な役割を演じていると考えられるようになった．
+この議論を正しくする基礎体力をつけるため，A-溶媒間相互作用，A-A間相互作用，溶媒-溶媒相互作用の３種に対称的に分類し，議論の仕方を学んでいく．
+
+また，共有結合よりも弱い相互作用の世界がなす描像は，結合の可逆性による動的に目まぐるしく変化する描像である．
+まず自己集合は１つ１つのより細かい化学反応のステップに分解することができ，それぞれが可逆であることが必要である．
+従って，議論の手法は熱力学的，マクロ的な指標がまず第一に有効となる．
+
+以降，分子とは電子が関与する化学結合で結ばれた，内部構造を抽象化した対象のことを指し，これを議論の最小単位として，
+主に熱力学的な側面からの取り扱いの仕方を考える．
+
+\section{溶媒も含めた２種分子のなす系の対称的取り扱い}
+
+溶媒-溶媒相互作用が強いことが主原因となってA-A自己集合が誘導される効果を，「\textbf{疎溶媒効果}」という．
+水は特にこれが強い溶媒で，特にこの場合を「\textbf{疎水効果}」という．生物学的相分離に欠かせない性質であろう．
+
+\section{溶液の一般的議論に用いる概念}
+
+\subsection{２つの軌道の相互作用による安定化度合いの評価}
+結合性軌道の安定化の度合い／反結合性軌道の不安定化の度合いは，相互作用する軌道の間のエネルギー差$\epsilon$と両者の重なり積分$S$を用いて，次の様に近似できる．
+\[ \Delta E \propto \frac{S^2}{\epsilon} \]
+
+\subsection{熱力学支配の法則}
+
+活性化エネルギーは$20\sim 30\;\mathrm{kcal/mol}$までは無視できる誤差と考えられる．一方生成物エネルギーは$3\;\mathrm{kcal/mol}$もあれば，反応しない分子の量の方が無視出来るほどである．
+この事実を基に，ポテンシャルを図にしたトポロジー的手法を使って考える．
+この理論を基礎づけるのがBoltzman分布の物理学理論である．
+
+\subsection{最終的に作りたい理論}
+
+素反応をあらゆる経路について組み合わせると，ポテンシャルの３次元的な谷の面が出来る．それで分析することで，熱力学的支配と反応速度支配の両方を考慮できるのではないか，と言う可能性が存在する．
+「授業の最後の方に出てくるかな？」
+
+\subsection{ギブスエネルギー}
+\begin{definition}[Gibbs free energy]
+    ある系の総合的な安定性を計る熱力学的な指標にギブスエネルギーがある．ある過程による安定化度合いの評価は，物理量$\Delta G=\Delta H-T\Delta S$が重要な指標となる．
+\end{definition}
+\begin{example}[溶媒における溶媒分子の配置]
+    溶媒中に小さな真空の泡が存在したと仮定する．泡の周りに存在する溶媒分子の配向は，背後に存在する他の溶媒分子との相互作用による安定化が最大化するような方向に限定され，
+    また外側の溶媒分子との交換も抑制されるため（接触可能面積が狭まるため，交換機会が減る），それ以外の部分に存在する溶媒分子(bulk)に比べてentropy的に不利である．また泡が存在することで阻害された溶媒分子間相互作用も存在するので，enthalpy的にも不利である．従って，溶液は空間を埋め尽くす．
+\end{example}
+
+\subsection{動径分布関数}
+溶液という高度な規則性を持つわけでも，莫大な分散を持って分子が散らばるわけでもない相にて，分子間の相対的な位置を議論する言葉に，動径分布関数がある．
+\begin{definition}[radial distribution function]
+    一般的に，等方的な系にて，ある物理量の分布が原点からの距離$r$のみの関数である場合に，その分布を表す関数を\textbf{動径分布関数}という．
+
+    ここでは，ある粒子$a$について，そこから距離$r$を離れた単位面積に部分に見つかる別の粒子の数の期待値を返す関数を，動径分布関数$g_a:\R\to[0,1]$という．
+\end{definition}
+\begin{fact}
+    液体の動径分布関数は，$g_a(0)=0$から始まり，まず最初に極大かつ最大を$g_a(r_1)$で迎えた後に，$1$を中心として（なぜ？）減衰振動様曲線を描く．
+    この$r=r_1$付近に存在する分子を\textbf{第一溶媒和分子}という．
+\end{fact}
+
+\section{溶媒の分類と性質を示す尺度}
+以降，溶媒の極性・プロトン性の２つの定義と，評価指標を検討し，
+各指標について水という溶媒は特異的に大きな極性を持つ溶媒であることを確認する．
+なお，溶液のプロトン性の指標としては，ドナー定数とアクセプター定数が存在するが，水素結合の章\ref{section-HB}節で議論する．
+
+\subsection{極性とプロトン性}
+\begin{definition}[polar solvent]
+    双極子モーメント$\mu=ql$の大きい溶媒を極性溶媒，小さい溶媒を非極性溶媒．
+\end{definition}
+\begin{definition}[protic solvent]
+    酸素，硫黄，窒素などに結合した水素を持つ溶媒を，\textbf{プロトン性溶媒}という．
+\end{definition}
+\begin{example}
+    多くのプロトン性溶媒は極性溶媒である．非プロトン性溶媒については定まったことは言えない．
+\end{example}
+
+\subsection{誘電率：極性の強さの指標}
+\begin{definition}[dielectic constant]
+    溶液の外部電場に対する応答性の度合いを表した尺度を誘電率$\epsilon_\mu$という．正確には，静電遮蔽の割合を表す．
+
+    即ち，誘電率の高い溶媒は，溶質の電荷や双極子の作る電場を打ち消す効果が強く，電荷間の引力・斥力の絶対値を弱める働きがある．
+\end{definition}
+\begin{example}
+    主要な溶媒の中で，ホルムアミドの非誘電率が最も大きく，続いて水が大きい．
+\end{example}
+
+\subsection{３種のスケール：solvatochromismによる溶液の極性の評価}
+\begin{example}[N-ethyl-4-metyl carboxy pyridinium iodideのsolcatochromism]
+    N-ethyl-4-metyl carboxy pyridinium iodideの基底状態はイオン性で，励起状態は中性のラジカルとなる．従って，溶媒の極性が高いほど，２つのエネルギー差が大きくなり，吸収波長は短波長側に移る．
+\end{example}
+\begin{definition}[Z-scale]
+    N-ethyl-4-metyl carboxy pyridinium iodideの最大吸収波長を$\lambda_{\max}$として，次の様に定めた指標をZスケールという．従ってこれが大きいほど極性の溶媒は大きい．
+    \[ Z=\frac{hcN_A}{\lambda_{max}}=\frac{2.859\times 10^4}{\lambda_{max}} \]
+\end{definition}
+\begin{definition}[$E_T(30)$-scale]
+    全く同様の定義を物質pyridinium betaineについて行って得るスケールを$E_T(30)$スケールという．
+
+    こちらは，pyridinium betaineのphenoxideがプロトン化されてフェノールに還元してしまうので，酸性プロトンを持つ溶媒中ではwell-definedではない．
+\end{definition}
+\begin{definition}[$\Pi^*$-scale]
+    物質の溶液の性質に依存した特異性を補正するために，各solvatochromismを持つ色素分子を総合した指標を$\Pi^*$スケールという．
+\end{definition}
+\begin{example}
+    どのscaleを用いても，主要な溶媒の中で，水の極性が一番高い．
+\end{example}
+
+\section{溶解性の熱力学的議論}
+溶解は多くの側面を多角的に捉える必要がある複雑な現象である．例えば個体の液体への溶解だけでも，個体間相互作用に支配されていた個体の様子が，溶媒-個体間相互作用を主軸にして２者間３様の相互作用によって振る舞いが支配される．
+
+\begin{theory}[溶解を仮想的３段階に分けて評価する]
+    1. cavity形成：溶媒側の不安定化過程を最初に全て経験させることにする．$\Delta G_{cavity}>0$
+
+    2. 溶質の分散：溶質-溶質相互作用の切断による溶質側の不安定化過程を次に全て加算する．$\Delta G_{break}>0$
+
+    ここまでのenthalpyは溶液と溶質の蒸発エンタルピーに相関がある．
+
+    3. cavityへ，孤立した溶質が入る：溶媒話による安定化$\Delta G_{transfer}<0, \Delta S_{mixing}>0$
+
+    すると，溶解条件は，次の様に定義される溶媒和エネルギー$\Delta G_{total}$が負になる場合である．
+    \[ \Delta G_{total} = \Delta G_{cavity} + \Delta G_{break} + \Delta G_{transfer} - T\Delta S_{mixing} < 0 \]
+    （エンタルピーとエネルギーに同じ記号$G$を用いていて徹底的に気持ち悪い）．
+\end{theory}
+溶媒和エネルギーに相関のある尺度として，次が存在する．
+\begin{definition}[free energy of transfer]
+    ある溶媒中にある溶質を別の溶質に移動させた時の自由エネルギー変化を移動自由エネルギー$\Delta G^\circ_{tr}$という．
+\end{definition}
+
+\begin{definition}[cybotactic region]
+    通常溶質は溶媒内で単独分子よりも大きな分子として振る舞う．こうして集められた第一溶媒和部分を\textbf{サイボタクティック領域}という．
+
+    誘電率の高い溶媒に極性分子が溶けた時より，誘電率が低い溶媒に溶けた場合の方がサイボタクティック領域は大きい．
+\end{definition}
+\begin{definition}[electrostriction]
+    溶質が溶媒に引き付けられて密に配向するために密度の勾配ができる．これを誘電体の形の変化と捉えて\textbf{電気歪}の一つに数える．
+\end{definition}
+
+\section{溶液の熱力学}
+ギブスエネルギーは定圧に於ける系の全エネルギーである．やはり議論の中心はこれで，いくつかの物理量をここから定義する．
+殆どがWillard GibbsとGilbert Lewisの仕事である．
+
+\subsection{chemical potential}
+
+\begin{definition}[chemical potential]
+    系の溶質$A$の化学ポテンシャルは，ギブスエネルギーから次の様に定義できる．ただし，$n_A$は溶質$A$の数とした．
+    \[ \mu_A(T,P,N_{total}) := \left(\frac{\partial G_{total}(T,P,N_{total})}{\partial n_A}\right)_{T,P,N_B} \]
+\end{definition}
+\begin{explanation}[天才的アナロジー]
+    化学ポテンシャルの物理的な意味は、同じ示強性である圧力との対応を考えるとわかりやすい。たとえば圧力(示強性)は、熱力学的な系の体積(示量性)を少し変えたときに外界が感じる『手ごたえ』である。この関係性を化学ポテンシャルに当てはめてみると、化学ポテンシャル(示強性)とは、熱力学的な系の物質量(示量性)を少し変えたときの『手ごたえ』と考えることができる。よって平衡状態に向かうときは、化学ポテンシャルが等しくなるように物質量は移動する。\footnote{ja.wikipedia.org}
+\end{explanation}
+\begin{definition}
+    1. 沈殿-溶解平衡のcritical pointは$\mu_A=0$に存在する．この点がpotentialっぽい．
+
+    \begin{quote}
+        また電磁気学において電荷$q$とその移動を司る静電ポテンシャル$\varphi$との積がポテンシャルエネルギー$q\varphi$である．この関係性を化学ポテンシャルに当てはめてみると，マクロな物質量$N$の移動を司るポテンシャルが化学ポテンシャル$\mu$であり，それらの積であるギブズエネルギー$N\mu$はポテンシャルエネルギーのような量だと考えることもできる．ただし実際にはミクロな粒子間にある複雑な相互作用などの結果としてマクロな化学ポテンシャルは決まると考えられ，力学におけるポテンシャルと熱力学における化学ポテンシャルはかなり異なり同一視することはできない．\footnote{ja.wikipedia.org}
+    \end{quote}
+
+    2. 化学平衡とは$\mu_A=\mu_B$の状態を指す．
+\end{definition}
+
+\begin{remark}
+    特に溶媒-溶質系では，系全体のエネルギーが$G_{total}=n_A\mu_A+n_s\mu_s$と表せる．
+\end{remark}
+
+\subsection{実在溶液補正}
+
+\begin{definition}[activity coefficient]\label{def-activity-coefficient}
+    ある状態の化学ポテンシャルは，標準状態の化学ポテンシャル$\mu_A^\circ$を用いて次の様に表される．
+    \[ \mu_A=\mu^\circ_A+RT\ln(a_A) \]
+    $a_A$を溶質$A$の活量(activity)といい，標準状態での$A$の濃度$[A]_0=1\;\rm{M}$と活量係数(activity coefficient)を用いて次の様に表せる．
+    \[ a_A=\frac{\gamma [A]}{[A]_0} = \frac{\gamma [A]}{1\;M} \]
+\end{definition}
+\begin{remark}
+    1. 活量とは，実在溶液に於ける実効モル濃度である．一般的には，温度，圧力，物質量についての複雑な関数になる．
+    
+    2. 活量係数は，理想状態で無視されていた溶質分子の作用についての補正である．
+\end{remark}
+
+\subsection{化学反応に於ける熱力学}
+
+化学反応\ce{A <=> B}の進行は，化学ポテンシャル差$\Delta G_{reaction}=\mu_B-\mu_A$から議論できる．
+ここで，何故か一度標準状態に引き合わせる．次に，活量ではなく，実際の実験では有効な近似として濃度[A],[B]を用いる．
+\begin{align*}
+    \Delta G_{reaction}&=\mu_B-\mu_A\\
+    &= \mu^\circ_B-\mu^\circ_A + RT[\ln(a_B)-\ln(a_A)]\\
+    &= \Delta G^\circ_{reaction} + RT\ln\left(\frac{a_B}{a_A}\right)\;\;\;(\Delta G^\circ_{reaction}=\mu^\circ_B-\mu^\circ_A)\\
+    &\simeq \Delta G^\circ_{reaction} + RT\ln Q\;\;\;(Q=\frac{[B]}{[A]})
+\end{align*}
+従って，平衡状態$\Delta G_{reaction}=0$では，$Q$とは化学反応\ce{A <=> B}の平衡定数に他ならないから，$\Delta G^\circ_{reaction} =- RT\ln K_{eq}$が成り立つ．
+
+\begin{method}[van't Hoff analysis]
+    これを
+\begin{align*}
+    \Delta G^\circ_{reaction} =- RT\ln K_{eq}\\
+    \ln K_{eq} = -\frac{G^\circ_{reaction}}{RT}\\
+    \ln K_{eq} = -\frac{\Delta H^\circ}{RT} + \frac{\Delta S^\circ}{R}
+\end{align*}
+と変形し，$\ln K_{eq},\frac{1}{T}$を軸としてプロットし，$\Delta H^\circ, \Delta S^\circ$を得る手法を\textbf{van't Hoff解析}という．
+
+$\Delta C^\circ_p$が変化せず，$\Delta H^\circ, \Delta S^\circ$が変化せず直線を得る時にしか使えない．
+\end{method}
+\begin{method}[ITC: Isothermal Titration Calorimetry]
+    より正確に熱力学パラメータを求める手法．
+\end{method}
+
+\chapter{分子間相互作用}
+分子全体が電荷を持つものをイオンという．分子全体では電荷を持たないが，ミクロ的には強く持つのは永久双極子である．極性分子ともいう．一方無極性分子は一生分極しないかといえばそうではなく，誘起双極子という．外場に反応して分極する性質や時間方向の非均一性は全ての物体の共通の性質であり，それが表出している事になる．
+
+\begin{definition}[分子間の電磁気相互作用６種類]　
+
+    1. イオンが関わる相互作用
+    \begin{quotation}
+        1. イオン-イオン間
+
+        2. イオン-永久双極子間
+
+        3. イオン-誘起双極子間
+    \end{quotation}
+
+    2. van der Waals力
+    \begin{quotation}
+        1. 双極子-双極子間：配向力(orientation force)
+
+        2. 双極子-誘起双極子間：誘起力
+
+        3. 誘起双極子-誘起双極子間：分散力
+    \end{quotation}
+\end{definition}
+
+\section*{距離による分子間相互作用の分類}
+分子軌道間相互作用は重なり積分とenergy gapで見る，分子間相互作用は距離で見る．
+力の絶対的な強さはここでは議論していないことに注意，その力の働き方の特性のみを見るための指標．
+\begin{center}
+    \begin{table}[h]\centering\caption{結合エネルギーが結合距離$r$の何乗に比例するかの$E\propto O(r^n)$をまとめた表．}
+        \begin{tabular}{|c|c|c|c|}\hline
+            &イオン&永久双極子&誘起双極子\\\hline
+            イオン&$r^{-1}$&$r^{-2}$&$r^{-4}$\\
+            永久双極子&&$r^{-3}(r^{-6})$&$r^{-6}$\\
+            誘起双極子&&&$r^{-6}$\\\hline
+        \end{tabular}
+    \end{table}
+\end{center}
+$n=1$のものは，遠距離でも緩やかに影響が残る，long rangeな力．
+$n=6$のものは，距離特異性が高く，ある閾値を超えて遠ざかった場合はもうその影響は無視できる，
+short rangeな力．これをまとめて\textbf{van der Waals力}という．
+
+\section{イオンが関わる相互作用}
+
+\subsection{イオン-イオン間相互作用：静電相互作用}
+
+\[U(r)=-\frac{z_1z_2e^2}{4\pi\epsilon r}\]
+水中では$\epsilon$が大きくなるために，多少弱まるが，$r$に対する特性は変わらない．
+
+\subsection{イオン-永久双極子間相互作用}
+
+\[ U(r)=-\frac{ze\mu\cos\theta}{4\pi\epsilon}\frac{1}{r^2} \]
+
+\subsection{イオン-誘起双極子相互作用}
+
+誘起双極子モーメントを分極率$\alpha$に対して$\mu=\alpha E$とすると，
+\[ U(r) = -\frac{(ze)^2\alpha}{2(r\pi\epsilon)^2}\frac{1}{r^4} \]
+
+イオンの作る場への応答を考えるから，HSAB理論を考える．
+外場に対して分極しやすい分子を「柔らかい分子」という．
+例えば$\pi$系が大きいと，外場の影響に対して自由に応答できるので，柔らかい．
+
+\section{van der Waals力}
+
+\subsection{双極子-双極子相互作用：配向力}
+
+２つの永久双極子が並行に並んだ時，
+\[ U(r)=-\frac{\mu_1\mu_2}{2\pi\epsilon}\frac{1}{r^3} \]
+一般には
+\[U(r)=-\frac{\mu_1\mu_2}{4\pi\epsilon}\frac{1}{r^3}(2\cos\theta_1\cos\theta_2-\sin\theta_1\sin\theta_2\cos\phi)\]
+
+気相や溶液中での，Boltzman分布による様々な配向の中での正味の双極子-双極子相互作用のエネルギーは次に従う．
+\[ U(r) = -\frac{\mu_1^2\mu_2^2}{3(r\pi\epsilon)^2}\frac{1}{k_BT}\frac{1}{r^6} \]
+こうして，配向力だけは温度の関数である．
+
+こうして，永久双極子が，（真空中などで）安定な向きに落ち着いたときは$O(r^{-3})$であるが，気相・溶液中では，この安定に向きが揃った状態で定常的になることはないので，条件は他の誘起力や分散力に極めて近くなり，実質全て$O(r^{-6})$であるので，これもvan der Waals力という．
+
+\subsection{双極子-誘起双極子相互作用：誘起力}
+
+反発が起こるような配向は決して生まれないという非対称性が引力を生む．
+\[ U(r) = -\frac{\mu_1^2\alpha}{2(4\pi\epsilon)^2}\frac{1}{r^6}(1+3\cos^2\theta) \]
+
+\subsection{誘起双極子-誘起双極子相互作用：分散力}
+Londonにより，次の式が得られた．
+\[ U(r) = -\frac{3}{2}\frac{\alpha_i\alpha_j}{(4\pi\epsilon)^2}\frac{I_iI_j}{I_i+I_j}\frac{1}{r^6} \]
+また，Slater-Kirkwoodにより，次が提出された．
+\[ U(r) = \frac{B_{ij}}{r^6_{ij}}\;\left(B_{ij}=c\frac{\alpha_i\alpha_j}{\sqrt{\frac{\alpha_i}{N_i}+\sqrt{\frac{\alpha_j}{N_j}}}}\right) \]
+
+不思議すぎる．空間的にも時間的にも，マクロには分極はない．しかし，ミクロには互いに密に相互作用をしながら分極の揺らぎを繰り返し，移り変わっていく．謎のミクロ的対話が引力を生むのが面白すぎる．
+
+一般に他の結合に比べて原子の個性は出ない，と言われている．
+分散力が強い分子は分子量の大きい原子半径の大きな分子であることが多いので，これらが相殺する．
+
+\section{斥力}
+
+交換相互作用により，原子半径よりも近づくと，核間の反発が発生して不安定化する．
+この不安定化の距離依存性を測るが，これまでの分子間相互作用ほどはっきりしておらず，$r^{-9}\sim r^{-12}$の間に位置する．
+\begin{theory}[Lennard-Jones potential]
+    \[ U(r) = -\frac{a}{r^6} + \frac{b}{r^{12}}\;\;(a,b>0) \]
+\end{theory}
+
+\section{芳香環が関わる相互作用}
+ベンゼンに双極子はないが，四極子(quadrupole)は存在する．
+
+\subsection{slip stackとedge-to-face}
+
+\begin{definition}[$\pi$-stacking, slip stack, sandwich]
+    芳香環同士が少しずれて重なり合う配向のこと．
+
+    この配向はせめて静電的反発を小さくするために少しずれているため相互作用とは呼ばないが，安定化する配向である．
+    これは静電相互作用が主要因ではなく，London分散力が主な安定化の要因であることが，多くの理論研究から示唆されている．
+    従って，ベンゼン環が縮環していて，edgeに対して$\pi$系の面積が増すと安定化度合いが増す．
+\end{definition}
+\begin{example}
+    \begin{quote}
+        この相互作用は普通の分子間力よりやや強く、いろいろな分子の立体配座や超分子構造形成に影響を与えている。特にDNAの二重らせんの高次構造の安定化には、核酸塩基間の$\pi-\pi$相互作用や疎水結合によるスタッキング構造の形成が、核酸塩基間の水素結合とともに大きく作用している。またタンパク質分子の安定化や、ポリスチレンなどの合成樹脂（リモネンなどの芳香族溶媒に溶けやすい）、芳香族化合物の結晶、液晶などの物性にも$\pi-\pi$相互作用の寄与が存在している。
+        多くのディスコティック液晶は$\pi-\pi$相互作用により柱状構造を形成する。さらに$\pi-\pi$相互作用はナノテクノロジーにおける自己集合技術でも重要な要因である。\footnote{ja.wikipedia.org}
+    \end{quote}
+\end{example}
+\begin{remark}
+    置換基効果も受けるが，置換基がEWG(Electron Withdrawing Group)であるか，EDG(Electron Donating Group)であるかによって説明できるわけではない．
+\end{remark}
+\begin{definition}[T-shape, edge-to-face相互作用]
+    芳香環の正に帯電したedge部と芳香環を付き合わせる配向のこと．
+\end{definition}
+
+\begin{example}[Perfluoro芳香環]
+    強力な電子の吸引により，電荷分布がベンゼン環と逆転する．この場合は静電引力によりstack構造を形成することができる．実際，1:1の混合物の結晶構造はstack構造を形成している．
+\end{example}
+
+\subsection{この様な弱い相互作用を実験的に測定する方法}
+
+\begin{method}[double-mutant cycle]
+    すでに結合定数の判明している分子A,Bをそれぞれ結合させた複合体の結合定数を測定する．
+
+    $1\;\mathrm{kJ\;mol^{-1}}$程度の弱い相互作用のエネルギーまで測定可能．
+    なお，ベンゼン環のslip stackはLondon分散力により，$\Delta G^\circ=-2\;\mathrm{kcal\;mol^{-1}}$である．
+\end{method}
+\begin{method}[molecular torsion balance (Wilcox)]
+    Tröger（トレーガー）塩基を基にして作成した分子は，conformationの違いによって，edge-to-face相互作用が分子内に生じたり生じなかったりする．
+    この方法により，ベンゼン環同士のedge-to-face相互作用で$\Delta G^\circ=-0.3\;\mathrm{kcal\;mol^{-1}}$とわかった．
+\end{method}
+
+\subsection{Donor-Acceptor相互作用}
+
+\begin{definition}[Donor-Acceptor相互作用]
+    芳香間分子同士の電子移動の授受が伴う相互作用を\textbf{Donor-Acceptor相互作用}という．
+
+    この相互作用の大きさは，２つの分子間のエネルギー準位が小さく，分子軌道の重なりが大きいほど大きい．$\Delta E \propto \frac{S^2}{\epsilon}$
+\end{definition}
+\begin{method}[charge transfer band]
+    Donor-Acceptor相互作用かどうかを判定する手法に，２つの分子軌道の相互作用によりできる新しい吸収帯を確認すれば良い．これを\textbf{電荷移動吸収帯}という．
+\end{method}
+\begin{remark}
+    Benzen環とPerfluoro芳香環の静電相互作用では観測されない．純粋な静電気的相互作用である．
+\end{remark}
+\begin{example}[Donor-Acceptor相互作用による水中自己集合]
+    Donor-Acceptor相互作用は分子のconformationを定めることがある．電子欠乏の芳香間と電子豊富な芳香間が交互に導入されたoligomerは水に溶解すると，疎水効果の寄与により，Donor部とAcceptor部が交互にstackした構造を生成する．
+    いつかのNature論文．
+\end{example}
+
+\subsection{カチオン-$\pi$相互作用}
+\begin{definition}[カチオン-$\pi$相互作用]
+    芳香間の$\pi$平面と正電荷を持ったcationとの電気的相互作用のことを，\textbf{カチオン-$\pi$相互作用}という．
+    
+    Benzen環とPerfluoro芳香環の静電相互作用同様，純粋に静電気的な相互作用である．
+\end{definition}
+\begin{example}[生体での普遍性]
+    アミノ酸のうち，フェニルアラニン(Phe)，チロシン(Tyr)，トリプトファン(Trp)は芳香環を持つ．
+    生体分子にはC=C二重結合を持つものは多い．
+    生体反応の多くの場所でカチオン-$\pi$相互作用は存在している．
+\end{example}
+\begin{example}[気相中でのカチオン-$\pi$相互作用]
+    陽イオンが小さいほど接近が可能であるから相互作用は強い．順に$\mathrm{38(Li^+),\; 28(Na^+),\; 19(K^+),\;16(Rb^+)\;kcal\;mol^{-1}}$である．
+    $K^+$との相互作用は，１分子の水と$K^+$との相互作用に匹敵する．カチオン-$\pi$相互作用は非常に強い相互作用である．
+\end{example}
+
+\begin{itembox}[l]{生体内でのカチオン-$\pi$相互作用}
+    生体中でのcationの振る舞いを考える．
+    水中では水分子の方が芳香族より小さいため，水和の方が優先される．
+    一方生物学的相分離やタンパク質の内部などの疎水的な場では，カチオン-$\pi$相互作用が表出し，重要な機能を果たす．
+\end{itembox}
+
+\begin{example}[水中でのカチオン-$\pi$相互作用；acetylcholine]
+    副交感神経や運動神経の末端から放出され，神経刺激を伝える神経伝達物質であるacetylcholine (ACh)はアンモニウム部$N^+$が分子認識に大きく関与する．
+    この相手（認識部位）は，芳香環を持つアミノ酸基（特に強い負の静電ポテンシャルを持つTrp）と有効に相互作用する．
+
+    $K^+$-イオンチャネルは$Na^+$イオンに対して$K^+$を1000倍選択的に通すタンパク質構造で，この原理が水中でのカチオン-$\pi$相互作用である．
+    水中でのカチオン-$\pi$相互作用は$\mathrm{K^+>Rb^+\gg Na^+,Li^+}$である．これはイオンの大きさに依るベンゼン環との相互作用の有利さの非線形性と水和の有利さに対する非線形性が織りなす複雑な結果である．cationが十分大きい場合，ベンゼン環１個との相互作用が水分子１個との相互作用より安定的になる，という結果が優勢となる．
+    生命系が$K^+$イオンをシグナル伝達に使う様になった理由のうち，主要なものだと予想される．
+\end{example}
+\begin{example}[steroidの生合成]
+    steroidの生合成はsqualene（皮脂の主成分）から，カルボカチオン中間体を経て４つの環を生成して生合成される．
+    この中間体の安定化に，カチオン-$\pi$相互作用が参加している．
+\end{example}
+\begin{remark}
+    タンパク質の結晶構造解析の際に，アミノ酸残基の$\pi$平面上の陽イオンを見分ける分解能は十分とは言えなかったため，本当は陽イオンが存在しているところを水分子だとして解析してきた可能性がある．
+    従って，カチオン-$\pi$相互作用はその重要性を低く見積もられてきた可能性が高い．
+\end{remark}
+
+\subsection{アニオン-$\pi$相互作用}
+\begin{definition}[アニオン-$\pi$相互作用]
+    Perfluoro芳香環やTriazineなど，静電ポテンシャルが正の芳香環についての，カチオン-$\pi$相互作用の双対概念．
+
+    アニオン-$\pi$相互作用は２種類と，うち一方については３つのスペクトラムに分解されて理解される．
+    芳香環のCHとアニオンとの相互作用$CH\cdots X^-$もここに数えられることが多いが，これは水素結合の１つとも捉えられる．
+
+    1. CH-X水素結合
+
+    2. 非共有結合性アニオン-$\pi$相互作用
+
+    3. 強固な共有結合：すでに反応が完了している状態をいう．特に，電子不足の芳香環に対する求核置換反応$\mathrm{S_NAr}$反応における反応中間体（マイゼンハイマー錯体）に相当する．
+
+    4. 弱い共有結合：求核置換反応の初期段階でまだ共有結合が形成されていない段階に相当する．
+\end{definition}
+\begin{example}[芳香環の$\pi$系の静電ポテンシャルのスペクトラム]
+    DNAの塩基は窒素原子を多く含む方向環であり，電子欠乏のため，これにより塩基間のstack構造における静電的な反発を抑えていると言える．
+\end{example}
+
+\section{水素結合}\label{section-HB}
+生体分子：DNAの塩基対，ペプチドの二次構造（$\alpha$-helix, $\beta$-sheetなど）．
+水素結合の次元に注目すれば，水の疎水効果が強いのは，分子間で水素結合のネットワークを作るためであるという描像が見つかる．
+
+\begin{notation}
+    通常の水素結合DH-AのDHを水素結合のdonorと呼び，Aをacceptorと呼ぶ．
+\end{notation}
+\begin{definition}[three-center hydrogen bonds / bifurcated hyfrogen bonds]
+    １つのdonorに対して２つのacceptorが水素結合する構造，２つのdonorに対して１つのacceptorが水素結合する構造を，三中心水素結合，または分枝水素結合という．
+    このような構造の存在には水素結合の結合角の自由度の広さが反映されている．
+\end{definition}
+
+\begin{theory}[水素結合は第一義的には永久双極子-永久双極子間相互作用（配向力）である．従って自由度は高い．]
+    ほとんどの水素結合は，分極した$\mathrm{D}^{\delta-}-\mathrm{H}^{\delta+}$という双極子と，負に帯電した$\mathrm{A}^{\delta-}$という電荷または双極子の間の静電気相互作用として理解できる．
+    量子力学の枠組みは簡単ではないが，例えば強い水素結合について，D-H結合の反結合性軌道とAの電子の充填された軌道（非結合性n軌道など）との間の相互作用の寄与もある．
+\end{theory}
+
+\subsection{水素結合の配向の角度}
+
+水素結合は第一義には双極子-双極子相互作用である．従って，その角度が大事になり，異極を向き合わせて一直線に並ぶ状態が一番安定になる．
+また，軌道間の相互作用の面からも，D-H結合の反結合性軌道はD-H結合軸の方向に張り出しているので，こちらの観点からも180度の結合角において一番安定となる．
+
+\begin{fact}[Aがカルボニル酸素である場合について，様々な結晶構造から配向特性を調べた研究]
+    カルボニル酸素はsp2混成軌道であるため，結合角は約130度で，非共有電子対はC=O結合軸に垂直な任意の直線に対する成す角は40度である．
+    しかし，実際の結合角は，確かに40度の場合が有意に多いが，それ以外の角度も十分に存在し，自由度が高いと言った方が良い．
+    従って，水素結合を静電相互作用として理解することに矛盾はないだろう．
+\end{fact}
+
+\begin{example}
+    amidoが分子内で水素結合し環状構造を形成する場合，９員環の形成が最も有利である．これは，２つのamido結合を連結する炭素骨格の歪みが少ないためである．
+    \begin{center}
+        \chemfig{N(-[:-120]R)(-[:120]R)-C(=[:60]O)-[:-60]3-4-5-6-[:60]C(=O)-[:120]N(-[:60]R)-[4]H-[4,,,,red,line width=2pt,dash pattern=on 1pt off 2pt] }
+    \end{center}
+\end{example}
+
+\subsection{水素結合の強さの，酸性度・電気陰性度からの評価}
+
+DHの酸性度とは，電離の度合いを評価したものであるから，$\mathrm{H}^{\delta+}$の分極の大きさの評価とは解離がある．例えば，ハロゲン化水素の水素結合能では，ハロゲン原子の大きさに依って電離度が違ってくる．
+フッ素原子は電気陰性度が高いので，電子をdonorと共有しにくい．また，第三周期の原子については，原子が大きくなるために電子の非局在化が進み，原子上に強い電荷ができないために，水素結合のacceptor能が低下する．
+\begin{example}
+    H2Oの沸点は100度であるが，H2Sの沸点は-60度である．
+\end{example}
+
+\subsection{水素結合における共鳴の効果}
+
+\begin{definition}[resonance]
+    原子位置は変わらず，電子の移動のみによる「化学平衡」を共鳴という（正確には，２つの量子状態の重ね合わせの状態であり，平衡とは概念的な類似さえない）．
+    平衡は$\rightleftarrows$，共鳴は$\leftrightarrow$で表す．
+\end{definition}
+共鳴構造により，水素結合のドナーD-Hの分極が大きくなることがあれば，これは共鳴構造が水素結合を強化していることになる．
+\begin{fact}
+    amido結合の共鳴構造では，水素結合のドナーに相当するN-H結合が分極しており，この共鳴構造により水素結合が強化されている．
+\end{fact}
+\begin{example}[DNAの塩基対への共鳴構造の寄与]
+    共鳴構造の寄与はDNAの塩基対形成でも見られ，環構造のamido窒素が関わる共鳴構造により，その寄与は十分に大きい．
+\end{example}
+
+\subsection{allosteric協同性：分極の大きさの増加の，水素結合の強さへの寄与}
+
+\begin{definition}[cooperaticity]
+    水分子が水素結合により２量体を形成すると，さらに次の水分子との水素結合を形成しやすくなる．これを\textbf{協同性}という．
+\end{definition}
+\begin{remark}
+    H2Oが他の$H^{\delta+}$を受け入れると，初め持っていた２つのHが取れやすくなる．即ち，donor性が増す．
+    これが，吉久先生が教えてくれた，「HFにもない，アルコール分子HORにもないH2Oの特異性」の厳密な定式化だろう．
+\end{remark}
+
+\subsection{水素結合における二次的相互作用}
+
+\begin{example}[水中での自己組織化：DNA，タンパク質]
+    DNAのA-Tペアには２つの，C-Gペアには３つの水素結合が存在する．この形成は溶媒としての水分子と競合するはずである．換言すれば，水素結合は水中では弱まる．
+    \underline{実際，短いDNA鎖は水中では塩基対間で水素結合を形成しない}．
+    しかし，DNAやタンパク質の二次構造が水中で描かれるのは，水素結合の協同効果と疎水効果による．
+    まず水中での事前組織化が起こり，ここでamidoの繰り返し構造により，最初に水素結合ができると次の障壁が下がる協同効果より，二次構造が形成される．
+    まるで分子機械である．
+\end{example}
+\begin{method}[hypochromic effect]
+    DNAの二重螺旋を形成した状態では，各塩基対が積み重なってstackしているので，解離した状態に比べて吸光度が低下する．これを\textbf{淡色効果}という．
+    これを温度に依って測定し，融解温度$T_m$を定める．すると，G-C対の方が期待通り安定である．しかし，その安定度合いは
+    $8.5\;\mathrm{kJ\;mol^{-1}}, 24.5\;\mathrm{kJ\;mol^{-1}}$で，$\frac{3}{2}$倍どころか３倍近い．
+    これは形成されている水素結合の二次的な相互作用の違いによる．
+\end{method}
+\begin{definition}[二次的水素結合]
+    たくさんの水素結合site DH-Aが並んでいるときに，次に接近しているdonorとacceptorの間に現れる静電相互作用を\textbf{二次的水素結合}と呼ぶ．
+\end{definition}
+
+\subsection{水素結合のchelate協同性と生体反応}
+
+\begin{definition}[preorganization]\label{def-preorganization}
+    タンパク質を水に溶かしたとき，疎水部が疎水効果により自己集合する．即ち脱水和も随伴するから，amido間の水素結合の形成がenthalpy的に有利になる．勿論，疎水効果によりすでに集合しているからentropy的な損失も少ない．
+    この様に，分子間相互作用が起こる前に，分子が集合してエントロピーの損失を疎水効果が前払いしてくれる効果を\textbf{事前組織化}という．
+\end{definition}
+
+\subsection{水素結合の振動特性：水素結合は結合距離に強い相関がある}
+
+DH-Aにおいて，Hの位置に依るポテンシャルエネルギーの関数形を考える．
+初め，関数形は極値を３つ持つ４次関数で，DH-Aで極小かつ最小，D-HAで次の極小，その間に極大を１つ持つ．これらを，２つの零点エネルギーとエネルギー障壁という．
+一方，DとAが接近すると，エネルギー障壁は小さくなり，零点エネルギーの差も小さくなる．
+\begin{definition}[LBHB, HBHB]
+    前者の水素結合を低障壁水素結合(Low-Barrier Hydrogen bonds)もしくは無障壁水素結合(No-Barrier Hydrogen bonds)という．
+    また，\textbf{短距離で強い(short-strong)水素結合}とも呼ばれる．
+    このとき，水素の位置は広く分布し，平均位置はDonorとAcceptorの中心となる．
+    また，このときポテンシャルが広くなるので，振動定数は小さくなる．
+\end{definition}
+\begin{example}
+    気相におけるOH-O水素結合は，O-O間距離が$2.52\;\AA$では安定化エネルギー$7.5\;\mathrm{kcal\;mol^{-1}}$であるが，
+    $2.45\;\AA$では安定化エネルギー$25\;\mathrm{kcal\;mol^{-1}}$である．
+\end{example}
+
+\subsection{低障壁水素結合と生命}
+
+\begin{definition}[酵素]
+    酵素とは，反応の遷移状態を安定化させて反応の活性化エネルギーを下げる機構を持ったタンパク質である．
+
+    即ち，反応の遷移状態と基質結合状態とで分子認識をし，反応が完遂した後に手放すという，遷移状態に特異的な結合の強さを表現しなければならない．
+\end{definition}
+\begin{example}[酵素が基質との結合に水素結合が関わる場合]
+    このとき，遷移状態に特別に他の結合が増えるとは考えにくいことから，水素結合の中でのモードの変化，特に低障壁水素結合への変化が考えられる．
+    実際に観測された例も１つある．
+
+    紅色光合成細菌の光受容タンパク質PYP(Photoactive Yellow Protein)の光吸収部位p-クマール酸は，近接するアミノ酸残基（グルタミン酸46：E46）と水素結合を形成している．
+    中性子線結晶構造解析により，この水素結合で水素の位置はほぼ中央に位置しており，光を吸収すると通常の水素結合に変化することで，この後にプロトンの移動が起こるというメカニズムが明らかになった．
+\end{example}
+
+\subsection{水素結合のエネルギーの評価：形成には２つの要因がある}
+\begin{screen}
+    水素結合の形成には２つの要因があることを定量的に示す．
+それは端的には，単純に溶質の水素結合能が高いか，溶媒が率先して水素結合を形成し，その中で溶質は自己集合するために，
+前払いしてもらったエントロピー損失分の利を生かして水素結合を形成するかの２通りである．
+\end{screen}
+
+\begin{theory}
+    水素結合$\mathrm{DH}+\mathrm{A}\rightleftarrows\mathrm{DH\cdots A}$の強さを，平衡定数の自然対数で評価する．
+    \[ \log K=c_1\alpha_2^H\beta_2^H+c_2 \]
+    ただし，$c_1$は静電相互作用に対する溶媒効果を表す定数（極性が高いと$c_1$は小さい），$\alpha_2^H,\beta_2^H$はdonorとacceptorの電荷に依る変数，$c_2$は溶媒に依存しない定数である．
+    この式は実験結果とよく合致し，水素結合の妙体に関わらず，第一義的には単純な静電相互作用として定式化するのが良いことを示している．
+\end{theory}
+
+この実験値$\alpha_2^H,\beta_2^H$の補正からか，理論計算による静電ポテンシャルから，donor定数とacceptor定数という値を求めて，次の理論を計算する．
+\begin{theory}
+    水素結合能のある溶媒S内での水素結合$\mathrm{DH}\cdots S+\mathrm{A}\cdots S\rightleftarrows\mathrm{DH\cdots A}+S\cdots S$の強さ評価する．
+    この水素結合のdonor定数を$\alpha$，acceptor定数を$\beta$と置き，溶媒についても$\alpha_S,\beta_S$と置く．
+    これを用いて，各相互作用に因る自由エネルギーの安定化度$\Delta G$を評価すると，化学反応式の各辺は
+    \[ \alpha\beta_S+\alpha_S\beta \rightleftarrows \alpha\beta + \alpha_S\beta_S \]
+    と表現できるから，左辺から右辺を引いて，この溶媒$S$内での水素結合の形成による安定化度$\Delta\Delta G=-(\alpha-\alpha_S)(\beta-\beta_S)$を得る．
+
+    従って，水素結合の形成は主要因がどちらかによって２種類に分類できる．
+\end{theory}
+\begin{definition}[solvophobic effect]
+    $(\alpha-\alpha_S)<0\land (\beta-\beta_S)<0$である場合，$\Delta\Delta G<0$であるが，これは溶媒間の強い相互作用に起因した水素結合DH-Aの形成である．これを疎溶媒効果(solvophobic effect)といい，条件$(\alpha-\alpha_S)<0\land (\beta-\beta_S)<0$が定めるパラメータ$(\alpha,\beta)$の領域を疎溶媒領域という．
+\end{definition}
+\begin{example}　
+
+    1. ジメチルスルホキシド(DMSO)溶媒は，極めてacceptor定数$\beta_S$が大きいために，ほとんどの$(\alpha,\beta)$について$(\alpha-\alpha_S)>0\land (\beta-\beta_S)<0$を満たすので，水素結合DH-Aが有利になる領域はほとんど見られない．
+
+    2. クロロホルム溶媒は，極めてacceptor定数$\beta_S$が小さい．
+
+    3. 水を特徴付ける性質は，Hの定める$\alpha_S$もOHの定める$\beta_S$も中間的な値を取るために，４つの領域条件全てをとりうることである．これより，水素結合のdonorとしてもacceptorとしても働きにくい分子は，水中では疎溶媒効果によりDH-Aが形成され，自己集合する．次節ではこの点を掘り下げる．
+\end{example}
+
+\section{疎水効果}
+
+donor定数$\alpha$，acceptor定数$\beta$はいずれも分子の静電ポテンシャルに依る．この値が小さいということは，水中で集合する溶質分子の静電ポテンシャルはほぼ中性であり，
+従って，普通は分散力が分子間で主に作用するような非極性分子である．例えばアルカン，芳香族分子は水に溶けないことはよく知られている．
+
+このような効果をもたらす溶媒として，水は数少ない例である．まず水の作る構造を分子軌道法により精査してから，その中での水素結合の様子を考えることから始める．
+
+\subsection{水の構造}
+
+H2Oは，混成軌道の考え方からでは，結合角が104.45度であることは説明され，また２つのO-H結合が等価であることが予想される．
+
+しかし，分子軌道法から予想されるように，直線分子においても，２つの結合に関わる軌道のエネルギーは一致しないことが分光学的手法によってわかっている．
+
+\begin{theory}[水の構造：分子軌道法]
+    
+\end{theory}
+
+\subsection{水中における水素結合}
+
+水中での水分子は，最大４つの水分子と４つの水素結合を形成する．平均は3.3であり(Science)，多少温度が上がろうとも水は水素結合で溢れている，沸点近くでも50\%近くが残り，融点付近の形成率から比べて20\%の減少を見るのみである．
+これは氷の結晶でも引き継がれ，正四面体型に水分子が水素結合を形成した構造$I_h$が氷の主要な構造である．
+\begin{fact}
+    1. 主要な分子間力を分散力とするアルゴンに比べて，融点付近における動径分布関数を比べると，水はアルゴンに比べて第一ピークの幅が狭く，より構造化していることがわかる．
+
+    2. 動径分布関数の第一ピークの面積から，最接近している分子の数は水では4.4個，アルゴンでは10個とわかる．水は正四面体構造に近い構造をしており，アルゴンは方向性の乏しい分散力によってほぼ最密充填となっていることがわかる．また，温度をあげると最接近している分子の数がアルゴンでは著しく低下するが，水では構造を保つためにほぼ変化しない．
+
+    3. 水の蒸発エントロピーは$109\;\mathrm{J\; mol^{-1}\; K^{-1}}$と，他の液体の蒸発エントロピー$70~90\;\mathrm{J\; mol^{-1}\; K^{-1}}$より高い．
+\end{fact}
+
+一分子の水の双極子モーメントは1.86 Dであるが，クラスターを形成する水分子の数が増えるに連れて，双極子モーメントは大きくなり，６つの際に2.7 Dに到達して以降はほぼ一定になる．
+また，水分子間のO-O間距離も，クラスターの大きさに比例して短くなる．
+
+\subsubsection*{水と構造化の間の相}
+歴史的に水の水素結合のモデル化には，２つの流儀があった．特に液体特有の大きな熱揺らぎのために不明なままであったらしい．
+\begin{quote}
+    レントゲン（1892）の時代から１世紀以上にわたって、構造が幅広い連続的な分布を持つという「連続体モデル」（ポープル（ノーベル化学賞受賞）らが提唱）と構造が２つの成分からなると考える「混合モデル」（レントゲン（ノーベル物理学賞受賞）、ポーリング（ノーベル化学賞受賞）らが提唱）という２つの考え方の間で論争が続いてきた。その原因は、これまで、水の中に２種類の構造が存在するという直接的かつ決定的な証拠がなかったことにある。\footnote{田中 肇（東京大学 生産技術研究所 教授）【記者発表】液体の水の中には２種類の構造が存在する ～水の特異性をめぐる長年の議論に決着～}
+\end{quote}
+つい最近の生産研田中肇研からの結果はさらに二状態モデルの証拠となった．水をX線散乱して，構造因子を分析したところ，四面体構造からの密度波とより崩れた構造からの密度波との２つのピークを分解することに成功した．
+Rui Shi and Hajime Tanaka. Direct Evidence in the Scattering Function for the Coexistence of Two Types of Local Structures in Liquid Water. J. Am. Chem. Soc. 2020, 142, 6, 2868–2875.
+\begin{quote}
+    これにより、「液体の水は、乱雑な構造と規則的な局所構造が動的に共存した状態である」という二状態モデルに基づく現象論（H. Tanaka, Phys. Rev. Lett. 80, 5750 (1998)）の妥当性が、分子レベルで示されたといえる。
+\end{quote}
+
+\begin{model}[two state model]
+    水には孤立とクラスタ形成の２つの状態しかなく，$(\mathrm{H_2O})_n\rightsquigarrow n(\mathrm{H_2O})$という平衡にまで抽象化して考える．重水$\mathrm{D_2O}$を水にまぜ，ラマン分光でO-D結合の伸縮振動の温度変化を調べると，スペクトルは１つの点\textbf{等吸収点(isosbestic point)}を維持しながら変形する．
+
+    これは，ある波長におけるモル吸光係数が平衡の前後で一致するために起こる．一般に，３成分以上の平衡があるとき，３種目以降の物質のモル吸光係数も以前の２つと偶然一致する波長がある場合を除いてこのようなことは起こりにくいために，二状態モデルが意味を持つ重要な証拠となっている．
+\end{model}
+
+\begin{model}[continuum model]
+    １つの水分子が，孤立している状態から，最大４つの水分子の間で水素結合を形成するところまで，５つの状態に分類する．
+\end{model}
+\begin{remark}
+    1933年、バーナルとファウラーはこのX線を使った回折実験によって「水は氷によく似た秩序構造を出発点にして、連続的に結合が歪んだものである」という連続体モデルを提唱した。連続体モデルは、正四面体配位が最安定構造と考え、熱によってその配位がランダムに歪むという直観的に分かりやすい描像であり、その後様々な分光や理論計算により相次いで支持されたこともあって、今日教科書的なモデルとして定着していた。\footnote{原田慈久「放射線が拓く新しい水の分光」2010 www.jstage.jst.go.jp}
+\end{remark}
+
+\subsection{水の異常性}
+
+\subsubsection{沸点と融点の高さ}
+
+AH2と表される分子間に働く水素結合A-Hの中で，A=Oの場合が特別に強いためである．
+特に，水の蒸発エントロピーは，AH2 (A=S,Se,Te)と表される分子のクラスの中で高い．これは原子が大きくなることによる電子の非局在化による．
+
+\subsubsection{誘電率の高さ，表面張力の強さ，熱容量の大きさ}
+
+水は誘電率が高く，イオンをよく溶かす．
+水素結合が分極性を持つためである．
+
+水に表面張力は$0.07\;\mathrm{N\; m^{-1}}$で，アルカンの$0.030\;\mathrm{N\; m^{-1}}$の倍以上である．
+
+水のモル定圧熱容量$C_p=\left( \frac{\partial H}{\partial T} \right)_p$は小さい分子にしてはとても大きく$75.2\;\mathrm{mol^{-1}\;K^{-1}}$である．
+これは，水は水素結合のネットワークが強いため，水素結合にもエネルギーを蓄えることに因る．
+
+\subsubsection{同位体の振る舞い}
+
+３種類の水H2O,D2O,T2Oの，気相から液体の水へと移る際のエントロピー変化$\Delta S$の温度依存性を調べると，重くなるに連れて$\Delta S<0$は小さくなる．従って，重い同位体であるほど強く構造化されていることがわかる．
+D2Oの融点は3.82度でH20よりも4度近く高い．
+
+\subsubsection{熱膨張率と等温圧縮率}
+
+水は0$^\circ\mathrm{C}$から4$^\circ\mathrm{C}$の範囲で密度が温度と共に上昇する．
+
+また，氷の密度は水のそれよりも小さい．熱膨張率$\alpha=\frac{1}{V}\left(\frac{\partial V}{\partial T}\right)_p$は0$^\circ\mathrm{C}$付近で負である．
+
+等温圧縮率$k=\frac{1}{V}\left(\frac{\partial V}{\partial P}\right)_T$は，0$^\circ\mathrm{C}$から46$^\circ\mathrm{C}$までの間で温度が上昇するに伴って低下する．
+
+小さな有機化合物と比べると，水は熱膨張率も等温圧縮率も小さく，固体に近いことを示している．
+
+\subsubsection{水の異常性の説明}
+
+\begin{quote}
+    水の重要な性質の１つとして、水の状態が温度・圧力・イオン濃度などにより大きく変化するという環境適応能があるが、その鍵は、２つの状態の分率という、他の単純な液体にはない自由度を内包している点にあると考えられる。\footnote{田中肇 記者発表}
+\end{quote}
+
+この２状態の間の移り変わりを大域的に捉えて，氷の四面体構造$I_h$に近い冷たい水，温かい水，沸点近くの水の３種類のモードに分けて考えるのが良いように思われる．
+水は温めるごとに四面体構造が崩され，隙間に水分子が入り込み，密度の増加と熱膨張率の低下と圧縮率の低下が起こる．
+
+\subsection{疎水効果}
+タンパク質の折り畳み構造の形成や，脂質膜の形成に欠かせない効果である．
+
+いくつかの測定法を見ると，疎水分子の疎水性の強さと表面積の大きさが乗算で効果に影響を与えている．
+
+\begin{method}[疎水効果の評価]
+    1. 水に対する溶解性を，自由エネルギー変化$\Delta G^\circ$によって調べる．
+
+    2. 水中で自己集合する際の自由エネルギー変化を調べる．
+
+    3. n-octanolと水の二層系に疎水分子を加え，各層への分配率を，官能基Rがある場合$K$とない場合$K_\circ$とで測定し，疎水性定数$\pi=\log\left(\frac{K}{K_\circ}\right)$を定める．
+\end{method}
+
+\begin{theory}
+    水への溶解を２段階に分ける．
+
+    1. 水中に間隙を形成する．
+
+    2. 間隙に疎水分子が入る．
+
+    段階2.での自由エネルギー変化は，疎水分子の表面積に比例し，単位面積当たり$\Delta G=0.02~0.05\; \mathrm{kcal\;mol^{-1}\;\overset{\circ}{A}\!{}^2}$と表せる．
+    実際，表面積が広い分子ほど，自由エネルギー変化は大きく，水に対する溶解は不利になる．
+\end{theory}
+\begin{example}
+    水への溶解度は-CH3 > -CH2CH3 > -CH2CH2CH3 > CH2Ph．
+
+    また，炭素数が同じでも，n-butyle基はisobutyle基よりも表面積が広いために，疎水性定数は大きい．
+\end{example}
+
+\subsubsection{小さな疎水分子に対する疎水効果}
+
+水層及び有機層にある疎水分子の濃度をそれぞれ$C_\mathrm{SW},C_\mathrm{SO}$とおき，分配係数を$K(T)=\frac{C_{SW}}{C_{SO}}$とする．
+これを用いて，水層への移動による化学ポテンシャル変化は$\Delta\mu (T)=-RT\mathrm{ln}K(T)$で表される．
+
+また，化学ポテンシャル変化は溶媒和モルエンタルピー変化$\Delta h$と溶媒和モルエントロピー変化$\Delta s$を用いて，$\Delta\mu(T)=\Delta h-T\Delta s$と表せる．
+これとモル定圧熱容量変化$\Delta C_p=\left(\frac{\partial \Delta H}{\partial T}\right)_p=T\left(\frac{\partial \Delta S}{\partial T}\right)_p$を併せて，
+\begin{align*}
+    \Delta h(T) &= \Delta h(T_h)+\int^T_{T_h}\Delta C_pdT' \approx \Delta C_p (T-T_h) \\
+    \Delta s(T) &= \Delta s(T_s)+\int^T_{T_s}\frac{\Delta C_p}{T'}dT' = \Delta C_p \mathrm{ln}\left( \frac{T}{T_s} \right)
+\end{align*}
+ただし，$\Delta C_p$は温度に依存せず，$T_h,T_s$はある基準温度とした．
+これらより，化学ポテンシャル変化は
+\[ \Delta\mu(T) = \Delta C_p\left( (T-T_h)-T\;\mathrm{ln}\left( \frac{T}{T_s} \right) \right) \]
+
+以上の定式化により，次の事実がわかった．
+\begin{fact}
+    有機溶媒の$\Delta C_p$は小さく，$\Delta\mu$も，その各項$\Delta h,\Delta s$もほとんど温度依存性がない．一方で，ベンゼンを水に溶かした溶液では，$\Delta h$は温度に比例して増加し，$\Delta -T\Delta s$項は温度に比例して減少するため，$\Delta\mu$全体ではあまり変化しない．
+
+    殆どの有機分子に対して，室温付近ではエントロピー的には不利である．
+\end{fact}
+\begin{explanation}[エントロピーとエンタルピーのトレードオフ]
+    疎水分子が小さい時，水分子の水素結合を崩すことなくネットワークの中に入り込める．これを，包接水和物(hydrate)と呼び，メタン，二酸化炭素，塩素などで起こるものが名高い．従って，エンタルピー的に大きな不利とはならない．一方，理論計算によると，小さな疎水分子を取り巻く第一層の水分子は，水素結合は切断されないにしろ，その配向が強く抑制されるためにエントロピー的な損失が起こる．
+
+    $W_{shell},W_{bulk}$を疎水分子が溶解した時と無い時との水素結合を形成する数，$n$を第一層の水和水数
+    とした時，損失エントロピーは次のように表せる．
+    \[ \Delta S=k_BN_A\;\mathrm{ln}\left( \frac{W_{shell}}{W_{bulk}} \right) = k_BN_A\;\mathrm{ln}\left(\frac{1}{2}\right)^n \]
+    メタンでは$n=17$で，$\Delta S=-98\;\mathrm{J\;K^{-1}\;mol^{-1}}$
+\end{explanation}
+
+\begin{fact}[溶液全体のモル定圧熱容量変化に注目する]
+    $\Delta C_p$は疎水分子の表面積，従って疎水分子の水和水の数と線型関係にあるので，疎水効果の評価に$\Delta C_p$もよく用いられる．
+\end{fact}
+
+なお，温度が上がった場合，水素結合のネットワークの中に入り込むというエンタルピーの安定化を受けられなくなる．
+そういった窮屈な構造はなくなりエントロピーは上昇するが，疎水分子と水分子とが近づくようになるため，この間の相互作用（分散力）が主役となっていき，これは水素結合よりも弱いため，エンタルピー的に不利になる．
+
+\subsubsection{疎水効果における折り畳み構造の形成：folding}
+
+鎖状アルカンは，炭素鎖がジグザグに連なるanti型が安定であり，例えばn-butaneは気相中ではgauche型は30\%を占めるのみである．しかし水に溶かすと，anti:gauche比は55:45となり，gauche型の割合が増える．
+これはn-butaneが水との接触面積を減らすように折り畳まれるためである．
+
+\subsubsection{疎水効果による分子の集合}
+
+完全な疎水分子は水に溶解しないが，疎水部と親水部を併せ持つ両親媒性分子(amphiphilic molecule)は水に溶解して集合体を形成する．これをmicelleという．
+micelleは動的な平衡を維持しており，msのオーダーで両親媒性分子の脱着が起こっており，また水分子もmicelleのアルキル鎖の中央部くらいまでなら入り込むことができる．
+
+micelleは両親媒性分子がある濃度以上の時に形成し，この閾値を臨界(critical)ミセル濃度という．
+
+amphiphilicな生体分子といえば，リン脂質(phospholipid)である．これは水中で脂質二重層 lipid bilayerやこの二重膜が球状に閉じたvesicleを形成する．
+
+micelleとvesicleのどちらを形成するかは，両親媒性分子の構造に依存する．micelleはvesicleに比べて曲率が高いので，よりcone型に近い両親媒性分子はmicelleを形成し，密に分子を集合させる傾向にあると言える．一方でcylinder型に近い分子はvesicleを形成しやすい．
+
+\subsubsection{大きな疎水分子の分子集合の原理}
+
+大きな疎水分子は，集合してくれた方が，水の水素結合の破壊が最小限で済む，これはエンタルピーによる説明である．
+疎水分子間のvan der Waals力は，水分子の分極率が小さいので，疎水分子間に働くvan der Waals力の方が，疎水分子-水分子間で働くものよりも強い可能性はある．
+
+集合化は一般に並進・回転運動の自由度が下がり，エントロピー的には不利である．
+しかし，有利となる状況が存在する．
+\begin{model}[iceberg model]
+    水分子間の水素結合がより強固になることでエンタルピー損失を回復しようとすると，エントロピー的な損失が必要になる．これをenthalpy-entropy compensationという．
+
+    しかし，そのエントロピー的に不安定化した水分子のうち，水和水となっているものの一部は，疎水分子の集合化によってbulkへと放出され，自由度を取り戻すことで安定化する．この分が損失分を上回ると，疎水分子の集合によるエントロピー変化は正になる．
+\end{model}
+\begin{remark}
+    確かにエントロピーが正になる場合はこれによるのだろうが，そもそも疎水効果を考える上でエントロピーは良い指標では無いという考え方もある．その場合は$\Delta C_p$を使う．
+\end{remark}
+
+\subsubsection{疎水分子の表面積と自由エネルギーの関係式}
+
+\begin{theory}
+    疎水分子(guest)が水中でreceptor (host)と結合する場合，これに伴う自由エネルギー変化$\Delta_{hydrophobic}$は次のように表される．
+    \[ \Delta_{hydrophobic} = \gamma\Delta A \]
+    $\gamma$は単位面積当たりに働く疎水効果の強さ（幅は広く$0.02~0.2\;\mathrm{kcal\;mol^{-1}\;\overset{\circ}{A}\!{}^{-2}}$）で，$\Delta A$はhost-guest複合体を形成することで脱水和された疎水面の面積である．
+
+    $\Delta A$を求めるためには，まず溶媒露出表面積(SAS: Solvent Accessible Surface)を求める必要がある．これは，host-guest complexの結晶構造から，各分子を球で見立てて（これをprobe球という），その中心部分を通る最小の閉曲面の表面積で評価する．
+
+    全溶媒露出表面積変化$\Delta A$と結合定数$\log K_a$の間には，線型関係を基調とした各逸脱がある．この逸脱は，各系の
+    固有な分子間相互作用によって決まる（$\gamma$に含まれる）が，基本的には，水中で起こる分子認識系は疎水効果の影響が基調となっており，その影響の強さは，全溶媒露出表面積変化$\Delta A$に比例する．
+\end{theory}
+
+\subsubsection{非古典的疎水効果}
+
+\begin{screen}
+    一般に疎水効果の評価はモル定圧熱容量変化$\Delta C_p$が性格が良い．疎水分子との水和の結合の数の多さが，熱容量の上昇と比例するからである．
+
+    小さな疎水分子への疎水効果は一般的に，高温にてエンタルピー支配，常温にはエントロピー支配（特に疎水分子を取り巻く第一層水和水について$\Delta S<0$）となる．高温では守るべき構造がそもそもないのでエントロピー問題はなく，常温では水素結合のネットワークを見出さないのでエンタルピー変化はないからである．
+
+    大きな疎水分子の疎水効果は，常温でもエントロピー的に有利たりうる．
+
+    これら２つを加味して．\[ \Delta_{hydrophobic} = \gamma\Delta A \]という指標全溶媒露出表面積変化$\Delta A$，各分子の単位面積当たりに働く疎水効果の強さ$\gamma$で理解される．
+\end{screen}
+
+\begin{definition}[nonclassical hydrophobic effect]\label{def-nonclassical-hydrophobic-effect}
+    人工系の分子や酵素の中には，通常ならエントロピー支配である疎水効果において，水中におけるhost-guest complexの形成がエンタルピー的に有利になり，これが支配的になる例が存在する．このような，エンタルピー駆動で分子認識する例を，非古典的疎水効果という．
+\end{definition}
+\begin{example}[cyclophane]
+    cyclophaneは（定義\ref{def-cyclophane}）疎水性分子を認識するが，これがエンタルピー駆動である場合がある．
+\end{example}
+\begin{example}
+    酵素と芳香族ゲスト分子の複合体形成，DNA二重鎖に対する芳香族分子の侵入(intercalation)，タンパク質間相互作用，タンパク質-DNA複合体，タンパク質-脂質相互作用など．
+\end{example}
+
+これは，大きな疎水分子の分子集合の原理と並行な説明ができる．
+
+\section{ハロゲン結合}
+
+\begin{definition}[halogen bond]
+    分子中のハロゲン原子が，電子豊富な酸素や窒素原子，またはハロゲンイオンと形成する化学結合RX-Yをハロゲン結合という．
+    これは，Rの電子吸引性が高く，Yの電子供与性が高いほど起こりやすい．
+\end{definition}
+
+\begin{example}[四塩化炭素の$\sigma$-hole]
+    $\mathrm{R-X\;(X=Br,Cl,I)}$にて，バロゲン元素XのR-X結合軸周りに正電荷が現れる．これを$\sigma$-holeという．これはRの正電荷に対する分極であるが，F原子は核電荷を2p軌道の電子が遮蔽していることと，分極率が低いために$\sigma$ホールの形成が起こりにくい．
+\end{example}
+こうして，性質上，$RX^{\delta+}-Y^{\delta-}$と見れるから，水素結合とanalogousに語られることが多いが，実際には主要因は軌道間の相互作用である．
+
+\begin{screen}
+    ハロゲン結合は$\sigma$-holeの形成から，水素結合とanalogousに静電相互作用と考えられる部分もあるが，
+    実際には軌道間の相互作用の寄与の方が主である．
+    従って，水素結合と違って，溶媒の極性に影響を受けにくい．
+    \begin{quote}
+        ハロゲン結合を使った水中における自己集合体の形成や新薬の開発が可能である．
+    \end{quote}
+\end{screen}
+
+\chapter{分子認識}
+以上の溶媒-溶質系の熱力学的取り扱いと，各種分子間相互作用の性質の知識を持って，自己集合を議論する．
+その中でも特に，２つの分子の間で起こる自己集合である分子認識現象をまずは取り扱う．
+これをHost-Guest系と呼ぶ．
+自己集合は分子認識の連鎖だと考えられ，分子認識は協同性が編み上げるものだと考えられるから，
+まずはこのHost-Guest系にて，各種概念とそれを用いた協同性の取り扱い方を学んで，
+分子認識の具体例を見て，一般の自己集合の場合に繋げる．
+
+\section{結合定数と自由エネルギー}
+
+\begin{theory}[Host-Guest系の扱い]
+    Host-Guest系の平衡状態とは，
+\[ \mathrm{H+G\rightleftarrows H\cdot G} \]
+である．この平衡／結合(binding)定数と解離定数は次のとおり．
+\[K_a=\frac{[H\cdot G]}{[H][G]}=K_d^{-1}\;\mathrm{M}\]
+ただし，単位Mはmolarと読み，$\mathrm{mol/L}$ (molar concenteration)と等しい．
+単位に依って，スケール感が変わるので定義式が大事．
+生物形では$K_d$の方を使う．
+
+なお，ギブスエネルギー変化と関係$\Delta G^\circ = -RT\ln(K_a)$が存在する．
+実在溶液補正\ref{def-activity-coefficient}の通り，正式の理論では$K_a$ではなく無次元量である活量$\gamma$である．
+\end{theory}
+\begin{definition}[exergonic reaction]
+    ギブスエネルギー変化が負である様な反応を，発エルゴン反応，または自発反応という．
+\end{definition}
+\begin{example}[ATPの加水分解]
+    生化学において、発エルゴン反応として代表的なものがATPの加水分解である。ATPがADPとリン酸になる反応の標準ギブズエネルギー変化はおよそ$-30\;\mathrm{kJ/mol}$であり、このエネルギーを用いて生物の様々な吸エルゴン反応を行うことができる。ATPが生物のエネルギー通貨と呼ばれるゆえんである。\footnote{ja.wikipedia.org}
+\end{example}
+\begin{example}[H-G系の初期濃度鋭敏性]
+    $\Delta G^\circ<0, K_a=10\;M^{-1}$とする．$[H]_0=[G]_0=10\;mM$とすると，$[H]=[G]=9.2\;mM,[H\cdot G]=0.84\; mM$と複合体形成は殆ど進んでいないが，
+    $[H]_0=[G]_0=1\;M$とすると，$[H]=[G]=0.27\;M,[H\cdot G]=0.73\; M$である．この場合は大部分が複合体を形成している．
+\end{example}
+
+\begin{explanation}[濃度が低いと複合体形成は進まない]
+    $[H]=\frac{n_H}{V}$を代入すると，
+\begin{align*}
+    K_a &= \frac{n_{H\cdot G}/V}{(n_H/V)(n_G/V)} = \frac{Vn_{H\cdot G}}{n_Hn_G}\;\mathrm{M}^{-1} \\
+    \frac{K_a}{V} &= \frac{n_{H\cdot G}}{n_Hn_G}
+\end{align*}
+と，確かに$V$を大きくして溶液の濃度が下がると，$n_{H\cdot G}$は小さくなる．
+\end{explanation}
+これはentropyの問題である．溶液の体積が大きい場合，平衡を左に偏らせ，エントロピー的な優位性を取ろうとする．それが自由エネルギーの式に現れている．
+
+\begin{theory}[標準状態の$\Delta G^\circ$に変わる指標，解離定数$K_d$]
+$[H]=[G]=K_d$の場合，
+\begin{align*}
+    K_a &= \frac{[H\cdot G]}{[H][G]} = \frac{[H\cdot G]}{K_dK_d} \\
+    [H\cdot G] &= K_aK_d^2 = K_d
+\end{align*}
+より，$K_d$は$[H]=[G]=[H\cdot G]$の解となる濃度である．この濃度より大きくすれば，$H\cdot G$が優先する，という目安になる．
+\end{theory}
+
+\begin{remark}[標準状態と化学反応]
+    \[\Delta G=\Delta^\circ + RT\ln\left(\frac{a_{H\cdot G}}{a_Ha_G}\right)\]
+    普通は実験では活量は１としてしまう．
+
+    \[ \Delta G^\circ = -RT\ln\left[K_a\left(\frac{[H]_0[G]_0}{[H\cdot G]_0}\right)\right] \]
+    標準状態では$10^6\;M^{-1}$となり，これは大きい．しかし標準状態の定義の仕方によって$\Delta G^\circ$は符号から変わる．
+\end{remark}
+
+\section{定圧熱容量変化}
+
+\begin{definition}[定圧熱容量]
+    定圧条件にて，物質のエンタルピーは温度の上昇とともに大きくなるものだが，その勾配は物質によって違う．これを\textbf{定圧熱容量}という．
+    \[C_p^\circ = \left(\frac{\partial H}{\partial T}\right)_p\]
+\end{definition}
+\begin{proposition}[enthalpyと定圧熱容量]
+    定圧熱容量が温度に依存しないと仮定すると，温度$T$に於ける物質のエンタルピーは次の様に表せる．
+    \[H^\circ(T)=H^\circ(298)+(T-298)C^\circ_p\]
+\end{proposition}
+\begin{remark}
+    有機溶媒ではよく成り立つ近似だが，水だとうまくいかない，というのが前節の疎水効果の内容であった．
+\end{remark}
+
+\section{協同性(cooperativity)}
+分子認識は，換言すれば弱い分子間相互作用たちが奏でる協奏曲であるから，殆どが協同性の言葉で語られる．
+この言葉を整備する．協同性は大きく分けて２種類存在し，
+「A,Bの２つの部分からなるH分子があらかじめ結合して置けば，複合体HGの形成時のエントロピー損失を先払いできる」というキレート協同性，
+「GにHが１つ結合する毎に，G-H結合強度が増す」というアロステリック協同性とがある．
+水分子や，タンパク質分子の間に生じる水素結合での協同性は後者の協同性に数えられる．
+
+\begin{quote}
+    Cooperativity is the key feature of systems chemistry that leads to collective properties not present in the individual molecular components. It is one of the most important properties of the molecular systems found in biology.\cite{What is cooperativity?}
+\end{quote}
+
+\subsection{chelate cooperativity}
+
+\begin{definition}[chelate cooperativity]
+    $\Delta G_{AB}^\circ = \Delta G^i_A+\Delta G^i_B + \Delta G^c$
+の右辺第三項が「予めA,Bが連結してあったので，結合する度に失わずに済んだエントロピー」に当たる．この項をキレート協同性という．
+\end{definition}
+\begin{remark}
+    多座配位子による金属イオンへの配位結合の際に観測されたキレート効果からこの名前がついて居る．
+    \begin{quote}
+        キレート錯体は配位子が複数の配位座を持っているために、配位している物質から分離しにくい。これをキレート効果という。\footnote{ja.wikipedia.org}
+    \end{quote}
+\end{remark}
+\begin{remark}
+    一方，一口に協同性と言っても本末転倒な場合がある．$\Delta G^c>0$の場合を負の協同性，$\Delta G^c<0$の場合を正の協同性と呼ぶ．
+    例えば，A-B結合が短すぎて，片方が結合した後に逆に２本目の結合が形成しにくくなる場合は負の協同性である．
+\end{remark}
+\begin{remark}
+    chelate協同性の動的な組織を，事前組織化というのであった（定義\ref{def-preorganization}）．
+\end{remark}
+
+\subsection{allosteric cooperativity}
+
+\begin{definition}[allosteric cooperativity]
+    前節のキレート協同性を拡張して，一般に「１つ前の結合部位が結合した時，次以降の複合体形成反応が促進される効果」をアロステリック協同性という．
+\end{definition}
+\begin{remark}
+    Greek allosは「別の」Greek stereosは「形」である．タンパク質の機能が別の化合物によって調整される反応をallosteric効果という．
+\end{remark}
+\begin{remark}
+    アロステリック効果の要因は，水和の構造が違うなど諸説あるが，一般に結合部位周りのconformation変化が起こり，周囲の結合部位の結合能に影響を与える．各結合部位が近接して居る必要はない．
+\end{remark}
+
+アロステリック効果のモデルとして，ヘモグロビンのものをみる．
+次にこの機構を分子軌道法から精査し，COが人体に猛毒性を持つ理由（$CO$がヘモグロビンに$O_2$より強く結合する理由）を説明する．
+
+\subsubsection{ヘモグロビンに於ける協同性}
+
+\begin{definition}[homoglobin, mioglobin]
+    ヘモグロビンは，hemeタンパク質のファミリーの１つで，hemeと呼ばれる鉄ポルフィリンが活性部位に存在し，これで酸素を運搬する．
+ヘモグロビン全体で，$\alpha,\beta$鎖の２種類のペプチドサブユニット２本ずつからなる四量体で，各サブユニットにhemeが１箇所ずつある．
+一方hemeファイミリーには，他にmioglobinという筋肉中に存在するタンパク質が存在する．ミオグロビンは単量体で１つのhemeしか持たず，酸素の貯蔵をその生体機能として居る．
+この機構の違いはアロステリック協同性で説明できる．
+\end{definition}
+\begin{remark}
+    同じ分子がエフェクターかつ基質となる例である．一般のアロステリック効果は，ヘモグロビンのようなオリゴマー構造でモデル化することができる．
+\end{remark}
+
+\begin{shadebox}
+    \begin{fact}[「運搬」のhemoglobinと「貯蔵」のmioglobinの機能の違いとhemeの数]
+    活性部位の数$n$が大きく，それらにアロステリック協同性が働く場合，その基質濃度に対する飽和曲線はstep関数に近く／sigmoidalになる（１つ目の結合が進むと同時に最後までドミノ倒しで進んでしまいやすくなる）．この不連続性が，生体の採用したスイッチ機能で，生体の基本機能となって居る．
+    \end{fact}
+\end{shadebox}
+
+\begin{fact}[doming状態]\label{fact-doming-porphyrin}
+    domingと言って，hemeに対してFe(Ⅱ)イオンは，ポルフィリン環の４つのNとHis残機との５配位構造を作りながら，ポルフィリン環の中には収まっておらず，ハマって居る構造をしている．
+酸素分子がFe(Ⅱ)イオンに結合して酸化するとイオン半径が小さくなり，ポルフィリン平面に収まって擬正八面体構造（N５つとO１つに配位して居るので）をなす．
+\end{fact}
+
+\begin{model}[正八面体構造の分子軌道]
+    これについて，正八面体構造の分子軌道を考えると，定性的議論からも9+6=15の分子軌道が，6+3+6で存在する．配位子とFeの価電子とで18の電子がここに入り，非結合性軌道の$t_{2g},e^*_g$に最後の６電子が充填される．
+    この２つの軌道のエネルギー差$\Delta E$とスピン対形成エネルギーとのバランスによって，例えば$\Delta E$が十分小さい時は電子対の形成を避けてHundの規則を破り，高スピン錯体を形成することがある．
+
+    ここで，この模型に，うち一つの配位子はOであったからこの分子軌道も考慮に入れる．すると，反結合性軌道$\pi^*=(\pi_3,\pi_4)$に２つの電子が入る．
+\end{model}
+\begin{explanation}[酸素とヘモグロビンとの結合状態]
+    まず酸素分子がFe(Ⅱ)に結合すると，これはポリフィリンの中に収まり，Fe-N結合が強まるので，低スピン型を取る．その後，６つの電子が互いにエネルギーの近い$d_{xy},d_{yz},d_{zx},\pi^*$軌道に入るが，酸素が結合したFeイオンは反磁性であるという実験結果があるから，上向きと下向きのスピンは同数あることになるが，$d_{xy},\pi^*$に充填されて居る電子スピンが反並行になって居ると考えられる(Weissモデル)．
+    このモデルに沿うと，Fe(Ⅱ)から$\pi^*$軌道に１つ電子が移動して居るので，これは低スピン型のFe(Ⅲ)にスーパーオキシド$O_2^{\cdot-}$が結合したものと考えられる．
+\end{explanation}
+COは，これよりも強固な結合をhemeと作ってしまう．一言で言えば，このFe(Ⅱ)に対して逆供与による安定化を起こす配位子となってしまう．
+
+\subsubsection{ヘムと一酸化炭素との結合}
+
+\begin{theory}[COの分子軌道]
+    
+\end{theory}
+\begin{definition}[back donation]
+    通常の配位結合とは逆に，錯体の中心金属から配位子へ向かって電子が供与される事による$\pi$結合の形成を，逆電子供与という．
+\end{definition}
+\begin{remark}
+    遷移金属錯体中の配位子では、$sp^n$混成軌道上の電子（孤立電子対や$\pi$電子）が遷移金属の空のd軌道に供与されることで錯体が安定化している。
+    さらに、その錯体の中心金属が非結合性のd電子を持ち、配位子の空の$\pi^*$軌道（反結合性の軌道）と重なり合う位置関係にある場合、
+    そのd軌道と$\pi^*$軌道で新たな混成軌道がつくられる。その混成により非結合性軌道にあったd電子はエネルギー的により安定な状態になり、
+    配位子-金属間の結合がさらに強くなる。この現象を逆供与と呼ぶ。\footnote{ja.wikipedia.org}
+\end{remark}
+
+\begin{itembox}[l]{協同性のまとめ}
+    伝統的な教科書は，allosteric協同性の例としてhemoglobinへの酸素の結合，chelate協同性の例としてタンパク質やDNA, RNAのfoldingを挙げる．
+    この２つの協同性の区別は近年までついていなかったが，次の様に定義できる\cite{What is cooperativity?}．
+\end{itembox}
+
+\section{分子認識に関わるパラメータの決定手法}
+主に
+\begin{quotation}
+    1. 結合定数：結合がどれほど強いのか
+
+    2. 熱力学的物理量：結合形成にどの様な寄与があるのか
+\end{quotation}
+
+\subsection{結合比の決定}
+
+\subsection{結合等温線}
+
+\subsection{熱力学パラメータの決定}
+
+\subsection{測定の時間スケール}
+
+\subsection{紫外可視吸収スペクトル}
+
+\subsection{蛍光スペクトル}
+
+\subsection{ベネシ-ヒルデブランドプロット}
+
+\subsection{核磁気共鳴分光法}
+
+\subsection{等温滴定カロリメトリー法}
+
+\section{分子認識の例}
+水中でのHG複合体の形成の例を議論する．
+
+その最初の例は，イオンの認識をするcrown etherの，serendipity的発見であった．
+この仕事を引き継ぐ形で，Donald CramがHost-Guest化学を創始した．
+Jean-Marie Lehnがこれを自己集合も含んだ新分野「超分子化学」を打ち出した．
+３人とも，1987年にノーベル化学賞を「クラウン化合物の開発と応用」により受賞した．
+まずはこの，分子認識の分野を確立した例から見る．
+
+\subsection{静電相互作用による分子認識}
+
+水中ではイオンは水和されるため，自己集合を開始させる強いhostを作るには工夫が必要である．
+\begin{example}[事前組織化による静電気的相互作用の寄与]
+    \begin{definition}[salt bridge]
+        イオン性の残基間（リジンとグルタミン酸など）の静電相互作用は\textbf{塩橋}と呼ばれ，タンパク質の二次構造の安定化に大きく寄与している．
+    \end{definition}
+    一般に水中で静電相互作用は弱まるが，事前組織化されていた場合は，タンパク質の安定化の寄与は大きくなりえる．
+\end{example}
+これを人工的に起こすことを考える．この研究が超分子化学の興りとなった．
+\begin{example}[Charles Pedersen (Du Pont) 1967\cite{Pedersen}]
+    Charles Pedersenはcrown etherと，そのうち特に18-crown-6-etherが$K^+$イオンと強く結合することを合成・発見した．\footnote{1987ノーベル化学賞「クラウン化合物の開発と応用」．Donald J. Cramと共に．}
+    \begin{definition}[crown ether]
+        一般構造式$\mathrm{-(CH_2-CH_2-O)_n-}$で表される大環状エーテルをクラウンエーテルという．炭素原子の全数を$x$，酸素原子の全数を$y$として，$x$-crown-$y$-etherと命名される．
+    \end{definition}
+    $K^+$イオンには，６つの水分子が酸素の非共有電子対が配位する形で水和している．すると，chelate協同性より，６つの水分子があらかじめ綺麗につながっている構造体が存在したなら，それは水和水との競合に勝つことが予想される．
+    この戦略を事前組織化という（定義\ref{def-preorganization}）．
+
+    この分子認識は，次の様な応用がある．
+    \begin{application}
+        有機溶媒中ではシアン化カリウムKCNの$CN^-$が求核剤として働くが，有機溶媒中で$K^+$を18-crown-6-etherが集めれば，$CN^-$の反応性が上がる．
+    \end{application}
+    \begin{application}
+        ベンゼン溶液に$KMnO_4$と18-crown-6-etherを加えれば，$MnO_4^-$イオンは特異的な酸化力を示す．
+    \end{application}
+\end{example}
+\begin{remark}[template effect]\label{remark-template-effect}
+    大環状分子の環化反応に於ける低い効率を克服するために，例えば18-crown-6-etherに対しては$K^+$を共存させて鎖状オリゴエーテルの寒霞反応を行うと，２つの反応点が近づき，反応効率が上がる．
+    template reactionは本来錯体化学(coordination chemistry)の用語である．
+
+    ここへの言及も含めてPedersenの仕事であった\cite{Pedersen}．ja.wikipedia.org「クラウンエーテル」にも記述がある．
+    \begin{quote}
+        上記の反応で、9員環化合物でなく、分子間の反応が起こり、より大きな18員環の生成物が得られたのは、反応系中に存在したナトリウムイオンによるテンプレート効果のためであると説明されている（\cite{Pedersen}に）。これを利用し、クラウンエーテル類の合成は一般にアルカリ金属イオンの存在下で行われる。
+    \end{quote}
+\end{remark}
+実は，$K^+$イオンと結合していない18-crown-6-etherは歪んだ環状構造をしており，事前組織化は完璧でない．
+この仕事を継いだのが，Donald James CramとJean-Marie Lehnである．
+\begin{example}[cryptand, Jean-Marie Lehn]
+    \begin{definition}[cryptand]
+        \textbf{クリプタンド}とは，２つ以上の環からなるかご状の多座配位子の総称をいう．
+    \end{definition}
+    \begin{remark}
+        1. 「クリプタンド」の名は，取り込まれたゲスト分子を墓 (英: crypt) に埋葬された遺骸になぞらえて付けられた．
+        厨二だなぁ．
+        2. クリプタンドはクラウンエーテルの設計概念を三次元構造へと展開したもので、より高い選択性と包接能力を持つ。生成する錯体は脂溶性を示す。\footnote{ja.wikipedia.org}
+    \end{remark}
+\end{example}
+\begin{definition}[spherand]
+    名前の通り殆どsphericalな構造を持つ環状oligoether．cryptandの１つである．
+\end{definition}
+\begin{example}[carcerand, Donald James Cram]
+    \begin{definition}[carcerand]
+        \textbf{カルセランド}とは，高温でもゲスト分子が逃れられない、完全に閉じ込めるホスト分子である。このタイプの分子は、1985年にドナルド・クラムによって最初に報告され、その名称は、ラテン語のcarcer、すなわち刑務所に由来する。\footnote{ja.wikipedia.org}
+    \end{definition}
+\end{example}
+
+\begin{example}[塩橋形成]
+    ２つのguanidiniumを持つあるhost分子は，硫酸イオン$SO^{2-}_4$と結合する．
+    guanidiniumの正電荷は非局在化しており，窒素原子上の水素原子を介してanionと塩橋を形成する．
+
+    自然界にも硫酸イオン$SO^{2-}_4$を認識するタンパク質が存在するが，結晶構造解析から七つの水素結合を介して$SO^{2-}_4$と結合することがわかっている．
+\end{example}
+
+\subsection{水素結合による分子認識：DNA認識}
+一般に水分子は水素結合のdonorにもacceptorにもなるため，水中における水素結合は水分子との水素結合と競合してしまい不安定である．
+しかし，DNAの二重螺旋などの例外では，螺旋構造の内部で塩基対が形成される様に，水分子の影響を受けない様な構造を持っている．
+
+\begin{definition}[major groove, minor, groove]
+    DNA二重螺旋には大きな溝と小さな溝がある．いずれも，塩基対形成には使われなかった水素結合のdonorとacceptorが並んでいる．
+\end{definition}
+\begin{example}[distamycin]
+    distamycin Aはポリアミド抗生物質で，N-metyl-pyrrole部位Pyがminor grooveのA-T塩基対を認識して，水素結合を介して結合する，minor groove binderである．
+    distamycinはStreptomyces netropsisからnetropsinと共に採取される．なお，netropsinも殆ど同じ振る舞いをDNAに対してする．
+    distamycin Aがminor grooveに治ると，水素結合部位は水から隠れるため，複合体の形成が可能になる．
+\end{example}
+これを人工系で模倣することを考える．
+
+\begin{example}[PIP, Peter B. Dervan\footnote{The primary focus of his research is the development and study of small organic molecules that can sequence-specifically recognize DNA, a field in which he is an internationally recognized authority.}]
+    Pyrrole-imidazole polyamideとはdistamycin Aの構造を模したoligoamideで，DNA二重螺旋の認識ができる．
+    PIPは４塩基対を認識し，この配列の前後１つずつの塩基対とも水素結合を形成し，1:1複合体を形成する（distamycin, netropsinと同じ）．
+    複合体形成における解離定数は$K_d<1\;\mathrm{nM}$と極めて低く，特異性が高い．そのため，
+    遺伝子療法におけるエピジェネティクス的なmodificationや，遺伝子の発現の切替という新たな医療方法(drug-delivery mode)に向けて研究が進んでいる．
+\end{example}
+\begin{application}[ポスト・ゲノム時代のDNA医療]
+    \begin{quote}
+        現在，用いられている抗がん剤は，スクリーニングによって
+        選択された抗生物質が多く，がんの分子生物学的知見
+        に基づいたものはほとんどない。細胞内の特定遺伝子
+        の発現を細胞外から自由自在にコントロールすることが
+        可能になれば，究極の遺伝子レベルでの治療法となると
+        考えられる。
+    \end{quote}
+\end{application}
+
+\subsection{疎水効果による分子認識}
+
+\begin{definition}[CD: Cyclodextrin]
+    amyloseはグルコースの１位と４位がglycoside結合によって連結した直鎖状高分子である．これはamylopectinと違って熱水に溶解する．
+    これを酵素が分解すると，グルコースが環状につながった環状オリゴ糖であるシクロデキストリンを得る．
+    構成する炭素数が6,7,8個のものを，特に$\alpha$-,$\beta$-,$\gamma$-cyclodextrinという．
+\end{definition}
+\begin{example}
+    cyclodextrinは外側が-OH基により親水的で，内側が-OH基により疎水的なので，疎水分子を加えると疎水効果により集合し，結果cyclodextrinの内部に包摂される．
+
+    これが，各種の医薬品で，薬用成分の安定化剤としてクリームの成分に，あるいは苦い薬用成分をシクロデキストリンに包摂して，
+    あるいはわさびの辛味成分を閉じ込めた状態の商品「練りわさび」，
+    消臭・除菌ブームの火付け役である「ファブリーズ」
+    ，または口臭予防タブレットなどに利用されている\cite{有賀克彦}．
+    わさびは揮発成分だから，チューブ形で保存を想定されているものはシクロデキストリンに包んでおくのである！
+    \begin{quote}
+        「成分表に，シクロデキストリンあるいはサイクロデキストリンと記載されている市販品以外でも，
+        環状オリゴ糖やとうもろこし成分などと書いてあればシクロデキストリンを用いている可能性が高い．
+    \end{quote}
+\end{example}
+\begin{remark}
+    環状構造であるため、ロタキサンの部品として用いられる。日本では原田明、伊藤耕三、寺尾潤\footnote{寺尾研 http://park.itc.u-tokyo.ac.jp/terao/}らをはじめ多くの超分子化学者がシクロデキストリンを用いた超分子の研究を行っている。\footnote{ja.wikipedia.org「シクロデキストリン」}
+\end{remark}
+\begin{application}[寺尾研とシクロデキストリン]
+    nmスケールの半導体ワイヤやグラフェンナノリボンなどの極細電荷チャネル界面に包摂能を有するシクロデキストリンなどの超分子化合物と，配位能を有するポルフィリンなどの遷移金属錯体を組み合わせ，
+    高次の分子認識を発現する超分子・錯体センサを導入し，ガス，代謝物，環境ホルモンなどの多種多様な標的物質を極小エネルギーで高感度・高選択的に検出可能な多機能センサシステムの構築を目指す．
+    創製した超小型のセンサは，スマートフォンに搭載することにより会話中の呼吸から健康状態を診断する技術や，車に搭載することでより運転手の状態をモニタリングする技術へと応用し，
+    ビッグデータ研究とも相まって，安全・安心・豊かな社会の創出に貢献する技術革新として確立する．
+
+    ちなみにporphyrinはpyrroleが４つ対称に集まった環状化合物であり，ヘモグロビンの実験事実\ref{fact-doming-porphyrin}でも出てきた，
+    $\pi$-stackingにより他の化合物と超分子を形成する常連である．netropsinなどもpyrrole-amidine antibioticsである．
+\end{application}
+
+\begin{definition}[cyclophane]\label{def-cyclophane}
+    シクロファンとは，ベンゼンなどの芳香環("-phane")の２ヶ所以上が，炭素などの鎖状構造の架橋によって環状に("cyclo-")結びついた構造を持つ大環状化合物の総称である．
+\end{definition}
+\begin{remark}
+    cyclophaneはvan't Hoff plotが失敗する化合物である．また，非古典的疎水効果\ref{def-nonclassical-hydrophobic-effect}を生じる．でかいからだろうか．
+\end{remark}
+
+\begin{definition}[cucurbituril]
+    glycoluril（定義\ref{def-glycoluril}）とformaldehyde（ホルムアルデヒド）とを縮合すると，glycoluril部位が連結して環状になった分子が得られる．名前はカボチャの学名cucurbitaceaeに由来する．
+    glycoluril monomerの数を$n$として，cucurbit-n-urilと呼んでCBnと表す．
+\end{definition}
+\begin{example}[ククルビツリル]
+    ククルビツリルの内部空間は疎水性で，上下の縁の部分にはカルボニル酸素が環状に縁取られているため，アンモニウムなどのカチオンとはこれらの間に静電相互作用が働く．
+
+    疎水性骨格の両端にアンモニウムカチオンを適切な距離で2つ備える分子が強力に取り込まれる。下記のとおり、アルキル鎖長4～6の$\alpha,\omega$-ジアミンが良く結合する。\footnote{chem-station.com}
+
+    CB7とフェロセンの誘導体との結合定数は$K_a=3\times 10^{15}\;M^{-1}$ととても高く，生命系で最も強い分子間相互作用の一つであるアビジン-ビオチンの結合に匹敵する．
+
+    毒性の懸念が少ない生体適合型ホスト分子として、ドラッグデリバリーシステムなどにも用いられている。
+\end{example}
+
+\begin{definition}[Biotin]
+    \textbf{ビオチン}とは，「ビタミンB群に分類される水溶性ビタミンの一種で、ビタミンB7とも呼ばれるが、欠乏症を起こすことが稀なため、単にビオチンと呼ばれることも多い」ものである．\footnote{ja.wikipedia.org}
+\end{definition}
+\begin{definition}[Avidin]
+    \textbf{アビチン}とは，「鳥類、爬虫類、両生類の卵管で産生される四量体型ビオチン結合性タンパク質であり、これらの動物の卵の白身に蓄積される」ものである．\footnote{ja.wikipedia.org}
+
+    ４量体のそれぞれに１つずつの結合部位があり，それぞれがbiotinと結合するが，各結合部位間に協同性はなく，独立にbiotinと結合する．
+    これはエンタルピー駆動で，水素結合とvan der Waals力による．
+\end{definition}
+\begin{remark}[なぜこんなに強いアビジン-ビオジン相互作用を生じるタンパク質アビジンが作られているのだろう，という究極要因]
+    調理によってアビジンのビオチン親和性は破壊されるため、機能を持つアビジンは生卵でのみ見られる。卵中のアビジンの自然な機能は分かっていないが、（細菌の成長を助けるビオチンに結合する）細菌成長阻害因子として卵管中で作られていると想定されている。この仮説の証拠として、アビジンと等しいビオチン親和性と非常によく似た結合部位を持つストレプトアビジンがストレプトマイセス属細菌のある株によって作られており、抗生物質のようにして競合する細菌の成長を阻害する働きをしていると考えられている。\footnote{ja.wikipedia.org「アビジン」}
+\end{remark}
+
+\chapter{自己集合}
+自己集合の分類から超分子化学の全体像を見たのちに，いくつかの例を概観する．
+最後に，この新分野の理論的基盤として，エネルギー地形理論と
+これに基づいた自己集合の反応過程についての理解の様子を垣間見る．
+
+\section{自己集合の分類}
+Alan Lindsay Mackayにより，自己集合の７つの分類が提案されている．
+
+\begin{definition}[1. strict self-assembly]
+    構成要素のみを混合し，溶液・温度・pHなどの環境を適切にすると，自己集合体が自発的にかつ可逆に生成するもの．
+\end{definition}
+\begin{example}[DNAの二重螺旋]
+    温度の調節のみ解いたり結合させたりできる．実際に生体内でもこの様にしているのだろうか？
+\end{example}
+\begin{example}[TMV(Tobacco mosaic virus)のcapsid]
+    TMV（定義\ref{def-TMV}）は動物に移らなかったり，たくさん収穫できるところから随分と研究が進んでおり，構成要素をバラバラにした後に生理条件に戻すと完全な再生をすることが知られている．
+    \begin{quote}
+        1955年、H.フレンケル＝コンラートとロブリー・ウィリアムズにより、精製されたTMVのRNAと、それを包むカプシド（コート）タンパク質が自動的に結合してウイルスとして機能することが示され、これが最も安定な構造（自由エネルギーが最低）であることが明らかになった。宿主細胞内でもこのメカニズムにより会合が起こると考えられる。
+    \end{quote}
+    \begin{quote}
+        外側のカプシド（コート）は莫大な数の同一タンパク質分子からなり、らせん状（1周あたり16.3タンパク質分子）に結合して棒状構造を形成している。このタンパク質分子は158アミノ酸からなり（アミノ酸配列は最後に示す）、4本のαヘリックスがループ（ウイルス粒子軸の側に突き出る）を介して連結している。\footnote{ja.wikipedia.org「タバコモザイクウイルス」}
+    \end{quote}
+\end{example}
+
+\begin{definition}[2. irreversible self-assembly]
+    構成要素間の相互作用が非可逆で，一度構成要素間が繋がれると，自己集合の条件で相互作用を切断することができない．
+    従って，組み立てのミスが途中で起こると，最終生産物に到達しないことがある．
+\end{definition}
+\begin{example}
+    フラーレンやカーボンナノチューブのアーク放電による生成．生成過程で様々な混合物が生じるのは，これが不可逆であるためと考えられる．
+
+    もしかしたら，科学技術の発展というのは，こういう荒っぽいものではなくて，厳密な自己集合を利用できるなら利用していくという方針に特徴付けられるのではないか？
+\end{example}
+
+\begin{definition}[3. precursor modification followed by self-assembly]
+    「前駆体の修飾により引き起こされる自己集合」
+\end{definition}
+\begin{example}[collagenの生合成]
+    コラーゲンはポリペプチド鎖が三重螺旋を形成した線維状物質である．「多細胞動物の\underline{細胞外基質（細胞外マトリクス）の主成分}である。体内に存在しているコラーゲンの総量は、ヒトでは、全タンパク質の約25\%を占める程多い。」\footnote{ja.wikipedia.org「コラーゲン」}
+    コラーゲンの構成要素であるプロコラーゲンには自己集合を妨げるペプチドであるプロペプチドが結合しており，細胞内でのコラーゲンの生成を調整している．
+    プロコラーゲンが細胞外へと放出され，加水分解酵素によりプロペプチドが切断されると，真の構成要素が生成し自己集合が始まる．
+
+    コラーゲンは産業への安易な利用が目立つが，本来は非常に生命系の中で重要な機能的位置を占めるタンパク質なのだな．
+    まさか，動物という存在自体がコラーゲンのこの「前駆体の修飾で自己集合を開始させるトリック」を発明できたから一つ進化のブレイクスルーが怒ったとは思わなかった．
+    こうみると，現在人類が肌に塗り付けているのも非常に懐古的で良いな．
+    \begin{quote}
+        コラーゲンが地球で初めて誕生したのは、原生代後期の全球凍結後（6億〜8億年前）と考えられている。コラーゲンの産生には大量の酸素の供給が必要であるが、全球凍結以前は地球においてはコラーゲンを作り出せるだけの高濃度の酸素が蓄積されていなかった。そのためそれまでの生物の進化は単細胞生物までに留まっていた。そして全球凍結の状態が終わり、急激な気候変動の影響で大量に酸素が作られ地球に蓄積した。この影響により単細胞生物がコラーゲンを作り出す事に成功し、細胞同士の接着に利用され、単細胞生物の多細胞化が促進された。今日に見られる多細胞生物（動物・植物・原生生物・真菌類）は全てこのコラーゲンの生産に成功した種の子孫であると考えられている。（ただしその子孫である植物は細胞間接着にコラーゲンを用いず、セルロースを用いており、コラーゲンを細胞間接着として利用している生物は動物と一部の原生生物に限られている）\footnote{ja.wikipedia.org「コラーゲン」}
+    \end{quote}
+    従って，動物にとって欠かせない存在となっている．
+    \begin{quotation}
+        コラーゲンは、様々な結合組織に、力学的な強度を与えるのに役立っている。若干の弾力性もある。特に、腱の主成分は上述のコラーゲン繊維がきちんとすきまなく配列したもので非常に強い力に耐える。腱には、筋肉が発生した引っ張り力を骨などに伝え、運動を起こす際に非常に強い力がかかる。また、骨や軟骨の内部では、びっしりと詰め込まれたコラーゲン細繊維が、骨や軟骨の弾力性を増すのに役立っており、衝撃で骨折などが起こることから守っている。また、皮膚の弾力性や強度に役立っている、などである。
+
+        一方、こうした従来から知られている機能とは別に、コラーゲンが、それに接する細胞に対して、増殖、分化シグナルを与える、情報伝達の働きも担っていることがわかってきている。
+    \end{quotation}
+\end{example}
+\begin{example}[tubulin dimer]\label{example-tubulin-dimer}
+    tubulinには，分子量約５万の$\alpha,\beta$と$\gamma$の３種類があり，GTP(guanosine triphosphate)結合タンパク質である．
+    GTPがbindされると，landscapeが変わって，自己集合した準安定状態を作り出す契機になる．GTPが会合促進する．
+    ここでGTPがGDPに加水分解されると，landscapeは元に戻る（ここで出たのが廃棄物）．
+    このtubulinの準安定状態（一端では伸び，一端では縮むので，活性化エネルギーが高く元に戻り難い）が，微小管であり中心体である．ニュートロンの軸索が伸びる原理もこれ！？
+    これも分子機械の１つで，スイッチがGTPに当たる．この系（生命の基本単位）を人工的にしっかり作り出した例はまだない．
+\end{example}
+\begin{definition}[Guannosine triphosphate]
+    アデノシン三リン酸が生物体内で高エネルギーリン酸結合のエネルギーを利用して様々な生合成や輸送，運動などの反応に用いられるのに対し，
+    \textbf{グアノシン三リン酸}は細胞内シグナル伝達やタンパク質の機能の調節に用いられる．
+    この原理は，GTPの末端$\gamma$位のリン酸を取ったりつけたりすることで，タンパク質のconformation変化を引き起こすことによると考えられている．
+\end{definition}
+\begin{definition}[centrosome, centriole]
+    \textbf{中心体}とは，微小管(microtubule)形成中心とも呼ばれる，
+    ごく短い三連の微小管が九対環状に配置された中心小体(centriole)が２個１組でL字型に配置されたものである．
+    中心小体は，有糸分裂の際に形成される紡錘体を形成するのに関わっている．また細胞質分裂を完了させるために重要な役割を担っていると考えられている．
+\end{definition}
+\begin{remark}
+    チューブリンはコルヒチンやタキソールなどのターゲットである。コルヒチンは微小管の解離を促進し、タキソールは逆に微小管を極度に安定化させて正常な細胞分裂を阻害する。\footnote{ja.wikipedia.org「チューブリン」}
+\end{remark}
+
+\begin{definition}[4. self-assembly with postmodification]
+    「事後修飾を伴う自己集合」と訳せる．
+    熱力学的に完璧ではない生成物が，順々反応から不可逆に離脱する様な機構があれば，この様な反応は進み得る．
+    これも広義の自己集合を実現する．
+\end{definition}
+\begin{example}[insulinの生合成]
+    insulinは２つのポリペプチド鎖A,Bがdisulfide結合によりつながった二量体タンパク質である．
+    この生合成は，まずA,B鎖を含む一本のプレプロインスリンと呼ばれるポリペプチド鎖が生成され，分子内水素結合を介してfoldingされ，
+    ２箇所のジスルフィド結合が生成するとプロインスリンとなる．
+    最後に，二箇所の余計なペプチド鎖（C-peptidoという）が切断されて，インスリンを得る．
+
+    しかし，A,Bだけでは集合しない．
+\end{example}
+\begin{definition}[rotaxane]
+    亜鈴形分子の中軸を環状分子が囲んだ，立体障害でリングが軸から抜けなくなった幾何構造を持つ分子集合体をロタキサンという．
+    構成分子数を$n$として$n$-rotaxaneと書く．
+    抜ける場合は\textbf{擬ロタキサン(pseudorotaxane)}という．
+    両端をstopper, capという．
+\end{definition}
+\begin{definition}[catenane]
+    ２つの環状分子が互いに貫入した幾何構造を持つ分子集合体(a complex of two interlocking ring-shaped molecules)をカテナンという．
+    構成分子数を$n$として$n$-rotaxaneと書く．現在[7]-catenaneまでが合成されている．
+\end{definition}
+\begin{remark}
+    語源はラテン語で「鎖」を意味する "catena"である．
+\end{remark}
+
+\begin{definition}[5. assisted self-assembly]
+    構成要素に含まれない物質が自己集合過程に介在し，自己集合体の形成を促進する．
+    ただし，構成要素の中に自己集合体を形成する要素がデザインされており，介在する分子はこれ以上の関与をしない．
+\end{definition}
+\begin{definition}[molecular chaperone]
+    他のタンパク質が正しいfoldingをして機能を獲得するのを補助するタンパク質を総称して，シャペロンという．
+
+    なお，タンパク質の凝集の抑制や変性タンパク質の再生(refolding)を補助するシャペロンも存在する．
+\end{definition}
+\begin{remark}
+    シャペロンとは元来、西洋の貴族社会において、若い女性が社交界にデビューする際に付き添う年上の女性を意味し、タンパク質が正常な構造・機能を獲得するのをデビューになぞらえた命名である。
+    粋すぎるだろう．
+\end{remark}
+
+\begin{definition}[6. directed self-assembly]
+    指向された自己集合とは，ある鋳型分子(template)が共存するために，構成要素が一種類の構造体へと自己集合すること．
+\end{definition}
+\begin{example}[template effect]
+    Charles Pedersenが指摘したクラウンエーテルの合成法（注\ref{remark-template-effect}）．
+\end{example}
+\begin{example}[template method]
+    両親媒性分子をテンプレートとしたシリカやアルミナの合成．
+    \begin{quote}
+        例えば、MCM-41では、棒状ミセルの集合体であるヘキサゴナル構造を分子鋳型としている。この状態で、シリカの原料であるTEOS（オルトケイ酸テトラエチル）などの金属アルコキシドの加水分解・重縮合反応を進行させると、分子鋳型の表面にシリカ（主にアモルファス）が形成する。これを焼成する事で、有機分子である界面活性剤を取り除くと、分子鋳型の部分が空いた、即ち、多孔質のシリカ粒子が得られる。
+
+        通常、得られる多孔質材料の孔径は、界面活性剤分子の疎水鎖の長さに左右される。 しかし、疎水鎖は、構造上の自由度が大きい為、精密に制御する事は出来ない。 そこで、分子鋳型を、単一の界面活性剤溶液ではなく、複数成分を用いた混合系にする場合もある。この場合、混合比を変える事で、細孔径を精密に制御出来る。\footnote{ja.wikipedia.org「分子鋳型法」}
+    \end{quote}
+\end{example}
+
+\begin{definition}[DCvC: Dynamic Covalent Chemistry]
+    DCvCとは超分子化学の一分野で，テンプレート効果などの力学的性質(dynamic property)を利用して，様々なtopologyを持った分子を構成する方法論を考える分野．
+\end{definition}
+\begin{remark}
+    配位化学はcoordination chemistryという．現代的にはこの分野は錯体化学(complex chemistry)と呼ばれるが，
+    これと混同する様な言及もja.wikipedia.org「ボロメアン環」であった．
+    また，共有結合を専門に制御するという点において，DCC(Dynamic Combinatorial Chemistry)の部分分野とも言える．こちらは，熱力学的な制御から可逆な組み立て過程を制御する方法論全般を指す．
+\end{remark}
+\begin{example}
+    James Stoddartはこの手法を発展させて，molecular Borromean ringを作った（例\ref{example-Borromean-ring}）．
+\end{example}
+
+\begin{definition}[7. self-assembly with intermittent processing]
+    断続的な加工を伴う自己集合とは，1〜6の過程を混ぜた過程であり，生命系ではここにしか分類できないものも多数存在する．
+\end{definition}
+
+\section{人工系に於ける自己集合}
+
+\subsection{水素結合を利用した自己集合}
+水中で水素結合を駆動力に自己集合を起こすことは難しいから，クロロホルムなど，非プロトン性の低極性溶媒が用いられる．
+
+\begin{definition}[melamine]
+    \textbf{メラミン}とは，トリアジン(tri-azine)環にアミノ基を３つ持つ構造物である．
+    ビニロンのグレードアップがフェノール樹脂なら，尿素樹脂のグレードアップに思える．
+\end{definition}
+\begin{definition}[cyanuric acid]
+    シアヌル酸は尿素を原料として製造される有機化合物である．
+\end{definition}
+\begin{example}[メラミンとシアヌル酸]
+    melamineとcyanuric acidの間には相補的な水素結合が形成され，六角形状の平面構造ができる．これを利用して，６つのmelamineを導入した分子にシアヌル酸を加えると，すごい料理が下げて運べそうな台が一義的に生成する．
+\end{example}
+\begin{example}[メラミン混入事件]
+    中国メーカーによって食品のタンパク質含有量（窒素含有量）を贋造するために利用された。2007年メラミンが混入された中国企業製ペットフードがアメリカ等に輸出され、犬や猫が主に腎不全で死亡する事件が起きた。2008年には中国でメラミン混入粉ミルクが原因で乳幼児に腎不全が多数発生する事件が起きた。腎毒性の発現にはメラミンに加えシアヌル酸の関与が疑われている。\footnote{ja.wikipedia.org「メラミン」}
+\end{example}
+
+\begin{definition}[glycoluril]\label{def-glycoluril}
+    グリコルリルとは，２つの尿素が１つのC-C結合を共有して縮環してできた構造を持つ化合物である．
+\end{definition}
+\begin{example}
+    ２つのglycourilを持つ分子は，水素結合を介してカプセル状の二量体を形成し，内部に小分子を内接する．
+\end{example}
+
+\begin{definition}[resorcinarene]
+    レゾルシナレンはA resorcinarene (also resorcarene or calix[4]resorcinarene) is a macrocycle, or a cyclic oligomer, based on the condensation of resorcinol (1,3-dihydroxybenzene) and an aldehyde. Resorcinarenes are a type of calixarene.である．
+\end{definition}
+\begin{example}
+    resorcinareneを水で飽和したクロロホルムに溶かすと，８つの水分子を介してレゾルシナレン同士が水素結合を形成し，カプセル状の六量体を形成する．
+\end{example}
+
+\subsection{イオン相互作用（塩橋）を利用した自己集合}
+
+\begin{definition}
+    アミジンはカルボン酸イオンとの間で比較的強いイオン相互作用をする．
+\end{definition}
+\begin{definition}[calixarene]
+    カリックスアレーンは王冠の様な形をした環状分子で，超分子化学でよく用いられる構造の１つである．
+\end{definition}
+
+\subsection{配位結合を利用した自己集合}
+
+\subsection{rotaxaneとcatenaneと分子機械}
+
+rotaxaneとcatenaneは力学的に抜けなくなった事による「結合」の例である(bonded mechanically)．
+これらが，分子機械合成の基礎となる．
+
+\begin{example}[生命形でのrotaxane]
+    DNAの複製時には，DNA polymeraseにDNAが貫入してrotaxineを形成する．
+\end{example}
+\begin{remark}
+    人工のロタキサンは1967年にハリソンらによって合成されたが、このときは環状分子の中を偶然に軸状分子が貫通することを期待して合成したものであり、収率はきわめて低く、なかなかこの分野の研究は発展しなかった。その後、合成化学や超分子化学、そして分析化学（特に質量分析）の発展に伴い、徐々にロタキサンの効率的な合成法が進歩していった。\footnote{ja.wikipedia.org「ロタキサン」}
+\end{remark}
+
+\begin{definition}[molecular machine]
+    A molecular component that produces quasi-mechanical movements (output) in response to specific stimuli (input).
+    Molecules that mimic the functions of machines by changing their conformation in response to an external signal.
+\end{definition}
+\begin{example}[分子機械と捉えられる生命現象]
+    1. Ribosome：小胞体に分泌されるタンパク質を組み立てる．
+
+    2. ATP合成酵素：真核生物のミトコンドリア内膜，原核生物の細胞膜に存在する風車．
+
+    3. myosin：Actin filamentの上を走る形で，２つのタンパク質で筋収縮を実現する．
+
+    4. Kinesin, Dynein：微小管(microtubule)上を直線運動し，細胞内の物質輸送を担う．
+\end{example}
+\begin{definition}[Kinesin]
+    キネシンは酵母からラット，ヒトを含め広く存在するタンパク質の一群で，主にATPを加水分解しながらそのエネルギーで微小管に沿って運動する性質を持ち，細胞分裂や神経軸索輸送などの細胞内物質輸送に重要な役割を果たしている．
+
+    なお，キネシンが移動する機構はよくわかっていない．ja.wikipedia.orgに載っている二足歩行の生き物は可愛い．
+\end{definition}
+\begin{definition}[Dynein]
+    ダイニンもATPを加水分解しながらそのエネルギーで微小管に沿って運動するタンパク質で，真核生物の鞭毛・繊毛の運動を生み出すタンパク質として同定された．
+    これまでで知られる全ての亜種が微小管のマイナス端方向に移動する。つまり、ダイニンは、鞭毛・繊毛内のintraflagellar transport（毛内輸送）では末端から細胞体に向けての逆行性輸送、細胞体内では中心体に向けた向心性輸送に関わる。
+\end{definition}
+\begin{definition}[linear, rotary motor]
+    Actin filament上を走るmyosinや，microtubuleの上を走るKinesin, Dyneinのように，軌道上を直線的に動く分子モーターをリニアモーターという．
+    モータータンパク質と言った時は殆どの場合こちらを指す．
+    一方回転運動を作り出す分子モーターをロータリーモーターという．
+\end{definition}
+\begin{example}[rotary motor]
+    自然のものには次がある．
+    \begin{quote}
+    真正細菌の鞭毛を動かしている鞭毛モーター（flagellar motor）やイオン輸送性ATPaseは回転型のモーターとして知られる。鞭毛モーターは細胞内外のイオン濃度勾配をエネルギー源とし、鞭毛の回転運動を制御している。後者はイオン駆動型とATPをエネルギー源とするタイプがある。\footnote{ja.wikipedia.org「分子モーター」}
+    \end{quote}
+    人工のものにはFeringaによる光駆動分子モーター（例\ref{exp-Feringa}）などがある．
+\end{example}
+
+\subsection{2016年ノーベル化学賞「分子マシンの設計と合成」：Jean-Pierre Sauvage, James Stoddart, Bernard Feringa}
+
+\begin{example}[Jean-Pierre Sauvage]
+    異なる配位部位を導入したcatenaneを合成し，それぞれの結合部位に選択的に結合できる金属イオンを加えることで，２つの状態間を相互変換し，この相互変換によって筋肉の様に分子が収縮する運動を実現した．
+\end{example}
+\begin{remark}
+    ソバージュは，Louis-Pasteur大学にてJean-Marie Lehnの下でPh.D.をやっていたときに，cryptandの合成に貢献する．
+\end{remark}
+
+\begin{example}[James Stoddart: rotaxaneを用いた分子switch]
+    酸塩基を利用し，rotaxane上で環状分子を可逆に移動する系を開発した．
+
+    環状分子はcationを認識するが，rotaxaneには２級のアンモニウムとビオローゲン部位の二箇所のcation部位が導入されている．
+    環状分子はアンモニウムとより強く相互作用し，アンモニウム部に移動する．延期を加えて脱プロトン化すると中性になり，環がビオローゲン部位へ移動する．
+    これを利用してエレベータにように上下する分子を作った．
+\end{example}
+
+\begin{example}[Bernard Feringa: molecular motor, nanocar]\label{exp-Feringa}
+    rhodopsinのretinalのように，一方向のみ(unidirectional)回転をする（光駆動の）分子モーター(molecular rotary motor)を世界で初めて作成\cite{Ben Fringa}．
+    なおrhodopsinの機構の方が後から判明している？\cite{rhodopsin}．
+
+    2011にnanocarを開発した\cite{nanocar}．
+\end{example}
+
+\subsection{複雑なtopologyを持つ分子と自己集合}
+Jean-Pierre Sauvageらの専門がmolecular topologyと書いてある．
+一体何への道が拓かれたというのか．
+とにかく，Dynamic Covalent Chemistryの特にテンプレート効果の手法の威力で，たくさんの分子トポロジーと分子機械実現への道が
+解き放たれている．
+
+\begin{example}[trefoil knot]
+    自明でない最も単純な結び目を三つ葉結び目またはクローバー結び目という．rokeworkでいう止め結びに相当する．
+    これはcatenaneの合成を応用することで合成される．
+\end{example}
+
+\begin{example}[Borromean ring]\label{example-Borromean-ring}
+    ボロメアン環とは，北イタリアの貴族であるボッロメオ家の紋章からきている．
+    ボロミアン環自体はより古くから使われており，７世紀のノース人の絵画石碑にも見られる．
+    ３つの環が互いにinterlockedな構造をしているが，そのうち１つでも切ると残りの２つも解ける関係にある．
+    双曲幾何学や結び目理論の対象にもなっている．また，2006年以降の国際数学連合のロゴとなっている．
+
+    これを分子で作るには，３つの環の６箇所の接点部分にtemplateとなる金属イオンをおき，効率的にこの分子を合成することがStoddartらにより達成された\cite{Borromean ring by Stoddart}．
+    １つの環状分子が４つの構成要素からimine結合を介して合成され，これら３つが金属イオンを介してボロメアンリングになる．
+    間違った結合をしても最終的にボロメアンリングへと収束させることができ，90\%という収率が報告されている．
+\end{example}
+
+\begin{example}[Solomon's knot]
+    ２つの輪が４つの接点で接触した構造（の繰り返し）をソロモンの結び目という．
+    この分子の合成は，ボロメアンリングの環状分子と同じ構成要素を使い，金属イオンを変えるだけで得られる．
+    溶液中には２つの平衡が存在し，ソロモンの結び目とボロメアンリングが共存する．
+    ここからソロモンの結び目が選択的に結晶化する．
+\end{example}
+
+\subsection{その他ナノテクノロジー}
+
+\begin{example}[topological gel / 環動(Slide-ring)ゲル, 伊藤耕三（新領域創生科学研究科物質系専攻）]
+    「超分子ネットワークとは、「ひも」状の高分子を「輪っか」状の分子で接続した、これまでにない、新しいタイプの高分子ネットワーク構造です。「輪っか」は「ひも」のネットワークの結合点としてはたらきますが、「ひも」は「輪っか」を自由にすり抜けることができます。言わば、「分子でできた世界最小の滑車」です。」\footnote{http://www.molle.k.u-tokyo.ac.jp/research/supramolecule.html}
+    トポロジカルゲルは通常のゲルの約４倍である8000倍の膨張をし，25倍も伸び，かつよく弾む．強靭で安定性が高く透明である\cite{有賀克彦}．
+    こんなもん自然には絶対存在しない．
+\end{example}
+
+\begin{example}[poly-rotaxane, 原田明（大阪大学大学院理学研究科）]
+    なんかこの人シクロデキストリンの神みたいだ．
+    「シクロデキストリンとその末端に小さな置換基を有するポリエチレングリコールと錯体を形成させ、その上で両末端を大きな置換基で置換することにより、シクロデキストリンがポリマー鎖から外れないようにした。シクロデキストリンとポリエチレングリコールジアミンとの包接化合物を単離した。
+    その錯体をジメチルホルムアミド中で過剰量の2,4-ジニトロフルオロベンゼンと反応させる。反応生成物をゲルろ過、あるいは有機溶媒や水で充分洗浄することにより目的のポリロタキサンを得た。我々はこのポリロタキサンを分子ネックレス（Molecular　Necklace）と名付けた。」\footnote{http://www.chem.sci.osaka-u.ac.jp/lab/harada/jp/research/001-2.html}
+\end{example}
+
+\subsection{DNAナノテクノロジー}
+杉山弘ラボ@京都大学大学院理学系研究科化学
+DNAハイブリッド触媒を用いた不斉合成，DNAナノスイッチングデバイス．
+\footnote{http://kuchem.kyoto-u.ac.jp/chembio/research.html}
+
+\section{自己集合の形成機構の精査：エネルギー地形理論}
+以上の議論で欠けていた視点に，例えば速度論的な視点がある．
+これらを補う総合的な視点として，自己集合の生成機構を見ていくための数理モデル，エネルギー地形理論を考える．
+これはDynamic Covalent Chemistryという手法論に対する基礎研究とも言える．
+今後どんどん，複雑な自己集合の反応機構に対する理解を深めていく必要がある．
+
+基本的に，現在の考え方は，漏斗のような三次元のエネルギー曲面が存在して，そこをボールが転がり落ちるように
+様々な経路をへて安定な構造へ収束すると考えられている．
+これを展開する数学が待たれているのではないか？
+以下，各論を論じる．特にタンパク質のfoldingが，このエネルギー地形理論の榾木である．
+これが，folding funnel hypothesisを仮定して，理論の準備が進んでいる．
+
+\subsection{Energy Landscape Theoryの基礎}
+
+\begin{definition}[molecular entity]
+    \textbf{分子実体}または\textbf{化学実体}とは，構造・同位体などの意味で違う物質（原子・分子・イオン・ラジカル・錯体）の１つ１つの対象をいう．
+\end{definition}
+\begin{definition}[chemical species]
+    \textbf{化学種}とは，分子実体の，その時々に応じた同値関係（物理的性質・化学的性質に基づく区別）についての同値類をいう．
+    各同値類には，化学名と化学式が対応づけられている（ような同値類のみを化学種という）．
+\end{definition}
+\begin{example}
+    アルゴン，オゾン，塩化物イオン，メタン，酢酸イオンは化学種である．
+    塩化ナトリウム，DNAは化学種でない．
+\end{example}
+\begin{example}
+    超分子化学では，超分子を構成する適切な単位を化学種に設定する．
+\end{example}
+
+\begin{definition}[the space of molecular entity]
+    対象の化学種の集合の，各要素が取り得るあらゆる配座(condormation)と，それらの相対位置とのパラメータがなす空間$X$は，自然数$n$が存在してEuclid空間$X=\R^n$をなす．
+\end{definition}
+\begin{definition}[energy landscape]
+    各状態空間の点に対して，その系のGibbs free energyを対応づける連続写像$f:X\to\R$を\textbf{エネルギー地形}という．
+\end{definition}
+\begin{axiom}[folding funnel hypothesis / the thermodynamic hypothesis / Anfinsen's dogma]\label{axiom-Anfinsen's dogma}
+    エネルギー地形$f$の最小点が，系が十分な時間の経過後に取る状態である．
+\end{axiom}
+\begin{remark}
+    この仮説は，エネルギー地形理論の中でも特にprotein foldingについての研究で初めて提出された．
+    \begin{quote}
+        "at least for a small globular protein in its standard physiological environment, the native structure is determined only by the protein's amino acid sequence."\cite{Anfinsen}
+    \end{quote}
+    特に，protein foldingへの応用を意図して措定される公理である．
+\end{remark}
+
+\begin{application}[触媒化学]
+    触媒分野においては、新しい触媒の設計や既存の触媒の改良において、望ましい反応を停止させてしまうような低エネルギー中間体もしくは高エネルギー中間体の生成を避けるためエネルギー地形が調査される\cite{触媒化学}。
+\end{application}
+
+\begin{itembox}[l]{エネルギー地形理論の目標}
+    1. 与えられた$f$の形に応じて，生成率を予測する理論．
+
+    2. 初期濃度やイオン濃度・加熱などの環境の変化によって，$f$がどのように連続変形するかを捉えたホモトピーの理論．
+
+    3. 与えられた系から連続写像$f$を作る，モデル化の理論．
+
+    これを速度論的トラップに引っかかる中間体を何とか観測しながら照合していく作業が，今後の超分子化学の理論研究，
+    特に更なるDCvCによるナノテクノロジー・分子機械に向けた基礎研究となるのだろう．
+\end{itembox}
+
+\subsection{タンパク質のfolding}
+
+一般に，エネルギーが高い際には沢山の可能性が存在する．従って，エネルギー地形は漏斗のようになる．
+換言すれば，高エネルギー状態では様々な構造が存在し，配向エントロピー(configuration entropy)が高い．
+これがfolding funnnelの名前の由来である．
+
+\begin{definition}[kinetic trap]
+    まだ十分な時間が経過していない段階では，folding funnelのある安定な中間体にて，
+    ここで大きな律速を受けて天然状態への変換が遅れる現象を，\textbf{速度論的トラップ}という．
+\end{definition}
+
+\subsection{ウイルスの自己集合}
+
+\begin{definition}[TMV]\label{def-TMV}
+    タバコモザイクウイルスは，約2130個のタンパク質からなる螺旋状のcapsidを持った長さ300 nmほどの一本鎖RNAウイルスである．
+\end{definition}
+\begin{example}[TMVの自己集合]
+    次の４段階で進行する．RNAが存在しないと集合が始まらない仕掛けになっている．
+    \begin{quotation}
+        1. 17個のcoat proteinから形成される円盤状に分子が二量化した集合体（二枚重ねの円盤）を形成する．
+
+        2. stem-loopを形成したRNA鎖が，円盤状の集合体の穴を認識して貫入する．
+
+        3. stem-loopの貫入が引き金となって円盤状集合体の構造変化が引き起こされ，lock washer型の螺旋構造に変化する．
+
+        4. lock washerにコートタンパク質が結合し，螺旋構造が延長される形でcapsidを形成する．
+    \end{quotation}
+\end{example}
+\begin{definition}[stem-loop, hairpin loop]
+    １本鎖の核酸が形成する，相補的な塩基対が水素結合により結合して出来る二重螺旋(stem)構造をいう．
+    stemの末端には対合していない部分が存在し，これがhairpinに見える．
+    この領域をloop領域といい，4,5塩基が一番安定である．
+    \begin{quote}
+        ステムループ構造は、多くのRNA構造において重要なビルディングブロックとなる二次構造であり、RNAのフォールディングの指示や、mRNAの構造的安定性の確保を行い、RNA結合タンパク質の認識部位や、酵素反応の基質となる。\footnote{ja.wikipedia.org「ステムループ」}
+    \end{quote}
+\end{definition}
+\begin{remark}[細胞内での機能]
+    ステムループは原核生物のmRNAの5'UTR内に多く位置している。これらの構造はしばしばタンパク質の結合や、翻訳調節のための転写産物の抑制をもたらす。リボソームの結合部位に形成されるステムループ構造は、翻訳の開始を制御する。\footnote{ja.wikipedia.org「ステムループ」}
+\end{remark}
+
+\begin{definition}[HBV: heptatis B virus]
+    \textbf{B型肝炎ウイルス}は，コアタンパク質（Dane粒子と呼ばれる）が作る正十二面体型のcapsidの内部に不完全な3.2 kb環状二本鎖DNA（+鎖の方が一部欠けていて短い）を取り込み，capsidの外部を脂質二重層のenvelopが覆った球場の構造を持った直径42 nmのウイルス．
+\end{definition}
+\begin{remark}
+    ヒト以外の感染例では、ドイツのミュンスター大学の研究チームは鳥類のDNAに混入しているB型肝炎ウイルスの痕跡を研究することにより、鳥の感染例は古いもので8200万年前ごろの可能性が高いことを、科学誌ネイチャー・コミュニケーションズに報告している。哺乳類が感染するようになったのは、1210万年前以降とされている。\footnote{ja.wikipedia.org「B型肝炎ウイルス」}
+\end{remark}
+\begin{example}[HBVのenergy landscape]
+    B型肝炎ウイルスは，コアタンパク質のみからcapsidを形成できることが確認されている．
+    90個のタンパク質からなる直径32 nmの構造であるT=3 capsidと，
+    120個のタンパク質からなる直径35 nmの構造であるT=4 capsid
+    の二種類へと自己集合する．T=3の方が速く生成し，その後一部のT=3はT=4に移るので，funnelの形が見える．
+    コアタンパク質の濃度が高い場合，イオン強度が高い場合にT=3の生成率が上昇する．
+
+    また，この形成は核形成-核成長モデルに従うと考えられている．
+    即ち，コアタンパク質の二量体がいくつか集合して形成した核を起点として，集合体の成長が起こると考えられており，
+    実際にコアタンパク質の二量体が三量化した中間体が確認されている．
+\end{example}
+
+\subsection{線維状の自己集合性ポリマー}
+
+\begin{definition}[タンパク質線維の自己集合：Amyloid]
+    何らかの理由でタンパク質が本来の天然状態から変性し，線維状（$\beta$-sheet構造）になって自己集合する．
+    これを\textbf{アミロイド}という．
+    アミロイドの生物物理学による正確な定義は，$\beta$-sheetが自己集合した，cross-$\beta$構造を形成するpolypeptideのことをさす．
+\end{definition}
+\begin{remark}
+    「アミロイド」の名称は、元々は、この物質がヨウ素でんぷん反応と似た反応をすることから、デンプン（ラテン語ではamylum）と関係があるとの誤解により付けられたものである。
+    それからしばらく、科学者たちはこれが脂質なのか炭水化物なのかの議論をしていたが、実はそのどちらでもなく、ある種のタンパク質であった。\footnote{ja.wikipedia.org「アミロイド」}
+\end{remark}
+\begin{remark}[組織病理学]
+    器官へのアミロイドの過剰な蓄積が，アルツハイマー症などの神経変異疾患の原因になると予想されている．
+    これはアミロイドが全身の臓器の細胞外に沈着するamyloidosisという特定疾患の例である．
+
+    アミロイド堆積が組織構造を破壊することがあり、ある種の統合的な過程によって機能が破壊されることが示唆されている。成長したアミロイド繊維のものより、形成途中のアミロイドのほうが細胞死の原因となるということが共通認識となりつつある。\footnote{ja.wikipedia.org「アミロイド」}
+\end{remark}
+
+\begin{definition}[$\beta$-sheet (secondary) structure]
+    $\beta$-strandという３〜１０ほどの長さのポリペプチド鎖が，３本ほど互いに水素結合を形成して出来るねじれ（非常に緩やかな右回りの螺旋になる）やひだのある(wisted and pleated)シート構造を$\beta$シート構造という．
+\end{definition}
+\begin{definition}[cross-$\beta$ sheet structure]
+    amyloidを構成する，$\beta$-sheetのタンパク質が構築する四次構造のことを\textbf{クロス$\beta$シート構造}という．
+    しかし正確にはこれは$\beta$-sheetそのものではなく，かなり短い間隔で折り畳みが起こっている構造を持つ．
+    Amyloid fibrilはいくつかの折り畳み構造がさらに組み合わさってできているものをいう．
+    さらにこのcross-$\beta$ sheetが他のタンパク質monomerと並行に並んで自己集合する（このメカニズムは後述）．
+    "cross"という名前は，この自己集合の特徴
+    "two sets of diffraction lines, one longitudinal and one transverse"からいう．
+    \begin{quote}
+        ..., which here reveal the atomic structure of the cross-β spine. It is a double β-sheet, with each sheet formed from parallel segments stacked in-register. Sidechains protruding from the two sheets form a dry, tightly self-complementing steric zipper, bonding the sheets. Within each sheet, every segment is bound to its two neighbouring segments via stacks of both backbone and sidechain hydrogen bonds. The structure illuminates the stability of amyloid fibrils, their self-seeding characteristic, and their tendency to form polymorphic structures.\cite{cross-beta}
+    \end{quote}
+\end{definition}
+\begin{method}
+    多くのアミロイドは蛍光染料染色することが可能なので、それの偏光性や円偏光二色性を見たり、赤外分光法（FT-IR）で測ったり、X線回折でクロス$\beta$繊維を観察するといういわゆる"gold-standard"をすることで同定が可能である。\footnote{ja.wikipedia.org「アミロイド」}
+\end{method}
+
+\begin{definition}[prion]
+    タンパク質からなる感染因子で，理論上の感染最小単位を\textbf{プリオン}という．
+    現時点で発見されているprionは全て，misfolded proteinで，何かしらの理由で増殖性を持つものである．この点まるでウイルスである．
+    \begin{quote}
+    既知の全プリオン病は脳などの神経組織の構造に影響を及ぼし，現時点でこれらは全て治療法未発見の致死的疾患である．
+    プリオンは仮説によれば，異常にrefoldしたタンパク質の構造が，正常型構造を有するタンパク質分子を自身と同じ異常型構造に変換する能力を持つことで伝播，感染するとされる．
+    既知の全プリオンはアミロイドと呼ばれる構造体の形成を誘導する．アミロイドの変形構造は極めて安定で，感染組織に蓄積することにより組織損傷や細胞死を引き起こす．
+    プリオンはこの安定性により化学的変性剤や物理的変性剤による変性処理に耐性を持ち，除去や封じ込めは難しい．\footnote{ja.wikipedia.org「プリオン」}
+    \end{quote}
+\end{definition}
+\begin{example}
+    2010年現在、7種類のプリオンタンパク質が出芽酵母で見つかっており（Sup35, Rnq1, Ure2, Swi1, Mca1, Mot3, Cyc8）、1種類のプリオンタンパク質がPodospora anserinaで見つかっている（HET-s）。\footnote{ja.wikipedia.org「プリオン」}
+\end{example}
+\begin{remark}[プリオンの究極要因：第\ref{part-biological-phase-separation}部\ref{chapter-prion}章]
+    より一般的には、同じアミノ酸配列のタンパク質を自然状態から感染性立体構造へ触媒的に変換するタンパク質をプリオンと定義する。この後者の意味合いにおいてプリオンは、ゲノムを変更せず表現型の変化を誘導することができるエピジェネティックな媒介物と見ることができる
+    出芽酵母プリオンのPSIは、翻訳終結因子Sup35pの立体構造が変化したものであり、変化した構造のまま娘細胞に継承される。\footnote{ja.wikipedia.org「エピジェネティクス」}
+    「プリオンのような危険なタンパク質がなぜ酵母からヒトまであらゆる生物に見られるのかについても，生物学的相分離の見方から理解できる．酵母のSup35は翻訳を終結させる働きを持ったプリオンだが，天然変性ドメインを持っている．このドメインによって，環境からのストレスに応答してdropletを形成でき，タンパク質の不可逆な失活を防いでいたのである．この働きがプリオンの本来の働きであり，疾患を引き起こす性質はいわば副作用だったのである．このようなメカニズムを考えると，これから潜在的なプリオンとしてのタンパク質がたくさん発見されていくだろう．」\cite{白木賢太郎}
+\end{remark}
+
+線維構造の自己集合の機構は判明していないが，事前組織化の考え方から，次のモデルが提案されている．
+\begin{model}[核形成-核成長モデル]
+    核形成(nucleation)までが長く，一度核形成されると，伸長(elongation)はchelate協同性により連鎖的に起こる．
+\end{model}
+\begin{example}[中心体]
+    微小管形成にも中心がある（例\ref{example-tubulin-dimer}）．
+    なお、植物細胞においては中心体の存在が認められず、微小管形成中心は細胞内に分散する多数の極性中心として認められる。
+    いずれにしろ核に相当するものがある．
+\end{example}
+
+\subsection{自己集合性錯体の形成機構}
+
+\section{相分離生物学へ}
+
+たくさんタンパク質のfoldingの機構やその異常（線維状の$\beta$-sheet構造は自己集合して安定化してしまう），
+またはDNA,RNAの話題が出てきた．特にこれらについて掘り下げる．
+
+DNAのA-Tペアには２つの，C-Gペアには３つの水素結合が存在する．この形成は溶媒としての水分子と競合するはずである．換言すれば，水素結合は水中では弱まる．
+実際，短いDNA鎖は水中では塩基対間で水素結合を形成しない．
+しかし，DNAやタンパク質の二次構造が水中で描かれるのは，
+水素結合のchelate協同効果（amidoの繰り返し構造により，タンパク質の結合部位のconformationが変化し，次の水素結合はできやすくなる）と疎水効果による．
+タンパク質のfoldingとは，この２つの要因，水の疎水効果とchelate協同性により（水分子同士の水素結合が優先されるために，疎水分子を排除する形で）タンパク質同士の結合（水素結合やイオン相互作用（塩橋），van der Waals力全般またはdisulfide結合）が促進される過程である（従ってタンパク質表面は大抵疎水的である，DNAやRNAも同様）．
+従って，タンパク質はある自然状態(native state)が想定されている．
+それ以外の状態を変性状態という．
+変性状態をchaperoneなどでrefoldingや減成(degrate)しなければ，同様に疎水効果により凝集しかねない．これをaggregatesという（定義\ref{def-coaggregates}）．
+
+こうしたタンパク質溶液の物性とその反応の理論（エネルギー地形理論）などが，
+超分子化学を発展させたのと同様，相分離生物学を産んだ．
+白木賢太郎先生の専門はタンパク質溶液の物性である．
+\begin{quote}
+    「130年に及ぶタンパク質溶液の研究の成果が相分離生物学の背景にある．」\cite{白木賢太郎}
+\end{quote}
+
+\begin{screen}
+    単純な原核細胞から真核細胞へと進化できたのはなぜか？そもそもなぜ，細胞内にはこれほど高濃度のタンパク質があるのか？
+    原核細胞と真核細胞の大きさが１桁ほど違うだけでなぜこれだけ細胞内の仕組みが違う必要があるのか？
+
+    何だか，宇宙が膨張するにつれて銀河系が出来る様子とのアナロジーを感じる．
+    木原先生による世界観を，もう一度数学側から作るための探究の旅は相分離生物学に続く．
+\end{screen}
+
+\part{相分離生物学}\label{part-biological-phase-separation}
+
+\chapter{導入：超分子から生物学的相分離へ}
+\section{分子間力の世界観と生命}
+
+超分子化学で，分子間力のスペクトラムと，溶媒-溶質の対象的な扱いを学んだ．
+すると，反応の場も反応物と同じくらい重要だというパラダイムシフトに出会う．
+
+\begin{quotation}
+    相分離生物学とは、分子と構造から考えるこれまでの物質の科学を踏まえ、状態と相互作用から見つめ直してみる現象の科学です。
+
+    タンパク質は基本的には集まりやすい性質があります。たとえば、免疫グロブリンGとポリアミノ酸や、オボアルブミンとリゾチームなど、ありふれたタンパク質でも混ぜるだけで白濁します。これらを顕微鏡で観察すれば、丸い形をしたドロプレットが見えます。このようなタンパク質でできたさまざまなドロプレットが細胞内に存在しており、DNAの修復や、遺伝子の転写と翻訳、シグナル伝達、自然免疫の応答、機能の区画化など多様な生命現象にかかわるという報告がここ数年、相次いでいます。このような分野を「相分離生物学」と名付けています。
+    
+    相分離生物学は、\underline{タンパク質の機能単位を分子ではなくドロプレットだとみなして生命現象を統一的に理解する新しい学問分野}です。もっと端的には、\textbf{状態と相互作用}から見た現象の科学です。
+    わたしたちはこの「相分離メガネ」の見方をもとに、生きているという状態の理解を深め、それを試験管内に再現したいと考えています。\footnote{https://sites.google.com/view/shiraki/home?authuser=0}
+\end{quotation}
+
+分子と生体機能とを繋ぐ中間的存在を捉えるための言葉をいくつか整備する．
+
+\begin{definition}[droplet]
+    核小体やストレス顆粒や，一時的に出来る小さいものも含めて，膜のないオルガネラ(membrane-less organelles)，
+    または，細胞核の中に存在する分子密度の高い領域を，\textbf{液滴(droplet)，condensate, coacervate}などという．
+    流動性が比較的低い場合は\textbf{gel}，想定される分子との相互作用がはっきりしている場合では
+    タンパク質の\textbf{五次構造(quinary structure)，凝集顆粒(agglomerates)}という．
+    膜がないので，水分子や溶質は界面を自由に通ることができる．
+    使われ始めたばかりで，まだ用語は統一されていない．
+\end{definition}
+\begin{example}[stress granule, Cajal body / coiled body]
+    名前がついている液滴(droplet)だけで20種類ある．特に大きくて持続時間が長いものに，nucleousや次の２つがある．
+
+    1. ストレス顆粒(SG)：細胞質に多く含まれ，ストレスに応答して形成され，翻訳を抑制する．100nm．
+
+    2. カハール体(CB)：増殖性細胞（腫瘍細胞あるいは神経細胞などの代謝がさかんな細胞）の核に見られ、核内に核小体にcholinにより結合した形で1〜5個存在し，リボ核タンパク質の生合成を担う．0.1~2μm．
+\end{example}
+\begin{remark}[Droplet自体が広義の超分子である]　
+
+    \begin{quotation}
+        「細胞内にあるdropletの内部を見てみると，構造を持たない天然変性タンパク質や，RNAのようなポリイオンが含まれている．
+        Dropletは静電相互作用やカチオン-$\pi$相互作用，$\pi$-$\pi$相互作用，短いクロス$\beta$構造などで安定化されているが，
+        数多くの弱い相互作用によって形成されているため流動性があり，温度変化やpH変化，
+        低分子の存在などによって形成したり溶解したりもする．動的な集合体であるのが特徴だ．」\cite{白木賢太郎}
+    \end{quotation}
+\end{remark}
+
+自己集合を知ると，目に見える静的な構造体としての細胞小器官だけでなく，
+より動的な細胞の活動が見えてくるようになる．
+\begin{quote}
+    「細胞の中には高濃度の生体分子が存在する．数百mg/mLにも及ぶので，”詰まっている”と表現した方が正確かもしれない．酵母に含まれるタンパク質は概ね１億個，哺乳類の細胞だと100億個くらいにはなるとされる．これだけの数のタンパク質があるので，連続的にまとまった反応を生じるためには区画化が必要となる．そのためにリボソームやゴルジ体などの”膜のあるオルガネラ”があるのだが，dropletはさらに小さく一時的な区画化のために役立っているのだろう．」\cite{白木賢太郎}
+\end{quote}
+一方で，何でもかんでも集合すればdropletとなるわけではない．
+しかし，その場合でも生命の中では重要な機能を占めている考えるべきであるはずだ．
+
+\begin{definition}[coaggregate]\label{def-coaggregates}
+    タンパク質の構造が部分的に壊れている場合(mis-folded)，不定形の塊に自己集合化する．
+    これは液-液相分離の時のように，必ずしも球状形態が安定ではないので，不定形で，凝集体(coaggregate)という．
+    dropletは内部に流動性があるが，coaggregatesは流動性がない．
+\end{definition}
+\begin{example}
+    protein aggregatesは次の３種類に分類できる．
+
+    1. amorphous aggregates
+    
+    2. oligomers
+    
+    3. amyloid fibrils
+\end{example}
+\begin{definition}[生物学的相分離]
+    dropletの形成を支配する物理法則はLLPS (Liquid-liquid phase separation 液-液相分離)である．特にこの場合の液-液相分離を生物学的相分離という．
+\end{definition}
+\begin{example}[生物学的相分離，"compartments in cells can form by phase separation"ということの初の発見は2009年]
+    1830年頃，光学顕微鏡を用いてアフリカツメガエルの卵細胞の核小体には膜が無いことは知られていたが，
+    当時はこの事実を適切に評価する準備が整っていなかった．
+
+    2009年にこの事実が再発見された．
+    線虫の卵細胞にはP顆粒（生殖顆粒）と呼ばれる独自の構造物があり，
+    卵割が進む前に片側に集まる．このメカニズムを，天然変性タンパク質の蛍光化によって可視化したところ，
+    初め細胞内に分散していたが次第に融合して成長するという「相分離」が見られた\cite{Clifford Brangwynne Anthony Hyman 09 Science}．
+
+    この論文はScienceに載せられたが，慧眼がすごい．実際，2009で２回，2010で14回だが，2018には209回．
+\end{example}
+
+\section{細胞生物学の補足}
+
+\subsection{細胞の区画：cell membrane, cytoskelton, nuclear membrane, cytoplasma, cytosol}
+
+まずは細胞の境界が定義されている．
+
+\begin{definition}[cell membrane]
+    たくさんの構造を持つため，結果的に組成はタンパク質とリン脂質の重量比1:1である．
+\end{definition}
+
+\begin{definition}[CSK: cytoskeleton]
+    \textbf{細胞骨格}には主に３種類がある。アクチンフィラメント、中間径フィラメント、微小管である。細胞骨格は細胞に構造と形態を与える。
+\end{definition}
+\begin{definition}[intermediate filament]
+    細胞骨格の３つのfilament成分のうち，アクチンフィラメントと微小管の中間の太さ(10 nm)を持つために，\textbf{中間径フィラメント}という．
+    中間径フィラメントには、ケラチンフィラメント、ニューロフィラメント、デスミン、ビメンチン、神経膠細線維性酸性蛋白質（GFAP）などがあり、細胞の種類によって、どの中間径フィラメントを持つかが決まっている（＝細胞特異性がある）。
+\end{definition}
+
+一番重要な構造が核である．核膜は２枚の脂質二重層（内膜と外膜）と，細胞骨格と同様のintermediate filamentによる
+内外からの裏打ち構造とで作られている．
+
+\begin{definition}[nuclear membrane, perinuclear space, nuclear lamina]
+    核と細胞質(cytoplasm)を区別している生体膜を\textbf{核膜}という．
+    内膜と外膜からなる二重の脂質二重層構造をとり、外膜は小胞体と接続している。
+    内膜と外膜の空間は\textbf{核膜槽(perinuclear space)}と呼ばれ、その幅は約$20\sim 40$ nmである。
+    核膜に存在する\textbf{核膜孔(nuclear pore)}は多数のタンパク質からなる核膜孔複合体で構成され、
+    核の内外を移動する物質の通り道となっている。
+    内膜の内側（核質側）にはラミン(lamin)という繊維タンパク質からなる
+    intermediate filamentが格子状に裏打ち構造（\textbf{核ラミナ}）を形成し、核の形態を保っている。
+    中間径フィラメントは外膜の外側にもより緩やかな構造を形成し、核膜の構造的支持を行っている。
+\end{definition}
+
+核以外の部分を細胞質(cytoplasma)という．
+
+\begin{definition}[cytosol, intracellular fluid, cytoplasmic matrix]
+    \textbf{細胞質基質}とは，cytoplasmaからorganelleを除いた部分である．
+    基本的には水を溶媒とし、酵素蛋白質をおもな分散質とし（細胞質基質は20〜30％の蛋白質を含む）、
+    アミノ酸、脂肪酸などの各種有機酸、糖、核酸塩基、各種タンパク質を溶質あるいは低分子分散質として含む、
+    複雑なコロイドとなっている。
+\end{definition}
+
+以降，核内の構造と，核外の細胞小器官とに分けて見ていく．
+
+\subsection{核内の構造：nucleous, nuclear matrix and lamina, chromatine}
+
+まず，核正体というdropletが動的に働いている．
+ここではribosomeなどの合成も行われる．
+
+\begin{definition}[nucleous]
+    \textbf{核小体}または\textbf{仁}とは，
+    rRNAの転写やribosomeの構築が行われる直径$1\sim 3\;\mu\mathrm{m}$のdropletである．
+    細胞周期の進行する中で前期には消失して核分裂に備え，rDNAからの転写とともに再形成される．
+\end{definition}
+\begin{remark}[ribosomeはnucleousで生まれる]
+    真核生物のrRNAはこれにRNAポリメラーゼIIIによって転写された5S RNAを加えた物。
+    rRNAにリボソーム蛋白質が会合して形成されたリボソームは核膜孔を経て細胞質に運ばれ翻訳装置として機能する。
+\end{remark}
+
+nucleousというdropletを除けば，あとは殆どがchromosomeである．
+
+核質(nucleoplasm, karyoplasm)または核液(nuclear sap)とは「核膜に包まれた原形質(protoplasm)全部」
+という複雑性を全て無視した用語である．そもそも原形質とは細胞の微細構造が知られていなかった頃の解像度の言葉である．
+核質には，全体に敷衍している核マトリックスと，そうでない裏打ち構造である核ラミナがある．
+
+\begin{definition}[nuclear matrix]
+    \textbf{核マトリックス}（核ラミナもこれに含まれる）は核内部の線維(fibres)からなるネットワーク構造で、細胞を支える細胞骨格のように、核構造の機械的支持を行っている。
+    しかし細胞骨格とは違って，動的に組織されるものだと考えられている．
+\end{definition}
+
+\begin{definition}[nuclear lamina]
+    \textbf{核ラミナ}とは，核膜の内側に存在する、厚さ約30–100 nmの網状の構造である。中間径フィラメントと膜結合タンパク質から構成されている。
+    核ラミナは核の機械的支持のほか、DNA修復や細胞分裂などの重要なイベントを調節している。
+    それに加え、クロマチンの組織化に関与し、核膜に埋め込まれた核膜孔複合体の固定を行っている。
+\end{definition}
+
+\begin{definition}[chromatin]
+    \textbf{クロマチン}とは，「細胞核内の染色されやすい物質」の総称のことで，正体としてはDNAとタンパク質（histoneなど）の複合体をさす．
+    一番の基本的な構造は，４種のcore histoneが２コピーずつ集まった８量体に，
+    約146bpのコアDNAが約1.65回左巻きに(superhelix)巻きついた
+    \textbf{nucleosome}と，それらの間を繋ぐlinker DNAとlinker histoneの組である．
+    なおこの３つ組を\textbf{chromatosome}という．
+\end{definition}
+\begin{remark}[euchromatin, heterochromatin]
+    クロマチンは２つの形態をもち，転写が活発な領域を\textbf{ユークロマチン}，
+    あまり活発でない領域はコンパクトになっていて，\textbf{ヘテロクロマチン}という．
+    euchromatinはヨーヨーの様に伸びきっているが，
+    heterochromatinは一般的に細胞核の淵に局在して葡萄みたいになっている．
+    Satellite DNAというnon-coding DNAがheterochromatinの主要構成物であり，主な例は
+    centromereとteromereである．
+    heterochromatinはdropletにより形成される（例\ref{example-heterochromatin-and-HP1a}）．
+\end{remark}
+
+
+\subsection{核外の構造：endoplastic reticulum, ribosome, Goldi body, Goldi vesicle, lysosome, vacuole, mitochondrion, peroxisome}
+基本的に，まずは核から放出されるタンパク質の手直し(processing)を行うorganelle
+である「小胞体」と「ゴルジ体」が広がる．
+小胞体は核の一部と見ることができる．ゴルジ体はそこから出た
+各種前駆体タンパク質の化学的修飾を行い，他の細胞小器官に振り分けるハブである．
+いずれも，合成されたタンパク質は小胞輸送され，小胞体を出たものは細胞膜などへ，
+Golgi体を出たものはlysosomeなどへと消化に送られる．
+
+\begin{definition}[(rough / smooth) endoplasmic reticulum]
+    \textbf{小胞体}とは，核膜の外膜に\underline{接続(continuous)}した，一重の生体膜に囲まれた板状あるいは網状の膜系。
+    reticulumとはラテン語の「網」を意味する rete の指小辞形である．これだけは和語との解離が大きい．
+    表面に（膜結合）ribosomeが付着しているか居ないかで\textbf{粗面小胞体}と\textbf{滑面小胞体}とに別れる．
+    ribosomeが表面に多数の釘を打ったように見えるからである．
+    核の周りに広がったタンパク質の合成やprocessing（folding，切断，molecular chaperoneによるrefoldingなど）が，この膜表面や内腔で行われる。
+    特に，熱などのストレスがかかると、立体構造が異常なタンパク質が小胞体の中に過剰に蓄積される。そのような状態を小胞体ストレスといい、小胞体ストレス応答といわれる反応を引き起こす。
+    小胞体ストレス応答では、立体構造が異常なタンパク質は折りたたまれたり、分解されたりする。立体構造が異常なタンパク質は、分子シャペロンにより正しい立体構造に折りたたまれたり、ユビキチン-プロテアソーム分解系によって分解される。分解される場合は、トランスロコンを通じて小胞体外へ出される。
+\end{definition}
+\begin{definition}[(membrane-bound / free) ribosome]
+    小胞体に付着した膜結合ribosomeと，細胞質に分散した遊離ribosomeとがある．
+    mRNAの遺伝情報を読み取ってタンパク質へと変換する機構である翻訳が行われる場である。大小２つのsubunitから成り、これらはタンパク質（リボソームタンパク）とRNA（リボソームRNA、rRNA）の複合体である。
+\end{definition}
+
+\begin{definition}[輸送小胞]
+    分泌たんぱく質、膜たんぱく質、リソソーム酵素は粗面小胞体膜状の付着リボソームで合成される。膵外分泌細胞、胃底腺主細胞、形質細胞、肥満細胞、神経細胞などのタンパク質合成が盛んな細胞でよく発達する。分泌された物質はゴルジ体へ輸送される。
+    この時，小胞の中に包まれて輸送される．これを輸送小胞という．
+\end{definition}
+
+\begin{definition}[Golgi body]
+    ゴルジ体は，へん平な袋状の膜構造が重なっており、細胞外へ分泌されるタンパク質への糖鎖の修飾や、リボソームを構成するタンパク質のプロセシングに機能する。
+\end{definition}
+\begin{remark}
+    ゴルジ体は特に小胞輸送との関係が深いが，わかっていないことも多いう．
+    ゴルジ体からの分泌小胞を特に\textbf{ゴルジ小胞}という．
+    ゴルジ体の各層・網間では、常にゴルジ小胞の生成（出芽）、交換と取込み（融合）を繰り返しており、これを通じて各層間の物質の授受が行われている。
+    ゴルジ小胞の交換が\textbf{小胞輸送}と呼ばれる。小胞輸送の機能としては小胞体からゴルジ体を通じて細胞内外に分泌される方向が主で、通常の輸送経路と呼ばれる。
+\end{remark}
+
+続いて，細胞質に散らばっている細胞小器官が生活を営む．
+その時の形態が「小胞」である．
+
+\begin{definition}[vesicle, micelle]
+    細胞の内外で，脂質二重層により囲まれた領域を\textbf{小胞(vesicle)}という．細胞小器官ではない．
+    両親媒性分子の一層のみを膜とする領域を\textbf{ミセル}という．特に一番単純な小胞を，lysosomeになぞらえて，liposomeという．
+
+    小胞は明らかに，細胞質の中で自己集合する傾向がある．これの動的な形成が，細胞内の機能に場を与えている．
+    特に，小胞の膜の構造は細胞膜のそれと類似しているため、小胞は細胞膜と融合して小胞内物質を細胞外に放出することができる。
+    また小胞は、細胞中で他の細胞小器官の膜と融合することもできるため、細胞内の別の器官にも物質輸送を行うことができる。
+    これを小胞輸送といい，endocytosisとexocytosisに分けられる．
+\end{definition}
+
+小胞には，輸送小胞や食胞(endosome)や分泌小胞の類を除けば，次の２つの例，それぞれ「消化」と「貯蔵」を担うものが代表的である．
+
+\begin{definition}[Lysosome, residual body]
+    ラテン語を直訳すると\textbf{水解小体}となる．\textbf{リソソーム}とは，内部に加水分解酵素を持ち、endocytosisやオートファジーによって膜内に取り込まれた生体高分子
+    が加水分解される生体膜に包まれた場である．Lysosome内部はプロトンポンプの作用によって酸性に保たれている．分解された物体のうち有用なものは、細胞質に吸収される。
+    不用物はexocytosisによって細胞外に廃棄されるか、残余小体(residual body)として細胞内に留まる。
+    単細胞生物においては、リソソームが消化器として働いている。また植物細胞では液胞がリソソームに相当する細胞内器官である。
+\end{definition}
+
+\begin{definition}[vacuole, tonoplast, cell sap]
+    \textbf{液胞}とは，小胞の中でも，ブドウ糖のような代謝産物の貯蔵、無機塩類のようなイオンを用いた浸透圧の調節・リゾチームを初めとした分解酵素による不用物の細胞内消化、不用物の貯蔵
+    を行う液胞膜(tonoplast, vacuolar membrane)と呼ばれる膜に囲まれ、細胞液(cell sap)で満たされている場である．
+
+    若い細胞では小さいが、細胞の成長につれて次第に大きくなる。これは、成長する過程で排出された老廃物をため込むためである。植物細胞を見ると、往々にして葉緑体が細胞の表面に張り付いたように並んでいるのは、内部を液胞が占めているためでもある。蜜柑などの酸味や花の色は、この液胞中にある色素（アントシアンなど）に由来している。秋頃の紅葉が赤や黄色をしているのは、液胞内に色素が不用物として詰め込まれているからである。
+    動物細胞では、液胞はほとんど副次的な機能を果たしており、エキソサイトーシスやエンドサイトーシスの過程を補助している。動物細胞の液胞は植物のものよりも小さく、通常は多数が存在するが、液胞が存在しない細胞もある。
+\end{definition}
+
+最後に，ミトコンドリアが残っている．
+
+\begin{definition}[mitochondrion]
+    \textbf{ミトコンドリア}はギリシャ語から直訳すると\textbf{糸粒体}という．
+    二重の生体膜からなり、独自のDNA(mtDNA)を持ち、分裂・増殖する。
+    mtDNAはATP合成以外の生命現象にも関与するほか、酸素呼吸（好気呼吸）の場として知られている。
+    膜は細胞膜同様に，タンパク質とリン脂質の重量比1:1の組成を持つ．
+\end{definition}
+\begin{remark}
+    ヒトにおいては、肝臓、腎臓、筋肉、脳などの代謝の活発な細胞に数百、数千個のミトコンドリアが存在し、細胞質の約40\%を占めている。平均では1細胞中に300-400個のミトコンドリアが存在し、全身で体重の10\%を占めている。
+\end{remark}
+
+他の代謝を行う細胞小器官に，ペルオキシソームがある．
+
+\begin{definition}[peroxisome]
+    \textbf{ペルオキシソーム}は，多様な物質の酸化反応を司る一重の生体膜に包まれた直径0.1-2\;$\mathrm{\mu m}$の器官である．
+
+    ペルオキシソームは、リソソームやゴルジ体等の細胞小器官と異なり、
+    小胞輸送を利用せず、細胞質から直接蛋白質を取り込み成長し、
+    ミトコンドリアのように分裂して増殖すると考えられてきた。
+    しかし、構成蛋白質が小胞体を経由するという報告もあり、
+    小胞体起源で形成される過程も存在する可能性が高まっている。
+\end{definition}
+
+解糖系など，太古からある代謝経路は細胞質で直接行われる．
+
+\subsection{核外の特別な構造：plastid, chloroplast}
+
+植物細胞を特徴づけるのは葉緑体に代表されるplastidである．
+\begin{definition}[plastid]
+    \textbf{プラスチド・色素体}とは，植物や藻類などに見られ、光合成をはじめとする同化作用、糖や脂肪などの貯蔵、様々な種類の化合物の合成などを担う、半自律的な細胞小器官の総称である。
+
+    色素体には3.5-25万塩基対（35-250 kb）の環状ゲノムがそれぞれ複数コピー存在している。たいていの植物の色素体ゲノムにはおよそ100遺伝子があり、rRNAやtRNAとともに、光合成や色素体遺伝子の転写・翻訳に関わるタンパク質などがエンコードされている。
+    色素体は、内部共生をしたシアノバクテリアに由来すると考えられている。シアノバクテリアを取り込み色素体を獲得した真核生物は、緑藻と植物を含む緑色の系統、
+    紅藻の系統、灰色藻の系統という色調の異なる3つの系統(Archeaplastida: 階級なしのEukaryotaの下位分類)に分岐した。
+\end{definition}
+
+\begin{definition}[chloroplast]
+    \textbf{葉緑体}とは，葉緑素(chlorophyll)などの光合成色素を持つpladtidである．
+    黄色のカロテノイドや多量のクロロフィルを含むので一般的には緑色に見える。
+    ただし褐藻の葉緑体はクロロフィルのほかにフコキサンチンを持っているため褐色に、紅藻はフィコビリン色素をもっているため紅色に見える。
+\end{definition}
+
+\section{DNAの複製}
+
+\subsection{その他のDNA：plasmid}
+
+一部の細菌は次の機構を持つ．バクテリオファージ対策であろうか．
+
+\begin{definition}[plasmid]
+    \textbf{プラスミド}とは，細胞内で複製され、娘細胞に分配される染色体以外のDNA分子をいう．
+    細菌や酵母の細胞質内に存在し、核様体のDNAとは独立して自律的に複製を行う。一般に環状2本鎖構造をとる。 細菌の接合を起こすもの(Fプラスミドなど)、抗生物質に対する耐性を宿主にもたらすものなど
+    様々な機能を持ったものがある。
+\end{definition}
+
+\section{細胞の内と外}
+\subsection{大きな物質のやりとり：exocytosis, endocytosis, endosome, clathrin}
+
+\begin{definition}[exocytosis]
+    \textbf{開口分泌，エキソサイトーシス}とは，
+    分泌小胞は細胞内線維群の働きによって細胞質内を移動し、細胞膜へと接近するし，分泌顆粒膜外層が細胞膜内層と、分泌顆粒膜内層が細胞膜外層と融合する過程である。
+    これにより分泌顆粒内腔が細胞外界と連絡し、顆粒内容物は細胞外へと遊出する。細胞膜と融合した顆粒膜は、そのまま新たな細胞膜となるか、細胞内へ再び戻る。
+\end{definition}
+
+endocytosisは細胞外のものをlysosomeに運んで消化する作用である．
+\begin{definition}[endocytosis]
+    極性を持つものや，サイズの大きな分子，またはその両方の性質を兼ね備えたものは，疎水部を外向きにして集合している脂質二重膜である細胞膜を通り抜けることができない．
+    その際に，受容体がリガンドと結合することを契機としてendocytosisは開始し，
+    クラスリンに覆われた穴は深くなり細胞質の中に陥入、被覆小胞となる。
+    こうして細胞膜の一部であった部分を小胞として取り込む過程を\textbf{エンドサイトーシス}という．
+    その後，細胞膜から離れた被覆小胞はすぐにクラスリンを脱離させ、初期エンドソームに融合する。
+    初期エンドソーム内部もリソソーム同様にプロトンポンプの作用によって酸性に保たれている。
+    従ってこの時に受容体に結合したままendosome内腔に取り込まれたligandは、
+    酸性条件下で受容体のconformationが変化するに伴い乖離する。
+    ここで被覆小胞の膜内側に結合している受容体蛋白質の多くは再利用されるために
+    細胞膜へと回帰する経路に乗る。この際残りのタンパク質、その他膜構成物質等も遊離し、
+    大半は再利用され再び細胞膜の形成に関わる。
+    エンドソームは後期エンドソームに成熟した後、リソソームと結合したり、
+    ゴルジ体からの小胞と合体し取り込まれたリガンドの消化などが行われる。
+\end{definition}
+\begin{definition}[endosome]
+    \textbf{エンドソーム}も小胞と言ってしまうが，一重の細胞膜からなる．
+    エンドソームに取り込まれた一部の分子は再利用され、小胞輸送によって細胞膜へと輸送される。
+    また不要な分子はendosomeが，真の小胞であるlysosomeと融合することで分解される。
+    なお，phagocytosisで形成された大きな小胞phagosomeはendosomeに含めないとされる．
+\end{definition}
+\begin{definition}[phagocytosis, pinocytosis]
+    endocytosisは，次の２つの作用に大別される．
+        1. 食作用(phagocytosis)：死んだ細胞やバクテリアの様な大きな対象を細胞が取り込む過程のことで、大きな小胞に対象を封じ込める。この小胞はそのままリソソームと合体し、物質を加水分解酵素により消化する。消化後は細胞質に放出される。
+        免疫システムはこの機能を発達させた細胞によっている．
+
+        2. 飲作用(pinocytosis)：細胞外液を取り込むエンドサイトーシスのことで、細胞外液を満たしたendosomeを形成する。こちらはほとんどの細胞が持つ機能である．
+\end{definition}
+
+\begin{definition}[clathrin]
+    \textbf{クラスリン}とは，endocytosisにより取り込まれたendosomeの外骨格をなすタンパク質である．
+    エンドソーム形成時は、複数のクラスリンが重合して格子を作り、サッカーボールの様な構造を形作る。
+    初めは細胞膜上にclathrin被覆小孔を作っている．
+\end{definition}
+
+\chapter{情報伝達と液-液相分離}
+\begin{quote}
+    「分子生物学の最も大きな主題である転写と翻訳としてシグナル伝達について紹介する．相分離生物学から見ると，DNA上では遠い位置にある遺伝子が一挙に活性化されるメカニズムも，結合部位が一つしかないのに転写関連タンパク質が集まっている理由も，ヒストンが様々な修飾を受ける理由も，エピジェネティックな制御とは何なのかもすっきりと理解できる．またシグナル伝達も，生物学的相分離が関わっている姿がわかりつつある．あるタンパク質がリン酸化され，またそのタンパク質が別のタンパク質がリン酸化するというプロセスは，教科書では矢印で結ばれて描かれてきた．まるであるタンパク質が次のタンパク質を活性化するように見えるが，リン酸化のようなごくわずかな化学修飾が何を引き起こすかと考えると，タンパク質の活性化というよりもむしろ溶解性を変えるのである．同じようにセカンドメッセンジャーは，細胞内の液-液相分離のしやすさを変化させていると考えると納得がいくように思う．」\cite{白木賢太郎}
+\end{quote}
+
+\section{分子生物学：セントラルドグマとアンフィンセンドグマ}
+まず生化学や分子生物学などの教科書に書かれてきたタンパク質やDNA, RNAの基本原理を概観する．
+その中心教義がセントラルドグマとアンフィンセンドグマである．
+これらでは理解できない生命現象がたくさんある．
+\begin{screen}
+    1. なぜ染色体が凝縮すると遺伝子が不活性になるのか．
+
+    2. タンパク質がなぜこれだけ多様な翻訳後修飾を受けるのか．
+
+    3. シグナル伝達で化学修飾を受けるリン酸基とは一体何なのか．
+\end{screen}
+
+\begin{definition}[central dogma of molecular biology: Crick 57]
+    遺伝情報の流れについてのpostulateである．
+    \begin{quote}
+        The central dogma of molecular biology deals with the detailed residue-by-residue transfer of sequential information. It states that such information cannot be transferred back from protein to either protein or nucleic acid.\cite{Crick central dogma}
+    \end{quote}
+    即ち，生体実体と遺伝情報計算のなす圏において，次の方向にしか射が存在せず，逆には戻らないことを言う．
+    \begin{center}
+        \begin{tikzcd}
+            \mathrm{DNA} \arrow[loop left]{u}{\mathrm{general}} \ar[d, bend left=20, "\mathrm{general}"]\\
+            \mathrm{RNA} \arrow[loop left, dashed]{u}{\mathrm{special}} \ar[d, "\mathrm{general}"] \ar[u, bend left=20, dashed, "\mathrm{special}"]\\
+            \mathrm{protein}
+        \end{tikzcd}
+    \end{center}
+\end{definition}
+
+\begin{definition}[gene (molecular biology)]
+    古典的には，また最狭義には，
+    タンパク質の一次構造に対応する転写産物(mRNA)の情報を含む
+    核酸分子上の特定の領域＝構造遺伝子(cistron)をさす。
+    しかし，現代では，enhancerなどのnon-coding領域に止まらず，
+    化学修飾や編集によるDNAのもつ情報の変更も遺伝子に入るので，
+    well-definedではなくなっている．
+\end{definition}
+\begin{remark}[進化論での遺伝子]
+    また同じ生物学内でも進化論や集団遺伝学、進化ゲーム理論での議論で用いられる遺伝子という単語は、上記の構造遺伝子やDNA上の領域あるいは遺伝子座とは相当に異なる概念を内包しており、混同してはならない（例：リチャード・ドーキンスの著書表題『The Selfish Gene（利己的な遺伝子）』）。こちらは、自然選択あるいは遺伝的浮動の対象として集団中で世代をまたいで頻度を変化させうる情報単位である。メンデル遺伝的な面をもつもののほか、表現型に算術平均的影響を与える量的形質遺伝子、遺伝情報の突然変異や組み換えに対応する無限対立遺伝子モデルなど、理論的でありながら、即物的な分子生物学の側面を包含した考え方である。これを模倣し、文化進化の文脈で用いられるミームは集団遺伝学における遺伝子のアナロジーである。\footnote{ja.wikipedia.org「遺伝子」}
+\end{remark}
+
+\begin{definition}[genome]
+    -omeとは「全体」を指し，遺伝情報の全体集合を指したいときの用語である．
+    DNA上にコードされたタンパク質の一次構造を定める狭義の意味での遺伝子(structural geneと言う．21306個で全体の1.2\%\cite{protein-coding domain})に加えて，RNAとして働く領域やサポートする領域も全て，遺伝的は働きをする全てを含む閉包を取る．
+\end{definition}
+\begin{remark}
+    ヒトゲノム計画が終わった2004年から15年は経ったが，いまだstructural geneの数も正確に決められていない．
+    DNAのデジタル情報をタンパク質の単位に区切るのが困難なのならば，理論の発展が待たれているのかもしれない．
+    DNAはあくまで生命という系の中の１演者であり，遺伝機能に振り切っているとは限らないのだ．
+    \begin{quote}
+        タンパク質まで翻訳されずにRNAのままで機能するものも多いために，DNAは遺伝子という単位ではそもそも測るのが適切では無いのかもしれない．\cite{白木賢太郎}
+    \end{quote}
+\end{remark}
+
+\section{遺伝子の発現}
+
+\subsection{プリオン様タンパク質}
+
+\begin{definition}[intrinsically disordered protein]
+    固有の立体構造を持たない長い領域を持つタンパク質を\textbf{天然変性タンパク質}という．
+\end{definition}
+\begin{definition}[low complexity domain]
+    天然変性タンパク質の固有の立体構造を持たない領域には，類似した配列が繰り返し現れる\textbf{低複雑性ドメイン・プリオン様ドメイン}が３箇所ほどある．
+\end{definition}
+次の２つの研究は，生物全般において，chromatinのタンパク質のうち天然変性なものが，dropletを形成し，その中に
+DNAとhistonとの組であるヨーヨーが「溶け」て，heterochromatinの葡萄のふさになることを示唆している．
+\begin{example}\label{example-heterochromatin-and-HP1a}
+    ショウジョウバエのheterochromatin protein 1 (HP1)は３種類ある．
+    そのうちHP1$\alpha$は206個のアミノ酸からなる天然変性タンパク質である．
+    これは高濃度22$^\circ\mathrm{C}$環境下でdropletを形成する\cite{HP1a}．
+    このdropletはイオン濃度が高いと形成されないため，静電相互作用（塩橋）や水素結合によるものであろうと考えられる．
+    さらにHP1aをGFP(Green Fluorescent Protein)と結合させると細胞内にぶつぶつが発現したので，確かに液滴を形成する．
+
+    このHP1aは次の様にしてheterochromatinの不活化機構を担っていると考えられる．
+    HP1aは，ヒストンH3の９番目のリシンにメチル基が2,3個修飾された構造H3K9me2/3がDNAと結合している領域を認識して相互作用し，
+    この相互作用が広がる様にしてdropletを形成し，結果的にdropletに取り込まれたDNA構造がコンパクトになり，この領域の遺伝子が不活化する．
+\end{example}
+\begin{example}
+    ヒトの持つheterochromatin protein 1の３種類を調べると，HP1$\alpha$がリン酸化されているか，
+    DNAが存在しているときに，dropletを形成することがわかった\cite{HP1a-human}．
+    HP1$\alpha$は伸びたDNAを捕まえてコンパクト化するのだ．
+\end{example}
+
+\begin{screen}
+このdropletが場として主導権を握る存在であり，むしろchromatinはそれに流されるだけの実体であると考えることで，heterochromatinの高い温度感受性に説明がつく．
+dropletの形成が温度によって変わり，その違うdropletに，違う部位のnucleosomeが反応するのである．
+こうしてchromatinが動的に形態を変える．
+\end{screen}
+
+\chapter{タンパク質パラダイムの転換}
+
+\chapter{RNAパラダイムの転換}
+\chapter{細胞内オーガナイザーと場の構築}
+\chapter{アミロイドと低分子コントロール}
+\chapter{プリオンは何故保存されてきたのか？}\label{chapter-prion}
+
+プリオンがストレスに応答してdropletを形成して，タンパク質をストレス反応から守る働きを持っているが，
+このdropletを形成しやすい性質は即ちamyloidとして自己集合しやすい性質と共通している．
+これが，プリオンは危険であるにも拘らず保存されてきた究極要因である．
+
+\section{プリオンとは}
+
+Stanley Prusinerはタンパク質だけでエピジェネティックにDNA,RNAの外で感染が成立するというプリオン仮説は
+当時非常識であったが，後に実証され1997年にはノーベル生理学・医学賞を受賞した．
+\begin{example}[プリオン病]
+    1992年での感染爆発は，病死した牛の肉骨粉を飼料に混ぜて居たために，極微量含まれていた異常型プリオン
+    を食べて感染が爆発した．
+
+    同様に，動物園のチーターの主な死因はプリオン病だという報告がある．
+\end{example}
+\begin{example}
+    異常型のプリオンは極めて安定で，クロイツフェルト・ヤコブ病が疑われる患者の手術器具は，134$^\circ\mathrm{C}$で18分の高圧加熱や，
+    3\%のドデシル硫酸ナトリウム溶液に浸して100$^\circ\mathrm{C}$で５分間の煮沸が求められる．
+\end{example}
+
+プリオンは病原性とは独立で，ものによって感染力が違うと理解するのが良いだろう．
+アルツハイマー型認知症のアミロイド$\beta$やタウタンパク質，ハンチントン病の
+ハンチンチン(huntingtin)タンパク質の異常型などは，風邪が移る様には感染しないとされている．
+
+\begin{definition}[propagation]
+    異常構造を持つタンパク質が細胞を超えて伝わり，別の細胞でも異常構造を生み出す現象を\textbf{伝播}という．
+\end{definition}
+
+\section{酵母プリオンSus35}
+
+酵母のプリオンは哺乳類のプリオンと違って取り扱いに危険性が低いので，モデルとしてよく使われてきた．
+
+\begin{definition}[酵母プリオン]\mbox{}\\
+    \begin{enumerate}
+        \item Sup35：遺伝子の翻訳を終結させる．
+        \item Ure2：ウレイドコハク酸の代謝に関わる．
+    \end{enumerate}
+    Sup35は685個のアミノ酸からなり，３つのドメインを持つ．C末端側には，実際に翻訳を止める機能ドメインがある．N末端側のNドメイン，その中央のMドメインは構造を持たない天然変性領域を持つ．
+    この２つのドメインがアミロイドを形成して伝播し，感染性因子プリオンとして振る舞う．また，Sup35の機能ドメインのみを残しても酵母は生き続けるので，N,Mドメインは直接は生存には関与しない．
+\end{definition}
+
+\begin{research}
+    研究\cite{Yeast Prion}では，Sup35にGFPを結合させ，出芽酵母の中でSup35がどの様に存在しているかを観察したところ，通常の条件で生育させると細胞の中に広く遍く存在していた．
+    一方でグルコースを与えずに飢餓条件で生育させるとSup35がサブミクロン程度の大きさのdropletを形成した．
+
+    また，グルコースを枯渇させると細胞内のpHが弱酸性へ傾くことが知られていたので，これが相分離の引き金になっていることを確認した．
+    即ち，弱酸性ではSup35は丸いゲル状の構造を形成し，pHを中性に戻すとゲルは再び溶解した．
+
+    なお，イオン強度を数百mMにするとSup35はゲル化しなかったため，電気的な相互作用がゲル化の駆動力となっていると示唆される．
+
+    ここでもちろん，Sup35の機能ドメインのみのタンパク質を作成して調べたところゲル化せず，これは弱酸性条件で不可逆に変性して凝集し，中性に戻しても機能は回復されなかった．
+
+    また，数億年前に分種したと考えられる出芽酵母Saccharomyces cerevisiaeと分裂酵母Schizosaccharomyces pombeのいずれでも確認されたため，
+    Sup35のN,Mドメインは元々進化的にゲル化することで機能ドメインを守る働きをになっていたと考えられる．
+\end{research}
+
+\section{ゲル化するプリオン}
+
+Sup35の機能ドメインは元々不安定で，酸性ストレスによって不可逆に変性する．
+N,Mはこのストレスに対する安定化のために存在しているのだ．
+ストレス下で特殊な緩衝材の様なdropletを作り出して，その中で機能ドメインを守る．
+
+\begin{definition}[Q/N-rich]
+    NMドメインはグルタミン(Q)やアスパラギン(N)が多く含まれている．これをQ/N-richという．
+    Q/N-richは会合しやすいためにゲル化するが，同時にアミロイドも形成しやすくなる．
+    Q/N-richは転写因子やRNA結合タンパク質に多く見られる．
+\end{definition}
+\begin{example}
+    酵母の持つQ/N-richな100種類のタンパク質は全てアミロイド化する．
+    そのうち19種類は他の細胞にもアミロイドが伝わる．
+\end{example}
+\begin{example}
+    一方で酵母のタンパク質Mod5はQ/N-richな領域を持たないにも拘らずアミロイド化し，伝播もする．
+    その結果，酵母の代謝活性が変化して，エルゴステロールの合成が進み，抗真菌剤に対する耐性が増す，という様に
+    表現型が変化する．
+\end{example}
+
+\section{シャペロン}
+
+シャペロンは最初，ショウジョウバエに熱を加えると，発現量が増えるタンパク質として発見された．
+そのために\textbf{熱ショックタンパク質(HSP: Heat Shock Protein)}という別名があるが，
+熱ショックを与えなくても発現してるHSP90もある．90とは分子の質量(kDa\footnote{Daltonとは統一原子質量単位})であった．
+
+\begin{definition}[chaperone]
+    シャペロンは加熱などのストレスや生合成の途中など変性しているタンパク質を認識して相互作用する．
+    シャペロンと相互作用することで他のタンパク質とは相互作用できない状態になるために，凝集から守られる．
+    シャペロンと相互作用している間，タンパク質はその固有の構造へとrefoldingすることが可能になる．
+    その機構は２種類あり，GroELやHSP60は多量体を形成して真ん中に空洞を形成し，そこに変性したタンパク質を隔離して
+    凝集を防ぐ（"フォールディングのゆりかご"）．HSP90やHSP70は変性した領域に直接相互作用する．
+    変性は疎水性の領域がタンパク質の表面に出現するので，その部位を認識することで凝集しやすい領域を保護する．
+
+    HSP90は常に発言してるシャペロンで，ストレス応答というよりは，常時生合成中のタンパク質のfoldingを助けている．
+    そして細胞内の可溶性タンパク質のうち1\%〜2\%を占めるほど沢山存在している．HSP90に依存してfoldingをしているタンパク質も多い．
+    ヒトのタンパク質では，HSP90と相互作用するタンパク質が400種類ほど同定されている．
+    HSP90はATPの結合／加水分解による脱離のスイッチで，open型とclosed型のswitchingが出来る．
+\end{definition}
+
+\section{普遍的な五次構造}
+
+細胞内のタンパク質の溶解性は，プリオン様ドメインによって個別にも，シャペロンによって全体的にも統制されている世界観が見える．
+いずれにしても，dropletはタンパク質を安定化する一般的な原理だと考えて良い\footnote{"Gel or Die"が分かりやすい}．
+
+\begin{definition}[quinary]
+    タンパク質の\textbf{五次構造}はEdwin McConkeyが1982の論文で初めて使った\cite{Molecular Evolution}．
+    この論文は，タンパク質の分子間には様々な相互作用があり，この相互作用が分子進化の過程で保存されてきたことを指摘している．
+    \begin{quote}
+        It is suggested that the term "quinary structure" be used to refer to macromolecular interactions that are transient in vivo.\cite{Molecular Evolution}
+    \end{quote}
+    \begin{quote}
+        タンパク質の進化を考えるとき，これまでは機能や安定性という個々の性質に注目してきたが，タンパク質分子間の相互作用に注目したのは斬新だった．
+        この見方が四半世紀後の現在，dropletとの関係で再注目されてきているのだ．
+    \end{quote}
+\end{definition}
+\begin{remark}
+    タンパク質の四次構造とはタンパク質分子間の相互作用であり，五次構造は外的環境に誘発される
+    相分離である．しかし分子間相互作用よりも弱いので，環境による誘発が解除されると解離してまた元の状態に戻る．
+\end{remark}
+
+\begin{itembox}[l]{タンパク質の姿}
+    細胞内で大域的にはchaperoneが活躍し，タンパク質の不可逆な凝集を抑止して分散された状態を維持している．
+    また，局所的にも，特に天然変性領域を持っているタンパク質では，dropletを形成してその機能ドメインを守るものがある．
+    その際に他のタンパク質を巻き込むこともあるだろう．
+
+    一方でdropletを形成しやすいQ/N-richな配列は，付随する性質として会合しやすい性質を持ち合わせる．
+    その結果，一種類のタンパク質だけが濃縮された状態に長時間置かれると，amyloidの前駆体となる凝集核が出来てしまうことも
+    あるだろう．その結果，長いamyloidへと伸長したり，プリオンの様に伝播する性質を持ってしまうものもある．
+\end{itembox}
+
+\chapter{細胞内にある物理学}
+\chapter{タンパク質溶液の理論とテクノロジー}
+\chapter{新しいタンパク質研究}
+
+\begin{thebibliography}{99}
+    \bibitem{}
+    全体像の完成を急いだため，所々ja.wikipedia.orgの記述を引用した．その箇所では句読点が「、。」となっているので判別がつくようにしている．
+    \bibitem{斎藤毅}
+        斎藤毅『線形代数の世界』
+        大学数学の入門\circled{7}（東京大学出版会，2007）
+    \bibitem{清水明}
+        清水明『新版 量子論の基礎』
+        新物理学ライブラリ＝別巻２（サイエンス社，2004）
+    \bibitem{ランダウ}
+        L.D.ランダウ　E.M.リフシッツ著，好村滋洋，井上健男訳『量子力学』
+        ランダウ=リフシッツ物理学小教程（筑摩書房，2008）
+    \bibitem{ポーリング}
+        Linus Pauling, E. Bright Wilson, Jr. \textit{Introduction to Quantum Mechanics with Application to Chemistry}
+        (Dover, 1985)
+        
+        内容は(McGraw-Hill, 1935)のものと同一である．
+    \bibitem{化学と量子論}
+        長倉三郎，中島威 編『化学と量子論』
+        岩波講座現代化学１（岩波書店，1979）
+    \bibitem{量子化学}
+        真船文隆『量子化学―基礎からのアプローチ―』
+        （化学同人，2008）
+    \bibitem{化学の基礎}
+        東京大学教育学部化学部会『化学の基礎77講』
+        （東京大学出版会，2003）
+    \bibitem{現代物性化学の基礎}
+        小川桂一郎，小島憲道 編『新版 現代物性化学の基礎』
+        （講談社，2010）
+    \bibitem{木原太郎-宇宙}
+        木原太郎『幾何学と宇宙』
+        UP応用数学選書９（東京大学出版会，1983）
+
+    以降は第\ref{part-supermolecule}部の超分子化学の内容にて引用した文献である．
+
+    \bibitem{平岡秀一}
+        平岡秀一『溶液における分子認識と自己集合の原理―分子間相互作用』
+        ライブラリ 大学基礎化学（サイエンス社，2017）
+    \bibitem{有賀克彦}
+        有賀克彦『賢くはたらく超分子』
+        岩波科学ライブラリー103（岩波書店，2005）
+    \bibitem{木原太郎-遺伝子}
+        木原太郎『原子・分子・遺伝子』
+        （東京化学同人，1987）
+    \bibitem{What is cooperativity?}
+        Christopher A. Hunter, Harry L. Anderson, What is Cooperativity? (2009).
+        https://doi.org/10.1002/anie.200902490
+    \bibitem{Pedersen}
+        Pedersen, C. J. (1967). “Cyclic polyethers and their complexes with metal salts”. J. Am. Chem. Soc. 89: 7017–7036.
+        doi:10.1021/ja01002a035
+    \bibitem{Borromean ring by Stoddart}
+        K. S. Chichak, S. J. Cantrill, A. R. Pease, S.-H. Chiu, G. W. V. Cave, J. L. Atwood, J. F. Stoddart, Science, 2004, 304, 1308–1312
+    \bibitem{Ben Fringa}
+        Feringa, Ben L.; Koumura, Nagatoshi; Zijlstra, Robert W. J.; van Delden, Richard A.; Harada, Nobuyuki (1999). "Light-driven monodirectional molecular rotor" (PDF). Nature. 401 (6749): 152–155.
+    \bibitem{rhodopsin}
+        Strambi, A.; Durbeej, B.; Ferre, N.; Olivucci, M. (22 November 2010). "Anabaena sensory rhodopsin is a light-driven unidirectional rotor". Proceedings of the National Academy of Sciences. 107 (50): 21322–21326.
+    \bibitem{nanocar}
+        Kudernac, Tibor; Ruangsupapichat, Nopporn; Parschau, Manfred; Maciá, Beatriz; Katsonis, Nathalie; Harutyunyan, Syuzanna R.; Ernst, Karl-Heinz; Feringa, Ben L. (2011). "Electrically driven directional motion of a four-wheeled molecule on a metal surface". Nature. 479 (7372): 208–211. Bibcode:2011Natur.479..208K. doi:10.1038/nature10587. PMID 22071765.
+    \bibitem{触媒化学}
+        Chen, Shentan; Ho, Ming-Hsun; Bullock, R. Morris; DuBois, Daniel L.; Dupuis, Michel; Rousseau, Roger; Raugei, Simone (2014). “Computing Free Energy Landscapes: Application to Ni-based Electrocatalysts with Pendant Amines for H2Production and Oxidation”. ACS Catalysis 4 (1): 229–242. doi:10.1021/cs401104w. ISSN 2155-5435.
+    \bibitem{cross-beta}
+        Nelson, Rebecca et al. “Structure of the cross-beta spine of amyloid-like fibrils.” Nature vol. 435,7043 (2005): 773-8. doi:10.1038/nature03680
+    \bibitem{ピロール-イミダゾールポリアミドによるDNA医療}
+        飯田博一，杉山弘「ピロール-イミダゾールポリアミドによるDNA塩基配列認識の進歩：ポスト・ゲノム時代の創薬」
+
+    以降は第\ref{part-biological-phase-separation}部に引用した文献である．
+
+    \bibitem{白木賢太郎}
+        白木賢太郎『相分離生物学』
+        （東京化学同人，2019）
+    \bibitem{Clifford Brangwynne Anthony Hyman 09 Science}
+        Clifford P. Brangwynne, et al. Germline P Granules Are Liquid Droplets That Localize by Controlled Dissolution/Condensation. Science 324, 1729 (2009).
+    \bibitem{Michael Rosen 12 Nature}
+        Li, Pilong et al. “Phase transitions in the assembly of multivalent signalling proteins.” Nature vol. 483,7389 336-40. 7 Mar. 2012, doi:10.1038/nature10879
+    \bibitem{Steven McKnight 12 Cell}
+        M, Kato et al. "Cell-free Formation of RNA Granules: Low Complexity Sequence Domains Form Dynamic Fibers within Hydrogels." Cell VOLUME 149, ISSUE 4, P753-767, MAY 11, 2012, doi:https://doi.org/10.1016/j.cell.2012.04.017
+    \bibitem{Anfinsen}
+        Anfinsen CB (1973). "Principles that govern the folding of protein chains". Science. 181 (4096): 223–230. Bibcode:1973Sci...181..223A. doi:10.1126/science.181.4096.223. PMID 4124164.
+    \bibitem{Crick central dogma}
+        Crick F (August 1970). "Central dogma of molecular biology" (PDF). Nature. 227 (5258): 561–3. Bibcode:1970Natur.227..561C. doi:10.1038/227561a0. PMID 4913914.
+    \bibitem{protein-coding domain}
+        Nearly all new protein-coding predictions in the CHESS database are not protein-coding
+        Irwin Jungreis, Michael L. Tress, Jonathan Mudge, Cristina Sisu, Toby Hunt, Rory Johnson, Barbara Uszczynska-Ratajczak, Julien Lagarde, James Wright, Paul Muir, Mark Gerstein, Roderic Guigo, Manolis Kellis, Adam Frankish, Paul Flicek, The GENCODE Consortium
+        bioRxiv 360602; doi: https://doi.org/10.1101/360602
+    \bibitem{HP1a}
+        Strom, A., Emelyanov, A., Mir, M. et al. Phase separation drives heterochromatin domain formation. Nature 547, 241–245 (2017). https://doi.org/10.1038/nature22989
+    \bibitem{HP1a-human}
+        Larson, Adam G et al. “Liquid droplet formation by HP1α suggests a role for phase separation in heterochromatin.” Nature vol. 547,7662 (2017): 236-240. doi:10.1038/nature22822
+    \bibitem{Yeast Prion}
+        T. M. Franzmann et al., "Phase separation of a yeast prion protein promotes cellular fitness", Science, 359(6371), pii: eaao5654 (2018).
+    \bibitem{Molecular Evolution}
+        E. H. McConkey, "Molecular evolution, intracellular organization, and the quinary structure of proteins", Proc. Natl. Acad. Sci. USA, 79(10), 3236-3240 (1982).
+\end{thebibliography}
+
+\end{document}

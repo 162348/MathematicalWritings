@@ -1,0 +1,3107 @@
+\documentclass[uplatex, dvipdfmx]{jsreport}
+\title{電磁気学で使う数学（清野和彦先生）\\ ベクトル解析（足助太郎先生）}
+\author{司馬博文 J4-190549\\hirofumi-shiba48@g.ecc.u-tokyo.ac.jp}
+\date{\today}
+\pagestyle{headings} \setcounter{secnumdepth}{4}
+\input{/Users/hirofumi.shiba48/Desktop/数理科学/preamble.tex}
+\begin{document}
+\maketitle
+\tableofcontents
+\part{曲線，ベクトル場}
+
+\chapter*{既知とする事項}
+Euclid空間の標準内積とそれから誘導される計量の扱い，また関数の微積分と行列積の記法は先天的に与える．
+
+今後，Euclid空間$\mathbb{R}^n$の標準的な座標を，右上の添字で$(x^1,\cdots,x^n)$などと書く．
+$D,\frac{\partial}{\partial x^1}$などを微分演算子として使う．以下の議論では，命題\ref{prop-direction-derivative}など，連鎖律の記法がLeibniz記法でも$'$でも適さない時にも驚異的な威力を発揮する．
+このようにして，多変数ベクトル値函数の微分は，Jacobi行列として一般化される．
+
+以降，元を$2$つ以上持つ$\mathbb{R}$-区間を$I,J$と表す．
+
+\chapter{曲線}
+
+\section{多様体の射}
+
+\begin{definition}[微分同相写像(diffeomorphism)]\rm{}
+    $U,V$を$\mathbb{R}^n$-開集合とする．$\varphi:U\to V$が$C^r$級-微分同相写像であるとは，次の３条件を満たすことを言う．
+
+    1.\, $\varphi$が$C^r$級である．
+
+    2.\, $\varphi$は可逆である．（従って全単射であり逆写像$\varphi^{-1}:V\to U$が存在する）．
+
+    3.\, $\varphi^{-1}$も$C^r$級である．
+
+    $C^0$級-微分同相写像のことを，単に同相写像とも言う．
+\end{definition}
+
+\section{曲線の定義：区間の埋め込み}
+
+\begin{definition}[区間]
+    $\mathbb{R}$の部分集合$S$であって，次の条件を満たすものを区間と呼び，$I,J$などと書く．
+    \[ \forall x,y\in S\; x\le y\Rightarrow \{ z\in\mathbb{R}\mid x\le z\le y \}\subset S \]
+\end{definition}
+以降，区間$I,J$と言った時は，少なくとも$2$つの元を持った集合を指すものとする．
+
+\begin{definition}[曲線]\label{def-curve}
+    $I$を区間として，$C^r\;(r\ge 0)$級-写像$\gamma:I\to\mathbb{R}^n$のことを，\textbf{$\mathbb{R}^n$上の$C^r$級-曲線}と呼ぶ．
+    特に$C^0$級-曲線を連続な曲線，$C^r\;(r>1)$級の曲線のことを可微分な曲線，または滑らかな曲線と言う．
+\end{definition}
+\begin{remark}[台，パラメータ]
+    曲線$\gamma:I\to\mathbb{R}^n$について，$\mathrm{Supp}(\varphi):=\mathrm{Im}(\varphi)$として，曲線$\varphi$の\textbf{台・軌跡}という．台のことを曲線と呼ぶことも多い．
+    この観点から，写像$\varphi$をパラメータという．
+
+    パラメータの空間を単位閉区間$[0,1]$とした曲線を，位相幾何学の文脈では道(path)と呼ぶ．
+
+    曲線や道とは，数直線$\mathbb{R}$かその連結な部分集合の位相の，埋め込みのことか．（少なくとも）連続な直線の射．
+\end{remark}
+
+\begin{example}\rm{}\label{examples-various-curves}
+    1.\, パラメータ付を変えることによって，同じ曲線でもパラメータの空間$I$も様々である．
+    $P=\{(x,y)\in\mathbb{R}^2\mid y=x^2\}$とした時，
+    \begin{center}\begin{tikzcd}
+        \varphi_1:\mathbb{R} \ar[r] \ar[d, phantom, "\rotatebox{90}{$\in$}"] & \mathbb{R}^2 \ar[d, phantom, "\rotatebox{90}{$\in$}"] \\
+        x \ar[r, mapsto] & (x,x^2)
+    \end{tikzcd}\end{center}
+    も
+    \begin{center}\begin{tikzcd}
+        \varphi_2:(-1,1) \ar[r] \ar[d, phantom, "\rotatebox{90}{$\in$}"] & \mathbb{R}^2 \ar[d, phantom, "\rotatebox{90}{$\in$}"] \\
+        t \ar[r, mapsto] & \left(\frac{t}{1-t^2},\left(\frac{t}{1-t^2}\right)^2\right)
+    \end{tikzcd}\end{center}
+    も$L$のパラメータづけである．
+
+    2.\, 定置写像は$\mathrm{Supp}(\varphi)$が一点集合である曲線を定める．
+\end{example}
+
+\section{曲線の性質：正則，自己交叉と単純}
+
+\begin{definition}[正則性(regularity):微分が消えない]
+    $C^r\;(r>1)$級-曲線$\gamma:I\to\mathbb{R}^n$が正則であるとは，次を満たすことである．
+    \[ \forall t\in I\; D\gamma(t)\ne 0 \]
+    
+    図形$C\subset\mathbb{R}^n$が$C^r$-正則曲線であるとは，このような$\gamma:I\to C$が見つかるということである．
+\end{definition}
+
+\begin{definition}[閉曲線]\rm{}
+
+    1.\, $I$は閉区間で$I=[a,b]\;(a<b)$と表せるとする．$C^r\;(r>1)$級-曲線$\gamma:I\to\mathbb{R}^n$が$\varphi(a)=\varphi(b)$を満たす時，これを閉曲線という．
+
+    2.\, 1.に加えて次も満たす時，特に$C^r$級の閉曲線という．
+    \[ \forall s \; 0\le s\le r \;\Rightarrow\; D^s\gamma(a)=D^s\gamma(b) \]
+
+    3.\, 1.に加えて次も満たす時，特に単純閉曲線／Jordan閉曲線という．
+    \[ \gamma\; は[a,b)上単射である \]
+
+    4.\, 単射である曲線$\psi:J\to\mathbb{R}^n$を，単純／Jordan arcと呼ぶ．
+\end{definition}
+
+\begin{definition}[長さ]
+    
+\end{definition}
+
+\section{曲線の間の変数変換存在定理}
+例\ref{examples-various-curves}で見た通り，台の同じ曲線に対して，何通りものパラメータ付けが想定できた．これらの間の同値関係をまずは定めたい．
+一般に，区間同士の写像で端点の情報を保存するものを変数変換という．変数変換も一種の曲線であるが，始域も終域も区間であるから特別な性質が成り立つ（命題\ref{prop-regularity-of-transformations-of-parameters}など）．
+
+\begin{definition}[変数変換，座標変換]\rm{}　
+    
+    1.\, $J=[a,b],I=[c,d]\;(a<b,c<d)$とする．この間の$C^r$級写像$\varphi:J\to I$であって，次を満たすものを\textbf{$C^r$級-変数変換}と呼ぶ．
+    \[ \{\varphi(a),\varphi(b)\}=\{c,d\} \]
+
+    1'.\, $J=(a,b),I=(c,d)\;(a<b,c<d)$とする．この間の$C^r$級写像$\varphi:J\to I$であって，次を満たすものを\textbf{$C^r$級-変数変換}と呼ぶ．
+    \[ \{\lim_{t\to a}\varphi(t),\lim_{t\to b}\varphi(t)\}=\{c,d\} \]
+
+    2.\, $\varphi$が可微分な変数変換であって次の条件を満たす時に，座標変換である．また$\varphi$を曲線と見た場合同様，正則であるという．
+    \[ \forall t\in J\; D\varphi(t)\ne 0 \]
+
+    3.\, $\varphi$が次の条件を満たす時に，単調であるという．
+    \[ (\forall t\in J\; D\varphi(t)\ge 0)\;\lor (\forall t\in J\; D\varphi(t)\le 0) \]
+\end{definition}
+\begin{remark}
+    曲線のパラメータの空間が開集合であった場合の記述の難解さは，端点の様子の位相情報量の違いに由来する？
+\end{remark}
+
+
+\begin{shadebox}\begin{proposition}[変数変換の存在命題（正則な曲線同士）]
+    $C^r$級の正則で自己交叉を持たない曲線$\gamma:I=[a,b]\to\mathbb{R}^n$と，別の$C^r$級曲線$\zeta:J=[c,d]\to\mathbb{R}^n$とは，$\gamma(I)=\zeta(J),\{\gamma(a),\gamma(b)\}=\{\zeta(c),\zeta(d)\}$の関係にあるとする．
+    この時，$C^r$級の変数変換$\varphi:J\to I$が一意に存在して$\zeta=\gamma\circ\varphi$を満たす．なお，$\zeta$が正則ならば$\varphi$も正則である．
+\end{proposition}\end{shadebox}
+直観的には，曲線$C$上の各点について，fiber同士を対応させれば１つ理想的なものを作れる．即ち，$\bigcup_{c\in C}\varphi^{-1}(c)\times\zeta^{-1}(c)$をグラフとするような写像$I\to J$である．
+自己交叉を含まないように十分局所的に分割して考えていけば，少し広い目で見れば自己交叉していても大丈夫．
+
+\section{曲線の向きとその射：正則な変数変換}
+曲線を，点の集合とそのパラメタ付けの組だと思うと，向きという性質は正則なパラメータの入れ方により定まる．
+従って，正則な変数変換は，向きを保つ．
+何故なら，変数変換とは$\zeta=\gamma\circ\varphi$を満たす$\varphi$だが，これを微分してみれば，
+$D\zeta(s)=D\gamma(\varphi(s))\circ D\varphi(s)$より，$\varphi$が正則なら$\varphi>0$か$\varphi<0$なので向きを保つ．
+一方これは$\varphi$が正則でなくとも，$\varphi\ge 0$まで緩められる．これをcompatibleという言葉で捉える．
+
+\begin{definition}[速度ベクトル]
+    $C^r\;(r>1)$級-曲線$\gamma:I\to\mathbb{R}^n$について，$D\gamma(t)$を$\gamma$の$\gamma (t)$に於ける速度ベクトルという．
+\end{definition}
+
+\begin{definition}[曲線に向きを定めるパラメータ]
+    $C^r\;(r>1)$級-曲線$(\gamma:I\to\mathbb{R}^n, \gamma(I))$について，$\gamma$が正則であることを，\textbf{$\gamma$は$\gamma(I)$に向きを定める}という．
+\end{definition}
+\begin{remark}
+    少し不思議な用語である．向き自体なら，$\varphi(I)$の両端の十分先での振る舞いを見比べれば決まるはずであるから，これは正則な曲線が取れることに依拠することで表現を簡単にした定義だと思える．
+    それを，正則なパラメータ付けを「向きを定める」と呼んでも．
+
+    ああ待てよ，曲線に対して，そのパラメータ付は数々存在して，そのうち「１筆書き」をして，「向きをおしえてくれるパラメータ付」という意味で「向きを定める」と呼んでいるのかも知れない．
+\end{remark}
+
+\begin{definition}[「向きを定めるパラメータ」とcompatibleな変数変換]\rm{}
+    $C^r\;(r>1)$級-曲線$\gamma:I\to\mathbb{R}^n$と曲線$\zeta:J\to\mathbb{R}^n$と可微分な変数変換$\varphi:J\to I$について，$\zeta =\gamma\circ\varphi$が成り立つことに注目して，
+
+    1.\, $\forall t\in J\; D\varphi(t)>0$ならば，$\varphi$は向きを保つという．
+
+    2.\, $\forall t\in J\; D\varphi(t)<0$ならば，$\varphi$は向きを逆にするという．
+
+    3.\, $\exists t\in J\; D\varphi(t)=0$（変数変換$\varphi$は正則でない）ならば，変数変換$\varphi$では曲線の向きは比較できない．
+\end{definition}
+
+\begin{proposition}[正則な変数変換]\rm{}\label{prop-regularity-of-transformations-of-parameters}
+    正則な$C^r$-変数変換$\varphi:J\to I$について，次が成り立つ．
+
+    1.\, $\varphi$は可逆で，また逆写像も正則でかつ$C^r$級である．即ち，$\varphi$は$C^r$級微分同相写像である．
+
+    2.\, $\varphi$は単調であり，向きを保つか向きを逆にするかのいずれかである．
+\end{proposition}
+変数変換は，始域も終域も区間になるという点が，この補題が成り立つ所以である．
+\begin{proof}
+    1.のみ示す．$\varphi:J\to I$は正則な$C^r$級-写像とする．
+    $\varphi$は正則だから，$\forall x\in U\; D\varphi(x)>0$か$\forall x\in U\; D\varphi(x)<0$かのいずれかであり，従って$\varphi$は全単射である．
+    この逆写像を$\psi$とすると，
+    \[ \varphi\circ\psi(x)=id_I(x)=x\;(x\in I) \]
+    より，両辺微分すると
+    \begin{eqnarray*}
+        D\varphi(\psi(x))\cdot D\psi(x)&=&1 \\
+        D\psi(x)&=&\frac{1}{D\varphi(\psi(x))}
+    \end{eqnarray*}
+    今，$\forall x\in U\; D\varphi(x)>0$か$\forall x\in U\; D\varphi(x)<0$かのいずれかであるから，$\psi:I\to J$も正則である．
+    また，$\varphi$が$C^r\;(r>1)$級であることより，$D\psi$は連続である．これを繰り返すことより，$\psi$も$C^r$級であることがわかる．
+\end{proof}
+
+
+従って，正則な$C^r$級変数変換$\varphi$で，$\zeta=\gamma\circ\varphi$を満たすもの存在したら，必ず戻って来れるから，パラメータの空間が$C^r$級微分同相である．
+２つの曲線は本質的に同じものだと思える．
+\begin{corollary}
+    ２つの曲線$\gamma:I\to\mathbb{R}^n,\zeta:J\to\mathbb{R}^n$について，次を満たす関係を$\sim$と定義すれば，これは同値関係である．
+    \[ \exists 正則な写像\varphi:J\to I　\; \zeta =\gamma\circ\varphi \]
+\end{corollary}
+\begin{remark}
+    解析入門 \cite{解析入門}などでは，定義\ref{def-curve}を径数付曲線と呼び，同値関係$\sim$による同値類を曲線と定義する．
+\end{remark}
+
+\begin{definition}[正則曲線同士の向き]\label{def-orientation-of-regular-curve}
+    $\gamma:I\to\mathbb{R}^n, \zeta:J\to\mathbb{R}^n$を正則な曲線とする．
+
+    1.\, 次が成り立つとき，$\gamma$と$\zeta$は同じ向きを定めるという．
+    \[ \exists \varphi:J\to I\; (\forall t\in J\; D\varphi(t)>0) \land (\zeta=\gamma\circ\varphi) \]
+
+    2.\, 次が成り立つとき，$\gamma$と$\zeta$は逆の向きを定めるという．
+    \[ \exists \varphi:J\to I\; (\forall t\in J\; D\varphi(t)<0) \land (\zeta=\gamma\circ\varphi) \]
+\end{definition}
+
+正則曲線同士の向きの関係を変数変換の性質に落とし込んだ訳だが，この方法を採ったからにはwell-definednessが一番の問題になる．
+
+\begin{proposition}[well-definedness]
+    $\gamma:I\to\mathbb{R}^n, \zeta:J\to\mathbb{R}^n$を正則な曲線とする．次の２条件は同値である．
+    
+    1.\, $\zeta=\gamma\circ\varphi$を満たす，向きを保つ（逆にする）正則な変数変換$\varphi:J\to I$が存在する．
+
+    2.\, $\zeta,\gamma$が同じ（逆の）向きを定める．
+\end{proposition}
+\begin{proof}[未完]
+    変数変換$\varphi$は正則であるから，命題\ref{prop-regularity-of-transformations-of-parameters}より，向きを保つか逆にするかのいずれかである．
+    従って，定義\ref{def-orientation-of-regular-curve}より，$\gamma$と$\zeta$は同じ向きを定めるか逆の向きを定めるかのいずれかである．
+
+    また，$\gamma$と$\zeta$は同じ向きを定めるとする．即ち，正則で向きを保つ変数変換$\varphi:J\to I$が存在して，$\zeta=\gamma\circ\varphi$を満たす．
+\end{proof}
+
+\begin{definition}[正則曲線-一般の曲線間で向きを保存する変数変換（一般化）]\rm{}
+    正則な曲線$\gamma:I\to\mathbb{R}^n$と一般の曲線$\zeta:J\to\mathbb{R}^n$の間に，次を満たすような$C^1$級-単調座標変換$\varphi:J\to I$が存在するとする（$\zeta =\gamma\circ\varphi$）．
+
+    1.\, $\forall t\in J \; D\varphi (t)\ge 0$が成り立つことを，\textbf{$\zeta$と$\gamma$の向きは整合的}という．
+
+    2.\, $\forall t\in J \; D\varphi (t)\le 0$が成り立つことを，\textbf{$\zeta$と$\gamma$の向きは整合的}という．
+\end{definition}
+
+\begin{definition}[逆向きの曲線]
+    $\gamma:I=[a,b]\to\mathbb{R}^n\;(a<b)$を曲線とする．これに対し，変数変換$\varphi:I=[a,b]\ni t\mapsto a+b-t\in I$を定める．
+    曲線$\overline{\gamma}:I\to\mathbb{R}^n :=\gamma\circ\varphi$を，$\gamma$の向きを逆にした曲線と呼ぶ．
+    $I$が有界区間の場合，上限と下限を$b,a$とすれば同様の定義が成り立つ．そうでない場合，例えば$I=\mathbb{R}$などの場合は，$\varphi(t)=-t$とすれば良い．
+\end{definition}
+\begin{notation}
+    $C\subset\mathbb{R}^n$を$C^1$級の正則な曲線とする．これに$C^1$級の正則なパラメータを考えることを，$C$の向きを考える，という．こうして定めた$C$と逆の向きの曲線は$-C$，特に向きを考えないことを強調する場合は$|C|$と書く．
+
+    $C$に向きが定まるための条件は「区分的に正則である」ことまで緩められる．
+\end{notation}
+
+\begin{example}[スカラー場の変数変換]
+    曲線$C=[-1,1]\subset\mathbb{R}^2$について，２つの閉区間からのパラメータ付$\gamma,\zeta:[-1,1]\to C$を，$\gamma(t)={}^t\!(t,0), \zeta(t)={}^t\!(t^3,0)$と構成する．
+    すると，$\gamma$は向きを定める正則なパラメータ付であるのに対し，$D\zeta$は$t=0$が零点になるから正則でなく，向きを定めない．
+
+    また，$\gamma$から$\zeta$への，あるいは$\zeta$から$\gamma$への変数変換$[-1,1]\to [-1,1]$で，正則なものは存在しない．
+\end{example}
+
+\section{曲率}
+
+\begin{definition}
+    弧長をパラメータとする曲線$\gamma(s)$について，点$s$での曲率$\kappa(s)$を，点$s$での接ベクトルを$\mathbf{e_1}=D\gamma(s),\mathbf{e_2}$と置くと，次のように定められる．
+    \[ \left(\begin{array}{c}\mathbf{e_1}'  \\ \mathbf{e_2}'\end{array}\right) = \left(\begin{array}{cc}0&\kappa \\ -\kappa&0\end{array}\right)\left(\begin{array}{c}\mathbf{e_1} \\ \mathbf{e_2}\end{array}\right) \]
+\end{definition}
+\begin{proposition}[曲線の曲率]
+    $\mathbb{R}^n$内の曲線が$x=x(t), y=y(t)$によって耐えられているとする．この曲率$\kappa(t)$は次のように与えられる．
+    \[ \kappa(t)=\frac{x'(t)y''(t)-x''(t)y'(t)}{({x'}^2(t)+{y'}^2(t))^\frac{3}{2}} \]
+\end{proposition}
+\begin{proof}
+    弧長$s$
+    \[ s=\int^t_0\sqrt{{x'}^2(u)+{y'}^2(u)}du \]
+    について，
+    \[ \frac{dt}{ds} = \frac{1}{\sqrt{{x'}^2(t)+{y'}^2(t)}} \]
+    であるから，
+    \[ \mathbf{e_1}=\frac{dp}{ds} = \frac{1}{\sqrt{{x'}^2(t)+{y'}^2(t)}}\left(\begin{array}{c}x'(t) \\ y'(t)\end{array}\right) \]
+    これの第一成分の微分
+    \[ \left(\frac{x'(t)}{\sqrt{{x'}^2(t)+{y'}^2(t)}}\right)' =  \frac{-x'(t)y'(t)y''(t)-x''(t){y'}^2(t)}{({x'}^2(t)+{y'}^2(t))^2} \]
+    を
+    \[ \mathbf{e_2}=\frac{1}{\sqrt{{x'}^2(t)+{y'}^2(t)}}\left(\begin{array}{c}-y'(t) \\x'(t)\end{array}\right) \]
+    の第一成分と見比べて，
+    \[\mathbf{{e'}_1}=\kappa(s)\mathbf{e_2}\]
+    より得る．
+\end{proof}
+
+\chapter{スカラー場とベクトル場}
+以降，曲線論は終わりで，曲線を踏み台にして各種微分を定義し，最終的に曲線の取り方に依らないことを確認して，純粋に幾何学的な意味を持つ空間の積分を完成させる．
+そのために効果的なクッションとなる言葉は「接ベクトル」である．これを曲線の言葉によって定義することで，以降スカラー場とベクトル場の微分を，接ベクトルの言葉で語っていく．
+
+\section{方向微分から定義する接ベクトル}
+\begin{definition}[曲線（の速度ベクトル）に沿った方向微分]
+    $C^r$級微分可能多様体$M$上の点$p\in M$に於ける，$\gamma$に沿う方向微分$v_\gamma$とは，$U\subset M$を$p$を含む開近傍，$\gamma:(-\epsilon,\epsilon)\to U$を$\gamma(0)=p$を満たす$C^r$級曲線として，
+    次のように定められる作用素をさす．
+    \begin{center}
+        \begin{tikzcd}
+            v_\gamma :\mathrm{Map}_{C^r}(U,\mathbb{R}) \ar[d, phantom, "\rotatebox{90}{$\in$}"] \ar[r] & \mathbb{R}\ar[d, phantom, "\rotatebox{90}{$\in$}"]\\
+            f \ar[r, mapsto] & v_\gamma(f):=\frac{d(f\circ\gamma )}{dt}(0)
+        \end{tikzcd}
+    \end{center}
+\end{definition}
+これは，次の３条件も満たし「点$p$に於ける方向微分」の１つの例である．
+
+\begin{definition}[点$p$に於ける方向微分]\label{def-directional-differentiation}
+    $p\in M$の開近傍で定義された$C^r$級関数$f$に対して，ある実数$v(f)\in\mathbb{R}$を対応させる作用素
+    \begin{center}
+        \begin{tikzcd}
+            v :\mathrm{Map}_{C^r}(U,\mathbb{R}) \ar[d, phantom, "\rotatebox{90}{$\in$}"] \ar[r] & \mathbb{R}\ar[d, phantom, "\rotatebox{90}{$\in$}"]\\
+            f \ar[r, mapsto] & v(f)
+        \end{tikzcd}
+    \end{center}
+    であって，次の３条件を満たすものを\textbf{点$p$に於ける方向微分}という．
+
+    0(同値). ある開近傍$p\in V$において$f=g$ならば，$v(f)=v(g)$
+
+    1(線形性). $v(af+bg)=av(f)+bv(g)$
+
+    2(Leibniz則). $v(fg)=v(f)g(p)+f(p)v(g)$
+
+    ただし関数$fg$とは，$\mathbb{R}$上での積を取るという関数の積$fg(p)=f(p)\cdot g(p)$である．
+\end{definition}
+
+\begin{proposition}
+    定義\ref{def-directional-differentiation}を満たす「点$p\in M$に於ける$C^r$級関数の方向微分全体の集合」を$D^r_p(M)$とすると，これは定値作用素$0$を原点とし，写像の和／実数倍について実線型空間をなす．
+\end{proposition}
+\begin{remark}
+    これは元の多様体$M$の点$p$に於ける座標近傍の取り方に依らず定まる．
+    「点$p\in M$に於ける方向微分」の定義\ref{def-directional-differentiation}には，$M$の適切な開近傍が取れるという多様体の定義に埋め込まれた要請以外，$M$も曲線$\gamma$も登場しない．
+\end{remark}
+
+\begin{proposition}[方向微分全体のなす線型空間]
+    $U\subset M$（$M=\mathbb{R}^n$），
+    $i=1,2,\cdots,n$として，作用素
+    \begin{center}
+        \begin{tikzcd}
+            \left( \frac{\partial }{\partial x^i} \right)_p:\mathrm{Map}_{C^r}(U,\mathbb{R}) \ar[r] \ar[d, phantom, "\rotatebox{90}{$\in$}"] & \mathbb{R}\ar[d, phantom, "\rotatebox{90}{$\in$}"]\\
+            f:U\to\mathbb{R}\ar[r, mapsto] & \frac{\partial f}{\partial x^i}(p)
+        \end{tikzcd}
+    \end{center}
+    は点$p$に於ける方向微分である．これは，$D^r_p(M)$上線型独立である．
+
+    これら$n$個のベクトルが生成する$D_p^r(M)$の部分線型空間を$T_p(M)$と書き，接ベクトル空間と呼ぶ．
+\end{proposition}
+
+\begin{proposition}
+    $p\in M$の各座標近傍$(U;x^1,\cdots,x^n)$について定まる，その各座標について偏微分を取る作用素
+    \[\left(\frac{\partial}{\partial x^i}\right)_p\]
+    は方向微分である．
+\end{proposition}
+\begin{proof}
+    これは線型作用素であるし，Leibniz則に従うのはEuclid空間の理論で学んだ．
+\end{proof}
+
+\begin{proposition}[接空間の基底変換]
+    点$p$に於ける接空間$T_p(M)$の２組の基底を，２つの局所座標系${}^t(x^1, \cdots, x^n),{}^t(y^1, \cdots, y^n)$から次のように定める．
+    \[ \left( \left(\frac{\partial}{\partial x^1}\right)_p, \cdots, \left(\frac{\partial}{\partial x^n}\right)_p \right), \left( \left(\frac{\partial}{\partial y^1}\right)_p, \cdots, \left(\frac{\partial}{\partial y^n}\right)_p \right) \]
+    この時，次の関係式が成り立つ．
+    \[ \frac{\partial}{\partial x^i}_p = \sum^n_{j=1}\frac{\partial y^j}{\partial x^i}(p)\frac{\partial}{\partial y^j}_p\hspace{3mm}(i=1,\cdots,n) \]
+    ただし，変数変換を$y=y(x)={}^t(y^1(x),\cdots, y^n(x))$と置いた．
+\end{proposition}
+
+\begin{screen}
+    多様体には，各点毎の線型空間が定義される．多様体上の曲線$I\to M$の速度ベクトルとしてあり得る"もの"（速度ベクトルと言った時，座標系を定めずには考えられない）全ての集合を，座標に依らずに定式化したい．
+    その結果，方向微分として，双対空間の中で定式化することを思いつく．$\gamma$の微分係数$\gamma'(0)$ on $M$として定めるのではなく，「$\gamma$を介して各$f$に対する微分係数の定め方$f\mapsto (f\circ\gamma)'(0)$」をして定める．
+    すると$M$の消息から遊離する．
+    （これは結局，速度ベクトルに対して，勾配ベクトル場との内積を取っていることに等しい．これは座標系に依存しない不変量になるということである．）
+    ただし，方向微分と接ベクトルとが一致するのは，$C^\infty$級可微分多様体においてのみであるが，例えばEuclid空間ではそうである．
+
+    点$p$での接空間とは，任意の座標近傍を取った時，その偏微分（という特別な方向微分）の一次結合で表せるような方向微分全体の集合である．
+    勝手な座標近傍$(U;x^1,\cdots, x^n)$について，微分作用素$\frac{\partial}{\partial x^i}$の一次結合で表されるものを接ベクトルと呼んでwell-definedである．
+    この時，接空間の元々の多様体$M$での$p$-座標近傍の取り方に依らず，一意的に$p$-接空間$T_p(M)$が定まる．
+
+    その結果，多様体の局所座標を取り直す度に，その座標変換と反対の変換を受ける共変ベクトル（＝行ベクトル）という幾何学的実体を得たことがわかる．
+\end{screen}
+
+\begin{proposition}
+    「点$p$に於ける曲線$\gamma$に沿った方向微分$v_\gamma$」は特に，接ベクトルである．
+    \[v_\gamma\in T_p(M)\]
+\end{proposition}
+
+\section{接ベクトルは速度ベクトルだし，速度ベクトルは接ベクトル}
+
+\begin{definition}[速度ベクトルを接ベクトルへと同一視]\rm{}
+    $p\in\mathbb{R}^n$，$\varepsilon>0, I=(-\varepsilon,\varepsilon)$とし，$\gamma:I\to\mathbb{R}^n$を$\gamma(0)=p$を満たす$C^1$級-曲線とする．ベクトル値関数$\gamma$は$p$の局所座標系$(U;x^1,\cdots,x^n)$を用いて${}^t\! (\gamma^1,\cdots,\gamma^n)$などと表すこととする．
+    このとき，$\gamma$の導関数$D\gamma :I\to\mathbb{R}^n$の$0$に於ける値，即ち速度ベクトル$D\gamma(0)={}^t\!\left( \frac{d\gamma}{dt}^1(0),\cdots,\frac{d\gamma}{dt}^n(0) \right)\in\mathbb{R}^n$を，接ベクトル
+    \[ \frac{d\gamma}{dt}^1(0)\frac{\partial}{\partial x^1}_p + \cdots + \frac{d\gamma}{dt}^n(0)\frac{\partial}{\partial x^n}_p\hspace{2mm} = v_\gamma\in\hom_\mathbb{R}(\hom_{C^r}(p\in U,\mathbb{R}),\mathbb{R})= T_p(\mathbb{R}^n) \]
+    と同一視する．
+    よって，各点$p\in\mathbb{R}^n$について，
+    \[T_p\mathbb{R}^n = \{ D\gamma(0)\in\mathbb{R}^n\mid \gamma:(-\epsilon,\epsilon)\to\mathbb{R}^nはC^1級写像 \} \]
+    でもあり，接空間はいわば「多様体$\mathbb{R}^n$内の点$p$において，$\mathbb{R}^n$-曲線が取り得る速度ベクトル全体の空間」ともみなせる．
+\end{definition}
+\begin{remark}
+    これは，接ベクトル$v_\gamma\in T_p(M)$の，局所座標系$(U;x^1,\cdots,x^n)$による表示である．$\gamma$もこれによって表示される時，基底を入れ替えるだけで係数が変わらないように見えるが，実際はベクトルの空間から，線型作用素の空間へ移行している．即ち，「速度ベクトル$D\gamma (0)$」と，「速度ベクトルとの内積を取るという線型作用素$v_\gamma$」とを同一視する．
+    基底としては，$\mathbb{R}^n$の標準基底から，その方向についての偏微分を取る微分演算子に移り変わっていて，同一視が可能である．
+    これは，ベクトル空間に対して，その線型汎関数を係数体に写すという二重双対空間とに対応させている例であろうか？
+\end{remark}
+
+\begin{lemma}[すると，全ての接ベクトルは速度ベクトルとしても表せる]
+    $v\in T_p\mathbb{R}^n$とする．このとき，正数$\varepsilon>0$と$C^1$級-曲線$\gamma:(-\varepsilon,\varepsilon)\to\mathbb{R}^n$が存在して，$\gamma(0)=p$と$v=\frac{d\gamma}{dt}^1(0)\frac{\partial}{\partial x^1}_p + \cdots + \frac{d\gamma}{dt}^n(0)\frac{\partial}{\partial x^n}_p$とを満たす．
+\end{lemma}
+\begin{proof}[その接ベクトルの成分を速度ベクトルとした直線を取ればいい]
+    $v\in T_p\mathbb{R}n$は$v_1\frac{\partial}{\partial x^1}_p + \cdots + v_n\frac{\partial}{\partial x^n}_p$という一意的な成分表示$v_1,\cdots,v_n\in\mathbb{R}$を持つ．これに対して，$D\gamma(0)={}^t\!(v_1,\cdots,v_n)$を満たす関数$\gamma:\mathbb{R}\to\mathbb{R}^n$を構成すれば良い．
+    例えば$\gamma(t)=p+{}^t\!(v_1,\cdots,v_n)t$などがある．
+\end{proof}
+
+\section{スカラー場の接ベクトルによる微分}
+
+$f$の値域が退化して実数となっただけで，これは$M=\mathbb{R}^n$上で定義された関数が，接ベクトルの
+\begin{proposition}[スカラー場の接ベクトルによる微分]\label{prop-direction-derivative}
+    $f:\mathbb{R}^n\to\mathbb{R}$を$\mathbb{R}^n$上で定義された可微分なスカラー場とする．$p\in\mathbb{R}^n, v=v_1\frac{\partial}{\partial x^1}_p + \cdots + v_n\frac{\partial}{\partial x^n}_p\in T_p\mathbb{R}^n, \varepsilon>0$に対して，$\gamma:(-\varepsilon,\varepsilon)\to\mathbb{R}^n$を，$\gamma(0)=p, D\gamma(0)=v$を満たす可微分曲線とする．
+    このとき，$f\circ\gamma:\mathbb{R}\ni t\mapsto f(t)\mathbb{R}$について，次が成り立つ．
+    \[ \frac{d(f\circ\gamma)}{dt}(0) = v^1\frac{\partial f}{\partial x^1}(p) + \cdots + v^n\frac{\partial f}{\partial x^n}(p) \hspace{3mm} \mathrm{on}\hspace{0.5em} \mathbb{R} \]
+\end{proposition}
+\begin{proof}
+    連鎖律より，
+    \begin{eqnarray*}
+        \frac{d (f\circ\gamma)}{dt}(0) &=& Df(\gamma (0))D\gamma(0) \\
+        &=& \left( \frac{\partial f}{\partial x^1}(p),\cdots,\frac{\partial f}{\partial x^n}(p) \right)\left( \begin{array}{c}
+            v^1 \\ \vdots \\ v^n
+        \end{array} \right) \mathrm{on}\hspace{0.5em}\mathbb{R}^n\\
+        &=& v^1 \frac{\partial f}{\partial x^1}(p)+\cdots +v^n\frac{\partial f}{\partial x^n}(p)
+    \end{eqnarray*}
+    を得る．
+\end{proof}
+スカラー場の勾配ベクトルを，基底を$\mathbb{R}$の標準基底とするくせに，横に書く理由がおぼろげながら理解された．一方速度ベクトル$v$はあくまで縦ベクトルで表示される．
+
+\begin{definition}[方向微分：スカラー場のベクトルによる微分]
+    $f:\mathbb{R}^n\to\mathbb{R}$を可微分な関数（スカラー場）とし，$p\in\mathbb{R}^n,v=v_1\frac{\partial}{\partial x^1}_p + \cdots + v_n\frac{\partial}{\partial x^n}_p\in T_p\mathbb{R}^n$とする．この時
+    \[ v(f)=v^1 \frac{\partial f}{\partial x^1}(p)+\cdots +v^n\frac{\partial f}{\partial x^n}(p)\hspace{3mm}\in\mathbb{R} \]
+    と置き，$v(f)$を\textbf{$f$の$v$による微分／方向微分}と呼び，他に$D_v(f),\nabla_v(f)$などと表す．
+\end{definition}
+\begin{remark}
+    一般の多変数ベクトル値関数$f:\mathbb{R}^n\supset A\to\mathbb{R}^m$についても，点$a$での$e$方向の微分係数を，変位ベクトル$v\in\mathbb{R}^n$について，$g(t):=f(a+tv)$という一変数関数を介して$v(f)(=D_vf(a))=g'(0)$と定義出来る．
+
+    これを，$\mathbb{R}^n$の部分空間$A$についての接ベクトルの言葉で語りなおしたものである．
+\end{remark}
+この総じて曲線$\gamma$を介して定義するような（結局速度ベクトル$v$の情報だけを残して，曲線$\gamma$の定義の仕方に依らない），
+ベクトル解析（岩堀長慶）で見た方法が生きている！$\gamma$から昇華された速度ベクトルというべき接ベクトルの大きさによって，方向微分の値は変化する．
+
+\begin{proposition}
+    $p\in\mathbb{R}^n,v\in T_p\mathbb{R}^n$とする．$p\in U\subset\mathbb{R}^n$を開集合とし，$f,g:U\to\mathbb{R}$を$C^1$級とする．
+    \begin{eqnarray*}
+        v(f+g) &=& v(f)+v(g) \\
+        v(fg) &=& v(f)g(p) + f(p)v(g)
+    \end{eqnarray*}
+    が成り立つ．
+\end{proposition}
+
+\section{スカラー場の変数変換}
+
+\begin{proposition}[pullback]　
+
+    \begin{center}
+        \begin{tikzcd}
+            \mathbb{R}^m\supset V\ar[r, "f", ""{name=U,inner sep=1pt,below}] & \mathbb{R} \\
+            \mathbb{R}^n\supset U\ar[u, "\varphi"] \ar[ur, bend right=30, "\varphi^*f"', ""{name=D,inner sep=1pt}] & 
+            \arrow[Rightarrow, bend right=20, from=U, to=D, "\varphi^*"']
+        \end{tikzcd}
+    \end{center}
+    という図式は可換であるとする．次が成り立つ．
+
+    1. $f$がスカラー場である時，上図から定まる$\varphi^*f:U\to\mathbb{R}$もスカラー場（$U$上の実数値関数）である．
+
+    2. $U,V$が開集合で，$f,g$は$C^r$級であるとする．$\varphi^*f$も$C^r$級である．
+
+    こうして定めたスカラー場$\varphi^*f$を，$f$の$\varphi$による引き戻しという．
+\end{proposition}
+
+\section{ベクトル場の変数変換}
+
+\begin{definition}[ベクトル場とその局所座標表示]
+    $U\subset M$について，$U$上のベクトル場$X$とは，各点$p\in U$に対してその接空間$T_p\mathbb{R}^n$の元$X_p\in T_p(M)$を選び出す写像$X=\{X_p\}_{p\in U}:U\to \bigcup_{p\in U}T_pU=:T\mathbb{R}^n$のことを言う．
+    
+    $p$の座標近傍$(U;x^1, \cdots, x^n)$を定めることで，このベクトル場$X$を
+    \[ X=v^1\frac{\partial}{\partial x^1}+\cdots +v^n\frac{\partial}{\partial x^n} \]
+    と表示する．$U$上の点に作用させることで，そこでの方向微分作用素を得る．
+    
+    また，$U$が開集合であって，成分$v^1, \cdots, v^n$が全て$C^r$級である時，$X$は$U$上$C^r$級であると言う．
+\end{definition}
+\begin{remark}
+    同じ基底に対して
+    \[ X_p = \left( \frac{\partial}{\partial x^1}_p \cdots \frac{\partial}{\partial x^n}_p\right) \left(\begin{array}{c}v^1 \\ \vdots \\ v^n\end{array}\right)  \]
+    と表示することで，「ただの多変数ベクトル値関数ではなく，それをその点での速度ベクトルと見做し，接空間の基底（線型汎函数に作用する方向微分作用素）との内積を取ったもの」と見れる．
+
+    また，多様体に基底を取るたびに，
+\end{remark}
+
+\begin{shadebox}\begin{theorem}[ベクトル場の座標変換則：基底も同時に変換を受けるので非自明な対応がある]　
+    \begin{center}
+        \begin{tikzcd}
+            & \mathbb{R}^n \ar[dd, "\varphi"] \ar[r, phantom, "\ni"] & y(=y(p)) \ar[dd, mapsto] \\
+            p\in M(=\mathbb{R}^n) \ar[ur, "{y={}^t(y^1,\cdots,y^n)}"] \ar[dr, "{x={}^t(x^1,\cdots,x^n)}"'] & & \\
+            & \mathbb{R}^n \ar[r, phantom, "\ni"] & \varphi(y)=x(=x(p))
+        \end{tikzcd}
+    \end{center}
+    を（$C^\infty$級）微分同相写像とする（座標変換）．
+    $\mathbb{R}^n$上のベクトル場$X=\{X_p\}_{p\in\mathbb{R}^n}$が存在して，関数$v^i,w^i:\mathbb{R}^n\to\mathbb{R}\hspace{0.5em}(i=1,\cdots,n)$を用いて
+    \begin{eqnarray*}
+        X &=& v^1\frac{\partial}{\partial x^1}+\cdots +v^n\frac{\partial}{\partial x^n} \\
+        &=& w^1\frac{\partial}{\partial y^1}+\cdots +w^n\frac{\partial}{\partial y^n}
+    \end{eqnarray*}
+    と置く．すなわち，各点$y\in\mathbb{R}^n$に対応する点$x=\varphi(y)\in\mathbb{R}^n$について，
+    \begin{equation}
+        \left( \frac{\partial}{\partial x^1}_{\varphi(y)}\cdots \frac{\partial}{\partial x^n}_{\varphi(y)} \right) \left( \begin{array}{c}
+            v^1(\varphi(y)) \\ \vdots \\ v^n(\varphi(y))
+        \end{array} \right) = \left( \frac{\partial}{\partial y^1}_y\cdots \frac{\partial}{\partial y^n}_y \right) \left( \begin{array}{c}
+            w^1(y) \\ \vdots \\ w^n(y)
+        \end{array} \right)
+    \label{equation-change-of-basis}
+    \end{equation}
+    が（$T_pM$上で）成り立つ．（行ベクトルに出現する$x^1$などははっきりと関数と見做しているのに，$x,y$は$\mathbb{R}^n$上の点$x(p),y(p)$の略記となっている．）
+    この時，係数同士の変換則は，次のように表される．（これは$\mathbb{R}$上の等式であることに注意）．
+    \[ \left( \begin{array}{c} v^1(\varphi(y)) \\ \vdots \\ v^n(\varphi(y)) \end{array} \right) = D\varphi(y) \left( \begin{array}{c} w^1(y) \\ \vdots \\ w^n(y) \end{array} \right) \]
+\end{theorem}\end{shadebox}
+\begin{proof}式\ref{equation-change-of-basis}の基底を変換して揃えてから，係数を比較すれば良い．
+    \begin{center}
+        \begin{tikzcd}
+            & & \mathbb{R} \\
+            & \mathbb{R}^n \ar[ur, "y^*f=:w"] \ar[dd, "\varphi"'] & \\
+            M \ar[ur, "y"] \ar[dr, "x"'] \ar[uurr, bend left=50, "f"] & & \\
+            & \mathbb{R}^n \ar[uuur, bend right=20, "x^*f=:v"'] &
+        \end{tikzcd}
+    \end{center}
+    これより，基底の変換則は，射の言葉を用いれば，
+    \begin{eqnarray*}
+        \frac{d (y^*f)}{d y} &=& \frac{d (x^*f\circ\varphi)}{d y} \\
+        &=& \frac{d (x^*f)}{d x}\frac{d\varphi}{d y} = \left(\frac{d (x^*f)}{d \varphi(y)}\frac{d\varphi}{d y}\right)
+    \end{eqnarray*}
+
+    これの特に微分演算子についての部分を，各点$y,\varphi(y)$の間で，行列によって表すと，次のようになる．
+    \begin{equation} \left( \frac{\partial}{\partial y^1}_y \cdots \frac{\partial}{\partial y^n}_y \right) = \left( \frac{\partial}{\partial x^1}_x \cdots \frac{\partial}{\partial x^n}_x \right)D\varphi(y) \label{equation-change-of-basis-2}\end{equation}
+    
+    さらに，座標による成分表示を用いて，さらに計算を進めると，命題\ref{prop-direction-derivative}より，$x^*f$の表示として各$v^m:\mathbb{R}^n\to\mathbb{R}\hspace{0.5em}(m=1,\cdots,n)$を用いて，
+    \[ \frac{\partial (v^m\circ \varphi)}{\partial y^j}(y) = \left( \frac{\partial v^m}{\partial x^1}(\varphi(y)) \cdots \frac{\partial v^m}{\partial x^n}(\varphi(y)) \right) \left( \begin{array}{c}
+        \frac{\partial \varphi^1}{\partial y^j(y)} \\ \vdots \\ \frac{\partial \varphi^n}{\partial y^j(y)}
+    \end{array} \right)\hspace{1em} (j=1,\cdots,n) \]
+    となるから，その全体は，行列積を用いて次のように書ける．
+    \[ \left(\begin{array}{lcr}
+        \frac{\partial (v^1\circ\varphi)}{\partial y^1} &\cdots&  \frac{\partial (v^1\circ\varphi)}{\partial y^n} \\
+        \vdots &\ddots& \vdots \\
+        \frac{\partial (v^n\circ\varphi)}{\partial y^1} &\cdots& \frac{\partial (v^n\circ\varphi)}{\partial y^n}
+    \end{array}\right)(y)
+    =
+    \left( \begin{array}{lcr}
+        \frac{\partial v^1}{\partial x^1} &\cdots& \frac{\partial v^1}{\partial x^n} \\
+        \vdots&\ddots&\vdots\\
+        \frac{\partial v^n}{\partial x^1} &\cdots& \frac{\partial v^n}{\partial x^n}
+    \end{array} \right)(\varphi(y))
+    \left(\begin{array}{lcr}
+        \frac{\partial \varphi^1}{\partial y^1} & \cdots & \frac{\partial \varphi^1}{\partial y^n}\\
+        \vdots&\ddots&\vdots\\
+        \frac{\partial \varphi^n}{\partial y^1} & \cdots & \frac{\partial \varphi^n}{\partial y^n}
+    \end{array}\right)(y)    \]
+    これをYacobi行列としてまとめると，$v={}^t\!(v^1,\cdots,v^n)$を多変数ベクトル値関数$\mathbb{R}^n\to\mathbb{R}^n$として，以下のようになる．
+    \[ D_yv(-) = D_xv(\varphi(-))\cdot D_y\varphi(-)\;\;\; (-\in\mathbb{R}^n) \]
+    
+    さて，式\ref{equation-change-of-basis-2}より，式\ref{equation-change-of-basis}は
+    \begin{eqnarray*}
+        \left( \frac{\partial}{\partial x^1}_x\cdots \frac{\partial}{\partial x^n}_x \right) \left( \begin{array}{c}
+            v^1 \\ \vdots \\ v^n
+        \end{array} \right) &=& \left( \frac{\partial}{\partial y^1}_y\cdots \frac{\partial}{\partial y^n}_y \right) \left( \begin{array}{c}
+            w^1 \\ \vdots \\ w^n
+        \end{array} \right) \\
+        &=& \left( \frac{\partial}{\partial x^1}_x \cdots \frac{\partial}{\partial x^n}_x \right)D\varphi(y) \left( \begin{array}{c}
+            w^1 \\ \vdots \\ w^n
+        \end{array} \right)
+    \end{eqnarray*}
+    と表せるから，基底が左右で等しいので，係数を比較して結論を得る．
+\end{proof}
+\begin{remark}
+    1. 正確には，局所座標$(U;x^1,\cdots,x^n),(V;y^1,\cdots,y^n)$を取って，$U\cup V$において考えるのだが，その必要がなく大域的に考えられるのがEuclid空間である．
+
+    $\frac{d(x^*f)}{dx}$の部分は（成分毎に）$C^{r-1}$級であることに注意．$C^r$級の微分可能多様体に対して，$C^{r-1}$級より大きいベクトル場（ベクトル場の微分可能性は，基底を取った時の成分表示（関数の組）の微分可能性から定義する．勿論well-definednessが心配になる）は定義できない．
+
+    ベクトル場の２通りの表し方とその間の変数変換を与えた時，その変数変換の速度ベクトルを用いて，各パラメータの空間の基底について式\ref{equation-change-of-basis-2}の変換関係が成り立つことが，ベクトル場の変数変換を，一般の多変数ベクトル値関数の変数変換と異なるもの足らしめている性質である．
+    座標系との共変性と言うのだろうか．
+
+    とにかくまだわかりにくいし，パッと座標変換の式を書けない．こういうものは微分形式待ちなのだと思っている．
+
+    2. まさかとは思ったが，本当に共変と反変の呼び方が数学と物理で違うのか．5/18の授業ノートでは，$\varphi$と同じ方向にベクトル場の係数が変換を受けて居るから，共変的だと説明されており，微分形式を反変として居る．
+    そして「物理は係数を見る」とのこと．では添字は物理に合わせて居るということになる．
+
+    $X(p)=f^1\frac{\partial}{\partial x^1}+f^2\frac{\partial}{\partial x^2}$と置くと，
+    \begin{align*}
+        \varphi_*(X(p)) &= \left( \frac{\partial}{\partial y^1}_q\;\frac{\partial}{\partial y^2}_q \right) D\varphi(p)\begin{pmatrix}f^1(p)\\f^2(p)\end{pmatrix} \\
+        &= \left( \frac{\partial}{\partial y^1}_q\;\frac{\partial}{\partial y^2}_q \right) D\varphi(\varphi^{-1}(q))\begin{pmatrix}f^1(\varphi^{-1}(q))\\f^2(\varphi^{-1}(q))\end{pmatrix}
+    \end{align*}
+\end{remark}
+
+\chapter{線積分と積分定理}
+要は曲線上の積分であるから，１変数実数値関数の積分に落とし込める．
+
+以降，Euclid空間$\mathbb{R}^n$の標準内積を$\langle v|w\rangle =\sum^n_{i=1}v^iw^i$とし，$||v||=\sqrt{\langle v|w\rangle}$を標準的なノルムとする．
+接空間にもこれによって定まる基底を用いる．
+
+\section{関数やベクトル場の線積分}
+関数は，ベクトル場が退化したもの，と捉えがちだが，「接空間の元とその係数体との違い」と考えると，全く違う対象だな．これがスカラーとベクトルの違いなのか？
+
+\subsection{関数の線積分}
+関数を曲線に沿ってする積分は，その関数が定める１形式を，曲線について$\mathbb{R}$上に引き戻して積分する，と定める．この時，曲線は自己交叉しようと後戻りしようと，引き戻した後ではピンと伸ばされるから，その感覚を$\int_Cf(x)|dx|$で表す．
+曲線の弧長を，「定値関数$1$に沿っての線積分の値」と定める．
+
+\begin{shadebox}\begin{definition}[関数の，曲線積分路に対する線積分]
+    $f:U\to\mathbb{R}$を$C^0$級関数とし，$\gamma:I=[a,b]\to U$を$C^1$級関数とする．$x=(x^1,\cdots,x^n)$を$U$の局所座標系とすると，
+    \[ \int_\gamma f(x)|dx|:=\int^b_af(\gamma(t))||D\gamma(t)||dt \]
+    \begin{center}
+        \begin{tikzcd}
+            \mathbb{R}^n \ar[dr, "\overline{f}"] & \\
+            U  \ar[u, "x"] \ar[r, "f"] & \mathbb{R} \\
+            I \ar[u, "\gamma"] \ar[uu, bend left=50, "\overline{\gamma}"]
+        \end{tikzcd}
+    \end{center}
+\end{definition}\end{shadebox}
+\begin{remark}
+    $\gamma (I)=|C|$として，$\int_{|C|}f(x)|dx|$とも書く．さらに，$\int_{C}f(x)|dx|$と表されることもあるが，これは$C$の向きに依らない．実際，向きを変える写像$\varphi (t)=b+t(a-b)$は正則である．
+\end{remark}
+
+\begin{proposition}[単調な変数変換に対するwell-definedness]
+    $\varphi:J=[c,d]\to I$を$C^1$級で単調な変数変換とする．
+    \begin{center}
+        \begin{tikzcd}
+            & U & \\
+            I \ar[ur, "\gamma"] & & J\ar[ul, "\zeta:=\gamma\circ\varphi"'] \ar[ll, "\varphi"] 
+        \end{tikzcd}
+    \end{center}
+    \[ \int_\gamma f(x)|dx|=\int_\zeta f(x)|dx| \]
+\end{proposition}
+\begin{proof}
+    $\varphi$の単調性より，$D\varphi (s)\ge 0$と仮定して証明する．
+    \begin{eqnarray*}
+        \int_\zeta f(x)|dx| &=& \int^d_c f(\zeta (s))||D\zeta(s)||ds \\
+        &=& \int^d_c f(\gamma (\varphi (s))) ||D\gamma (\varphi (s))D\varphi (s)|| ds \\
+        &=& \int^d_c f(\gamma (\varphi (s))) ||D\gamma (\varphi (s))||D\varphi (s) ds\;\;\; (\because monotony) \\
+        &=& \int^b_a f(\gamma (t))||D\gamma (t)||dt
+    \end{eqnarray*}
+    $t=\varphi (s)$と置けば，$dt = \frac{d\varphi (s)}{ds}ds = D\varphi (s)ds$より．
+\end{proof}
+\begin{example}
+    途中の式変形により，単調性のみが必要条件である．正則でなくても（止まっている瞬間があっても）線積分の値は変わらない．
+\end{example}
+
+\begin{definition}[弧長]
+    $\gamma :[a,b]\to\mathbb{R}^n$を$C^1$級の曲線とする．
+    \[ \mathrm{length}(\gamma) = \int_\gamma 1|dx| \]
+    を弧長という．
+\end{definition}
+\begin{remark}
+    そう，単調な変数変換について不変なのだ！後戻りをし始めると値が変わる．
+\end{remark}
+
+\subsection{ベクトル場の線積分}
+ベクトル場の線積分を，「$t\in [a,b]$の言葉で表した各点$\gamma(t)$について，接ベクトルと速度ベクトルの内積を取って足し合わせる」演算と機械的に定義する．
+従って，$\int_\gamma X(x)\cdot dx$と表す．
+
+\begin{shadebox}\begin{definition}
+    $\gamma:I=[a,b]\to U\subset\mathbb{R}^n$を$C^1$級曲線，$X=(X_p)_{p\in U}$を$C^0$級のベクトル場とする．
+    それぞれを，$\mathbb{R}^n$の標準的な座標$x={}^t(x^1,\cdots,x^n)$による表示を，
+    \[ \gamma = \left(\begin{array}{c}\gamma^1 \\ \vdots \\ \gamma^n\end{array}\right), \;\;\; X=f^1\frac{\partial }{\partial x^1}+\cdots +f^n\frac{\partial }{\partial x^n} \]
+    とする．
+    \begin{eqnarray*}
+        \int_\gamma X(x)\cdot dx &:=& \int^b_a \left( f^1(\gamma (t))\cdots f^n(\gamma (t))\left(\begin{array}{c}\frac{d\gamma^1}{dt}(t) \\ \vdots \\ \frac{d\gamma^n}{dt}(t)\end{array}\right) \right) \\
+            &=& \int^b_a \langle X(\gamma (t))|D\gamma (t)\rangle dt
+    \end{eqnarray*}
+\end{definition}\end{shadebox}
+\begin{remark}
+    「関数$f$にベクトル場を作用させて得られる関数」とかとは関係なく，単純にベクトル場が指定する$X_{\gamma(t)}$という接ベクトルと，速度ベクトル$D\gamma (t)$との内積を取るイメージ．同一視の乱発．
+    まず，ベクトル場$X$を，各点$p\in U$に対して$X(p)={}^t(f^1(p),\cdot,f^n(p))$という接ベクトルを返してくれる関数だと同一視している．
+
+    実際，$\int_\gamma X(x)\cdot dx$という記法の中の$\cdot$は内積を表すとのことである．
+\end{remark}
+
+\begin{proposition}
+    $\varphi :J=[c,d]\to I$を$C^1$級の変数変換とし，$\{\varphi(c),\varphi(d)\}=\{a,b\}$とする．
+    
+    1. $\zeta := \gamma\circ\varphi$と置くと，
+    \[\int_\zeta X(x)\cdot dx =\begin{cases} 
+        \int_\gamma X(x)\cdot dx & \varphi (c)=a \\
+        -\int_\gamma X(x)\cdot dx & \varphi (c)=b
+    \end{cases}\]
+
+    2. 向きを逆にした曲線$\overline{\gamma}$について，
+    \[ \int_{\overline{\gamma}}X(x)\cdot dx = - \int_\gamma X(x)\cdot dx \]
+\end{proposition}
+\begin{proof}
+    座標$x=(x^1,\cdots,x^n)$を導入して，座標表示$X=f^1\frac{\partial}{\partial x^1}+\cdots +f^n\frac{\partial}{\partial x^n}$，$\zeta={}^t(\zeta^1,\cdots,\zeta^n)$を得る．
+    すると，自然な行列積演算が定義から展開され，今回は定義内に絶対値もないので，単調性さえ
+    仮定しておらずとも，変数変換についてwell-definedである．
+\end{proof}
+
+\begin{screen}
+    関数の線積分は，向きには依らないが，微分の向きが変わる瞬間があると値が変わる．
+
+    ベクトル場の線積分は，向きに依るが，単調でなく，多少同じ道を右往左往しても値は同じ．
+\end{screen}
+
+\subsection{積分路の演算}
+
+\section{線積分と１形式}
+関数の線積分は$\int_\gamma f(x)|dx|=\int^b_a\gamma^*f$と，「$0$-形式の引き戻しの積分」として表せたのであった．
+\begin{center}
+    \begin{tikzcd}
+        N\ar[r, "f", ""{name=U,inner sep=1pt,below}] & \mathbb{R} \\
+        {[a,b]}\ar[u, "\gamma"] \ar[ur, bend right=30, "\gamma^*f"', ""{name=D,inner sep=1pt}] & 
+        \arrow[Rightarrow, bend right=20, from=U, to=D, "\gamma^*"']
+    \end{tikzcd}
+\end{center}
+ベクトル場の線積分も，「$1$-形式の引き戻しの積分」としてパラレルに理解できる．ベクトル場$X=\{X_p\}_{p\in M}$の定める$1$-形式を$\omega=\{\omega_p=\langle X_p|\;\}_{p\in M}$とすると，次のように表せる．
+\[ \int_\gamma X(x)\cdot dx=\int_\gamma \omega = \int^b_a\gamma^*\omega \]
+
+\begin{remark}
+    この式は本当に不思議だ．新しく付与した意味が読み取れるのが不思議だ．
+    １つ目は$\omega=\{X(x)\cdot dx\}_{x\in M}$という１形式としての相等を表している．
+    ２つ目は引き戻しである．これは？？
+\end{remark}
+
+\begin{proposition}[計算手順]　
+
+    1. $X=\sum^n_{i=1}f^i\frac{\partial}{\partial x^i}$の係数を借りて，これが定める１形式$\omega=\sum^n_{i=1}f_idx^i$を確定する．
+
+    2. この写像$x$は$x={}^t(\gamma^1,\cdots,\gamma^n)$に他ならないから，この座標表示$x={}^t(\gamma^1,\cdots,\gamma^n)$について
+    $\omega=\sum^n_{i=1}f_i(\gamma(t))d\gamma^i$で書き換える．
+
+    3. 各$d\gamma^i$を，引き戻した空間$N=[a,b]$上の$\gamma^i$の外微分（$1$-形式とみて，$\Omega^1(N)$上での成分表示）による表示に沿って計算する．
+    \[ d\gamma(x)=\frac{\partial \gamma}{\partial x^1}dx^1+\cdots+\frac{\partial\gamma}{\partial x^n}(x)dx^n \]
+    線積分の場合は$n=1$であり，違う意味で見慣れた記法$d\gamma (x)=\frac{d\gamma}{dx}(x)dx$となる．
+
+    4. 引き戻した$1$-形式の，$[a,b]$上での表示$\gamma^*\omega=\sum^n_{i=1}f_i(\gamma(t))\frac{d\gamma^i}{dt}(t)dt$まで来たので，これを計算すれば良い．これは１変数の積分になる．
+\end{proposition}
+
+\begin{remark}
+    正式には，「ベクトル場$X=\{X_p\}_{p\in M}$の定める１形式$\omega=\{\omega_p=\langle X_p|\;\}_{p\in M}$」を定める際，
+    今回は標準内積から定めたが，内積が一般の場合でも通用する定義として，$T_p\mathbb{R}^n$の双対基底として，
+    \[dx^i\left( \frac{\partial}{\partial x^j}\right)=\delta_{ij}\]
+    を定義式とする．
+
+    次の式を定める．
+    \[ g_{ij}=\left\langle \frac{\partial}{\partial x^i}\middle| \frac{\partial}{\partial x^j}\right\rangle \]
+    するとこれを用いて，
+    \begin{eqnarray*}
+        \left\langle X(x)\mid| \frac{\partial}{\partial x^j}\right\rangle &=& \left\langle \sum^n_{i=1}f^i\frac{\partial}{\partial x^i}\mid| \frac{\partial}{\partial x^j}\right\rangle \\
+        &=& \sum^n_if^ig_{ij} =: f_j
+    \end{eqnarray*}
+    と定めれば，次の計算を正当化できる定義となっている．
+    \begin{eqnarray*}
+        \left\langle X\mid| -\right\rangle &=& \sum^n_{j=1}f_j\left\langle \frac{\partial}{\partial x^j}\mid| -\right\rangle \\
+        &=& \sum^n_{j=1}f_jdx^j
+    \end{eqnarray*}
+    係数として，実関数であるという点では添え字の上下は関係ないが，構成の仕方は違う．
+
+    なお，この時$G=(g_{ij})$とすると，これは正則になる．
+
+    これは量子論でみた．
+\end{remark}
+
+\section{勾配ベクトル場と積分定理}
+
+\begin{definition}[勾配ベクトル場]　
+
+    1. $C^r$級関数$f:U\to\mathbb{R}$が定める$C^{r-1}$級ベクトル場
+    \[ \mathrm{grad}(f)=\frac{\partial f}{\partial x^1}\frac{\partial}{\partial x^1}+\cdots +\frac{\partial f}{\partial x^n}\frac{\partial}{\partial x^n} \]
+    を勾配ベクトル場という．これの対応$f\mapsto\mathrm{grad}(f)$を一種の演算子だと思って，形式的に
+    \[\nabla=\left(\begin{array}{c}\frac{\partial}{\partial x^1} \\ \vdots \\ \frac{\partial}{\partial x^n}\end{array}\right)\]
+    と考えることにより，$\nabla f$とも表す．これはベクトル場というより，$\mathbb{R}^n$値関数を最初から座標をとって考えている立場である．
+
+    2. 逆にベクトル場$X$に対して，$\mathrm{grad}f=X$を満たす関数$f$が存在した時，この関数$f$を「原始関数」「ポテンシャル」「第一積分」などという．
+\end{definition}
+
+\begin{definition}[曲線の境界]
+    曲線$\gamma:[a,b]\to\mathbb{R}^n$に対して，$\partial\gamma:=\{\gamma(b)\}-\{\gamma(a)\}$と定める．
+    $-$は集合間の形式的な演算であり，差集合演算ではない．積分領域として使われて初めて意味$\int^{\gamma(b)}_{\gamma(a)}$が付与される．
+\end{definition}
+
+\begin{definition}[0-cycle上での積分]　
+
+    1. $\mathbb{R}^n$の点の，$+$についての線型結合
+    \[ \alpha_1\{p_1\}+\cdots+\alpha_k\{p_k\}=:C \]
+    を，$0$-cycle（または，$0$-chain）という．
+
+    2. $0$-chain $C$上での積分を，次のように定める．
+    \[\int_Cf=\sum^k_{i=1}\alpha_if(p_i)\]
+    $f$を$0$-形式と見ているので，見慣れない積分記号となっている．
+\end{definition}
+
+\begin{theorem}[勾配ベクトル場に関する積分定理]
+
+    $f:U\to\mathbb{R}$を$C^1$級関数，$\gamma:I=[a,b]\to\mathbb{R}^n$を$C^1$級の曲線とする．次が成り立つ．
+
+    \[ \int_\gamma\mathrm{grad}(f)\cdot dx=\int_{\partial\gamma}f=f(\gamma(b))-f(\gamma(a)) \]
+\end{theorem}
+\begin{example}　
+
+    1. $f:U\to\mathbb{R}, \gamma:[a,b]\to\mathbb{R}$の場合を考える．$\mathbb{R}$に標準座標$(\mathbb{R},x)$を入れると，
+    \[ \mathrm{grad}f=\frac{df}{dx}(x)\frac{\partial}{\partial x} \]
+    を得る．即ち，各点$x\in\mathbb{R}$について，$\mathrm{grad}f(x)=\frac{df}{dx}(x)\left(\frac{\partial}{\partial x}\right)_x$
+    こうして，勾配ベクトル場の積分の値は，「接ベクトルと速度ベクトルの内積」という定義から
+    \begin{eqnarray*}
+        \int_\gamma \mathrm{grad}f(x)\cdot dx &=& \int^b_a\frac{df}{dx}(\gamma(t))\frac{d\gamma}{dt}(t) \\
+        &=& \int^b_a\frac{df}{dx}(x)dx
+    \end{eqnarray*}
+    を，$x=\gamma (t)$という変数変換により導く．これは微積分学の基本定理である．
+
+    2. また，ベクトル場$\mathrm{grad}f$（とは，関数$f$の速度ベクトルが定めるベクトル場であるから，これ）が双対的に定める１形式は，
+    \[ df=\frac{\partial f}{\partial x^1}dx^1+\cdots +\frac{\partial f}{\partial x^n}dx^n \]
+    という$f$の外微分に他ならないから，この積分定理は次のようにかける．
+    \[ \int_\gamma\mathrm{grad}f\cdot dx = \int_\gamma df = \int_{\partial\gamma}f \]
+    これはStokesの定理の１次元の場合に他ならない．
+\end{example}
+\begin{remark}
+    まだうまく意味がとれない．その結果，上の状況で$x=\gamma (t)$という変数変換の式さえ非自明に思えてきてしまった．
+\end{remark}
+
+\chapter{曲面}
+
+足助先生は漏れがないように網羅的に話をしているが，入門的な参考書では泥沼に足を突っ込まないように特異点が無い状況で話を進めるのが普通であった．
+例えば，僕は無意識に，２次元の多様体のことを曲面と呼ぶのだと思っていたが，ここでは定義が違う．
+「最初にこの分野を勉強した時に気持ち悪くてしようがなかったので，こう教えています．」
+
+\section{曲面のパラメータ表示と座標近傍}
+
+多様体上の単体として，$C^r$級三角形を定義し，曲面を$C^r$級の三角形と$C^r$級微分同相である図形（曲面片）の貼り合わせ（即ち単体複体の特殊な場合）として定義し，それに用いた写像と被覆を自然にパラメータ付けと座標近傍へと拡張して定義する．
+なお，$r=0$の場合は議論が難しくなるので，とりあえずは考えない．また，Euclid空間に埋め込まれた多様体について考えていることが前面に出ているので，相対位相の考え方が出現する．
+
+\begin{definition}[$C^r$級三角形]
+    $\Delta\subset\mathbb{R}^2$が$C^r$級の三角形とは，次の２条件を満たす集合$\Delta$をいう．
+
+    1. $\Delta$は有界閉集合である．
+
+    2(各辺が$C^r$級曲線). 境界$\partial\Delta:=\{ u\in\Delta\mid\forall r>0\;\exists v\in\mathbb{R}^2\setminus\Delta\; ||u-v||<r \}$について，次を満たす正則で単純な$C^r$級曲線$\gamma_i:I=[0,1]\to\mathbb{R}^2, \gamma_i(1)=\gamma_{i+1}(0), \gamma_i(\overset{\circ}{I})\cap\gamma_{i+1}(\overset{\circ}{I})=\varnothing\;(i=1,2,3)$が存在して次を満たす
+    \[ \partial\Delta = \gamma_1(I)\cup\gamma_2(I)\cup\gamma_3(I) \]
+\end{definition}
+
+\begin{definition}[曲面片]
+    有界閉集合$S\subset\mathbb{R}^3$が$C^r$級の曲面片であるとは，$C^r$級の三角形$\Delta\subset\mathbb{R}^2$と，$C^r$級写像$\psi:\Delta\subset U\to\mathbb{R}^3$とが存在して次の３条件を満たす３組$(S,\Delta,\psi)$をいう．
+
+    1. $S=\psi(\Delta),\overset{\circ}{S}=\psi(\overset{\circ}{\Delta})$
+
+    2($C^0$級の範囲で可逆). 連続写像$\varphi$が存在して，$\varphi\circ\psi=id_\Delta, \psi\circ\varphi=id_S$を満たす．
+
+    3(三角形の内部について，$\psi$は最大ランク). $\forall u\in\overset{\circ}{\Delta}\;\; \mathrm{rank}D\varphi(u)=2$が成り立つ．
+\end{definition}
+\begin{remark}
+    $\psi$は$\Delta$の頂点・辺・境界・内部という位相的な言葉を保存する．これらを，$S$の頂点・辺・境界・内部と呼ぶ．
+    なお，恐らく２番目の条件が，$\overset{\circ}{S}=\psi(\overset{\circ}{\Delta})$を含意しているのではないかと思っている．
+
+    $(\psi,\Delta)$を$S$のパラメータづけ，$(S,\varphi)$を局所座標と呼ぶ．
+
+    この時，実は$\varphi$は$C^r$級の逆射になっているが，$S$上で定義されている$\varphi$が$C^r$級とは，ここではあまり深く立ち入りたくないので，とりあえず$C^0$級とした．
+    今回の積分論においては$\psi$を主に使うので，こちらを主軸とした．
+\end{remark}
+
+\begin{definition}[曲面の定義]
+    $\Sigma\subset\mathbb{R}^3$が$C^r$級の曲面であるとは，曲面辺の族$\{S_\lambda\}_{\lambda\in\Lambda}$が存在して，以下の４条件を満たすことをいう．
+
+    1(被覆である). $\Sigma=\bigcup_{\lambda\in\Lambda}S_\lambda$
+
+    2(共有するなら１辺全てである). $\forall\lambda,\mu\in\Lambda, \lambda\ne\mu$について，$S_\lambda\cup S_\mu$は，空集合か（双方にとっての）１つの辺かのいずれかである．
+
+    3(頂点周りで接する曲面片は，高々有限個). $\forall p\in\Sigma\;\; |\{ \lambda\in\Lambda\mid p\in S_\lambda \}|<\infty$．
+
+    4(曲面片はダブらない). $\forall\lambda\in\Lambda\;\forall p\in\partial S_\lambda$について，$p$は頂点でないならば，$|\{ \lambda\in\Lambda\mid p\in S_\lambda \}|=1,2$．多分$S_\lambda\cap S_\mu$の面積が$0$であることに同値．
+
+    4'. $\forall p\in\Sigma\; \exists U\subset\mathbb{R}^3\; p\in U\Rightarrow (U\cap\Sigma\underset{C^0}{\simeq}\mathbb{R}^2\;\lor\; U\cap\Sigma\underset{C^0}{\simeq}(-\infty,0]\times\mathbb{R})$
+
+    以上の４条件を満たす時，$\{S_\lambda\}_{\lambda\in\Lambda}$は$\Sigma$の\textbf{三角形分割}という．
+\end{definition}
+\begin{remark}
+    5/26に先生は境界の言葉を使った定義である4を4'の形に書き直した．一見同値であるようには見えない．
+
+    2. 1~3の条件は，$\{S_\lambda\}_{\lambda\in\Lambda}$が局所有限単体複体であることを意味する．積分を扱うだけであればこれで十分だが，直観的に曲面とは呼びたくないものを除外するために4を追加した．
+\end{remark}
+
+\begin{example}
+    1. $S^2$は曲面である．
+
+    $\Sigma_+=\left\{\left(\begin{array}{c}x \\ y \\ z\end{array}\right) \in\mathbb{R}^3\middle| z\ge 0 \right\}$について考えると，次のように定めた曲面片の族$(S_i)_{i\in [4]}$が存在するため，確かに曲面である．
+    \begin{align}
+        S_1 &= \Sigma_+\cap\{{}^t(x,y,z)\in\mathbb{R}\mid x\ge 0,y\ge 0\}\\
+        S_2 &= \Sigma_+\cap\{{}^t(x,y,z)\in\mathbb{R}\mid x\le 0,y\ge 0\}\\
+        S_3 &= \Sigma_+\cap\{{}^t(x,y,z)\in\mathbb{R}\mid x\ge 0,y\le 0\}\\
+        S_4 &= \Sigma_+\cap\{{}^t(x,y,z)\in\mathbb{R}\mid x\le 0,y\le 0\}
+    \end{align}
+    に対して，
+    \begin{center}
+        \begin{tikzcd}
+            \psi_1:\Delta \ar[r] \ar[d, phantom, "\rotatebox{90}{$\in$}"] & S_1 \ar[d, phantom, "\rotatebox{90}{$\in$}"] \\
+            {}^t(u,v) \ar[r, mapsto] & {}^t(u,v,\sqrt{1-u^2-v^2})
+        \end{tikzcd}
+    \end{center}
+    と定めてゆけば，これは$C^\infty$級微分同相写像であるから，$\Delta =\left\{ \left(\begin{array}{c}u \\ v\end{array}\right)\in\mathbb{R}^2\middle| u^2+v^2\le 1, u\ge 0,v\ge 0 \right\}$という$C^\infty$級三角形に対して，各$(S_i,\Delta,\psi_i)$は確かに曲面片である．
+\end{example}
+
+次元が１つ落ちた「境界」の概念は，曲線の場合は定義域となる領域の端点が写ったものであり，些か自明であったが，曲面だとその恩恵にあやかれない．
+しかし，位相の言葉では，任意の集合$A$に対する開核$\overset{\circ}{A}$と閉包$\overline{A}$という標準分解のように，相変わらず統一的に話をすることができる．が，多様体上の話をしているので，勿論Euclid空間$\mathbb{R}^2$を通じて，である．
+\begin{definition}[曲面の境界]　
+
+    1. $p\in\Sigma$が$\Sigma$の内点であるとは，次が成り立つことをいう．
+    \[ \exists B_q(r)\subset\mathbb{R}^3\; (\; p\in B_q(r)\cap \Sigma \simeq_{C^0} B_{q'}(r')\subset\mathbb{R}^2 \;) \]
+    つまり，$U\cap\Sigma$が$\mathbb{R}^2$上の開球（＝開円板）と同相になるような$p$を含む開球$U$が取れるとき，$p$を$\Sigma$の内点という．
+
+    2. 内点の補集合を$\partial\Sigma$とかいて，$\Sigma$の境界という．
+\end{definition}
+\begin{remark}
+    即ち，半円盤と円盤とは少なくとも同相にはならない．まずそこから示せない．
+    思うに，非常に鮮やかな連続性の使い方ではないか？ある辺について折れ曲がって貼り合わせられた曲面片について，三角錐の頂点のようにどれだけ尖っていても円がかけるなら同相（三次元開球との共通部分が開円盤と同相）になる．
+\end{remark}
+
+\begin{definition}[座標近傍]\label{def-coordinates-neibourhood}
+    開集合$U\subset\Sigma, V\subset\mathbb{R}^2_+:=\mathbb{R}\times [0,+\infty)$と$C^0$級写像$\varphi:U\to V$からなる３つ組$(U,\varphi,V)$について，$(U,\varphi)$が$C^r$級の座標近傍であるとは，次の２条件が成立することをいう．
+
+    1($U$は$\mathbb{R}^3$相対位相による開集合である). 開集合$\overline{U}\subset\mathbb{R}^3$が存在して，$\overline{U}\cap\Sigma= U$
+
+    2($\varphi$は$C^r$級微分同相である). $C^r$級写像$\psi:V\to U$が存在して，$V$上$\mathrm{rank}D\psi=2$が成り立ち，$\psi\circ\varphi=id_U,\varphi\circ\psi=id_V$が成り立つ．
+
+    このとき，$(V,\psi)$を$U$の局所パラメータ付という．
+\end{definition}
+\begin{remark}
+    1. その点について座標近傍が存在するならば，座標近傍は必ず$\varphi:U\to\mathbb{R}^2_+$となるように取れる．何故なら，座標近傍を４つ（必要なだけ細かく）分割して仕舞えば良い．これを利用した定義になっている．
+
+    2. $\mathrm{rank}D\psi=2$というのは，$\psi$が$V$の各点において非退化であり，$V$上の各点の基底はそのまま$U$に張り付いていることを表すが，これは$\psi$が$C^r$級微分同相であることと論理的にどのような関係にあるか？
+\end{remark}
+
+次に，多様体（＝座標近傍で被覆出来る図形）には登場してはいけないような，座標近傍の取れない点を「特異点」と呼んで対処する．
+\begin{definition}[特異点：近傍座標がとれない]
+    曲面$\Sigma\subset\mathbb{R}^3$について，$\Sigma':=\{p\in\Sigma\mid pを含む近傍座標(U,\varphi)が存在する．\}$と定め，$\mathrm{Sing}\Sigma=\Sigma\setminus\Sigma'$とし，この元を特異点と呼ぶ．
+\end{definition}
+\begin{proposition}[多様体の定義]
+    一般の部分集合$\Sigma\subset\mathbb{R}^3$について，これを被覆する座標近傍の系$\Sigma=\{(U_\lambda,\varphi_\lambda)\}_{\lambda\in\Lambda}$が存在するとする．
+    これは特異点を持たない曲面である．即ち，$\Sigma$は三角形分割$\{S_\lambda\}_{\lambda\in\Lambda}$を持つ．
+\end{proposition}
+\begin{example}[$C^r$級の$n$変数関数は，$n$次元多様体を定め，これをグラフという．]\label{example-graph}写像のグラフというのは，$n=1$のときである．
+
+    ２変数$C^r$級関数$f:\mathbb{R}^2\to\mathbb{R}$が定める「行先自体も成分の一つとして付け足す」写像
+    \begin{center}
+        \begin{tikzcd}
+            F:\mathbb{R}^2 \ar[r] \ar[d, phantom, "\rotatebox{90}{$\in$}"] & \mathbb{R}^3 \ar[d, phantom, "\rotatebox{90}{$\in$}"]\\
+            u \ar[r, mapsto] & \left(\begin{array}{c}u \\ f(u)\end{array}\right)
+        \end{tikzcd}
+    \end{center}
+    の値域$F(\mathbb{R}^2)$は$f$のグラフという．すると，大域的には，次のように$\mathbb{R}^2$との$C^r$級微分同相写像が存在する．
+    \begin{center}
+        \begin{tikzcd}
+            \varphi_0:F(\mathbb{R}^2) \ar[r] \ar[d, phantom, "\rotatebox{90}{$\in$}"] & \mathbb{R}^2 \ar[d, phantom, "\rotatebox{90}{$\in$}"]\\
+            \left(\begin{array}{c}x^1 \\ x^2 \\ x^3\end{array}\right) \ar[r, mapsto] & \left(\begin{array}{c}x^1 \\ x^2\end{array}\right) \\
+            \psi_0: F(u)=\left(\begin{array}{c}u \\ f(u)\end{array}\right) & u \ar[l, mapsto]
+        \end{tikzcd}
+    \end{center}
+    $(F(\mathbb{R}^2),\varphi_0,\mathbb{R}^2,\psi_0)$はそのままでは定義\ref{def-coordinates-neibourhood}の意味で座標近傍ではないが，次の$C^\infty$級同相写像を使えば良いので，些細な問題である．
+    \begin{center}
+        \begin{tikzcd}
+            \chi:(-\infty, 0) \ar[r, "\sim"] \ar[d, phantom, "\rotatebox{90}{$\in$}"] & \mathbb{R}\ar[d, phantom, "\rotatebox{90}{$\in$}"]\\
+            t \ar[r, mapsto] & t-\frac{1}{t} \\
+            \frac{u-\sqrt{u^2+4}}{2} & u \ar[l, mapsto]
+        \end{tikzcd}
+    \end{center}
+    を用いて，
+    \begin{center}
+        \begin{tikzcd}
+            \varphi:U=F(\mathbb{R}^2) \ar[r] \ar[d, phantom, "\rotatebox{90}{$\in$}"] & V=(-\infty,0)\times\mathbb{R}\subsetneq\mathbb{R}^2_- \ar[d, phantom, "\rotatebox{90}{$\in$}"]\\
+            \left(\begin{array}{c}x^1 \\ x^2 \\ x^3\end{array}\right) \ar[r, mapsto] & \left(\begin{array}{c}\chi^{-1}(x^1) \\ x^2\end{array}\right) \\
+            \psi: F(u)=\left(\begin{array}{c}\chi(u^1) \\ u^2\end{array}\right) & u=\left(\begin{array}{c}u^1 \\ u^2\end{array}\right) \ar[l, mapsto]
+        \end{tikzcd}
+    \end{center}
+    とすれば，$(U,\varphi,V,\psi)$は座標近傍である．
+\end{example}
+\begin{remark}
+    多様体とは，この例の貼り合わせで出来ている（＝多様体は局所的には或る関数$f$のグラフである）という主張が，陰関数定理であろうか？
+\end{remark}
+\begin{example}[Möbius band]
+    
+\end{example}
+
+\begin{proposition}[陰関数定理：特異点を持たない曲面（２次元多様体）は，局所的にはグラフである．]
+    $\Sigma\subset\mathbb{R}^3$を曲面とし，$(U,\varphi)$を座標近傍とする．開集合$\tilde{U}\subset\mathbb{R}^3$が存在して，$U=\tilde{U}\cap\Sigma$と表せる．
+
+    1. 任意の$p={}^t(p^1,p^2,p^3)\in \tilde{U}\cap\Sigma$について，開集合${}^t(p^1,p^2)\in D\subset\mathbb{R}^2$と，開集合$\tilde{U}'\subset\tilde{U}$と，$C^r$級関数$f:D\to\mathbb{R}$が存在して，
+    \[ \forall u\in D\;\; {}^t(u,f(u))\in \tilde{U}'\cap\Sigma \]
+
+    2. 
+    \[ \forall x\in\tilde{U}\cap\Sigma\; \exists w\in D\; x={}^t(w,f(w)) \]
+\end{proposition}
+\begin{remark}
+    全く視覚化ができない．それに，元の定理が全く読めない，一切の論理関係が分からないので，直接定理を探した方が速い？
+    どうやら，「２次元多様体$\Sigma$の任意の座標近傍$(U,\varphi,D,\psi)$について，関数$f:D\to\mathbb{R}$が定めるグラフ写像$F$（例\ref{example-graph}）は，$U$を相対座標の言葉で狭めた$\tilde{U'}\cap\Sigma$と$D$の間で可逆になる」ことを主張している．
+
+    この論法では，$n$次元多様体は，$n$次元のEuclid空間で局所的にパラメータ付けられるように（ので？），局所的には$n$変数関数のグラフである．
+    ほぼほぼ陰関数定理と多様体の定義は表裏一体なのかもしれない．
+\end{remark}
+
+\section{関数の零点による曲面の表示}
+
+自然言語による図形の指定はしばしば極限の概念も含み，位相の言葉を用いた慎重な翻訳が必要である．しかし，関数の言葉ならば，必ず次の性質が確約される．この意味で，関数は多様体を考えるにあたって主要な道具になる．
+
+\begin{theorem}[代数多様体(variety)の定義]
+    $f:\mathbb{R}^3\supset U\to\mathbb{R}$を$C^r\;(r\ge 1)$級の関数とする．$f^{-1}(c)\; (c\in\mathbb{R})$上で$Df$は消えない（常に$\mathrm{rank}Df(p)=1$）とする．この時の$c$を$f$の\textbf{正則値}という．
+
+    この時，$f^{-1}(c)$は$C^r$級の特異点を持たない曲線である．
+\end{theorem}
+
+\chapter{面積分}
+線積分と同様，向きが関係あるものとないものの２つが定まる．
+
+\section{関数の面積分１：曲面片や座標近傍の場合}
+
+次元をあげるに当たって，曲線の線積分の定義式$\int_\gamma f(x)|dx|:=\int^b_af(\gamma(t))||D\gamma(t)||dt$の$||D\gamma(t)||dt$の部分をYacobianとしての解釈を得ねばならない．
+これは通常の多変数関数の微積分においても見られる「置換積分$\to$変数変換」の視点の転換である．
+その時の「無限小の面積」の捉え方は，多様体上の微積分では，例えば曲面片の言葉で行える．
+
+まずは局所的に，曲面片$(S,\Delta,\psi)$上で考える．曲線$(C,\gamma)$との対応に注意．
+
+\subsection{基底の貼る無限小面積の捉え方}
+
+\begin{definition}[外積]
+    $v={}^t(v^1,v^2,v^3),w={}^t(w^1,w^2,w^3)\in\mathbb{R}^3$について，\textbf{外積，クロス積，ベクトル積}$v\times w$を次のように，主小行列式を並べたものとして定める．
+    \[ v\times w := {}^t\left( \mathrm{det}\left(\begin{array}{cc} v^2 & w^2 \\ v^3 & w^3 \end{array}\right) \mathrm{det}\left(\begin{array}{cc} v^3 & w^3 \\ v^1 & w^1 \end{array}\right) \mathrm{det}\left(\begin{array}{cc} v^1 & w^1 \\ v^2 & w^2 \end{array}\right) \right) \]
+\end{definition}
+\begin{remark*}
+    サイクリックな感じであり，行列の余因子展開の時と勝手が違う．
+\end{remark*}
+
+外積について次が成り立つ．
+\begin{theorem}[外積の性質]
+    1. 外積が定める写像$\times:\mathbb{R}^3\times\mathbb{R}^3\to\mathbb{R}^3$は双線型写像である．
+
+    2. $\forall v,w\in\mathbb{R}^3\; v\times w=0\Leftrightarrow \exists k\in\mathbb{R}\; v=kw$
+
+    3. $\forall v,w\in\mathbb{R}^3\; v\times v=0 \land w\times v=-v\times w$
+
+    4(余因子展開). $\forall v,w\in\mathbb{R}^3\; \forall u\in\mathbb{R}^3\; \mathrm{det}(v\;w\;u)=\langle v\times w|u\rangle$
+
+    5(右手系). $\forall v,w\in\mathbb{R}^3\; \mathrm{det}(v\; w\; v\times w)=||v\times w||^2$
+\end{theorem}
+
+\begin{proposition}
+    $v,w\in\mathbb{R}^3$とする．$v,w$が張る平行四辺形の面積は，外積の長さ$||v\times w||$に等しい．また，$A=(v\; w)\in M_{3,2}(\mathbb{R})$と置くと，次の公式が成り立つ．
+    \[ ||v\times w||^2 = ||v||^2||w||^2 - \langle v\mid w\rangle^2 = \mathrm{det}{}^tAA \]
+\end{proposition}
+\begin{remark*}
+    従って，$D\psi$が$\psi(u)$において定める平行四辺形の面積，即ち，線積分をするに当たっての速度みたいな，微小区間に於ける重み付けは$||\psi_{u^1}\;\psi_{u^2}||$で表される．
+    なんだか考え方から直観が削がれて，Riemann和的になってくる．
+\end{remark*}
+
+\begin{proposition}\label{prop-cross-product-for-change-of-basis}
+    $v,w\in\mathbb{R}^3, A\in M_{2}(\mathbb{R})$について，$(v'\;w')=(v\; w)A$と置く．この時，$v'\times w'=(\mathrm{det}A)v\times w$が成り立つ．
+\end{proposition}
+
+\subsection{外積のwedge積からの計算法}
+外積は次のように定められる．依存関係に注意．
+実は，（狭義の）外積とは$\bigwedge^2\mathbb{R}^3$の場合である．つまり，$v\wedge w$と$v\times w$の成分は一致する．
+
+\begin{definition}
+    $v,w\in\mathbb{R}^n$に対して，$\wedge:\mathbb{R}^n\times\mathbb{R}^n\to\mathbb{R}^n$を，次のように定める．
+
+    1. $\wedge$は双線型写像である．
+
+    2. $v\wedge v=0$である．
+\end{definition}
+
+\begin{lemma}
+    $\forall v,w\in\mathbb{R}^n\; w\wedge v=-v\wedge w$
+\end{lemma}
+\begin{proof}
+    $(v+w)\wedge (v+w)=0$から．
+\end{proof}
+
+\begin{lemma}
+    $\mathbb{R}^n$の基底$\{e_i\}_{i\in [n]}$に対して，$\{e_i\wedge e_j\}_{i<j}$は$\bigwedge^2\mathbb{R}^n$の基底である．
+\end{lemma}
+
+\subsection{面積分}
+
+\begin{definition}[曲面片上での面積分]
+    $S\subset\mathbb{R}^3$を曲面片とし，$(\Delta,\psi)$をそのパラメータ付とする．$S$上の関数$f$の面積分とは，
+    \[ \int_S f|dA| := \int_\Delta f(\psi(u))\left|\left| \frac{\partial \psi}{\partial u^1}(u)\times \frac{\partial \psi}{\partial u^2}(u) \right|\right|du^1du^2 \]
+    形式的な記号$|dA|$を\textbf{面素，面積要素}という．
+\end{definition}
+\begin{remark*}
+    面素は曲面片$S$とそのパラメタ付$\psi$とを定めないと，翻訳を持たない抽象的な存在であるというのは，線積分の場合と同様である．
+\end{remark*}
+\begin{example}
+    曲面片$S\subset\mathbb{R}^3$は，「$\Delta\subset\mathbb{R}^2$上の二変数関数$f$のグラフ」という形で与えることができる，$\mathbb{R}^2$上の曲線が，一変数関数のグラフとして与えられたように．（このことの高次元への一般化は，なんだか射影性が強くなるな．）
+    この場合，パラメータ付は自動的に$\psi(u)=\left(\begin{array}{c}u \\ f(u)\end{array}\right)$であり，
+    \[ D\psi(u)=J\psi_u=\left(\begin{array}{cc}1&0\\0&1\\\frac{\partial f}{\partial u^1}(u)&\frac{\partial f}{\partial u^2}(u)\end{array}\right)=\left(\frac{\partial \psi}{\partial u^1}(u)\frac{\partial \psi}{\partial u^2}(u)\right) \]
+    より，$|dA|=\mathrm{det}({}^tD\psi(u)D\psi(u))du^1du^2=\sqrt{\left(\frac{\partial f}{\partial u^1}(u)\right)^2+\left(\frac{\partial f}{\partial u^2}(u)\right)^2+1}du^1du^2$となる．
+\end{example}
+
+\subsection{重積分の変数変換}
+面積分は結局はEuclid空間の（$\Delta$上での）重積分であるから，その変数変換について自由度がある．
+
+\begin{proposition}[Jordan可測のRiemann積分からの特徴付け]
+    有界閉集合$A\subset\mathbb{R}^n$が体積確定またはJordan可測であるとは，定数関数１が$A$上Riemann可積分$\exists S\in\mathbb{R}\; \lim_{d(\Delta)\to 0}S(f,\Delta,(t_i))=S$であることと同値である．
+\end{proposition}
+
+\begin{proposition}[Jordan可測の位相的特徴付け]
+    1(体積０の集合論的特徴付け). 閉集合$A\subset\mathbb{R}^n$が体積０であるとは，任意の閉区間$I=I_1\times\cdots\times I_n\subset\mathbb{R}^n$について，$A\cap I$が体積確定であって，その体積が０であることをいう．
+
+    2(Jordan可測の特徴付け). $A\subset\mathbb{R}^n$がJordan可測であるとは，$A$の境界$\partial A$が体積０であることと同値である．なお，境界$\partial A$は常に閉集合であるので，あとは有界であれば体積確定である．
+\end{proposition}
+
+\begin{definition}[一般の変数変換]
+    Jordan可測な閉集合$D,E\subset\mathbb{R}^n$間の$C^0$級写像$\Psi:D\to E$について，次の２条件を満たすものを，$C^r$級の変数変換という．
+
+    1. $\Psi(\overset{\circ}{D})=\overset{\circ}{E}$．
+
+    2. $\Psi|_{\overset{\circ}{D}}$は$C^r$級微分同相．
+\end{definition}
+\begin{remark*}
+    $n=1$のときは，$\{\varphi(a),\varphi(b)\}=\{c,d\}$が条件であった．とにかく，境界に自由度がある．体積が確定するかもそうである，境界に特異的な事象の発生可能性が潜む．
+\end{remark*}
+
+\begin{theorem}[重積分の変数変換公式]
+    $D,E\subset\mathbb{R}^n$をJordan可測な閉領域とし，$\Psi:D\to E$を$C^1$級変数変換とする．するとこのとき，Riemann可積分な関数$f:E\to\mathbb{R}$に対して，この引き戻し$f\circ\Psi:D\to\mathbb{R}$もRiemann可積分であり，次が成り立つ．
+    \[ \int_Ef(y)dy = \int_Df(\Psi(x))|\mathrm{det}D\Psi(x)|dx \]
+\end{theorem}
+\begin{remark}
+    ほとんど同じことが，Lebesgue積分についても成り立つ．
+\end{remark}
+\begin{example}[２次元極座標]
+    $D=[0,\infty)\times [0,2\pi]$と$E=\mathbb{R}^2$について，$C^\infty$級変数変換$\Psi(r,\theta)={}^t(r\sin\theta,r\cos\theta)$が定まる．なお，可逆とならない部分$A=\{0\}\times [0,2\pi]\cup [0,\infty)\times \{0,2\pi\}$と$B=[0,\infty]\times\{0\}$はいずれも体積０である．
+    従って，この部分を$D'=D\setminus A,E'=E\setminus B$とすると，$\Psi|_{D'}$は可逆で，$C^\infty$級微分同相写像である．従って，平面上の関数$f:E\to\mathbb{R}$がRiemann積分可能なら，その引き戻し，即ち極座標表示$f\circ\Psi:D\to\mathbb{R}$もRiemann積分可能で，次の変数変換公式が成り立つ．
+    \[ \int_Ef(x,y)dxdy = \int_Df(r\cos\theta,r\sin\theta)rdrd\theta \]
+\end{example}
+
+\subsection{曲面片上の面積分の，変数変換に対するwell-definedness}
+
+\begin{lemma}\label{lemma-surface-integral-change-of-variable}
+    $S$を$C^r$曲面片とし，$(\Delta,\psi)$をそのパラメータ付，$D\subset\mathbb{R}^2$をJordan可測な閉集合，$\psi':D\to S$を$C^r$級写像とする．変数変換$\Psi:D\to\Delta$が存在して$\psi'=\psi\circ\Psi$を満たすとすると，次が成り立つ．
+    \[ \int_\Delta f(\psi(u))\left|\left| \frac{\partial \psi}{\partial u^1}(u)\times \frac{\partial \psi}{\partial u^2}(u) \right|\right|du^1du^2 = \int_D f(\psi'(u))\left|\left| \frac{\partial \psi'}{\partial v^1}(v)\times \frac{\partial \psi'}{\partial v^2}(v) \right|\right|dv^1dv^2 \]
+\end{lemma}
+\begin{remark}
+    なお，このwell-definednessはもっと一般の場合にも成り立つ．
+\end{remark}
+
+\begin{lemma}
+    $S$を$C^r$級曲面片，$(\Delta,\psi),(\Delta',\psi')$をそのパラメータ付とする．この時，
+    
+    1. $\psi^{-1}\circ\psi':\Delta'\to\Delta$は同相写像であって，
+    
+    2. $\psi^{-1}\circ\psi'|_{\overset{\circ}{\Delta'}}:\overset{\circ}{\Delta'}\to\overset{\circ}{\Delta}$は$C^r$級微分同相写像である．
+\end{lemma}
+
+\begin{corollary}
+    $S$を$C^r$級曲面片，$(\Delta,\psi),(\Delta',\psi')$をそのパラメータ付とする．$S$上の連続関数$f$について，次が成り立つ．
+    \[ \int_{(S,\psi)} f|dA| = \int_{(S,\psi')}f|dA| \]
+\end{corollary}
+
+
+\subsection{座標近傍上での面積分}
+曲面片から面積分を定義する流儀を採用した．しかし今回の座標近傍とは開集合の言葉で記述された概念である．
+
+\begin{definition}
+    $\Sigma\subset\mathbb{R}^3$を曲面とし，$(U,\varphi)$をその座標近傍とする．有界閉集合$K\subset U$に対して，$\varphi(K)\subset\mathbb{R}^2$はJordan可測だったとする．この時，$K$上の連続関数の面積分を次のように定める．
+    \[ \int_Kf|dA| := \int_{\varphi(K)}f(\psi(u)) \left|\left| \frac{\partial \psi}{\partial u^1}(u)\times \frac{\partial \psi}{\partial u^2}(u) \right|\right|du^1du^2 \]
+    ここで，$\psi$は$\varphi$の逆写像である．
+
+    $f(x)\ne 0\Rightarrow x\in K$が成り立つ場合，これを$\int_Uf|dA|$とも書く．
+\end{definition}
+\begin{remark*}
+    あくまで，元のEuclid空間で面積確定な有界閉集合$K$の言葉で語っており，開集合$U$は無視されている．不思議だ．
+
+    座標変換に対する不変性なども同様に示される．
+\end{remark*}
+
+\begin{proposition}
+    $S=K\subset U$を曲面片とする．この上で定義された連続関数$f$について，
+    \[ \int_Sf|dA| = \int_Kf|dA| \]
+    が成り立つ．ただし，左辺と右辺は別々に定義された意味を持つとする．
+\end{proposition}
+\begin{proof}
+    左辺はパラメータ付$(\Delta,\psi)$について定まる．これについて，$\varphi\circ\psi:\Delta\to\varphi(S)$が$C^r$級の変数変換だから，補題\ref{lemma-surface-integral-change-of-variable}より，一致する．
+\end{proof}
+
+\section{関数の面積分２：一般の場合}
+
+\subsection{三角形分割からの定義}
+
+\begin{lemma}[Euclid空間では有界閉集合はコンパクトである]
+    $C^r$級の曲面$\Sigma\subset\mathbb{R}^3$は有界閉集合とする．すると，その三角形分割$\{S_\lambda\}_{\lambda\in\Lambda}$の添字集合$\Lambda$は有限集合である．
+\end{lemma}
+\begin{shadebox}
+\begin{definition}
+    $\Sigma\subset\mathbb{R}^3$を$C^r$級でコンパクトな曲面とする．その三角形分割を$\{S_j\}_{j=1}^s$とし，それぞれのパラメータ付を$\psi_j:\Delta_j\to S_j$とする．$\Sigma$上の連続関数$f$に対して，その面積分を次のように定める．
+    \[ \int_\Sigma f|dA| := \sum^s_{j=1}\int_{S_j}f|dA| \]
+\end{definition}
+\end{shadebox}
+\begin{theorem}
+    $f$の$\Sigma$上での積分は，$\Sigma$の三角形分割に依らない．
+\end{theorem}
+\begin{remark*}
+    $\Sigma$がコンパクトで無い場合は，$f$の台$\mathrm{supp}(f)=K=\overline{\{ x\in\Sigma\mid f(x)\ne 0 \}}$がコンパクトであることを仮定する．
+    すると，このような$f$については面積分が求まる．
+\end{remark*}
+
+\subsection{1の分割からの定義}
+１の分割はStokesの定理の証明でも有効な道具になる．
+
+\begin{theorem}[partition of unity]\label{thm-partition-of-unity}
+    $C^r$級の曲面$\Sigma\subset\mathbb{R}^3$に対して，$\Sigma\subset U=\bigcup_{\lambda\in\Lambda}U_\lambda$を満たす開集合の族$\{U_\lambda\}_{\lambda\in\Lambda}$を定める．
+    するとこの時，開集合の族$\{V_i\}_{i\in\mathbb{N}}$と$C^r$級関数の族$\{\rho_i:U\to [0,1]\}_{i\in\mathbb{N}}$が存在して，次を満たす．この時，$\{\rho_i\}_{i\in\mathbb{N}}$を，$\{V_i\}_{i\in\mathbb{N}}$に従属する1の分割という．
+
+    1(コンパクトで$U_\lambda$に含まれる). $\forall i\in\mathbb{N}$について，$\overline{V_i}$はコンパクトである．また，$\forall i\in\mathbb{N}\;\exists \lambda\in\Lambda \;\overline{V_i}\subset U_\lambda$が成り立つ．
+
+    2(局所有限). $\forall x\in\Sigma\;$について，$x$を含む開球$B\subset\mathbb{R}^3$であって，$|\{ i\in\mathbb{N}\mid B\cap V_i\ne\varnothing \}|<\infty$となるような開球$B$が存在する．即ち，開球$B$を十分小さくとれば，曲面$\Sigma$上のどこでも集まっている$V_i$は有限個である．
+
+    3($\Sigma$の被覆). $\Sigma\subset\bigcup_{i\in\mathbb{N}}V_i$
+
+    4($\rho_i$の台を含む). $\forall i\in\mathbb{N}\; \forall x\in U\;x\notin V_i\Rightarrow \rho_i(x)=0$が成り立つ．即ち，$\mathrm{supp}(\rho_i)\subset V_i$である．
+
+    5($\rho$は1の分割). $\forall x\in\Sigma \; \sum_{i\in\mathbb{N}}\rho_i(x)=1$
+\end{theorem}
+\begin{remark}　
+
+    1. $\rho$は関数$f$の座標近傍$V$に合わせた"つまみ"とかtuner見たいだ．各座標近傍$U_\lambda$内部に押し込めてしまう．
+
+    2. 条件3.$\Sigma\subset\bigcup_{i\in\mathbb{N}}V_i$は，局所的に見れば有限和に等しい．何故ならば，十分小さい開球$B$では，これと共通部分を持つ$V_i$は有限個で，従って$B$上で値を持つ（$B$内に台を持つ）$\rho_i$は有限個である．
+
+    3. $\{U_\lambda\}$に「従属する」というのは，固有空間か？ともかく，$\{V_i\}$の取り方も，それに対する１の分割も一意ではない．
+
+    4. この１の分割という手法はとても面白くて，理論的には強力であるが，これを実際に構成したり，計算したりするのは難しい．
+\end{remark}
+
+\begin{lemma}\label{lemma-requirements-for-partitions-of-unity}
+    １の分割定理\ref{thm-partition-of-unity}について，$\{V_i\}_{i\in\mathbb{N}}$は特に次のように選べる．
+
+    1. $V_i\cap\Sigma \subset \Sigma\setminus\mathrm{sing}(\Sigma)$であれば，$V_i\cap\Sigma$は座標近傍である．
+
+    2. $\Sigma$のあらゆる三角形分割$\{S_i\}_{i\in I}$について，1.に当てはまらない場合$V_i\cap\mathrm{sing}(\Sigma)\ne\varnothing$である時，$V_i$は有限個の曲面片によって包まれる．
+\end{lemma}
+\begin{lemma}
+    １の分割定理\ref{thm-partition-of-unity}について，$\Sigma$はコンパクトとする．すると，有限被覆$\{V_i\}_{1\le i\le N}$でこれを満たすようなものが見つかる．
+\end{lemma}
+
+\begin{corollary}\label{corollary-existence-of-partitions-of-unity}
+    曲面$\Sigma\subset\mathbb{R}^3$に対して，開集合の族$\{V_i\}_{i\in\mathbb{N}}$であって定理\ref{thm-partition-of-unity}の条件を満たすものが見つかる．
+\end{corollary}
+\begin{proof}
+    $\Lambda = 1, U_0=\mathbb{R}^3$として定理\ref{thm-partition-of-unity}を用いる．
+\end{proof}
+\begin{shadebox}
+\begin{definition}[surface-integral from partition of unity]
+    コンパクトな$C^r$級曲面$\Sigma$について，その上の連続関数$f$の面積分とは，定理\ref{thm-partition-of-unity}を満たす有限被覆$\{V_i\}_{i<N}$とこれに属する１の分割$\{\rho_i\}_{i<N}$について，次のように定義される．
+    \[ \int_\Sigma f|dA| := \sum^{N-1}_{i=0} \int_{V_i\cap\Sigma}(\rho_if)|dA| \]
+\end{definition}
+\end{shadebox}
+\begin{remark}
+    これは，$\Sigma$が特異点を持たない場合，各$V_i\cap\Sigma$は座標近傍であるから，この上での面積分はすでに定義されている．$\Sigma$が特異点を持つ場合，特異点周りは三角形分割によって捉えられる．
+
+    何だか逆に，面積分を帰納的に定めた気がする．面積分と言われたときに成り立って欲しい性質を最初から定義に組み込んでしまった．
+
+    $\Sigma$をコンパクトにしたのは，有限和にしたかったである．実際はこの条件は不要で，無限和になるが，収束性の話をする前に，実際には有限話になるので，心配の必要はないのである．
+\end{remark}
+
+\begin{theorem}
+    こうして定義した面積分の値は，１の分割に依らない．
+\end{theorem}
+
+\subsection{面積分の複数の定義}
+
+\begin{theorem}
+    ２つの面積分の定義は一致する．
+\end{theorem}
+
+\section{ベクトル場の面積分１：曲面片や座標近傍の場合}
+
+ベクトル場を線積分する際は「どれだけ曲線に沿っているか」を評価したが，面積分では「どれくらい横切っているか」を考える．
+
+曲面を微小四辺形で切り取る．そこを横切る接ベクトルと成す並行六面体の体積を符号付きで評価する．
+
+まず，曲面片の上での面積分を定義し，一般の多様体の上での面積分にまで編み上げる．
+
+\begin{definition}[曲面片上での面積分]
+    $(S,\Delta,\psi)$を曲面片とする．$X$を$U$-ベクトル場とする（$S\subset U$）．この時，$X$の$S$上での面積分とは，
+    \[ \int_S X\cdot dA := \int_\Delta \left\langle X(\psi(u))\;\middle|\; \frac{\partial \psi}{\partial u^1}(u)\times\frac{\partial \psi}{\partial u^2}(u) \right\rangle du^1du^2 \]
+\end{definition}
+
+\begin{definition}[座標近傍上での面積分]
+    $\Sigma\subset\mathbb{R}^3$を曲面とし，$(U,\varphi)$をその座標近傍とする．有界閉集合$K\subset U$に対して，$\varphi(K)$は面積確定とする．$X$を$K$を含む開集合$\tilde{U}$上のベクトル場とすると，
+    \[ \int_K X\cdot dA := \int_{\varphi(K)}\left\langle X(\psi(u))\middle| \frac{\partial \psi}{\partial u^1}(u)\times\frac{\partial \psi}{\partial u^2}(u) \right\rangle du^1du^2 \]
+    ただし，$\psi:\varphi(U)\to U$は$\varphi$の逆射とした．$\mathrm{supp}(f)\subset K$が成り立つ場合は，この左辺は$\int_UX\cdot dA$とも書く．
+\end{definition}
+
+\begin{remark}[計算式]
+    $\Sigma$の座標$(x^1,x^2,x^3)$について，$\frac{\partial \psi}{\partial u^1}\times\frac{\partial \psi}{\partial u^2}=A^1\frac{\partial}{\partial x^1}+A^2\frac{\partial}{\partial x^2}+A^3\frac{\partial}{\partial x^3}$，$X=f^1\frac{\partial}{\partial x^1}+f^2\frac{\partial}{\partial x^2}+f^3\frac{\partial}{\partial x^3}$とする．
+    なるほど，$\frac{\partial \psi}{\partial u^1}\times\frac{\partial \psi}{\partial u^2}$だけ抜き出して書いて，$\psi$とパラメータの空間の接空間の基底$\frac{\partial}{\partial u^1}, \frac{\partial}{\partial u^1}$とが$\Sigma$上に定めるベクトル場とも見れるのか．これらを用いて，
+    \[ \int_S X\cdot dA := \int_{\Delta}  f^1(\psi(u))A^1(u)+f^2(\psi(u))A^2(u)+f^3(\psi(u))A^3(u) du^1du^2 \]
+\end{remark}
+
+\subsection{変数変換に対する振る舞い}
+関数の面積分の場合と違って，変数変換について変化することがある．それは向きである．
+即ち，ベクトル場の面積分$\int_S X\cdot dA$は，ベクトル場$X$と曲面片$S$とその向きとの３つ組に対して定まる．
+
+\begin{lemma}
+    $(S,\Delta,\psi)$を曲面片とし，$X$を$S\subset U$上の連続なベクトル場とする．$\omega:\mathbb{R}^2\to\mathbb{R}^2$を第一成分と第二成分を取り換える写像として，$\Delta'=w(\Delta), \psi'=\psi\circ w$とする．
+    この時，次が成り立つ．
+    \[ \int_{(S,\Delta,\psi)}X\cdot dA = -\int_{(S,\Delta',\psi')}X\cdot dA \]
+\end{lemma}
+\begin{proof}
+    1. $\psi':\Delta'\to S$は確かに$S$のパラメータ付である．
+
+    以降，ある基底について$\begin{pmatrix}u^1\\u^2\end{pmatrix}\in\Delta,\; \begin{pmatrix}v^1\\v^2\end{pmatrix}\in\Delta'$とする．
+
+    \begin{center}
+        \begin{tikzcd}
+            & S & \\
+            \Delta \ar[ur, "\psi"] & & \Delta' \ar[ul, "\psi'"'] \ar[ll, "\omega"']
+        \end{tikzcd}
+    \end{center}
+
+    2. $\psi'=\psi\circ\omega$に対して，chain ruleより，$D\psi'(v)=D\psi(\omega(v))\cdot D\omega(v)$であるが，これを基底を用いて行列表示すると，
+    \begin{align*}
+        D\psi'(v)&=D\psi(\omega(v))\cdot D\omega(v) \\
+        \begin{pmatrix}\frac{\partial\psi'^1}{\partial v^1}(v)&\frac{\partial\psi'^1}{\partial v^2}(v)\\\frac{\partial\psi'^2}{\partial v^1}(v)&\frac{\partial\psi'^2}{\partial v^2}(v)\end{pmatrix}
+        &= \begin{pmatrix}\frac{\partial\psi^1}{\partial u^1}(\omega(v))&\frac{\partial\psi^1}{\partial u^2}(\omega(v))\\\frac{\partial\psi^2}{\partial u^1}(\omega(v))&\frac{\partial\psi^2}{\partial u^2}(\omega(v))\end{pmatrix} \begin{pmatrix}\frac{\partial\omega^1}{\partial v^1}&\frac{\partial\omega^1}{\partial v^2}\\\frac{\partial\omega^2}{\partial v^1}&\frac{\partial\omega^2}{\partial v^2}\end{pmatrix} 
+    \end{align*}
+    命題\ref{prop-cross-product-for-change-of-basis}$(v'\;w')=(v\;w)A\;\Rightarrow\; v'\times w'=(\mathrm{det}A)\;v\times w$より，
+    \[ \frac{\partial\psi'}{\partial v^1}(v)\times\frac{\partial\psi'}{\partial v^2}(v) = \mathrm{det}\begin{pmatrix}0&1\\1&0\end{pmatrix}\left( \frac{\partial\psi}{\partial u^1}(\omega(v))\times \frac{\partial\psi}{\partial u^2}(\omega(v))\right) \]
+    を得る．
+    
+    2'. あるいは，そもそも$\psi\left(\omega\begin{pmatrix}v^2\\v^1\end{pmatrix}\right)=\psi\begin{pmatrix}v^1\\v^2\end{pmatrix}=\psi'\begin{pmatrix}v^2\\v^1\end{pmatrix}\in S$なので，$\frac{\partial \psi}{\partial u^1}(\omega(v))=\frac{\partial \psi'}{\partial v^2}(v)$であることより，
+    \[ \frac{\partial\psi'}{\partial v^1}(v)\times\frac{\partial\psi'}{\partial v^2}(v) = -\frac{\partial\psi}{\partial u^1}(\omega(v))\times \frac{\partial\psi}{\partial u^2}(\omega(v)) \]
+    を得ても良い．
+
+    3. 以上より，
+    \begin{align*}
+        \int_{(S,\Delta',\psi')}X\cdot dA &= \int_{\Delta'} \left\langle X(\psi'(v))\;\middle|\; \frac{\partial\psi'}{\partial v^1}(v)\times\frac{\partial\psi'}{\partial v^2}(v)\right\rangle dv^1dv^2 \\
+        &= \int_{\Delta'} \left\langle X(\psi(\omega(v)))\;\middle|\; - \frac{\partial\psi}{\partial u^1}(\omega(v))\times\frac{\partial\psi}{\partial u^2}(\omega(v))\right\rangle dv^1dv^2 \;\;\; (\because \psi'=\psi\circ\omega\; \mathrm{and\;chain\;rule})
+    \end{align*}
+    ここで，$u=\omega(v)$と置くと，関数$\left\langle X(\psi(-))\;\middle|\; \frac{\partial\psi}{\partial u^1}(-)\times\frac{\partial\psi}{\partial u^2}(-)\right\rangle$は連続だから，変数変換の公式より，$|\mathrm{det}D\omega(v)|=1$に注意して，
+    \begin{align*}
+        &= - \int_{\Delta'} \left\langle X(\psi(\omega(v)))\;\middle|\; \frac{\partial\psi}{\partial u^1}(\omega(v))\times\frac{\partial\psi}{\partial u^2}(\omega(v))\right\rangle |\mathrm{det}D\omega(v)| dv^1dv^2\\
+        &= - \int_{\Delta} \left\langle X(\psi(u))\;\middle|\; \frac{\partial\psi}{\partial u^1}(u)\times\frac{\partial\psi}{\partial u^2}(u)\right\rangle  du^1du^2\\
+        &= \int_{(S,\Delta,\psi)}X\cdot dA
+    \end{align*}
+\end{proof}
+
+\begin{screen}
+    ベクトル場の面積分は，局所的には
+    \[ \int_S X\cdot dA := \int_\Delta \left\langle X(\psi(u))\;\middle|\; \frac{\partial \psi}{\partial u^1}(u)\times\frac{\partial \psi}{\partial u^2}(u) \right\rangle du^1du^2 \]
+    と定義される．これは直観的には，曲面の微小要素と，それを貫く接ベクトルとがなす平行六面体の体積を足し上げている．面素を$\frac{\partial \psi}{\partial u^1}(u)\times\frac{\partial \psi}{\partial u^2}(u)$を用いて計上しているために，
+    変数変換に関して絶対値は変わらずwell-definedであるが，曲面の向きを取り換えると符号が反転するように設計されている．
+\end{screen}
+
+\section{曲面の向き}
+ベクトル場の面積分$\int_S X\cdot dA$は，ベクトル場$X$と曲面片$S$とその向きとの３つ組に対して定まる．
+
+以下，$r\ge 1$を仮定する．$r=0$の場合にも成り立つ事実であるが，議論が複雑になる．
+
+$\mathbb{R}^2$の向きは，その順序付きの基底を１組定めれば，「前後左右」が一意に定まる．「前左」を定めてしまえばあとは自動的に決まるので，$\mathbb{R}^2$の向きは２種類である．
+\begin{definition}
+    1. $\mathcal{E}=(e_1,\cdots,e_n), \mathcal{E'}=(e'_1,\cdots,e'_n)$を$\mathbb{R}^n$の順序付き基底とし，$E=(e_1\;\cdots\;e_n), E'=(e'_1\;\cdots\;e'_n)$を正方行列とする．
+    $\mathcal{E,E'}$は$\mathrm{det}(E^{-1}E')=\mathrm{det}E'/\mathrm{det}E>0$の時同じ向きを定めるといい，$\mathrm{det}(E^{-1}E')<0$の時逆の向きを定めるという．
+
+    2. $\mathbb{R}^n$の標準基底$\mathcal{E}_0=(e_1,\cdots,e_n)$が定める向きを，正の向き，自然な向き，標準的な向きという．$\mathbb{R}^n_-$についても同様．
+\end{definition}
+\begin{remark*}
+    全ての次元で，向きは２つなのか．
+    直観的には，$\mathrm{det}(E')$は右手系か左手系かを判定している．こう考えることもできる．行列$A$は$e_1=\begin{pmatrix}1\\0\\\vdots\\0\end{pmatrix}$として，$Ae'_1=e_1$に写す回転・拡大行列とする．すると，$\mathrm{det}E'$というのは，$\mathrm{det}\left(e_1\;Ae'_2\;\cdots\;Ae'_n\right)=\mathrm{det}\left(Ae'_2\;\cdots\;Ae'_n\right)=\mathrm{det}A\cdot\mathrm{det}\left(e'_2\;\cdots\;e'_n\right)$．
+    $\mathrm{det}A>0$より，
+\end{remark*}
+
+以下，多様体の向きについて，「整合的な座標近傍系の入れ方」による定め方，「整合的な三角形分割の仕方」による定め方の２通りを定める．
+
+\subsection{曲面の向き}
+
+曲面片や多様体などの構造の乗ったものは，次のように定める．
+\begin{definition}[特異点のない曲面の向き]
+    特異点のない曲面$\Sigma\subset\mathbb{R}^3$について，$\{W_\lambda\}_{\lambda\in\Lambda}$を$\Sigma\subset\{W_\lambda\}_{\lambda\in\Lambda}$を満たす開集合の族とし，$U_\lambda=W_\lambda\cap\Sigma$とすると各$(U_\lambda,\varphi_\lambda)$は座標近傍だとする．
+    すると，$\mathbb{R}^2_-$の開集合の族$\{V_\lambda\}_{\lambda\in\Lambda}$が存在して，$\varphi(U_\lambda)=V_\lambda$を満たすように$\{\varphi_\lambda\}_{\lambda\in\Lambda}$を取れる．
+
+    1. Atlas $\{(U_\lambda,\varphi_\lambda)\}_{\lambda\in\Lambda}$が$\Sigma$に向きを定めるとは，$U_\lambda\cap U_\mu(=W_\lambda\cap W_\mu\cap\Sigma)\ne\varnothing$ならば，
+    \[ \forall x\in\varphi_\lambda(U_\lambda\cap U_\mu)\;\;\mathrm{det}D(\varphi_\lambda\circ\varphi^{-1}_\mu(x))>0 \]
+    が成り立つことをいう．
+
+    2. $\mathcal{U}=\{(U_\lambda,\varphi_\lambda)\}_{\lambda\in\Lambda}$は$\Sigma$に向きを定めるとする．$\Sigma$の座標近傍$(U,\varphi)$が$\mathcal{U}$の定める向きと整合的であるとは，atlas $(U,\varphi)\cup\{(U_\lambda,\varphi_\lambda)\}_{\lambda\in\Lambda}$
+    が$\Sigma$に向きを定めることをいう．
+
+    3. $\mathcal{U}=\{(U_\lambda,\varphi_\lambda)\}_{\lambda\in\Lambda}, \mathcal{U'}=\{(U'_{\lambda'},\varphi'_{\lambda'})\}_{\lambda'\in\Lambda'}$は$\Sigma$に向きを定めるとする．$\mathcal{U,U'}$が$\Sigma$に同じ向きを定めるとは，$\mathcal{U\cup U'}$が$\Sigma$に向きを定めることをいう．
+    $\mathcal{U,U'}$はいずれも$\Sigma$に向きを定めるが，$\mathcal{U\cup U'}$が$\Sigma$に向きを定めないことを，$\Sigma$に異なる向きを定めるという．
+\end{definition}
+\begin{remark*}
+    1. 向きを定めるとは，atlasの全ての近傍座標系が，全て整合的に，同じ向きを定めることをいう．すると編み上げたものには１つの向きが定まっている．
+
+    2. また，特異点では，座標近傍の$\varphi$の微分が定まらないので，この方法で多様体に向きを定義するときは除外して考える必要がある．
+\end{remark*}
+
+\begin{definition}[特異点のある曲面の向き]
+    特異点を持つ曲面$\Sigma$が向き付け可能であるとは，$\Sigma\setminus\mathrm{Sing}\Sigma$が向き付け可能であることをいう．この$\Sigma\setminus\mathrm{Sing}\Sigma$の向きを$\Sigma$の向きという．
+\end{definition}
+
+\begin{theorem}
+    1. $\Sigma$は向き付け可能であることも，そうでないこともある．
+
+    2. $\Sigma$は向き付け可能とする．この時の$\Sigma$の向きの一致不一致は同値関係を定める．
+
+    3. $\Sigma$は連結だとする．$\Sigma$が向き付け可能ならば，向きは２つである．
+\end{theorem}
+
+\begin{screen}
+    多様体の向きを，その特異点を除いた部分の座標近傍系のうち，「整合的な向きを編み上げる」座標近傍系が入るかどうかによって定義した．すると，こうして定まる向きは同値関係をなした．
+\end{screen}
+
+\subsection{境界の向き}
+
+\begin{align*}
+    \mathbb{R}^n_-&:=\{(x^1,\cdots,x^n)\in\mathbb{R}^n\mid x^1\le 0\} & \partial\mathbb{R}^n_-&:=\{(x^1,\cdots,x^n)\in\mathbb{R}^n\mid x^1= 0\}
+\end{align*}
+の特に$n=2,3$の場合を考える．そのために，まず，$\mathbb{R}^n_-$上の向きから，$\mathbb{R}^{n-1}$上の向きを定める手順を定義する．境界$\partial\Sigma$の向きは，これが定める$\mathbb{R}^{n-1}_-$の向きから定まる．
+
+\begin{definition}[$\mathbb{R}^n_-$上の向きから，$\mathbb{R}^{n-1}$上の向きを定める手順]
+    向きの定まった$\mathbb{R}^n_-=\{(x^1,\cdots,x^n)\in\mathbb{R}^n\mid x^1\le 0\}$に対して，$U\subset\mathbb{R}^{n-1}$の座標$(y^1,\cdots,y^{n-1})$が，$(x^1,y^1,\cdots,y^{n-1})$が$\mathbb{R}^n_-$上で同じ向きを定める時，この$U$の基底$(y^1,\cdots,y^{n-1})$は\textbf{$\mathbb{R}^n_-$の向きが定める向き／境界としての向き}を定めるという．
+
+    $U\subset\mathbb{R}^{n-1}$についても同様に定義する．
+\end{definition}
+\begin{remark*}
+    「直感的には，まず外に向かって最初の座標を定めておいて，残りを元々定まっている座標の向きに合わせて（次元が１つ落ちるので，昔2だったものを1，3だったものを2……としていけば良い）定めると境界の向きが得られる．このような境界の向きの決め方を外向き法線ベクトルを用いた向きの定め方，などと呼ぶ．」
+\end{remark*}
+
+\begin{proposition*}
+    $\Sigma$を向きづけられた曲面とする．この時$\partial\Sigma\setminus\mathrm{Sing}\Sigma$は向き付け可能である．
+\end{proposition*}
+\begin{proof}
+    境界$\partial\Sigma$は，Euclid空間からの相対位相による開集合を取れないような点であるから，従って座標近傍も取れないので，特異点である．
+    従って，$\Sigma$の向きを感知しない．
+
+    しかし，特異点の中でも境界$\partial\Sigma$の向き，次の方法で構成できる．
+
+    $\Sigma'=\Sigma\setminus\mathrm{Sing}\Sigma$を向き付ける近傍座標系$\{(U_\lambda,\varphi_\lambda)\}_{\lambda\in\Lambda}$から，$U_\lambda\cap\partial\Sigma\ne\varnothing$ならば，$U_\lambda\cap\partial\Sigma=:W_\lambda$とする．
+    $\varphi_\lambda$の制限$\varphi_\lambda|_{W_\lambda}$は$\partial\mathbb{R}^n_-$への写像であるから（そうなのか？$\partial$が$C^r$級同相だから？），改めてこれを$\rho_\lambda:W_\lambda\to\mathbb{R}^{n-1}$とする．（$\mathbb{R}^{n-1}_-$としなくて良いのか？）
+    これは$\partial\Sigma\setminus\mathrm{Sing}\Sigma$に向きを定める．
+\end{proof}
+\begin{definition}
+    上の命題の証明内での構成により，$\Sigma$の向きから定まる$\partial\Sigma$の向きを，境界としての向きという．
+\end{definition}
+
+\begin{screen}
+    多様体の境界は，元の多様体よりも１次元下がった多様体であるから，元の多様体上の向き（＝近傍座標系の入れ方）から標準的に定まる向きがある．
+\end{screen}
+
+\subsection{三角形分割による多様体の向きの定義}
+
+\begin{definition}[曲面片の向き]
+    $S$を曲面片とし，$(\Delta,\psi),(\Delta',\psi')$をいずれもパラメータ付けとする．
+    \begin{center}
+        \begin{tikzcd}
+            & S & \\
+            \Delta \ar[ur, "\psi"] \ar[rr, "\psi'^{-1}\circ\psi"'] & & \Delta' \ar[ul, "\psi'"']
+        \end{tikzcd}
+    \end{center}
+
+    1. $(\Delta,\psi),(\Delta',\psi')$が$S$に同じ向きを定めるとは，
+    \[ \mathrm{det} D(\psi'^{-1}\circ\psi)>0\;\;\mathrm{on}\;\overset{\circ}{\Delta} \]
+
+    2. 曲面片$S$に，$(\Delta,\psi)$により向きを定めるとは，$(\Delta,\psi)$と同じ向きを定めるパラメータ付けのみを考えることをいう．
+\end{definition}
+
+\begin{definition}[曲面片$S$により定まる$\partial S$の向き]
+    $(S,\Delta,\psi)$を向きのついた曲面片とする．$(\Delta,\psi)$が定める$\partial S$の向きを，次のように定める．
+    \begin{quotation}
+        $\partial S$を表す区分的に正則な閉曲線$\gamma$について，正則な部分についてのパラメータ付け$\gamma={}^t(\gamma^1,\gamma^2)$を，${}^t(-D\gamma^2,D\gamma^1)$が$\Delta$の内部を向いている様なパラメータ付けとする．
+        $\partial S$のパラメータ付け$(\partial\Delta,\psi\circ\gamma)$により定まる向きを，「$(\Delta,\psi)$が定める$\partial S$の向き」とする．
+    \end{quotation}
+\end{definition}
+
+\begin{lemma}[well-definedness]
+    $(\Delta,\psi),(\Delta',\psi')$が$S$に同じ向きを定めることと，$\partial S$に同じ向きを定めることは同値である．
+\end{lemma}
+
+\begin{definition}[曲面片の族の向き]
+    $\{S_\lambda\}_{\lambda\in\Lambda}$を，それぞれ$\{(S_\lambda,\psi_\lambda)\}_{\lambda\in\Lambda}$によりパラメータづけられた曲面片の族とする．
+    $S_\lambda\cap S_\mu\ne\varnothing$ならばこの集合はそれぞれの曲面片の１辺だが，それぞれの$\partial S_\lambda$から定まる向きと$\partial S_\mu$から定まる向きとが逆向きである時，$S_\lambda$と$S_\mu$の向きは整合的であるという．
+\end{definition}
+
+\begin{definition}[曲面の向きは，整合的な曲面片の族から定まる]
+    曲面片の族$\{S_\lambda\}_{\lambda\in\Lambda}$を曲面$\Sigma$の三角形分割とする．この族のそれぞれ$S_\lambda\cap S_\mu$が空でないならば整合的な向きを定める時，族
+    $\{S_\lambda\}_{\lambda\in\Lambda}$は曲面$\Sigma$に向きを定めるという．
+\end{definition}
+
+異なる三角形分割により定まる向きの比較の議論が，同値関係やフィルターや測度論などでよく見る「分割の細かさ」の議論になる．
+\begin{definition}[refinement]
+    曲面片の族$\{S_\lambda\}_{\lambda\in\Lambda},\{S'_{\lambda'}\}_{\lambda'\in\Lambda'}$を曲面$\Sigma$の三角形分割とする．
+    $\{S'_{\lambda'}\}_{\lambda'\in\Lambda'}$が$\{S_\lambda\}_{\lambda\in\Lambda}$の細分であるとは，次が成り立つことをいう．
+    \[ \forall \gamma'\in\Gamma'\;\exists\gamma\in\Gamma\;\;\; S_{\gamma'}\subset S_\gamma \]
+\end{definition}
+
+\begin{lemma}[共通細分]
+    曲面片の族$\{S_\lambda\}_{\lambda\in\Lambda},\{S'_{\lambda'}\}_{\lambda'\in\Lambda'}$を曲面$\Sigma$の三角形分割とする．この時，２つの共通細分が存在する．
+\end{lemma}
+
+\begin{lemma}
+    曲面片の族$\{S'_{\lambda'}\}_{\lambda'\in\Lambda'}, \{S_\lambda\}_{\lambda\in\Lambda}$を曲面$\Sigma$の三角形分割とし，前者は後者の細分とする．
+    $\{S_\lambda\}_{\lambda\in\Lambda}$が$\Sigma$に向きを定めるなら，$\{S'_{\lambda'}\}_{\lambda'\in\Lambda'}$も$\Sigma$に同じ向きを定めるようにパラメータ付けることができる．
+\end{lemma}
+
+\begin{definition}[曲面の向きの比較]
+    曲面片の族$\{S_\lambda\}_{\lambda\in\Lambda},\{S'_{\lambda'}\}_{\lambda'\in\Lambda'}$を曲面$\Sigma$の三角形分割とする．
+    ２つが同じ向きを定めるとは，２つの共通細分$\{S'_{\lambda''}\}_{\lambda''\in\Lambda''}$に，２つのいずれとも同じ向きを定めるようなパラメータ付けが存在することをいう．
+\end{definition}
+
+\begin{lemma}[境界の自然な向き]
+    曲面片の族$\{S_\lambda\}_{\lambda\in\Lambda}$は曲面$\Sigma$に向きを定めるとする．
+    この時，$\{\partial S_\lambda\}_{\lambda\in\Lambda}$の向きが，$\partial\Sigma$に自然な向きを定める．
+\end{lemma}
+
+\begin{screen}
+    曲面片の族が「整合的」である条件を定義し，整合的な三角形分割の族を入れることによって，曲面に向きを定義した．この定義には利点が２つある．
+
+    1. 特異点があってもなくても同じように理論が進む．
+
+    2. $\partial\Sigma$に自然に向きが定まる．どこかStokesの定理みたいだ．
+\end{screen}
+
+\section{ベクトル場の面積分２：一般の場合}
+
+以下，多様体の向きについて，「整合的な座標近傍系の入れ方」による定め方，「整合的な三角形分割の仕方」による定め方の２通りを見た．
+まずはこれらの「整合的」な関係を定義する．
+
+その後，座標近傍系による方法（１の分割による定義）と．三角形分割に対応する方法との２通りによって一般の曲面上でのベクトル場の面積分を定義するが，この２つの定義が等価になるような提示の仕方は，慎重な取り扱いを必要とする．
+
+\begin{definition}[整合的な向きを定める座標近傍と三角形分割]
+    $\Sigma\setminus\mathrm{Sing}\Sigma$の近傍座標系$\{(U_\lambda,\varphi_\lambda)\}_{\lambda\in\Lambda}$は$\Sigma$に向きを定めるとする．
+    $\Sigma$の三角形分割が$\{S_\mu\}_{\mu\in M}$により与えられるとし，各曲面片のパラメータ付けを$\{(S_\mu,\psi_\mu)\}_{mu\in M}$とする．
+    \textbf{族$\{S_\mu\}_{\mu\in M}$が，$\{(U_\lambda,\varphi_\lambda)\}_{\lambda\in\Lambda}$の向きと整合的である}とは，次が成り立つことをいう．
+    \[ \forall\lambda\in\Lambda\;\forall\mu\in M\;\left[ U_\lambda\cap S_\mu\ne\varnothing\Rightarrow\mathrm{det}(\varphi_\lambda\circ\psi_\mu)>0\;\mathrm{on}\;\psi_\mu^{-1}(U_\lambda\cap S_\mu)\cap\overset{\circ}{\Delta}_\mu\right] \]
+    \begin{center}
+        \begin{tikzcd}
+            & U_\lambda\cap S_\mu \ar[dl, "\varphi_\lambda"'] & \\
+            \mathbb{R}^2_-\supset\varphi_\lambda(U_\lambda\cap S_\mu) & & \psi_\mu^{-1}(U_\lambda\cap S_\mu)\cap\overset{\circ}{\Delta}_\mu\subset\Delta_\mu \ar[ul, "\psi_\mu"'] \ar[ll, "\varphi_\lambda\circ\psi_\mu"]
+        \end{tikzcd}
+    \end{center}
+\end{definition}
+
+\begin{shadebox}
+    \begin{definition}
+        $\Sigma\subset\mathbb{R}^3$を向きづけられた境界のある$C^r$級コンパクト曲面とし，$X$をある開集合$Sigma\subset U$で定まった連続なベクトル場とする．
+
+        1. この時，$\Sigma$の向きと整合的な三角形分割$\{\Sigma_j\}_{j\in[s]}$について，次のように面積分が定まる．
+        \[ \int_\Sigma X\cdot dA:=\sum^s_{j=1}\int_{\Sigma_j}X\cdot dA \]
+
+        2. この時，開集合の族$\{V_i\}_{i\in N}$であって，これに属する１の分割$\{\rho_i\}_{i\in N}$が存在するようなもので，補題\ref{lemma-requirements-for-partitions-of-unity}の条件を
+        満たすようなものが存在する（補題\ref{lemma-requirements-for-partitions-of-unity}，系\ref{corollary-existence-of-partitions-of-unity}）．
+        ここで，族$\{V_i\}_{i\in N}$は座標近傍でも三角形分割でもないが，非常にそれに近いもので，定義していない用語であるが「$\Sigma$に整合的な向き」を定めるものとする．
+        すると，面積分は次のように定まる．
+        \[\int_\Sigma X\cdot dA:=\sum^{N-1}_{i=0}\int_{V_i\cap\Sigma}(\rho_iX)\cdot dA\]
+    \end{definition}
+\end{shadebox}
+\begin{remark}
+    先生の定義では，1.で定義するときは$\Sigma$は境界があり，2.の時は境界についての言及はなかった．
+\end{remark}
+
+\section{ベクトル場の面積分と2-形式}
+
+面積分とは，曲面$\Sigma$上でのベクトル場$X$を，$dA$の部分を勝手なパラメータ付け$\psi:\Delta\to\Sigma$で引き戻した$\begin{pmatrix}u^1\\u^2\end{pmatrix}\in\Delta$上の関数$\left\langle X(\psi(-))\;\middle|\; \frac{\partial \psi}{\partial u^1}(-)\times\frac{\partial \psi}{\partial u^2}(-) \right\rangle$なる連続関数を積分することであった．
+これを2-形式の言葉で定式化したい．
+
+適切な基底$x^1,x^2,x^3\in\Sigma$に対して，$\psi=\begin{pmatrix}\psi^1\\\psi^2\\\psi^3\end{pmatrix}:\mathbb{R}^2\supset\Delta\to\Sigma\subset\mathbb{R}^3$とし，$\Sigma\subset U$上の連続なベクトル場$X=f^1\frac{\partial}{\partial x^1}+f^2\frac{\partial}{\partial x^2}+f^3\frac{\partial}{\partial x^3}$について，任意の$u\in\Delta$に対して次のように式変形できる．
+
+まず，$\psi(u)=p\in\Sigma$と置いて，接空間$T_p(\Sigma)$に$x^1,x^2,x^3\in\Sigma$から定まる基底を入れることで，数ベクトル上の内積に書き換えることができ，
+\begin{align*}
+    &\left\langle X(\psi(u))\;\middle|\; \frac{\partial \psi}{\partial u^1}(u)\times\frac{\partial \psi}{\partial u^2}(u) \right\rangle
+    = \left\langle \begin{pmatrix}f^1(\psi(u))\\f^2(\psi(u))\\f^3(\psi(u))\end{pmatrix}\;\middle|\; \begin{pmatrix}\frac{\partial\psi^1}{\partial u^1}(u)\\\frac{\partial\psi^2}{\partial u^1}(u)\\\frac{\partial\psi^3}{\partial u^1}(u)\end{pmatrix}\times\begin{pmatrix}\frac{\partial\psi^1}{\partial u^2}(u)\\\frac{\partial\psi^2}{\partial u^2}(u)\\\frac{\partial\psi^3}{\partial u^2}(u)\end{pmatrix} \right\rangle \\
+    &= f^1(\psi(u))\cdot\mathrm{det}\begin{pmatrix}\frac{\partial\psi^2}{\partial u^1}(u)&\frac{\partial\psi^2}{\partial u^2}(u)\\\frac{\partial\psi^3}{\partial u^1}(u)&\frac{\partial\psi^3}{\partial u^2}(u)\end{pmatrix} + f^2(\psi(u))\cdot\mathrm{det}\begin{pmatrix}\frac{\partial\psi^3}{\partial u^1}(u)&\frac{\partial\psi^3}{\partial u^2}(u)\\\frac{\partial\psi^1}{\partial u^1}(u)&\frac{\partial\psi^1}{\partial u^2}(u)\end{pmatrix} + f^3(\psi(u))\cdot\mathrm{det}\begin{pmatrix}\frac{\partial\psi^1}{\partial u^1}(u)&\frac{\partial\psi^1}{\partial u^2}(u)\\\frac{\partial\psi^2}{\partial u^1}(u)&\frac{\partial\psi^2}{\partial u^2}(u)\end{pmatrix}
+\end{align*}
+ここで，接ベクトル
+\[ D_i\psi(u)=\left( \frac{\partial}{\partial x^1}\;\frac{\partial}{\partial x^2}\;\frac{\partial}{\partial x^3} \right)\begin{pmatrix}\frac{\partial\psi^1}{\partial u^i}(u)\\\frac{\partial\psi^2}{\partial u^i}(u)\\\frac{\partial\psi^3}{\partial u^i}(u)\end{pmatrix}=\left( \frac{\partial}{\partial x^1}\;\frac{\partial}{\partial x^2}\;\frac{\partial}{\partial x^3} \right)\begin{pmatrix}dx^1_p(D_i\psi(u))\\dx^2_p(D_i\psi(u))\\dx^3_p(D_i\psi(u))\end{pmatrix}\;\;(i=1,2)\]
+にもう一度話を戻して，
+\begin{align*}
+    = f^1(\psi(u))\cdot\mathrm{det}\begin{pmatrix}dx^2_p(D_1\psi(u))&dx^2_p(D_2\psi(u))\\dx^3_p(D_1\psi(u))&dx^3_p(D_2\psi(u))\end{pmatrix} + f^2(\psi(u))\cdot&\mathrm{det}\begin{pmatrix}dx^3_p(D_1\psi(u))&dx^3_p(D_2\psi(u))\\dx^1_p(D_1\psi(u))&dx^1_p(D_2\psi(u))\end{pmatrix} 
+    \\ &+ f^3(\psi(u))\cdot\mathrm{det}\begin{pmatrix}dx^1_p(D_1\psi(u))&dx^1_p(D_2\psi(u))\\dx^2_p(D_1\psi(u))&dx^2_p(D_2\psi(u))\end{pmatrix}
+\end{align*}
+ここで，次のように2-形式$dx^2_p\wedge dx^3_p$を定義すると，これは確かに交代双線型写像（楔積）$\wedge:\bigwedge\mathbb{R}^n\times\bigwedge\mathbb{R}^n\to\bigwedge\mathbb{R}^n$となっており，$\forall v,w\in\mathbb{R}^2\;\; v\wedge w=\mathrm{det}(v\;w)e_1\wedge e_2$を満たす（微分形式は変数変換公式を内包する実体）．
+\begin{definition}[2-形式]
+    双線型写像$dx^2_p\wedge dx^3_p:T_p(\Sigma)\times T_p(\Sigma)\to\mathbb{R}$を，次のように定める．
+    \[ dx^2_p\wedge dx^3_p(D_1\psi(u),D_2\psi(u)) = \mathrm{det}\begin{pmatrix}dx^2_p(D_1\psi(u))&dx^2_p(D_2\psi(u))\\dx^3_p(D_1\psi(u))&dx^3_p(D_2\psi(u))\end{pmatrix} \]
+\end{definition}
+これを用いて，
+\begin{align*}
+    \left\langle X(\psi(u))\;\middle|\; \frac{\partial \psi}{\partial u^1}(u)\times\frac{\partial \psi}{\partial u^2}(u) \right\rangle
+    = \left( f^1(\psi(u))dx^2_p\wedge dx^3_p + f^2(\psi(u))dx^3_p\wedge dx^1_p + f^3(\psi(u))dx^1_p\wedge dx^2_p \right)(D_1\psi(u),D_2\psi(u))
+\end{align*}
+と書き換えられる．
+ここまで来たら，双線型写像部$T_p(\Sigma)\times T_p(\Sigma)\to\mathbb{R}$を，座標$x^1,x^2,x^3\in\Sigma$の前提の下，各$x\in \Sigma$について次のように定義する．
+\[ \omega_x :=  f^1(x)dx^2_x\wedge dx^3_x + f^2(x)dx^3_x\wedge dx^1_x + f^3(x)dx^1_x\wedge dx^2_x \]
+と定める．すると，各$\psi=\begin{pmatrix}\psi^1\\\psi^2\\\psi^3\end{pmatrix}$の微分は，$d\psi^i=\frac{\partial\psi^i}{\partial u^1}du^1+\frac{\partial\psi^i}{\partial u^2}du^2$より，$d\psi^1\wedge d\psi^2=\mathrm{det}\begin{pmatrix}\frac{\partial\psi^1}{\partial u^1}(u)&\frac{\partial\psi^1}{\partial u^2}(u)\\\frac{\partial\psi^2}{\partial u^1}(u)&\frac{\partial\psi^2}{\partial u^2}(u)\end{pmatrix}du^1du^2$が成り立つから，
+\begin{align*}
+    \left\langle X(\psi(u))\;\middle|\; \frac{\partial \psi}{\partial u^1}(u)\times\frac{\partial \psi}{\partial u^2}(u) \right\rangle
+    = (\psi^*\omega)_u(u)
+\end{align*}
+を得る．$\omega$は$X$と，$X=f^1\frac{\partial}{\partial x^1}+f^2\frac{\partial}{\partial x^2}+f^3\frac{\partial}{\partial x^3}$と表示する基底$x^1,x^2,x^3$から定めたから，
+\begin{align*}
+    \int_\Sigma X\cdot dA &= \int_\Sigma\omega \\
+    &= \int_\Delta \psi^*\omega = \int_\Delta \left\langle X(\psi(u))\;\middle|\; \frac{\partial \psi}{\partial u^1}(u)\times\frac{\partial \psi}{\partial u^2}(u) \right\rangle du^1du^2
+\end{align*}
+という言葉たちを，各曲面$(\Sigma,\Delta,\psi)$について得たことになる．
+
+\begin{screen}
+    標準的な基底$x^1,x^2,x^3\in\Sigma$について，$X=f^1\frac{\partial}{\partial x^1}+f^2\frac{\partial}{\partial x^2}+f^3\frac{\partial}{\partial x^3}$と表示されるベクトル場の面積分とは，
+    それが定める2-形式$\omega=f^1 dx^2\wedge dx^3 + f^2dx^3\wedge dx^1 + f^3dx^1\wedge dx^2$を，パラメータ付け$\psi$を用いて引き戻した2-形式を，パラメータの空間$\Delta$で積分することである．
+    \[ \int_\Sigma X\cdot dA:=\int_\Delta \psi^*(f^1 dx^2\wedge dx^3 + f^2dx^3\wedge dx^1 + f^3dx^1\wedge dx^2) \]
+\end{screen}
+
+\begin{remark}
+    曲面$\Sigma$上のベクトル場$X=f^1\frac{\partial}{\partial x^1}+f^2\frac{\partial}{\partial x^2}+f^3\frac{\partial}{\partial x^3}$が定める2-形式とは，
+    同じ成分表示を得るために基底$\widehat{dx^i}=\left\langle\frac{\partial}{\partial x^i}\;\middle|\;\cdot\right\rangle$を準備したものである．
+    $x^1,x^2,x^3$が標準的な基底である場合に$\widehat{dx^i}=dx^i$と書く．
+
+    一般の場合を探索するには，$g_{ij}=\left\langle\frac{\partial}{\partial x^i}\;\middle|\;\frac{\partial}{\partial x^j}\right\rangle\in\mathbb{R}$と置く．
+    すると，一般の成分表示は，
+    \[\widehat{dx^i}=\sum^n_{j=1}g_{ij}dx^j\]
+    となる．ただし，$dx^j$とは，多様体の座標${}^t(x^1,\cdots,x^n)$から定まる余接空間の基底であり，$\widehat{dx^i}$とは，多様体の座標${}^t(x^1,\cdots,x^n)$から定まる接空間の基底に対応する
+    余接空間の元$\widehat{dx^i}=\left\langle\frac{\partial}{\partial x^i}\;\middle|\;\cdot\right\rangle$とした．
+    多様体の座標${}^t(x^1,\cdots,x^n)$がEuclid空間に埋め込まれた多様体に関する標準的な座標である場合は，$g_{ij}$がデルタ関数となり，上の等式は自明な式$\widehat{dx^i}=dx^i$になる．
+\end{remark}
+
+\begin{definition}[ベクトル場の定める1-形式]
+    ベクトル場$X=f^1\frac{\partial}{\partial x^1}+f^2\frac{\partial}{\partial x^2}+f^3\frac{\partial}{\partial x^3}$の定める１形式$\sum^n_{i=1}f^i\widehat{dx^i}$は，次のように変形できる．
+    \begin{align*}
+        \sum^n_{i=1}f^i\widehat{dx^i} &= \sum^n_{i=1}f^i\left( \sum^n_{j=1}g_{ij}dx^j \right) \\
+        &= \sum^n_{i=1}\left( \sum^n_{j=1}f^ig_{ij}dx^j \right) \\
+        &= \sum^n_{j=1}\left( \sum^n_{i=1}f^ig_{ij}dx^j \right) \\
+        &= \sum^n_{j=1}f_jdx^j
+    \end{align*}
+    ただし，関数$f_j$とは，$f_j=\sum^n_{i=1}f^ig_{ij}\;\;(j=1,\cdots,n)$により定義した．行列の言葉で書けば，
+    \[ \begin{pmatrix}f_1\\\vdots\\f_n\end{pmatrix} = \begin{pmatrix}g_{11}&g_{12}&\cdots&g_{1n}\\\vdots&\vdots&\ddots&\vdots\\g_{n1}&g_{n2}&\cdots&g_{nn}\end{pmatrix}^T\begin{pmatrix}f^1\\\vdots\\f^n\end{pmatrix} \]
+    ここで，$(g_{ij})$が表現する線型写像を$g:\mathbb{R}^n\to\mathbb{R}^n$と置くと，
+    \[\begin{pmatrix}\widehat{dx^1}\\\vdots\\\widehat{dx^n}\end{pmatrix}=\begin{pmatrix}g_{11}&g_{12}&\cdots&g_{1n}\\\vdots&\vdots&\ddots&\vdots\\g_{n1}&g_{n2}&\cdots&g_{nn}\end{pmatrix}\begin{pmatrix}dx^1\\\vdots\\dx^n\end{pmatrix}\]
+    であったから，$g$は基底変換であり，$\mathrm{det}(g)=1$であることがわかる．即ち，「$f^i$の添字を下ろす」とは，「${}^t(f^1,\cdots,f^n)$を成分表示していた基底から，余接空間の標準的な基底への基底変換$g$を用いて，$g(f^1,\cdots,f^n)$を求める」ことに当たる．
+    \[ \begin{pmatrix}f_1\\\vdots\\f_n\end{pmatrix} = \begin{pmatrix}g_{11}&g_{12}&\cdots&g_{1n}\\\vdots&\vdots&\ddots&\vdots\\g_{n1}&g_{n2}&\cdots&g_{nn}\end{pmatrix}^{-1}\begin{pmatrix}f^1\\\vdots\\f^n\end{pmatrix} \]
+\end{definition}
+
+\begin{definition}[ベクトル場の定める2-形式]
+    変換則は
+    \[ \widehat{dx^i}\wedge\widehat{dx^j} = \sum_{k<l}\left(\sum (g_{ik}g_{jl}-g_{il}g_{jk})\right)dx^k\wedge dx^l \]
+    であるが，もはや何をやっているのかわからない．
+
+    添字を下げる操作は
+    \[ f_{23}=\mathrm{det}\begin{pmatrix}f^1&g_{12}&g_{13}\\f^2&g_{22}&g_{23}\\f^3&g_{32}&g_{33}\end{pmatrix} \]
+    となる．余因子性を感じる．
+\end{definition}
+
+\section{曲面の形式和と面積分}
+
+\begin{definition}[曲面の形式和]
+    相異なる向きづけられた曲面$\Sigma_1,\cdots,\Sigma_k$と，$n_1,\cdots,n_k\in\mathbb{R}$に対して，記号$n_1\Sigma_1+\cdots+n_k\Sigma_k$を向きづけられた曲面の形式和という．
+
+    曲面$\Sigma_1$の向きを逆にして得られる曲面を$-\Sigma_1$と書き，$\Sigma_1+(-\Sigma_1)=0$とする．
+\end{definition}
+
+\begin{definition}[向きづけられた曲面の形式和上でのベクトル場の面積分]
+    向きづけられた曲面の形式和$\Sigma:=n_1\Sigma_1+\cdots+n_k\Sigma_k$上でのベクトル場$X$の面積分を，
+    \[ \int_\Sigma X\cdot dA := \sum^k_{i=1}n_i\int_{\Sigma_i}X\cdot dA \]
+    とする．
+\end{definition}
+
+\begin{definition}[スカラー場の場合]
+    曲面の形式話を，$\Sigma+(-\Sigma)=2\Sigma$として，同様に定義すれば良い．
+\end{definition}
+
+\begin{screen}
+    $\Sigma_1\cap\Sigma_2$の面積が０ならば，$\int_{\Sigma_1\cup\Sigma_2}X\cdot dA=\int_{\Sigma_1}X\cdot dA+\int_{\Sigma_2}X\cdot dA$が成り立つ．
+    この上に，曲面の形式和という記法を準備した．
+\end{screen}
+
+\section{補足：図形に対する微分を捉える}
+積分は，一般のk-chain上で定義される，これが形式和である．
+Stokesの定理とは，chainに対する境界演算子$\partial$と，formに対する外微分$d$との双対的な関係を表現した微分幾何学の定理である．
+
+\begin{definition}[k-chain]
+    1. 区分的級$C^r$k-chainとは，$C^r$級の$k$次元単体の形式的な実係数線型和のことである．
+
+    2. というより，いくつかの$C^r$級の$k$次元単体から生成される自由群だと思うことも多いようだ．
+\end{definition}
+\begin{remark}
+    1. 三角形分割は，区分的$C^r$級の2-chainと言える．点の形式和は0-chainである．
+
+    2. なお，これは単体複体内（三角形分割による多様体の定義は，局所有限な単体複体を構成して居るということであるはず）での定義であって，一般の位相空間での定義はまた様子が違う．
+
+    3. k-chainはホモロジーについて群をなし，この群の，群の射（境界作用素(boudary operator)や微分などという）についての列$(C_i,d_i)$（$\omega$-図式）をchain複体／鎖複体という．
+\end{remark}
+
+\begin{definition}[equivalence of chains]1-chainは，次の変換の組み合わせによって互いに移り合う時，等しいとする．
+
+    1. 曲線の形式和の順序を入れ替える
+
+    2. 曲線を１つの分点によって分割する，または終点と出発点を共有する２つの曲線を結合する
+
+    3. $C_i=-C_j$を満たす２つの曲線を取り除く
+\end{definition}
+
+\begin{definition}[chainの境界と境界演算子$\partial$]
+    chainの境界とは，各形式的基底である単体の境界の，形式的線型和である．従って，$k$-chainの境界は$(k-1)$-chainをなす．
+
+    境界を取るという操作は，外微分とのアナロジーで，微分とも呼ばれ，単体の境界は単体ではないがchainではあるから，この演算は確かにchain上においてwell-definedになる．
+\end{definition}
+\begin{remark}
+    待てよ，0,1次元では特異的なことが起こる気がする．線分の境界点はその線分自身だ．と思っていたが，１次元の開球とは開区間か！でも０次元の場合は逃れられなくないか？
+\end{remark}
+
+\begin{definition}[cycle]
+    境界が0であるようなk-chainをk-cycleという．
+\end{definition}
+\begin{example}
+    1. chain $C=C_1+\cdots+C_n$において，各$C_i$が全て閉曲線(loop)である時，これを1-cycleという．
+
+    2. 全ての0-chainは0-cycleである．でもwikipediaのA 0-cycle is a linear combination of points such that the sum of all the coefficients is 0.という表記が矛盾するように思える．
+\end{example}
+\begin{proposition}
+    全てのchainの境界は，cycleである．
+\end{proposition}
+\begin{remark}
+    従って，境界演算子$\partial$は$\partial^2=0$となる．
+\end{remark}
+
+\begin{definition}[鎖複体 chain complex]
+    アーベル圏$\mathcal{A}$内の$\omega$-図式$(A_\bullet,d_\bullet)=:A_\bullet$
+    \begin{center}
+        \begin{tikzcd}
+            \cdots \ar[r, "d_{n+1}"] & A_n \ar[r, "d_n"] & A_{n-1} \ar[r, "d_{n-1}"] & \cdots
+        \end{tikzcd}
+    \end{center}
+    が鎖複体であるとは，$\forall n\in\mathbb{Z}\; d^{n+1}\circ d^n=0$を満たすことをいう．
+
+    各$M_n$を，鎖複体$M_\bullet$の次数$n$の項という．
+\end{definition}
+\begin{remark}
+    1. 双対概念を余鎖複体$A^\bullet$という．
+
+    2. complexを加法圏よりも一般の圏(category with translation)で定義することができるが，これが理解できない．加法圏上でのcomplexを，chain complexという．
+    結局simplical complexの位相幾何学的なcomplexとは別なのだろうか．
+\end{remark}
+
+\chapter{$\mathbb{R}^n$上の微分形式について}
+$\mathbb{R}^n$の標準的な基底を$(e_1,\cdots,e_n)$，標準的な座標を${}^t(x^1,\cdots,x^n)$とする．
+
+\section{ベクトルの外積}
+
+外積とは，多重線型交代写像である．
+\begin{definition}[exterior / wedge product]
+    $\mathbb{R}$-線型空間$V$上の次の性質を満たす演算$v_1,\cdots,v_k\mapsto v_1\wedge\cdots\wedge v_k$を外積という．
+    \begin{center}
+        \begin{tikzcd}
+            f:(\mathbb{R}^n)^k \ar[d, phantom, "\rotatebox{90}{$\in$}"]\ar[r] & \bigwedge^k\mathbb{R}^n \ar[d, phantom, "\rotatebox{90}{$\in$}"]\\
+            (v_1\cdots,v_k) \ar[r, mapsto] & v_1\wedge v_2\wedge\cdots\wedge v_k
+        \end{tikzcd}
+    \end{center}
+
+    1. 写像$f$は多重線型である．
+
+    2. ある$i\ne j$について$v_i=v_j$である時，$v_1\wedge\cdots\wedge v_k=0$である．
+\end{definition}
+
+\begin{proposition}[置換に対して歪対称である]
+    $v_1\wedge\cdots\wedge v_i\wedge\cdots\wedge v_j\wedge v_k=-v_1\wedge\cdots\wedge v_j\wedge\cdots\wedge v_i\wedge v_k\;\;(i\ne j)$
+\end{proposition}
+\begin{proof}
+    $f(v_1,\cdots,v_i+v_j,\cdots,v_i+v_j,\cdots,v_k)=0$より,
+    \begin{align*}
+        f(v_1,\cdots,v_i,\cdots,v_i,\cdots,v_k) + f(v_1,\cdots,v_i,\cdots,v_j,\cdots,v_k)+f(v_1,\cdots,v_j,\cdots,v_i,\cdots,v_k)+f(v_1,\cdots,v_j,\cdots,v_j,\cdots,v_k) &=0 \\
+        0 + f(v_1,\cdots,v_i,\cdots,v_j,\cdots,v_k) + f(v_1,\cdots,v_j,\cdots,v_i,\cdots,v_k) + 0 & =0
+    \end{align*}
+\end{proof}
+
+\begin{proposition}[行列式の特徴付け]
+    $v_1\wedge\cdots\wedge v_k = (\mathrm{det}A)\;e_1\wedge\cdots\wedge e_k$
+    ただし，$A$は$v_1,\cdots,v_k$を列ベクトルに並べて作った行列で，$e_i$は標準的な座標．
+\end{proposition}
+\begin{remark}
+    こうして外積代数は，「変換される微分形式$dx$」の振る舞いの記述にぴったりである．
+\end{remark}
+\begin{proof}
+    各$v_i$を$v_{i1}e_1+v_{i2}e_2+\cdots+v_{ik}e_k$と
+    展開すれば，行列式の定義$\mathrm{det}A=\Sigma_{\sigma\in\mathrm{Aut}(n)}\left((\mathrm{sgn}\sigma)\Pi^n_{i=1}a_{i,\sigma(i)}\right)$
+    に一致する．
+\end{proof}
+
+\begin{proposition}
+    $\mathrm{dim}\bigwedge^k\mathbb{R}^n=0\;(k>n)$
+\end{proposition}
+\begin{proof}
+    必ず引数のうちどれか２つは従属関係にあるので，それが零因子になる．
+\end{proof}
+
+\begin{theorem}
+    
+\end{theorem}
+
+\section{$\mathbb{R}^n$上の微分形式}
+
+\begin{definition}[cotangent bundle]
+    1. $T^*_p\mathbb{R}^n$を\textbf{点$p$における$\mathbb{R}^n$の余接空間}という．
+
+    2. $T^*\mathbb{R}^n=\bigcup_{p\in\mathbb{R}^n}T^*_p\mathbb{R}^n$を\textbf{$\mathbb{R}^n$の余接空間／余接束}という．
+\end{definition}
+
+\begin{definition}[k-form]
+    $\omega:\mathbb{R}^n\to\bigwedge^kT^*\mathbb{R}^n$が$C^r$級のk-形式であるとは，
+    \begin{quote}
+        各点$p\in\mathbb{R}^n$について，$C^r$級の関数$f_{i_1,\cdots,i_k}$が各$i_1<\cdots<i_k$に対して存在して，
+        $\omega_p=\sum_{i_1<\cdots<i_k}f_{i_1,\cdots,i_k}dx^{i_1}_p\wedge\cdots\wedge dx^{i_k}_p$と表せることをいう．
+    \end{quote}
+\end{definition}
+\begin{remark}
+    なるほど！k-形式$\omega$を１つ取るとは，共変テンソル場を定めて居るではないか！
+    こうすれば接ベクトルと同様に，関数のみを足場にして微分形式という対象が定義出来る．
+\end{remark}
+
+\begin{definition}[k-form全体の集合]
+    1. $C^\infty(\mathbb{R}^n)$を$\mathbb{R}^n$上の$C^\infty$級関数全体の集合とする．
+
+    2. $\mathfrak{X}(\mathbb{R}^n)$を$\mathbb{R}^n$上の$C^\infty$級ベクトル場全体の集合とする．
+
+    3. $\Omega^k(\mathbb{R}^n)$を$\mathbb{R}^n$上の$C^\infty$級k-形式全体の集合とする．
+
+    $\mathfrak{X}(\mathbb{R}^n),\Omega^k(\mathbb{R}^n)$は$C^\infty(\mathbb{R}^n)$-加群である．
+\end{definition}
+
+\begin{definition}[次数の違うもの同士のwedge積：一般化]
+    今まで外積は$\mathbb{R}^n$上にしか定めていなかったが，$\omega\in\Omega^k(\mathbb{R}^n),\mu\in\Omega^l(\mathbb{R}^n)$とすると，これらのwedge積$\omega\wedge\mu$は，係数は積を，wedge部はwedge積を取る．
+\end{definition}
+
+\begin{definition}[exterior derivative]
+    外微分$d:\Omega^k(\mathbb{R}^n)\to\Omega^{k+1}(\mathbb{R}^n)$とは，$k=0$の時は関数の微分であり，$k\ge 1$の時は，係数である関数もwedgeに参加させる操作である．
+\end{definition}
+
+\begin{lemma}[外微分の性質]
+    $U\subset\mathbb{R}^n,f\in C^\infty(U),\omega,\mu\in\Omega^k(U)$とする．
+
+    1(和に対する分配). $d(\omega+\mu)=d\omega+d\mu$
+
+    2(スカラー積に対するLeibniz則). $d(f\omega)=df\wedge\omega+fd\omega$
+
+    2'(より一般には). $d(\omega\wedge\eta)=d\omega\wedge\eta+(-1)^p\omega\wedge d\eta$ただし，$\omega\in\Omega^p(U)$
+
+    3(鎖複体性). $d^2=0$
+\end{lemma}
+
+\begin{example}[外微分の計算例]
+    1. $\omega=f_1dx^1+f_2dx^2+f_3dx^3$とすると，
+    \[d\omega=\left(\frac{\partial f_3}{\partial x^2}-\frac{\partial f_2}{\partial x^3}\right)dx^2\wedge dx^3 + \left(\frac{\partial f_1}{\partial x^3}-\frac{\partial f_3}{\partial x^1}\right)dx^3\wedge dx^1 + \left(\frac{\partial f_2}{\partial x^1}-\frac{\partial f_1}{\partial x^2}\right)dx^1\wedge dx^2 \]
+\end{example}
+
+\section{微分形式の積分}
+連続な微分形式は積分可能である．
+
+\begin{definition}[微分形式の積分]
+    向きの定まった$\mathbb{R}^n$に対して，$(x^1,\cdots,x^n)$は向きと整合的な座標とする．この時，連続なn-形式$\omega$は$\omega=fdx^1\wedge\cdots\wedge dx^n$と表示できるとすれば，
+    \[\int_K\omega=\int_Kf(x^1,\cdots,x^n)dx^1dx^2\cdots dx^n\]
+    と定める．また，形式的に$d\mathrm{vol}=dx^1\wedge dx^2\wedge\cdots\wedge dx^n$と置いて，これを$\mathbb{R}^n$の所与の向きに関する体積要素と呼ぶ．
+\end{definition}
+\begin{remark*}
+    体積要素は微分形式にまつわる幾何学的な実体で，特に外積代数を用いて定められる．
+\end{remark*}
+
+\section{微分形式の引き戻し}
+
+\begin{definition}[微分形式の引き戻し]
+    $f:\mathbb{R}^m\supset U\to V\subset\mathbb{R}^n\in C^\infty(U)$の始域$U$に座標$(x^1,\cdots,x^m)$，終域$V$に座標$(y^1,\cdots,y^n)$を入れ，この座標について$f={}^t(f^1,\cdots,f^n)$とする．
+
+    1(関数). $g\in\Omega^0(V)$について，$f^*g:=g\circ f\in\Omega^0(U)$とする．
+
+    2(基底). 標準的な基底$dy^i\in\Omega^1(V)$について，その引き戻しは$f^*dy^i:=df^j=\sum^m_{i=1}\frac{\partial f^j}{\partial x^i}dx^i$とする．
+
+    3(その線形結合). $\omega=\sum_{i_1<\cdots<i_k}g_{i_1,\cdots,i_k}dx^{i_1}\wedge\cdots\wedge dx^{i_k}\in\Omega^k(V)$について，その引き戻しを，係数と基底の両方を引き戻したもの$f^*\omega:=\sum_{i_1<\cdots<i_k}f^*g_{i_1,\cdots,i_k}f^*dx^{i_1}\wedge\cdots\wedge f^*dx^{i_k}\in\Omega^k(U)$とする．
+\end{definition}
+
+\begin{example}
+    $\omega=f_1dx^1+f_2dx^2+f_3dx^3$の$\gamma={}^t(\gamma^1,\gamma^2,\gamma^3):\mathbb{R}\to\mathbb{R}^3$による引き戻しは，
+    \begin{align*}
+        \gamma^*\omega &= \gamma^*f_1\gamma^*dx^1 + \gamma^*f_2 \gamma^*dx^2 + \gamma^*f_3\gamma^*dx^3 \\
+        &= g_1\circ\gamma \frac{d\gamma^1}{dt} + g_2\circ\gamma \frac{d\gamma^2}{dt} + g_3\circ\gamma \frac{d\gamma^3}{dt}
+    \end{align*}
+\end{example}
+\begin{example}[引き戻しの考え方]
+    そもそも，$\omega=f_1dx^1+f_2dx^2$を，座標変換$\varphi:U\to V$が定める余接束間の写像による変換は，$V$の座標による表示が$\varphi=\begin{pmatrix}\varphi^1\\\varphi^2\end{pmatrix}$だとしたら，
+    \[\varphi_*(\omega)=\varphi\circ f_1d\varphi^1+\varphi\circ f_2d\varphi^2\]
+    となることが，係数と基底に分けて考えればわかる．何故なら，各点の余接ベクトルは，接ベクトルから経由して考えれば，始域$U$の標準である$dx^1,dx^2$から$d\varphi^1,d\varphi^2$に移る．
+    係数も接ベクトルからの経由で，ただの合成になる．
+    \begin{center}
+        \begin{tikzcd}
+            & \mathbb{R} \\
+            U \ar[r, "\varphi"'] \ar[ur, dashed, "f^*\omega"] & V \ar[u, "\omega"']
+        \end{tikzcd}
+    \end{center}
+    引き戻しはこれを逆に辿れば良い．
+\end{example}
+
+\begin{lemma}[引き戻しの性質：関手性]
+    1. $\omega,\mu\in\Omega^k(U)$に対して，$f^*(\omega+\mu)=f^*\omega+f^*\mu$
+
+    2. $\omega\in\Omega^k(U),\mu\in\Omega^l(U)$に対して，$f^*(\omega\wedge\mu)=f^*\omega\wedge f^*\mu$
+
+    3. $g:V\to W\subset\mathbb{R}^o$に対して，$(f\circ g)^*\omega=f^*(g^*\omega)$
+\end{lemma}
+
+\begin{proposition}$f:\mathbb{R}^m\supset U\to V\subset\mathbb{R}^n\in C^\infty(U)$と$\omega\in\Omega^k(U)$について，
+    \[ d(f^*\omega)=f^*(d\omega) \]
+\end{proposition}
+\begin{remark}
+    $d$もTranslationという関手なのか？いずれにしろ，射との関係を保存するということに見える．
+
+    事実はすんなり入ってくるかもしれないが，記法の罠が２つある．1. $df^i$と$dy^i$の$df^i=f^*dy^i$という関係．$df^i$には空間$U$上で$df^i=\sum^{m}_{j=1}\frac{\partial f^i}{\partial x^j}dx^j$という関係があるだけで，２つは，なんというか，同じものである．連鎖率を書くときに見かけ上記号が変わる．
+    2. $f^*\left(\frac{\partial g}{\partial y^i}\right)$という式は実は連鎖率の途中式で見慣れた数学的対象である．
+    証明の肝は，結局$k=0$の場合で成り立つことと，$f^*$がwedgeの構造というかテンソル積の線型空間の構造を保つこととの２つからなる．
+\end{remark}
+\begin{proof}
+    まず$k=0$の場合を示す．$\omega=g$と書く．
+    \begin{align*}
+        d(f^*g) = d(g\circ f) &= \sum^m_{j=1}\frac{\partial (g\circ f)}{\partial x^j}dx^j \\
+        &= \sum^m_{j=1}\left\{\sum^n_{i=1}\left(\frac{\partial g}{\partial y^i}\circ f\right)\cdot \frac{\partial f^i}{\partial x^j}\right\}dx^j \;\;\;\mathrm{(chain\;rule)} \\
+        f^*(dg) &= f^*\left( \sum^n_{i=1}\frac{\partial g}{\partial y^i}dy^i \right) \\
+        &= \sum^n_{i=1}f^*\left(\frac{\partial g}{\partial y^i}\right)\cdot df^i\;\;\;\mathrm{(functoriality)} \\
+        &= \sum^M_{j=1}\sum^n_{i=1}f^*\left(\frac{\partial g}{\partial y^i}\right)\cdot\frac{\partial f^i}{\partial x^j}dx^j
+    \end{align*}
+    より，$d(f^*g)=f^*(dg)$．
+
+    次に一般の$\omega=\sum_{i_1<\cdots<i_k}g_{i_1,\cdots,i_k}dx^{i_1}\wedge\cdots\wedge dx^{i_k}\in\Omega^k(V)$について，
+    \begin{align*}
+        d(f^*\omega) &= \sum_{i_1<\cdots<i_k}d(f^*g_{i_1,\cdots,i_k})\wedge f^*dx^{i_1}\wedge\cdots\wedge f^*dx^{i_k} \;\;\;(他の項は零である) \\
+        &= \sum_{i_1<\cdots<i_k}f^*(dg_{i_1,\cdots,i_k})\wedge f^*dx^{i_1}\wedge\cdots\wedge f^*dx^{i_k} \\
+        &= f^*\left( \sum_{i_1<\cdots<i_k}dg_{i_1,\cdots,i_k}dx^{i_1}\wedge\cdots\wedge dx^{i_k} \right) \;\;\;\mathrm{(functoriality)} \\
+        &= f^*(d\omega)
+    \end{align*}
+\end{proof}
+
+\begin{lemma}[変数変換公式]
+    $n=m$の時，$f^*(dy^1\wedge\cdots\wedge dy^n)=(\mathrm{det}Df)\;dx^1\wedge\cdots\wedge dx^n$
+
+    ただし，$f:\mathbb{R}^m\supset U\to V\subset\mathbb{R}^n\in C^\infty(U)$の始域$U$に座標$(x^1,\cdots,x^m)$，終域$V$に座標$(y^1,\cdots,y^n)$を入れ，この座標について$f={}^t(f^1,\cdots,f^n)$としたのだった．
+\end{lemma}
+\begin{remark}
+    この証明の中で，余接空間の基底${}^t(dx^1,\cdots,dx^n)$は，通常の座標（＝基底の係数）と同じ変換を受ける共変ベクトルで，Yacobi行列$Df$による変換方向も，いつもの暗黙に基底を標準的なものに取った時の各点の変換についての計算と一致する．
+    また，確かにベクトル場の係数と同じ変換を受けて居る．全てに共通する言葉は「反変」である．そう，余接空間の基底である$dx^i$自身は反変なのだ，従ってその係数は共変で，「微分形式とは共変ベクトル場」と言われる．
+
+    だから，変数変換公式は，引き戻すときにYacobianによる拡大を受けるのである．変数変換公式でのYacobianは絶対値で登場する．では，次にその符号を考えたい，これは向きに対応する．
+\end{remark}
+\begin{proof}
+    いま，$f:U\ni x\mapsto y\in V$の微分$df:T^*U\to T^*V$の表現行列はYacobi行列$Df$であり，次の式で$Df=A=(a_1\;\cdots\;a_n)$である．
+    \[ \begin{pmatrix}dy^1\\\vdots\\dy^n\end{pmatrix} = (a_1\;\cdots\;a_n)\begin{pmatrix}dx^1\\\vdots\\dx^n\end{pmatrix} \]
+    この行列$A$に依存して，n-formの変換は次のようになる．（$F:(\mathbb{R}^n)^n\to\mathbb{R}$とした．）
+    \[ dy^1\wedge\cdots\wedge dy^n = F(a_1,\cdots,a_n)\;dx^1\wedge\cdots\wedge dx^n \]
+    展開して計算しても良いが，特徴付けから攻める．$F$は規格化された多重線型交代形式になるので，$F=\mathrm{det}$である．また，$A=Df$であるから，$f^*(dy^1\wedge\cdots\wedge dy^n)=(\mathrm{det}Df)\;dx^1\wedge\cdots\wedge dx^n$を得る．
+\end{proof}
+
+\begin{definition}
+    $U,V\subset\mathbb{R}^n$を向きを持った領域または閉領域，$f:U\to V\in C^\infty(U)$を$C^1$級関数とする．
+
+    1. $f$が向きを保つとは，$\mathrm{det}Df_p\ge 0$が$p\in U$上全ての点で成り立つことをいう．
+
+    2. $f$が向きを逆にするとは，$\mathrm{det}Df_p\le 0$が$p\in U$上全ての点で成り立つことをいう．
+\end{definition}
+
+\begin{proposition}[変数変換公式]
+    $m=n$とし，$f:U\to V$を向きを保つ$C^\infty$級微分同相写像とする．$A\subset U,B\subset V$を$f(A)=B$を満たすJordan可測な有界閉集合とする．
+    \[ \forall \omega\in\Omega^n(V)\;\int_Af^*\omega = \int_B\omega \]
+\end{proposition}
+\begin{remark}
+    $n$次元空間で$\omega\in\Omega^k(V)\;(k<n)$なものは，積分すると０か．だから線積分や面積分という特別な積分を定義しないといけないのか．
+
+    これを，絶対値をうまく用いることで，向きを保つ$f$にも逆にする$f$にも一般の$f$にも拡張したのが変数変換公式である．
+\end{remark}
+
+\chapter{積分定理}
+関数の積分もベクトル場の積分も，微分形式を積分して居ると云う観点からは平等である．
+「極限を取る」という操作と，「微分形式を微分する」という操作は，必ず互いに逆の方向を向いて居る．
+これが微分積分学の基本定理の背後にある構造である．
+実際，微分積分学の基本定理とは，１形式の積分を，積分区間の端点での０形式の計算に変換する定理のことである．
+
+\section{Greenの定理とGaussの発散定理}
+
+$D\subset\mathbb{R}^2$を区分的に$C^1$級で正則な曲線に囲まれた有界閉領域とすると，$D,\partial D$はいずれも面積確定である．
+$D$には$\mathbb{R}^2$から定まる向きを，$\partial D$は境界としての向きを入れる．
+
+\begin{definition}
+    $D$上の$C^1$級ベクトル場$X=f^1\frac{\partial}{\partial x^1}+f^2\frac{\partial}{\partial x^2}$に対して，$r(X)=\frac{\partial f^2}{\partial x^1}-\frac{\partial f^1}{\partial x^2}$とする対応$r:\mathfrak{X}(D)\to C^0(D)$を定める．
+    ３次元の場合には回転rotという名前がついて居るが，２次元の場合は特についていないようである．
+\end{definition}
+\begin{shadebox}\begin{theorem}[Green]
+    $D$上の$C^1$級ベクトル場$X$について，$\int_{\partial D}X\cdot dx=\int_Dr(X)\;d\mathrm{vol}$が成り立つ．
+
+    これは，$X$の定める1-形式を$\omega=f_1dx^1+f_2dx^2$とすれば，$\int_{\partial D}X\cdot dx=\int_{\partial D}\omega$であり，また外微分を計算すれば$d\omega=r(X)d\mathrm{vol}$であるから，$\int_{\partial D}\omega=\int_Dd\omega$というステートメントだとみなせる．
+\end{theorem}\end{shadebox}
+\begin{proof}
+    
+\end{proof}
+
+\begin{definition}[nabla]
+    開集合$U\subset\mathbb{R}^3$上の$C^r\;(r\ge 1)$級ベクトル場$X=f^1\frac{\partial}{\partial x^1}+f^2\frac{\partial}{\partial x^2} +f^3\frac{\partial}{\partial x^3}$に対して，$C^{r-1}$級関数$\mathrm{div}X=\frac{\partial f^1}{\partial x^1}+\frac{\partial f^2}{\partial x^2}+\frac{\partial f^3}{\partial x^3}$を対応させる写像$\nabla:\mathfrak{X}^r(U)\to C^{r-1}(U)$を発散という．
+\end{definition}
+\begin{shadebox}\begin{theorem}[Gauss]$C^1$級$U$-ベクトル場$X$について，
+    \[\int_{\partial D}X\cdot dA=\int_D\mathrm{div}X\; d\mathrm{vol}\]
+    ただし，$D\subset U\subset\mathbb{R}^3$は向きの定まった有界閉領域で，$\partial D$は境界としての向きを持った$C^2$級曲面．
+
+    $X$の定める2-形式$\omega=f_{1}dx^2\wedge dx^3+f_{2}dx^3\wedge dx^1+f_{3}dx^1\wedge dx^2$について，$d\omega=\left(\frac{\partial f^1}{\partial x^1}+\frac{\partial f^2}{\partial x^2} +\frac{\partial f^3}{\partial x^3}\right)dx^1dx^2dx^3$となるから，$\int_{\partial D}\omega=\int_Dd\omega$と云うステートメントだとみなせる．
+\end{theorem}\end{shadebox}
+\begin{example}[第８回レポートで犯したミス：全域で定義されていない限り，積分定理は使えない．]
+    \begin{question*}
+        $(x,y,z)$を$\mathbb{R}^3$の標準的な座標とする．
+        $p={}^t(0,0,0),\ q={}^t(1,0,0)$とし，$\mathbb{R}^3\setminus\{p,q\}$上のベクトル場$X$を
+        \begin{align*}
+        X&=\frac{x}{(x^2+y^2+z^2)^{3/2}}\frac{\partial}{\partial x}+\frac{y}{(x^2+y^2+z^2)^{3/2}}\frac{\partial}{\partial y}+\frac{z}{(x^2+y^2+z^2)^{3/2}}\frac{\partial}{\partial z}\\*
+        &\hphantom{{}={}}+\frac{x-1}{((x-1)^2+y^2+z^2)^{3/2}}\frac{\partial}{\partial x}+\frac{y}{((x-1)^2+y^2+z^2)^{3/2}}\frac{\partial}{\partial y}+\frac{z}{((x-1)^2+y^2+z^2)^{3/2}}\frac{\partial}{\partial z}
+        \end{align*}
+        により定める．
+        さて，
+        \begin{align*}
+        D&=\{{}^t(x,y,z)\in\R^3\mid(x-3)^2+(y-3)^2+(z-3)^2\leq36\},\\*
+        \Sigma&=\partial D=\{{}^t(x,y,z)\in\R^3\mid(x-3)^2+(y-3)^2+(z-3)^2=36\}
+        \end{align*}とし，$D$には$\mathbb{R}^3$の標準的な向きから自然に向きを入れ，$\Sigma$には$D$の境界としての向きを入れる．
+        このとき，
+        \[ \int_{\Sigma}X\cdot dA \]
+        を求めよ．
+    \end{question*}
+    \begin{proof}[解答]
+        \begin{align*}
+            f^1(x,y,z) &= \frac{x}{(x^2+y^2+z^2)^{3/2}}+\frac{x-1}{((x-1)^2+y^2+z^2)^{3/2}} \\
+            f^2(x,y,z) &= \frac{y}{(x^2+y^2+z^2)^{3/2}}+\frac{y}{((x-1)^2+y^2+z^2)^{3/2}} \\
+            f^3(x,y,z) &= \frac{z}{(x^2+y^2+z^2)^{3/2}}+\frac{z}{((x-1)^2+y^2+z^2)^{3/2}} 
+        \end{align*}
+        と置くと，$X=f^1\frac{\partial}{\partial x}+f^2\frac{\partial}{\partial y}+f^3\frac{\partial}{\partial z}$と表せる．
+        従って，2-形式$\omega$を$\omega=f^1dy\wedge dz+f^2dz\wedge dx+f^3dx\wedge dy$と定めれば，Gaussの発散定理より，
+        \begin{align*}
+            \int_{\partial D}X\cdot dA &= \int_{\partial D}\omega \\
+            &= \int_Dd\omega\\
+            &= \int_D\left(\frac{\partial f^1}{\partial x}+\frac{\partial f^2}{\partial y}+\frac{\partial f^3}{\partial z}\right)dxdydz 
+        \end{align*}
+        となる．いま，
+        \begin{align*}
+            \frac{\partial f^1}{\partial x} &= \frac{-2x^2+y^2+z^2}{(x^2+y^2+z^2)^{5/2}} + \frac{-2(x-1)^2+y^2+z^2}{((x-1)^2+y^2+z^2)^{5/2}} \\
+            \frac{\partial f^2}{\partial y} &= \frac{x^2-2y^2+z^2}{(x^2+y^2+z^2)^{5/2}} + \frac{(x-1)^2-2y^2+z^2}{((x-1)^2+y^2+z^2)^{5/2}} \\
+            \frac{\partial f^3}{\partial z} &= \frac{x^2+y^2-2z^2}{(x^2+y^2+z^2)^{5/2}} + \frac{(x-1)^2+y^2-2z^2}{((x-1)^2+y^2+z^2)^{5/2}} 
+        \end{align*}
+        より，
+        \begin{align*}
+            \int_{\partial D}X\cdot dA &= \int_{\partial D}\omega \\
+            &= \int_D\left(\frac{\partial f^1}{\partial x}+\frac{\partial f^2}{\partial y}+\frac{\partial f^3}{\partial z}\right)dxdydz \\
+            &= \int_D 0 \;dxdydz = 0
+        \end{align*}
+        を得る．
+    \end{proof}
+\end{example}
+
+\section{Stokesの定理}
+
+\begin{definition}[curl]
+    $\nabla\times:\mathfrak{X}(U)\to\mathfrak{X}(U)$を，$X=f^1\frac{\partial}{\partial x^1}+f^2\frac{\partial}{\partial x^2} +f^3\frac{\partial}{\partial x^3}$に対して
+    \[\mathrm{rot}X=\left(\frac{\partial f_3}{\partial x^2}-\frac{\partial f_2}{\partial x^3}\right)\frac{\partial}{\partial x^1} + \left(\frac{\partial f_1}{\partial x^3}-\frac{\partial f_3}{\partial x^1}\right)\frac{\partial}{\partial x^2} + \left(\frac{\partial f_2}{\partial x^1}-\frac{\partial f_1}{\partial x^2}\right)\frac{\partial}{\partial x^3} \]
+    を対応させる写像とする．
+\end{definition}
+\begin{definition}[良い三角形分割]
+    曲面$\Sigma\subset\mathbb{R}^3$の良い三角形分割$\{S_\lambda\}_{\lambda\in\Lambda}$とは，各パラメタ付け$(\Delta_\lambda,\psi_\lambda)$の$\psi$の$\partial\Delta_\lambda\setminus\{頂点\}$への制限が正則であることを云う．
+\end{definition}
+\begin{shadebox}\begin{theorem}[Stokes]
+    $\Sigma\subset\mathbb{R}^3$を$C^2$級の境界を持つ向きづけられた有界曲面で，良い三角形分割を持つとする．$U$-ベクトル場と，境界としての向きを定めた$\partial\Sigma$について，
+    \[ \int_{\partial\Sigma}X\cdot dx = \int_\Sigma (\mathrm{rot}\;X)\cdot dA \]
+\end{theorem}\end{shadebox}
+
+\section{積分定理と微分形式}
+$r(X)$も$\mathrm{div}X$も$\mathrm{rot}X$も，
+ベクトル場の係数を微分するという意味でベクトル場の微分であった．
+幾何学的というより操作的である．
+微分の本体は外微分であるとするなら，積分の本体は微分形式の積分である．
+
+\begin{itembox}[l]{積分定理：微分と積分が，境界に対応．}
+    $f$を微分形式，$\gamma$を多様体とする．
+    \[\int_\gamma df=\int_{\partial\gamma}f\]
+    現代的なStokesの定理とは，chainに対する境界演算子$\partial$と，formに対する外微分$d$との双対的な関係を表現した微分幾何学の定理である．
+\end{itembox}
+\begin{remark}
+    1. $\mathbb{R}$上の場合が微積分学の基本定理である．
+
+    2. 勾配とは，これを通常の積分の方向とは逆に，関数$f$の定める微分形式$df$に対応するベクトル場を得るものだという意味で，「ベクトル場の係数の微分」という意味でベクトル場の微分の１つに数えられる．座標$(x^1,\cdots,x^n)$についての表示$f={}^t(f^1,\cdots,f^n)$について，$df=\frac{\partial f^1}{\partial x^1}dx^1+\cdots+\frac{\partial f^n}{\partial x^n}dx^n$と表せるから，
+    $\int_\gamma df=\int_\gamma X\cdot dA$を満たすベクトル場$X=f^1\frac{\partial}{\partial x^1}+\cdots +f^n\frac{\partial}{\partial x^n}$を，関数$f:\mathbb{R}^n\to\mathbb{R}$に対して勾配$\mathrm{grad}f$と云うのであった．
+
+    3. $r(X),\mathrm{div}X,\mathrm{rot}X$とは，ベクトル場$X$が定める微分形式$f$から，その外微分$df$を計算して成り立つ積分定理から，$df$の定めるベクトル場を求めなおしたもの，と云う意味で，「ベクトル場の係数の微分という意味でのベクトル場の微分」に当たる．
+\end{remark}
+
+\begin{shadebox}
+    \begin{theorem}[Bourbaki後のStokesの定理]
+        $M$を境界を持つコンパクトで向きづけられた$n$次元多様体とし，$\omega\in\Omega^{n-1}(M)$とする．この時，次が成り立つ．
+        \[ \int_{\partial M}\omega=\int_Md\omega \]
+
+        特に，$\partial M=\emptyset$の場合のステートメントは次のようになる．（境界のないコンパクトな多様体を，閉多様体という）．
+        \[ \int_M d\omega=0 \]
+    \end{theorem}
+\end{shadebox}
+\begin{remark}
+    この定理が成り立つためには，$\omega$は$M$全体で定義されて居る必要がある．
+\end{remark}
+
+
+
+\section{Poincaréの補題}
+まずベクトル場全体の集合$\mathfrak{X}(U)$と微分形式全体の集合$\Omega^k(U)$との関係を，鎖複体を用いて捉え，なんとなく予感されていたベクトル場の微分と外微分との対応，関数・ベクトル場の積分と微分形式の積分との対応をあからさまに定式化する．
+
+
+\subsection{ベクトル場の微分$r,\grad,\rot,\mathrm{div}$の微分形式からの整理}
+以降微分形式は$C^\infty$で話を進めるが，多くは$C^1$で成り立つ．
+
+一般に，外微分に当たるベクトル場の微分の逆操作をポテンシャルといい（その後，ポテンシャルという用語は微分形式に対しても定義される），その微分形式を翻訳した結果に依存してベクトルポテンシャルと言ったりスカラーポテンシャルと言ったりする．
+\begin{definition}[potential]
+    1. $U\subset\R^n$上のベクトル場$X$に対して，$f$がスカラーポテンシャルであるとは，$X=\grad f$を満たすことをいう．
+
+    2. $U\subset\R^3$上のベクトル場$X$に対して，$Y$がベクトルポテンシャルであるとは，$X=\rot Y$を満たすことをいう．
+
+    3. $U\subset\R^2$上のベクトル場$X$に対して，$X=r(Y)$を満たす$Y$もベクトルポテンシャルに相当するが，定まった呼び名はない．
+
+    4. $U\subset\R^3$上の関数$g$に対して，$g=\divergence (Y)$を満たす$Y$もベクトルポテンシャルに相当するが，定まった呼び名はない．
+\end{definition}
+\begin{remark}
+    なぜdivは考えないのか．この定義の非対称性を僕はまだ知らない．
+\end{remark}
+
+\begin{definition}[２次元の場合]
+    $U\subset\R^2$を領域（＝連結な開集合）とする．$C^\infty(U)$-加群としての同型$G_1:\mathfrak{X}(U)\to\Omega^1(U), G_2:\Omega^0(U)\to\Omega^2(U)$を次のように定める．
+    \begin{align*}
+        G_1(f^1\frac{\partial}{\partial x^1}+f^2\frac{\partial}{\partial x^2}) &= f_1dx^1+f_2dx^2 \\
+        G_2(f) &= f\;dx^1\wedge dx^2
+    \end{align*}
+\end{definition}
+\begin{remark}
+    ここでは$f_i=f^i$として居るが，一般には「計量」を用いて，添字を下げて用いる，とのこと．
+\end{remark}
+\begin{proposition}[$r,\grad$]
+    $U\subset\R^2$を領域（＝連結な開集合）とする．外微分$d^i:\Omega^i(U)\to\Omega^{i+1}(U)$について，次の図式（鎖複体）は可換である．
+    \begin{center}
+        \begin{tikzcd}
+            C^\infty(U) \ar[d, equal] \ar[r, "\grad"] & \mathfrak{X}(U) \ar[r, "r"] \ar[d, "G_1"', "{\rotatebox[origin=c]{90}{$\sim$}}"] & C^\infty(U) \ar[d, "G_2"', "{\rotatebox[origin=c]{90}{$\sim$}}"] \\
+            \Omega^0(U) \ar[r, "d^0"'] & \Omega^1(U) \ar[r, "d^1"'] & \Omega^2(U)
+        \end{tikzcd}
+    \end{center}
+    即ち，
+
+    1. $\grad = G^{-1}_1\circ d^0$
+
+    2. $r=G^{-1}_2\circ d^1\circ G_1$
+
+    3. $r\circ\grad=0$（加群の零に写す写像）
+\end{proposition}
+
+\begin{definition}[３次元の場合]
+    $U\subset\R^3$を領域（＝連結な開集合）とする．$C^\infty(U)$-加群としての同型$G_1:\mathfrak{X}(U)\to\Omega^1(U), G_2:\mathfrak{X}(U)\to\Omega^2(U), G_3:C^\infty(U)\to\Omega^3(U)$を次のように定める．
+    \begin{align*}
+        G_1(f^1\frac{\partial}{\partial x^1}+f^2\frac{\partial}{\partial x^2}+f^3\frac{\partial}{\partial x^3}) &= f_1dx^1+f_2dx^2+f_3dx^3 \\
+        G_2(f^1\frac{\partial}{\partial x^1}+f^2\frac{\partial}{\partial x^2}+f^3\frac{\partial}{\partial x^3}) &= f_1dx^2\wedge dx^3 + f_2 dx^3\wedge dx^1+f_3dx^1\wedge dx^2 \\
+        G_3(f) &= f\;dx^1\wedge dx^2\wedge dx^3
+    \end{align*}
+\end{definition}
+\begin{proposition}[$\grad,\rot,\divergence$]
+    $U\subset\R^3$を領域（＝連結な開集合）とする．外微分$d^i:\Omega^i(U)\to\Omega^{i+1}(U)$について，次の図式（鎖複体）は可換である．
+    \begin{center}
+        \begin{tikzcd}
+            C^\infty(U) \ar[d, equal] \ar[r, "\grad"] & \mathfrak{X}(U) \ar[r, "\rot"] \ar[d, "G_1"', "{\rotatebox[origin=c]{90}{$\sim$}}"] & \mathfrak{X}(U) \ar[d, "G_2"', "{\rotatebox[origin=c]{90}{$\sim$}}"] \ar[r, "\divergence"] & C^\infty(U) \ar[d, "G_3"', "{\rotatebox[origin=c]{90}{$\sim$}}"]  \\
+            \Omega^0(U) \ar[r, "d^0"'] & \Omega^1(U) \ar[r, "d^1"'] & \Omega^2(U) \ar[r, "d^2"'] & \Omega^3(U)
+        \end{tikzcd}
+    \end{center}
+    即ち，
+
+    1. $\grad = G^{-1}_1\circ d^0$（同じ）
+
+    2. $\rot=G^{-1}_2\circ d^1\circ G_1$（$r$が$\rot$に変わったのみ）
+
+    3. $\divergence=G^{-1}_3\circ d^2\circ G_2$
+
+    4. $\rot\circ\grad=0$（$r$が$\rot$に変わったのみ）
+
+    5. $\divergence\circ\rot=0$
+\end{proposition}
+
+\subsection{Poincaréの補題}
+
+\begin{definition}[閉，完全，ポテンシャル]
+    $U\subset\mathbb{R}^n$を境界を持つ多様体とし，$\omega\in\Omega^p(U)$をp-formとする．
+
+    1. $\omega$が閉形式であるとは，$d\omega=0$が成り立つことをいう．
+
+    2. $\omega$が完全形式であるとは，$\exists\eta\in\Omega^{p-1}(U)\;d\eta=\omega$が成り立つことをいう．
+
+    この$\eta$を，一般化してpotential，原始形式という．特に$p=1$の時は第一積分，原始関数などという．
+\end{definition}
+\begin{remark}　
+
+    1. $n=2$とする．1-形式$\omega$が完全形式であることと，$d\omega=0$が誘導する全微分方程式が完全形であることとは同値である．（それが定義である）．
+
+    2. $n=2,3$の時，potentialの語は古典的な意味と対応する．
+
+    3. $\partial U=\emptyset$でも境界付きの多様体ということに注意．この場合も含めて，一般の境界付きの多様体にてStokesの定理が成り立つのであった．
+\end{remark}
+
+\begin{theorem}[Poincaréの補題]
+    $D\subset\mathbb{R}^n$を星形領域とする（$\exists p_0\in D\;\forall p\in D\; \overline{p_0p}\subset D$）．この時，$\omega\in\Omega^p(U)\;(p\ge 1)$について，
+    $d\omega=0$を満たせば$\exists\eta\in\Omega^{p-1}(D)\;d\eta=\omega$が成り立つ．
+\end{theorem}
+\begin{remark}　
+
+    1. 即ち，微分形式に関しての条件が，特にde Rhamコホモロジー群が，定義域全体の形について言及して居ることがわかる．さらに古典的には，div, rotからなのであった．
+
+    2. 正確には，$D$が可縮ならば成り立つ．穴が空いていなければ良い．なお，可縮な空間は単連結（弧状連結の特別な場合）である．足助さんは単連結の方を挙げて居る．これだと主張がさらに強い．
+\end{remark}
+
+\begin{definition}[図式が完全]
+    図式が完全であるとは，$X\in\mathfrak{X}(U)$が$\divergence X=0$を満たすならば，$\exists Y\in\mathfrak{X}(U)\;\rot Y=X$が成り立ち，
+    同様に$\omega\in\Omega^1(U)$が$d\omega=0$を満たすならば$\exists\eta\in\Omega^0(U)\;d\eta=\omega$であることをいう．
+
+    つまり，一般化すれば，\textbf{射の像が，次の射の核に等しい$\omega$-図式}を完全系列(exact sequence)という．一般に像$\supset$核であるが，逆も成り立つということである．
+    なお，加法圏においては，鎖複体と完全系列とは一致する．
+    \begin{center}
+        \begin{tikzcd}
+            C^\infty(U) \ar[d, equal] \ar[r, "\grad"] & \mathfrak{X}(U) \ar[r, "\rot"] \ar[d, "G_1"', "{\rotatebox[origin=c]{90}{$\sim$}}"] & \mathfrak{X}(U) \ar[d, "G_2"', "{\rotatebox[origin=c]{90}{$\sim$}}"] \ar[r, "\divergence"] & C^\infty(U) \ar[d, "G_3"', "{\rotatebox[origin=c]{90}{$\sim$}}"]  \\
+            \Omega^0(U) \ar[r, "d^0"'] & \Omega^1(U) \ar[r, "d^1"'] & \Omega^2(U) \ar[r, "d^2"'] & \Omega^3(U)
+        \end{tikzcd}
+    \end{center}
+\end{definition}
+ということで，像と核のズレに言及する言葉が欲しくなる．
+\begin{definition}[$k$-de Rham cohomology group]
+    次の，$\Omega^k(D)$上で，出る射$d^k$の核を，入る射$d^{k-1}$の像で割って得る
+    線型空間を\textbf{$k$次de Rhamコホモロジー群}という．
+    \[ H^k_{dR}:=\{ \omega\in\Omega^k{D}\mid d\omega=0 \} / \{ \omega\in\Omega^k{D}\mid \exists\eta\in\Omega^{k-1}(D)\;\omega=d\eta \} \]
+    ただし，形式的に，$\Omega^{-1}(D)=\{0\}$とする．
+\end{definition}
+
+\section{複素解析的な関数の複素線積分：Cauchyの積分定理とGreenの定理}
+
+\subsection{導入}
+
+平面を定義域とする２次元ベクトル場の特殊な例として複素関数がある．この観点からは，「複素関数」
+必ずしも自明な対象に思えないので非常に良い．この立場から，これが満たす性質を見ていく．
+複素関数に追加の性質（体としての代数的構造など）が，ベクトル場（多変数ベクトル値関数の幾何化）
+としての振る舞いにどう影響するか．どうして前者の言葉で語るのか．
+
+\begin{example}[謎の複素数の導入]
+    関数$f:\mathbb{R}^2\supset D\to\mathbb{C}$は，$g(z,\overline{z})=f\left( \frac{z+\overline{z}}{2} , \frac{z-\overline{z}}{2\sqrt{-1}} \right)$とすることで$g:\mathbb{C}\supset D'\to\mathbb{C}$と同一視できる．$f(x,y)=g(x+\sqrt{-1}y,x-\sqrt{-1}y)$とすれば可逆である．
+    実際，変数が$z\in\mathbb{C}$だけだと，$f(x,y)=x^2+y^2$という関数は$g(z,\overline{z})=z\overline{z}$となるが，$f(x,y)=x^2-y^2+2\sqrt{-1}xy$という関数は$g(z,\overline{z})=z^2$と表せる．これを$g(z)=z^2$と書いてしまうことにする．
+\end{example}
+
+\begin{definition}[Wirtinger微分：$\mathbb{C}$の接空間・余接空間の基底]
+    $\mathbb{C}$の接空間・余接空間の基底を，$\mathbb{R}^2$から定めると（？）
+    \begin{align*}
+        \frac{\partial}{\partial z} &= \frac{1}{2}\left( \frac{\partial}{\partial x}-\sqrt{-1}\frac{\partial}{\partial y} \right) \\
+        \frac{\partial}{\partial \overline{z}} &= \frac{1}{2}\left( \frac{\partial}{\partial x}+\sqrt{-1}\frac{\partial}{\partial y} \right) \\
+        dz &= dx + \sqrt{-1}dy \\
+        d\overline{z} &= dx - \sqrt{-1}dy
+    \end{align*}
+    と定めれば，$df=\frac{\partial f}{\partial z}dz+\frac{\partial f}{\partial\overline{z}}d\overline{z}$が成り立つ．
+\end{definition}
+
+\begin{definition}[正則性：Cauchy-Riemann方程式]
+    $f:\mathbb{R}^2\supset D\to\mathbb{C}$が正則であるとは，$\frac{\partial f}{\partial\overline{z}}=0$であることをいう．
+\end{definition}
+\begin{theorem}[正則ならば解析的]
+    $f:D\to\mathbb{C}$がCauchy-Riemann方程式を満たすならば，次が成り立つ．
+
+    定義域内の任意の点$p\in D$について，$r>0,B_r(p)\subset D$が存在して，$f$は$p$を中心として$B_r(p)$上Taylor展開可能である．
+    即ち，次が成り立ち，収束がコンパクト一様である．
+    \[ f(z) = f(p) \sum^\infty_{n=0} \frac{1}{n!}\frac{\partial^nf}{\partial z^n}(p)(z-p)^n\;\;\; (z\in B_r(p)) \]
+\end{theorem}
+\begin{remark}　
+
+    1. Cauchy-Riemannの関係式を満たす（正則である）とは，$f$が$\overline{z}$に依存しないという性質であり，数学的にはこの定理で表現される．
+\end{remark}
+
+\begin{definition}[複素線積分]
+    $f:D\to\mathbb{C}$と曲線$\gamma:[a,b]\to D$について，
+    \[ \int_\gamma f(z)dz = \int^b_af(\gamma (t))\frac{d\gamma}{dt}(t)dt \]
+    右辺における$\gamma$の微分とその積分はcomponent-wiseに行う．
+\end{definition}
+\begin{theorem}[Cauchyの積分定理]
+    正則関数$f:D\to\mathbb{C}$において，$D'\subset D$は閉領域で，境界は区分的$C^1$級曲線$\gamma_1,\cdots,\gamma_r$からなるとする．この時，次が成り立つ．
+    \[ \int_{\gamma_1+\cdots+\gamma_n}f(z)dz = 0 \]
+\end{theorem}
+\begin{corollary}
+    $\gamma_1,\gamma_2$が閉曲線の分割であって，「穴のない」領域を囲むとする．$f$がその領域を含むある開集合上で正則ならば，次が成り立つ．
+    \[ \int_{gamma_1}f(z)dz = \int_{gamma_2}f(z)dz \]
+\end{corollary}
+
+\begin{screen}
+    複素関数が微分可能ならば，何回でも微分可能である．従って複素解析的である．これが正則であることと同値である．
+    即ち，$\mathbb{C}$の２つの標準基底についての２つの近付け方について正しければ(Cauchy-Riemann方程式)十分である．
+    勿論，２つの実関数が微分可能であることは仮定した．
+
+    この議論を，ウルティンガー微分を用いれば，授業で習ったことと全く同様に微分形式を用いた議論が展開できる．
+\end{screen}
+
+\subsection{別の方向からの展開}
+
+\begin{definition}[正則関数]
+    次の左辺の値が定まる時，関数$f:\mathbb{C}\supset D\to\mathbb{C}$は微分可能であるという．
+    \[ \frac{df}{dz} := \lim_{x\to a}\frac{f(z)-f(a)}{z-a} \]
+    $D$上の各点で微分可能である時，$f$を正則という．１点に於ける正則性は，その近傍が取れてそこへの制限が正則関数となることをいう．
+\end{definition}
+\begin{remark}
+    正則関数は微分が消えない点において，複素平面上の等角写像である．
+\end{remark}
+\begin{definition}[調和関数]
+    ラプラス作用素$\bigtriangleup =\frac{\partial^2}{\partial x^2_1}+\cdots+\frac{\partial^2}{\partial x^2_n}$に対して$\bigtriangleup f=0$を満たす関数$f$を調和関数という．
+\end{definition}
+\begin{remark}
+    微分幾何学の分野で，Euclid空間に埋め込まれた多様体やRiemann多様体に「勾配の発散」として拡張した演算子$\bigtriangleup$を，特にLaplace-Beltrami作用素ともいう．
+\end{remark}
+\begin{definition}[Cauchy-Riemann方程式]
+    正則関数の微分形式は虚軸上で近付けるか，実軸上で近付けるかに依らないため，$z=x+yi$とすると$\frac{\partial f}{\partial x}=\frac{1}{i}\frac{\partial f}{\partial y}$が必要である．
+
+    この条件は，正則関数$f$のYacobi行列が$\begin{pmatrix}a&-b\\b&a\end{pmatrix}$の形であることを要請し，これは複素数の表現行列であるから，関数$f$は等角写像であることが必要である．
+
+    なお，$f(x,y)=u(x,y)+v(x,y)i$と実関数で置けば，$\frac{\partial f}{\partial x}=\frac{1}{i}\frac{\partial f}{\partial y}$は
+    \begin{align*}
+        \frac{\partial u}{\partial x} &= \frac{\partial v}{\partial y} & \frac{\partial u}{\partial y} &= -\frac{\partial v}{\partial x}
+    \end{align*}
+    と同値である．また，Wirtinger微分を用いれば，$\frac{\partial f}{\partial\overline{z}}=0$とも同値である．こちらは特にDBAR方程式／$\overline{\partial}$-方程式と呼ばれる．
+\end{definition}
+\begin{notation}[D bar]
+    $\overline{\partial}$を$\frac{\partial}{\partial\overline{z}}=\frac{1}{2}\left( \frac{\partial}{\partial x}+i\frac{\partial}{\partial y} \right)$の略記とする．$\partial=\frac{\partial}{\partial z}$の複素共役に他ならない．
+\end{notation}
+\begin{theorem}[一致の定理 identity theorem]\label{thm-identity-theorem}
+    連結開領域$D\subset\mathbb{C}$で正則な複素関数$f,g$が$D$で集積点を持つような$D$の部分集合上で一致すれば，領域$D$全体で一致する．
+\end{theorem}
+
+\begin{theorem}
+    1(Cauchyの第一定理). 単連結な領域$D$内での，正則関数$f$の閉曲線$C$に沿った線積分は０である．
+
+    2(Moreraの定理). 連結開集合$D$内での，連続な複素関数$f$の全ての区分的$C^1$曲線$\gamma$に沿った線積分が０ならば，$f$は正則である．
+
+    2の逆が成り立つためには，$D$が単連結であれば良い．
+\end{theorem}
+
+\begin{itembox}[l]{絶対ここに到達する}
+    複素数には商が定義されて居るので，商の形で実関数の延長上で微分形式を定義できる．
+
+    その結果，Cauchy-Riemann方程式を経由して，調和関数と正則関数は結び付けられる．
+    後者の特異で便利な性質は，調和関数の性質の流入であると捉えられる．
+    あるいは，調和関数は実解析に於ける正則関数である．こうして背後の調和関数論へと目がゆく．
+
+    正則関数の全体は層をなすことが知られて居る．この立場から見れば，上記の局所的な正則関数は正則関数の芽である．
+    一致の定理\ref{thm-identity-theorem}によれば，微分方程式はその正則解・解析解全体のなす部分層を表現して居ると考えることができる．
+    \underline{つまり，適当なクラスの関数が作る関数空間が与えられる時，その空間に作用してある種の層を生み出す関手として微分方程式が捉えられるのである}．\footnote{jp.wikipedia.orgの正則関数．岡潔を感じる，絶対ここに到達してやる．美し過ぎる．}
+\end{itembox}
+
+\chapter{まとめ}
+
+\section{曲線論}
+
+曲線はパラメータ付けによって定義することになる（径数付き曲線）．即ちむしろ写像$\varphi$として曲線を定める．
+最終的に「正則な変数変換で写り合う曲線」というover categoryを同値類でまとめて「曲線」と呼ぶことにする．
+% すると，曲線の相等の表現は「パラメータの空間が微分同型写像で写り合う」ことだということになる．
+このような変数変換が存在するような曲線のパラメータ付けの取り方のクラスとして，
+「正則（＝微分が消えない）」で「自己交叉がない（単純）」なものであれば十分であることが分かる．
+なお，正確には変数変換が存在するには，片方のパラメータ付けは正則である必要はないが，
+曲線の向きという属性を保存する変数変換は「正則な」変数変換である．正則なパラメータを正則なパラメータにpushoutするからである．
+正則なパラメータとはまさに曲線に「一筆書き」するもので，これを「曲線に向きを定める」という．
+曲線の向きとは，「正則な変数変換」が作るネットワークの中で相対的に決まるものに他ならず，絶対的な実体はない．
+
+このように「正則（＝微分が消えない）」が一番の中心概念となった．曲線とは一番単純な多様体の１つだろうが，
+これを分類するにあたって，自然に微分が出てくるのである．
+
+最終的に，積分は区分的に$C^0$級な曲線上で定義される．正則や単純などの非本質的な制約は解かれる．
+
+\section{スカラー場とベクトル場}
+
+まず，接空間を定義した．接空間の基底$\frac{\partial}{\partial x}$を見た時は混乱した．
+関数の微分とどう関係あるのか，作用素だからなのか．
+が，確かに「偏微分に見えるし，実際偏微分」だからである．
+各点の接ベクトルとは方向微分を取る作用素であり，各点で接ベクトルを選び出す選択写像がベクトル場ならば，
+ベクトル場は関数に作用して導関数を得る「各点ごとの方向微分を取る微分作用素」とみなせる．
+
+多様体上の接ベクトルは独立した直感的な概念であるが，「あらゆる曲線がその点に於ける速度ベクトルとして取り得るベクトル全体」
+として具体的に構成できる．でも簡単に同値類を取って定義するのではなく，
+「多様体上に関数$f$が定義されれば，その都度$\gamma$を取って，それとの合成関数の微分を取る」
+という多様体上に待ち受ける「微分操作発生装置」として定義し，「微分演算」としての同値性から同値類を取る．
+
+するとその標準基底として，$\frac{\partial}{\partial x}$が取れるのである．これは方向微分の中でも特に偏微分と呼ばれる作用素である．
+こうして，自然に，各点ごとのベクトル空間$T_p(M)$が定義された．
+
+以上の定義から，ベクトル場の変換性を考える．ベクトル場は，接空間の基底を１組取り，その係数が各点毎にどう移り変わるかを翻訳する多変数ベクトル値関数と同一視される．
+ベクトル場は，このデータが反変になる．なので，$f^1\frac{\partial}{\partial x^1}+\cdots +f^n\frac{\partial}{\partial x^n}$などと表示する．
+実際，Euclid空間$\mathbb{R}^n$の大域座標系に於ける座標変換$\varphi:\mathbb{R}^n\to\mathbb{R}^n, y\mapsto x$で写り合う多様体上のベクトル場の係数は
+\[ \begin{pmatrix}v^1(\varphi(y))\\\vdots\\v^n(\varphi(y))\end{pmatrix} = D\varphi(y)\begin{pmatrix}w^1(y)\\\vdots\\w^n(y)\end{pmatrix} \]
+というように，各基底$e_1,\cdots,e_n$と同じ変換$D\varphi$を受ける．一方，接空間の基底は次のような変換を受ける．
+\[\left( \frac{\partial}{\partial y^1}_y \cdots \frac{\partial}{\partial y^n}_y \right) = \left( \frac{\partial}{\partial x^1}_x \cdots \frac{\partial}{\partial x^n}_x \right)D\varphi(y)\]
+
+\section{線積分と積分定理}
+
+\begin{definition}[関数の，曲線積分路に対する線積分]
+    $f:U\to\mathbb{R}$を$C^0$級関数とし，$\gamma:I=[a,b]\to U$を$C^1$級関数とする．$x=(x^1,\cdots,x^n)$を$U$の局所座標系とすると，
+    \[ \int_\gamma f(x)|dx|:=\int^b_af(\gamma(t))||D\gamma(t)||dt \]
+    \begin{center}
+        \begin{tikzcd}
+            \mathbb{R}^n \ar[dr, "\overline{f}"] & \\
+            U  \ar[u, "x"] \ar[r, "f"] & \mathbb{R} \\
+            I \ar[u, "\gamma"] \ar[uu, bend left=50, "\overline{\gamma}"]
+        \end{tikzcd}
+    \end{center}
+\end{definition}
+\begin{itembox}[l]{1-形式と関数の線積分}
+    \begin{align*}
+        \int_\gamma f(x)|dx| &= \int^b_a(\gamma^*f)(\gamma^*|dx|) \\
+        &= \int^b_a f(\gamma(t))\left\| \frac{d\gamma}{dt}(t) \right\|dt
+    \end{align*}
+    などと書けるだろうか．一変数の場合，$\gamma:\mathbb{R}\to\mathbb{R}$に対して，
+    \[ \int_\gamma f(x)dx = \int_I\gamma^*(fdx) \]
+    と統一的に書くことが出来て，線素にノルムも付かない．
+    このズレは，線積分はどちらかといえば，変数変換公式の$|\det D\varphi(x)$の退化した形が$\left| \frac{d\gamma}{dt}(t) \right|$であったのだ．
+\end{itembox}
+
+\begin{definition}[ベクトル場の線積分]
+    $\gamma:I=[a,b]\to U\subset\mathbb{R}^n$を$C^1$級曲線，$X=(X_p)_{p\in U}$を$C^0$級のベクトル場とする．
+    それぞれを，$\mathbb{R}^n$の標準的な座標$x={}^t(x^1,\cdots,x^n)$による表示を，
+    \[ \gamma = \left(\begin{array}{c}\gamma^1 \\ \vdots \\ \gamma^n\end{array}\right), \;\;\; X=f^1\frac{\partial }{\partial x^1}+\cdots +f^n\frac{\partial }{\partial x^n} \]
+    とする．
+    \begin{eqnarray*}
+        \int_\gamma X(x)\cdot dx &:=& \int^b_a \left( f^1(\gamma (t))\cdots f^n(\gamma (t))\left(\begin{array}{c}\frac{d\gamma^1}{dt}(t) \\ \vdots \\ \frac{d\gamma^n}{dt}(t)\end{array}\right) \right) \\
+            &=& \int^b_a \langle X(\gamma (t))|D\gamma (t)\rangle dt
+    \end{eqnarray*}
+\end{definition}
+
+\begin{screen}
+    関数の線積分は，向きには依らないが，微分の向きが変わる瞬間があると値が変わる．また，常に０以上である．
+
+    ベクトル場の線積分は，向きに依るが，単調でなく，多少同じ道を右往左往しても値は同じ．
+
+    １変数関数$\mathbb{R}\to\mathbb{R}$の積分とは，１次元Euclid空間に埋め込まれた１次元多様体上のベクトル場の積分に他ならなかったのだ．
+\end{screen}
+
+\begin{itembox}[l]{勾配ベクトル場についての積分定理}$\gamma:I=[a,b]\to\mathbb{R}^n$について，
+    \begin{align*}
+        \int_\gamma\grad f\cdot dx &= \int_{\gamma}df \\
+        &= \int_{\partial\gamma}f \\
+        &= \int_{\partial I}\gamma^*f = \left[\gamma^*f\right]^b_a
+    \end{align*}
+\end{itembox}
+
+\section{曲面論}
+
+まず，曲面を三角形分割から定義した．即ち，$C^r$級曲面とは，$C^r$級三角形からなる局所有限な単体複体$\{S_\lambda\}_{\lambda\in\Lambda}$のことである．
+すると，特異点が考えられる．特異点とは，座標近傍$(U,\varphi)$が取れないような点である．
+特異点とは，Euclid空間の上半平面$\mathbb{R}^2_+$上の開集合$V$への$C^r$級微分同相写像$\varphi:U\xrightarrow{\sim} V$が存在しないような点である．
+連続変形についての直観がまだないが，錐の辺や頂点など，不連続的に折れ曲がった点をうまく捉える言葉となって居る．
+一方で境界とは，あくまで相対位相による位相の言葉である．埋め込まれた多様体$\Sigm$への相対位相で，$\mathbb{R}^2_+$上の開円盤と同じ位相を持つような$\Sigma$の相対位相が取れる時に，内点という．これは，開集合は開円盤に同相だからである．
+
+このように曲面を定義すると，座標近傍系で有限被覆される集合は，確かに多様体と言える．それも「特異点を持たない多様体」となる．
+
+多様体の定義と陰関数定理との間の関係は，まだ未解決である．
+
+
+
+\section{微分形式の計算}
+それにしても，この授業で$X$の定める1-形式を$\omega_X=\langle X|$と定義したのが私に取っては革新的であった．
+内積を利用して双対性を綺麗に導入できる記法の妙義であるし，双対基底も自然に出てくる．
+
+\begin{example}[ベクトルポテンシャルの求め方]
+    $X=f^1\frac{\partial}{\partial x^1}+f^2\frac{\partial}{\partial x^2}+f^3\frac{\partial}{\partial x^3}$を$\mathbb{R}^3$上のベクトル場とする．これが$\divergence X=0$を満たす時，Poincaréの補題より，ベクトルポテンシャル$Y$を持つ．即ち，$\exists Y\in\mathfrak{X}(\mathbb{R}^3)\;\rot Y=X$．
+
+    1. まず，$\omega:=G_2(X)=f^1dx^2\wedge dx^3+f^2dx^3\wedge dx^1+f^3dx^1\wedge dx^2$と置くと，$\divergence X=0\Leftrightarrow d\omega=0$である．外微分$d$を丁寧に計算すれば$d\omega=\left( \frac{\partial f^1}{\partial x^1} + \frac{\partial f^2}{\partial x^2} + \frac{\partial f^3}{\partial x^3} \right)dx^1dx^2dx^3$を確認できる．
+
+    2. 座標変換$\gamma:\mathbb{R}^3\times[0,1]\to\mathbb{R}^3$を$\begin{pmatrix}p^1\\p^2\\p^3\\t\end{pmatrix}\mapsto t\begin{pmatrix}p^1\\p^2\\p^3\end{pmatrix}$という「第四引数$t$で制御された$t$倍写像」として，これによる空間$\mathbb{R}^3\times[0,1]$への$\omega$の引き戻しを考える．
+    \begin{align*}
+        \gamma^*dx^i  &= d\gamma^i \\
+        &= \frac{\partial\gamma^i}{\partial p^1}dp^1 + \frac{\partial\gamma^i}{\partial p^2}dp^2 + \frac{\partial\gamma^i}{\partial p^3}dp^3 + \frac{\partial\gamma^i}{\partial t}dt \\
+        &= \frac{\partial\gamma^i}{\partial p^i}dp^i + p^idt = tdp^i +  p^idt\\
+        \gamma^*(dx^i\wedge dx^j) &= (\gamma^*dx^i) \wedge (\gamma^*dx^j) \\
+        &= t^2dp^i\wedge dp^j + tp^idt\wedge dp^j + tp^jdp^i\wedge dt\\
+        &= tdt\wedge (p^idp^j-p^jdp^i) + t^2dp^i\wedge dp^j \\
+        \gamma^*\omega &= \gamma^*\left( f^1dx^2\wedge dx^3+f^2dx^3\wedge dx^1+f^3dx^1\wedge dx^2 \right) \\
+        &= (f^1\circ\gamma) (tdt\wedge (p^2dp^3-p^3dp^2) + t^2dp^2\wedge dp^3) \\*
+        &\hphantom{{}={}}+ (f^2\circ\gamma) (tdt\wedge (p^3dp^1-p^1dp^3) + t^2dp^3\wedge dp^1) \\*
+        &\hphantom{{}={}}+ (f^3\circ\gamma) (tdt\wedge (p^1dp^2-p^2dp^1) + t^2dp^1\wedge dp^2) \\
+        &=(f^1\circ\gamma)t\,dt\wedge(p^2\,dp^3-p^3\,dp^2)+(f^1\circ\gamma)t^2\,dp^2\wedge dp^3\\*
+        &\hphantom{{}={}}+(f^2\circ\gamma)t\,dt\wedge(p^3\,dp^1-p^1\,dp^3)+(f^2\circ\gamma)t^2\,dp^3\wedge dp^1\\*
+        &\hphantom{{}={}}+(f^3\circ\gamma)t\,dt\wedge(p^1\,dp^2-p^2\,dp^1)+(f^3\circ\gamma)t^2\,dp^1\wedge dp^2
+    \end{align*}
+    と計算できる．
+
+    3(魔法). $\gamma^*\omega$のうち，$dt$が現れない項は無視して
+    \[ \beta=t((f^1\circ\gamma)(p^2\,dp^3-p^3\,dp^2)+(f^2\circ\gamma)(p^3\,dp^1-p^1\,dp^3)+(f^3\circ\gamma)(p^1\,dp^2-p^2\,dp^1)) \]
+    と置く．\[\eta=\int_0^1\beta dt\]と置けば$\eta$は$d\eta=\omega$を満たし，$\omega$のポテンシャルである．
+\end{example}
+
+\part{多様体論}
+数学の上に多様体という概念を定義し，これを使った数理科学理論を検討する．
+基本的に，多様体という概念が，人類が得た微分積分学と線型代数学の資産を用いてtractableな数理モデルの範囲であると考えられる．
+
+\chapter{基礎}
+
+\begin{theorem}[inverse function theorem]
+    $C^r$級多様体$M,N$とその点$p\in M, f(p)=q\in N$に対して，$f:M\to N$は$C^r$級の写像であり，これが定める線型写像$(df)_p:T_p(M)\to T_q(N)$が可逆であるとする（即ち，$\dim M=\dim N$）．
+    この時，次が成り立つ．
+
+    1. $p$の開近傍$U$と$q$の開近傍$V$が存在して，$f(U)= V$となる
+    
+    2. $f|_U:U\to V$は可逆である（$C^r$級の微分同相写像である）．
+\end{theorem}
+
+\chapter{接ベクトル}
+
+可微分多様体$M$が与えられたとする．「その点を通る曲線が，その点において取り得る速度ベクトル全体の集合」は，$\mathbb{R}^n$の構造を受け継いで各点ごとの線型空間をなすので，これを接空間と呼ぶ．
+
+一方で，これには，局所座標に依らない定義を与えることができる．各速度ベクトルに対して，双対的な存在である「その速度ベクトル$v$が定める方向微分を取る演算$v(-)$」の方を定義とすれば，座標に依らずに接ベクトル／接空間を定義できる．
+数ベクトルとしての実体である速度ベクトルから，「これが勝手にとった曲線$\gamma$に対して，どのような実数を方向微分として対応させるか？」という微分作用素としての側面を定義に使うのである．すると，$M$上の局所座標の取り方から遊離し，一種，他者との関係の中で，速度ベクトル自身を構成せずにそれを措定する技術になっている．
+なお，そもそも速度ベクトルとは，曲線$\gamma$を定めて初めて定義できるものである．単純に，こちらの方向にはいかず，$\left.\frac{d (f\circ\gamma)}{dt}\right|_{t=0}$という方向に行ったのだ．これは合成関数を考えているので，$M$に着地しない．しかし，$M$上での翻訳も持つ．「$f$が$M$上に定める勾配ベクトル場と，$\gamma$が$M$上に定める速度ベクトルとの，内積」として．
+
+ただし，「$\gamma$の定める速度ベクトル」という幾何学的な存在，「$\gamma$の定める（方向）微分作用素」という解析的な存在の，２つの全体空間が一致するのは，$M$が$C^\infty$級の多様体である時のみである．そこで，後者による接空間の定義に制限をつけ，$\frac{\partial}{\partial x^i}$が生成する部分空間，とする．
+従って，結局座標を取って考えることになり，座標の取り方に依らずに同じ線型部分空間が生成されることは確認を要する．
+
+こうして，速度ベクトルという「係数表示」（反変）と，方向微分という「実体」（共変）との２つの対象を得たことになる．
+
+\chapter{はめ込みと埋め込み}
+
+\begin{definition}[immersion]
+    $f:M\to N$が嵌め込みであるとは，全ての点$p\in M$について，$f$の微分$(df)_p:T_p(M)\to T_{f(p)}(N)$が可逆であることをいう．
+\end{definition}
+\begin{example}
+    $m$次元球面$S^m$から$\mathbb{R}^{m+1}$への包含写像$i:S^m\to\mathbb{R}^{m+1}$は嵌め込みである．また，埋め込みでもある．
+\end{example}
+
+\begin{example}
+    $f:\mathbb{R}\to\mathbb{R}^2$を$f(\theta)=(\cos\theta,\sin\theta)$とすると，これは嵌め込みである．しかし，埋め込みではない．直線$\mathbb{R}$と単位円周$S^1$は位相憧憬ではない．
+\end{example}
+
+\begin{definition}[imbedding / embedding]
+    $C^r$級写像$f:M\to N$が埋め込みであるとは，次の２条件が成り立つことをいう．
+
+    1. $f$は嵌め込みである．
+
+    2. $f$の像$f(M)$を，$N$から定まる相対位相によって位相空間と見た時，$f:M\to f(M)$は同相写像である．
+\end{definition}
+
+\chapter{埋め込み定理}
+
+\begin{proposition}\label{prop-for-partition-of-unity}
+    $m$次元$C^r$級多様体$M$に対して，$p\in M$と$p\in U$を満たす$(p,U)$を任意に取る．
+    この時，これに対して$p$の開近傍$V$と$C^r$級関数$f:M\to\mathbb{R}$とが次を満たすように取れる．
+
+    1. $\overline{V}\subset U$
+
+    2. $\begin{cases}
+        f(q)=1 & \forall q\in\overline{V} \\
+        0\le f(q)<1 & \forall q\in U\setminus \overline{V} \\
+        f(q)=0 & \forall q\in M\setminus U
+    \end{cases}$
+\end{proposition}
+\begin{remark*}
+    さらに，3. $\mathrm{supp}(f)\subset U$も満たすように$f$を取れる．
+\end{remark*}
+
+\begin{definition}
+    多様体$M$上の連続関数$f:M\to\mathbb{R}$に対して，$f$の値が$0$にならないような点のなす部分集合の閉包のことを，$f$の台と呼び，$\mathrm{supp}(f):=\overline{\{ q\in M\mid f(q)\ne 0 \}}$で表す．
+\end{definition}
+
+\begin{proposition}[埋め込み定理]
+    任意のコンパクトな$m$次元$C^r$級多様体$M$に対して，十分次元の高い数空間$\mathbb{R}^n$への$C^r$級の埋め込み$g:M\to\mathbb{R}^n$が存在する．（$1\le r\le\infty$）
+\end{proposition}
+
+\chapter{１の分割}
+基礎となる事実は，命題\ref{prop-for-partition-of-unity}である．
+
+\begin{theorem}[1の分割：$n=2$の時．]
+    コンパクト$C^r$級多様体$M$について，開集合$U,V$は$M=U\cup V$を満たすとする．この時，$M$上の$C^r$級関数$f,g$が存在して，次を満たす．これらを，$\{U,V\}$に従属する１の分割という．
+
+    1. $0\le f,g\le 1$
+
+    2. $\mathrm{supp}(f)\subset U, \mathrm{supp}(g)\subset V$
+
+    3. $f+g\equiv 1$
+\end{theorem}
+
+\begin{definition}[covering]
+    位相空間$X$の部分集合族$\{A_\lambda\}_{\lambda\in\Lambda}$が$X$の被覆であるとは，$X=\bigcup_{\lambda\in\Lambda}A_\lambda$が成り立つことをいう．添字集合$A$の濃度に依って，可算被覆，有限被覆などともいう．
+\end{definition}
+
+\begin{definition}[locally finite]
+    位相空間$X$の被覆$\{A_\lambda\}_{\lambda\in\Lambda}$が局所有限であるとは，$\forall p\in X$について，$p$を含む開集合$U\subset X$であって，$|\{ \lambda\in\Lambda\mid U\cap A_\lambda\ne\varnothing \}|<\infty$となるような開集合$U$が存在することをいう．
+\end{definition}
+これは三角形分割の時からそうだな．
+
+\begin{definition}
+    位相空間$X$の被覆$\{A_\lambda\}_{\lambda\in\Lambda},\{B_\mu\}_{\mu\in M}$について，$\{A\}$が$\{B\}$の細分であるとは，全ての$A_\lambda$に対して，これを包む$B_\mu$が存在することをいう．
+\end{definition}
+
+\begin{theorem}[1の分割]
+    $\sigma$-コンパクトな$C^r$級多様体$M$について，$\{U_\alpha\}_{\alpha\in A}$をその開被覆とする．この時，$M$上の可算個の$C^r$級関数$f_j:M\to\mathbb{R}\; (j\in\mathbb{N})$が存在して，次の３条件を満たす．この関数族を，開被覆$\{U_\alpha\}_{\alpha\in A}$に従属する１の分割という．
+
+    1. $\forall j\in\mathbb{N}\; 0\le f_j\le 1$
+
+    2. $\{\mathrm{supp}f_j\}_{j\in\mathbb{N}}$は$M$の局所有限な被覆で，また$\{U_\alpha\}_{\alpha\in A}$の細分である．
+
+    3. $\sum^\infty_{j=1}f_j\equiv 1$
+\end{theorem}
+
+\chapter{ベクトル場}
+
+\section{定義}
+
+\begin{screen}
+    \begin{definition}[vector fields]
+        $C^r$級可微分多様体$M$を定めると，付随する接空間の族$\{T_pM\}_{p\in M}$が定まる．
+        これが多様体上の微積分の舞台となり，主にこの空間を調べることになる．
+
+        この選択関数$X\in \{T_pM\}_{p\in M}$をベクトル場という．従って，$X=\{X_p\}_{p\in M}$と表せる．
+        物理現象のモデリングはこの選択関数１つとして表せる．
+    \end{definition}
+\end{screen}
+
+\section{ベクトル場全体の集合の構造}
+関数係数線型空間をなし，その上の「括弧積」と呼ばれるLie bracket演算についてLie代数をなす．
+
+\begin{definition}[ベクトル場の和と関数倍]　
+
+    1(和). $X=\{X_p\}_{p\in M}, Y=\{Y_p\}_{p\in M}$に対して，その和$X+Y$というベクトル場を，次のように各点ごとに定義する．
+    \[ X+Y = \{X_p+Y_p\}_{p\in M} \]
+
+    2(スカラー積). $f:M\to\mathbb{R}$を関数として，ベクトル場$X$の$f$倍というベクトル場$fX$をつぎのように定義する．
+    \[ fX=\{f(p)X_p\}_{p\in M} \]
+
+    3. これは，各点ごとの線型空間である接空間の構造を引き継ぐ形で，線型空間をなす．
+\end{definition}
+
+定義で見たように，接空間の消息に拠って立つ存在である．従って，多様体$M$上に座標を取るごとに定まる接空間内の標準座標が定める標準座標が定まる．
+従って，一般的にベクトル場は，この標準的な基底を用いて成分表示（この場合は$U$上の関数が係数である）をして表される．特にEuclid空間ではその同一視はほぼ自明であり直観的である．
+\begin{definition}
+    $M$の近傍座標$(U;x^1,\cdots,x^m)$に対して，$U$-ベクトル場$\frac{\partial}{\partial x^i}\; (i=1,\cdots,m)$を次のように定める．
+    \[ \frac{\partial}{\partial x^i} = \left\{\left(\frac{\partial}{\partial x^i}\right)_p\right\}_{p\in U} \]
+\end{definition}
+
+\section{積分曲線}
+多様体を被覆する曲線族が定義されている時，付随するベクトル場が定義できる．この時の曲線族の１つ１つを「積分曲線」という．
+
+\begin{definition}[integral curve]
+    $C^\infty$級可微分多様体$M$上のベクトル場$X$に対して，次の条件を満たす曲線$\gamma:(a,b)\to M$を積分曲線という．
+    \[ \left. \frac{dc}{dt} \right|_{t} = X_{c(t)} \]
+\end{definition}
+\begin{remark}
+    ベクトル場$X$を物理的な流れだと思った時，それに流されていく曲線を積分曲線という．
+
+    局所座標系$(U;x^1,\cdots,x^m)$内で考える．$\gamma={}^t(\gamma^1,\cdots,\gamma^m), X=\xi^1\frac{\partial}{\partial x^1}+\cdots +\xi^m\frac{\partial}{\partial x^m}$とすると，$\gamma$積分曲線であるための条件は
+    \[ \frac{d\gamma^i}{dt}(t) = \xi^i(x^1(t,\cdots,x^m(t)))\;\; (i=1,\cdots,m) \]
+    という$m$本の正規形微分方程式系になる．
+
+    従って，正規形の微分方程式系とは，その本数の次元のベクトル場を定める．
+\end{remark}
+
+\section{ベクトル場の変数変換}
+
+\chapter{微分形式}
+
+\begin{quote}
+    写像$U\to\mathbb{R}^n$を$U$-ベクトル場といい，写像$U\to (\mathbb{R}^n)^*$を$U$上の１次微分形式といい，写像$U\to (\wedge^2\mathbb{R}^n)^*$を２次微分形式と呼ぶ．
+ベクトル場は反変テンソル場であり，１次微分形式は共変テンソル場である．
+\end{quote}
+
+接空間の元は縦ベクトルで表される$(0,1)-$テンソルで，余接空間の元は横ベクトルで表される$(1,0)-$テンソルである．
+
+\section{線型代数一般論}
+
+\begin{definition}[linear forms \& dual spaces]　
+    
+    1. $m$次元実線型空間$V$に対して，$V$から係数体$\mathbb{R}$への線型写像$\omega$を，線型形式という．
+
+    2. $V$上の線型形式全体の集合を$V^*$を書くと，これは成分ごとに$V$上の演算を受け継いだ加法と$\mathbb{R}$倍について，$m$次元実線型空間となる．これを双対空間と呼ぶ．
+\end{definition}
+
+\begin{proposition}[dual basis]
+    自然な同型$V\simeq V^*$は存在しないが，$v_1,\cdots, v_m\in V$を$V$の基底とすると，これによる同型$V\simeq\mathbb{R}^m$を利用して，各$\omega_i:V\to\mathbb{R}$を第$i$射影$\mathrm{pr}_i$と定めれば，$\omega_1,\cdots,\omega_m\in V^*$は双対空間$V^*$の基底になる．
+\end{proposition}
+\begin{remark}
+    こうして一般に，線型空間$V$の元$X$は，
+    \[ X=\omega_1(X)e_1+\cdots +\omega_m(X)e_m \]
+    と，$V$の標準基底と双対基底のみを使って成分表示できる．
+\end{remark}
+
+\section{１形式の定義}
+
+\begin{definition}[differential 1-form]
+    族$\omega=\{\omega_p\}_{p\in M}\in \prod_{p\in M}T_p^*(M)$を，$M$上の１次微分形式という．
+\end{definition}
+
+\begin{example}[多様体上に定まった関数の定める１形式]
+    $f:M\to\mathbb{R}$を関数とする．此処で，$f$を多様体の射（$C^r$級）と考えると，その接空間の間に，関数の微分(differential)$\{df_p\}_{p\in M}$を定める．
+    \[ (df)_p:T_p(M)\to T_{f(p)}(\mathbb{R}) \]
+    これは，各接空間（$T_p(M),T_{f(p)}(\mathbb{R})$に基底を定めるごとに，Yacobi行列を行列表示としてもつのであった（この場合は$1\times m$行列）．
+
+    此処で，$\mathbb{R}$に備わっている標準基底$e_x$から定まる接空間$T_{f(p)}\mathbb{R}$の標準基底$\left(\frac{d}{dx}\right)_{f(p)}$について，その係数と同一視することで，
+    \[ (df)_p:T_p(M)\to\mathbb{R} \]
+    が定まる．これは線型空間$T_p(M)$上の線型形式であり，双対空間$T_p^*(M)$の元である．
+
+    この標準的な方法で，各点$p\in M$について線型形式を考えることにより，一次\textbf{微分}形式$\{(df)_p\}_{p\in M}=:df$が定まる．これを\textbf{全微分}ともいう．
+
+    1. $X=\{X_p\}_{p\in M}$を$M$上の任意のベクトル場とすると，次が成り立つ．
+    \[ (df)_p(X_p)=X_p(f) \]
+    即ち，関数$f$が定める１次微分形式$(df)_p$の，接空間の元$X_p\in T_p(M)$への作用は，接空間の元$X_p$の関数$f$への作用（方向微分）に等しい．
+
+    2. 基底の取り方に依らずに接空間$T_pM$上に定まっている実体という意味では幾何学的な存在であるが，ベクトル場と双対的な対象であり，視覚化は難しい．双対空間の元であるから，接空間の元に（微分的な）作用をする実体であり，その点ベクトル場$X_p$を座標に依らずに定めるために借りた方向微分としての定義に一致する．
+    初めは全て関数$f$しかなかったのだが，$f$から生成されるベクトル場，$f$から生成される一次微分形式の２つがあり，こちらの方が理論的な発展性を持つ．
+
+    3. こうして，１次微分形式は，１形式のうち，特に接空間上の１形式のことで，接空間は微積分を考える舞台であるから，他と区別して１次微分形式と呼ぶこともあるのだろう．
+
+    4. 一般の写像$f:M\to N$についても，１形式の組み合わせ（のようなもの）で対処できるものと思われるが……？
+\end{example}
+\begin{remark}
+    一般の関数$f:\mathbb{R}^m\to\mathbb{R}^n$の微分$df$は１形式にはならない．
+\end{remark}
+
+\begin{proposition}[$M$，$M$の接空間，$M$の余接空間の，標準的な基底の系列]
+    $(U;x^1,\cdots,x^m)$を$M$の座標近傍とする．$U$上の関数$x^1,\cdots,x^m$の定める１次微分形式$dx^1,\cdots,dx^m$は，
+    $\left(\frac{\partial}{\partial x^1}\right)_p, \cdots, \left(\frac{\partial}{\partial x^m}\right)_p\in T_pM$の双対基底を定めている．
+\end{proposition}
+\begin{remark}　
+    従って，$dx^i$と見たときは，接空間の基底$\frac{\partial}{\partial x^i}$の係数の決め方を定めた線型形式なんだ，と思えば良い．
+
+    接空間の基底は共変的である．速度ベクトルの要素や座標など，その係数は反変的である．こうして，線型空間の元は，反変的なものと共変的なものの積によって表されている．
+
+    １次微分形式は，接空間の元の係数の対応を抜き出した双対的な線型形式なので，その係数の反変性を受け継いでいる．
+    \[ X_p=dx^1(X_p)\left(\frac{\partial}{\partial x^1}\right)_p+\cdots +dx^n(X_p)\left(\frac{\partial}{\partial x^n}\right)_p \in T_p(M) \]
+\end{remark}
+
+\section{１形式上の演算}
+各点についての余接空間の元の選択写像が１形式$\omega\in\prod_{p\in M} T_p^*(M)$である．その全体空間の解析は，まだ言葉が足りなすぎる．
+しかし，その間の演算と等式についていくつか事実が言える．
+
+\begin{definition}[１形式上の演算]　
+
+    $\omega=\{\omega_p\}_{p\in M}, \eta=\{\eta_p\}_{p\in M}$同士の加法と関数倍を，各余接空間$T_p^*(M)$上の加法と$\mathbb{R}$倍によって成分ごとに定める．
+    \[\omega+\eta =\{\omega_p+\eta_p\}_{p\in M},\;\; f\omega =\{f(p)\omega_p\}_{p\in M}\]
+\end{definition}
+これにより，ベクトル場が，関数係数で局所座標表示出来た事実と並行に，１次微分形式も関数係数で展開できる．
+\begin{definition}[１次微分形式の局所座標表示]　
+
+    1. $(U;x^1,\cdots,x^m)$を$M$の座標近傍とする．各余接空間にて，関数$x^1,\cdots,x^m$の定める１形式$dx^1,\cdots,dx^m$は基底だから，勝手な１形式$\omega=\{\omega_p\}_{p\in M}$の成分は
+    \[\exists a_1,\cdots,a_m\;\; \omega_p=a_1(dx^1)_p+a_m(dx^m)_p\;\;\in T_p^*(M)\]
+    と表せる．これらを$a_1=:f_1(p),\cdots,a_m=:f_m(p)$と対応させることで，$U$上の関数$m$個$f_1,\cdots,f_m$が定まり（選択公理），次のように表せる．
+    \[ \omega=f_1dx^1+\cdots+f_mdx^m\]
+
+    2. なお，近傍座標$(U;x^1,\cdots,x^m)$から定まる標準的なベクトル場$\frac{\partial}{\partial x^i}$を用いれば，１次微分形式$\omega$はいつでも次のように展開できる．
+    \[ \omega=\omega\left(\frac{\partial}{\partial x^1}\right)dx^1+\cdots+\omega\left(\frac{\partial}{\partial x^m}\right)dx^m\]
+
+    3. 従って，$(U;x^1,\cdots,x^m)$上の関数$f$の全微分$df$という１次微分形式については，$(df)\left(\frac{\partial}{\partial x^i}\right)=\frac{\partial f}{\partial x^i}$に他ならないから，次のように展開できる．
+    \[ df=\frac{\partial f}{\partial x^1}dx^1+\cdots +\frac{\partial f}{\partial x^m}dx^m\;\;\in T_p^*(M) \]
+\end{definition}
+\begin{remark}
+    $(df)\left(\frac{\partial}{\partial x^i}\right)=\frac{\partial f}{\partial x^i}$という式を解釈する．
+    
+    1. 関数$f$が定める速度ベクトルのベクトル場を，接空間内で，標準基底について成分表示したとき，接空間の標準基底$\left(\frac{\partial}{\partial x^i}\right)$の係数は$\frac{\partial f}{\partial x^i}$と表される．
+
+    2. 関数$f$の定めるベクトル場とは，
+    \[\frac{\partial f}{\partial x^1}\frac{\partial}{\partial x^1}+\cdots +\frac{\partial f}{x^m}\frac{\partial}{\partial x^m}\]
+    である．何故なら，各点$p$について，$\left(\frac{\partial}{\partial x^i}\right)_p (f)=\frac{\partial f}{\partial x^i}$は偏微分の定義である．
+\end{remark}
+
+\section{座標変換}
+
+\begin{proposition}[１次微分形式間の座標変換]　
+    
+    1. $M$の局所座標$(U;x^1,\cdots,x^m),(V;y^1,\cdots,y^m)$について，$U\cap V(\ne\varnothing)$での座標変換則は
+    \[dy^j = \sum^m_{i=1}\frac{\partial y^j}{\partial x^i}dx^i\;\;(j=1,2,\cdots,m)\]
+
+    2. また，次が成り立つ．
+    \[ \frac{\partial x^k}{\partial y^j}\frac{\partial y^j}{\partial x^i} = \delta_{ik} \]
+\end{proposition}
+\begin{remark}
+    何故か見慣れているのは，$dx=\lim_{\Delta x\to 0}\Delta x$とかいう感覚によるものであって，１形式としてではない．
+\end{remark}
+\begin{proof}
+    各関数$y^j$について，その微分が
+\[dy^j = \sum^m_{i=1}\frac{\partial y^j}{\partial x^i}dx^i\;\;(j=1,2,\cdots,m)\]
+と表せる．同様に
+\[ dx^k = \sum^m_{j=1}\frac{\partial x^k}{\partial y^j}dy^j\;\; (k=1,2,\cdots,m) \]
+であるから，これらを併せて
+\begin{eqnarray*}
+    dx^k &=& \sum^m_j\frac{\partial x^k}{\partial y^j}dy^j \\
+    &=& \sum^m_{i=1}\sum^m_{j=1}\frac{\partial x^k}{\partial y^j}\frac{\partial y^j}{\partial x^i}dx^i
+\end{eqnarray*}
+より
+\[ \frac{\partial x^k}{\partial y^j}\frac{\partial y^j}{\partial x^i} = \delta_{ik} \]
+を得る．
+\end{proof}
+
+\begin{proposition}　
+
+    $U\cap V$にて，
+    \begin{eqnarray*}
+        \omega &=& f_1dx^1+\cdots+f_mdx^m \\
+        &=& g_1dy^1+\cdots+g_mdy^m
+    \end{eqnarray*}
+    であるとき，
+    \[ f_i=\sum^m_{j=1}g_j\frac{\partial y^j}{\partial x^i}\;\; (i=1,2,\cdots,m) \]
+    である．また，逆に解くと，
+    \[ g_j=\sum^m_{k=1}f_k\frac{\partial x^k}{\partial y^j}\;\; (j=1,2,\cdots,m) \]
+\end{proposition}
+
+\begin{definition}　
+
+    1. １次微分形式が$C^r$級であるとは，その係数である関数$f_1,\cdots,f_m$がそれぞれ$C^r$級ということである．
+
+    2. $C^r$級関数$f$は，$C^{r-1}$級の微分形式$df$を定める．
+\end{definition}
+
+\section{引き戻し}
+
+\begin{definition}[関数の引き戻し]　
+
+    \begin{center}
+        \begin{tikzcd}
+            N\ar[r, "f", ""{name=U,inner sep=1pt,below}] & \mathbb{R} \\
+            M\ar[u, "\varphi"] \ar[ur, bend right=30, "\varphi^*f"', ""{name=D,inner sep=1pt}] & 
+            \arrow[Rightarrow, bend right=20, from=U, to=D, "\varphi^*"']
+        \end{tikzcd}
+    \end{center}
+
+    $\varphi^*(f)=f\circ \varphi$という射写像を持つような，$\varphi$の定める反変関手である．
+\end{definition}
+
+\begin{definition}[１形式の引き戻し]
+    $\omega=\{\omega_q\}_{q\in N}\in\prod_{q\in N}T_q^*(N)$を$N$上の微分形式，$f:M\to N$を関数とする．
+
+    各点毎に，$f:M\to N$が定める接空間間の線型写像の族$(d\varphi)_p$による，余接空間における線型形式$\omega_{\varphi(p)}$の$p$への引き戻しを施して得る$M$上の１形式$\{\omega_{\varphi(p)}\circ (d\varphi)_p\}$
+    を，\textbf{$\omega$の$\varphi$による引き戻し}といい，$\varphi^*\omega$と表す．
+\end{definition}
+\begin{corollary}
+    つまり，各点$p$毎の，接空間の各元$X_p$毎に，次の関係が成り立っている．
+    \[ (\varphi^*\omega)_p(X_p)=\omega_{\varphi(p)}((d\varphi)_p(X_p))\;\; \forall X_p\in T_p(M) \]
+\end{corollary}
+
+\begin{proposition}
+    \[ \varphi^*(f_1\omega^1+\cdots+f_n\omega^n)=(\varphi^*f_1)(\varphi^*\omega^1)+\cdots+(\varphi^*f_n)(\varphi^*\omega^n) \]
+\end{proposition}
+
+\begin{proposition}[pullbackの真実！]
+    \[\varphi^*(df)=d(\varphi^*f)\]
+\end{proposition}
+\begin{proof}
+    勝手な点$p$における接空間の勝手な点$X_p\in T_p(M)$について，
+    \begin{eqnarray*}
+        (\varphi^*(df)_p)(X_p)&=& (df)_{\varphi(p)}((d\varphi)_p(X_p)) \\
+        &=& d(f\circ\varphi)_p(X_p)\\
+        &=& (d(\varphi^*f))_p(X_p)
+    \end{eqnarray*}
+\end{proof}
+
+\begin{proposition}[pullbackの局所座標表示]　
+    $(U;x^1,\cdots,x^m)$を$M$の近傍座標，$(V;y^1,\cdots,y^n)$を$N$の近傍座標とし，座標変換$\varphi:M\to N$は$\varphi(U)\subset V$を満たす．このとき，次が成り立つ．
+    \[ \varphi^*\omega=\sum^m_{i=1}\left(\sum^m_{j=1}(\varphi^*f_j)\frac{\partial\varphi^j}{\partial x^i}\right)dx^i \]
+\end{proposition}
+
+\chapter{$k$次微分形式}
+
+交代的な$k$次テンソル場のことである．
+
+とりあえずのところ，テンソル積$\otimes$も外積$\wedge$も，
+自然な構成に当たって取り入れられた形式的な記法としての存在に過ぎず，
+それぞれ「線形性を保って結びつける」「交代性を保って結びつける」以上の意味を持たない．
+そして，そのそれぞれの保存すべき性質に沿って，$\otimes,\wedge$は計算規則（公理）を持つ．
+こちらを定義とすれば良い．
+
+\section{線型代数一般論}
+
+\begin{definition}[multi-linear form of degree $k$]
+    1. 実線型空間$V$から係数体$\mathbb{R}$への写像
+    \[ \omega:V^k\to\mathbb{R} \]
+    であって，各引数について線型であるものを，$k$次の多重線型形式という．
+
+    2. $V$上の$k$次形式全体のなす集合を
+    \[ \bigotimes^kV^* \]
+    で表す．$\bigotimes^1V^*=V^*$で略記する．
+\end{definition}
+\begin{example}[１次形式からの多重線型形式の構成]
+    １形式$\eta^1,\cdots,\eta^k\in V^*$を取る．これらが定める重線型形式$\eta^1\otimes\cdots\otimes\eta^k\in\bigotimes^kV^*$を，$\eta^1,\cdots,\eta^k$のテンソル積と呼ぶ．
+    \begin{center}
+        \begin{tikzcd}
+            \eta_1\otimes\cdots\otimes\eta_k:V^k \ar[r] \ar[d, phantom, "\rotatebox{90}{$\in$}"] & \mathbb{R} \ar[d, phantom, "\rotatebox{90}{$\in$}"]\\
+            (X_1,\cdots,X_k)\ar[r, mapsto] & \eta^1(X_1)\eta^2(X_2)\cdots\eta^k(X_k)
+        \end{tikzcd}
+    \end{center}
+\end{example}
+
+\begin{proposition}[basis]
+    $V$の基底を$e_1,\cdots,e_m$とし，それが定める双対基底を$\omega^1,\cdots,\omega^m$とする．
+    このとき，$\bigotimes^kV^*$の基底は次の族であり，従って次元は$m^k$である．
+    \[ \{\omega_{i_1}\otimes\cdots\otimes\omega_{i_k}\}_{i_1,\cdots,i_k\in [m]} \]
+\end{proposition}
+
+\section{$k$次テンソル場}
+
+\begin{definition}[covariant tensor field of degree $k$]
+    族$\omega=\{\omega_p\}_{p\in M}\in\prod_{p\in M}\bigotimes^kT_p^*(M)$のことを，$k$次（共変）テンソル場という．
+\end{definition}
+\begin{remark}
+    $k=1$の場合は，１次テンソル場と１次微分形式は等価である．
+\end{remark}
+
+\section{対称テンソル場}
+
+\begin{definition}[symmetric $k$-form]　
+
+    $V$上の$k$次形式$\omega$が対称であるとは，次が成り立つことである．
+    \[ \forall X_1,\cdots,X_k\in V\;\;\forall\sigma\in S_k\;\; \omega(X_{\sigma(1)},\cdots, X_{\sigma(k)})=\omega(X_1,\cdots,X_k) \]
+\end{definition}
+\begin{remark}
+    対称群（＝置換群）の「対称」だったのか．
+
+    内積は正定値な対称２次形式である．この$\omega$をRiemannnian metricという．通常$g$で書き，この対称テンソル場が定まった多様体$(M,g)$をRiemann多様体という．
+\end{remark}
+
+\section{交代テンソル場}
+
+\begin{definition}[alternating $k$-form]　
+
+    1. $V$の$k$次形式$\omega$が交代であるとは，次が成り立つことである．
+    \[ \omega(X_{\sigma(1)},\cdots,X_{\sigma(k)})=\epsilon(\sigma)\omega(X_1,\cdots,X_k) \]
+
+    2. $V$上の$k$次交代形式全体の集合を
+    \[\bigwedge^kV^* \left( \subset\bigotimes^kV^* \right) \]
+    と書く．$k=1$のとき等号が成立する．
+\end{definition}
+\begin{example}[１形式からの交代$k$形式の構成]
+    $V$上の$k$個の１形式$\eta^1,\cdots,\eta^k\in V^*$を取る．このとき，
+    \begin{center}
+        \begin{tikzcd}
+            \eta^1\wedge\cdots\wedge\eta^k:V^k\ar[r] \ar[d, phantom, "\rotatebox{90}{$\in$}"] & \mathbb{R}\ar[d, phantom, "\rotatebox{90}{$\in$}"]\\
+            (X_1,\cdots,X_k) \ar[r, mapsto] & det(\eta_i(X_j))_{ij}
+        \end{tikzcd}
+    \end{center}
+    と定めると，これは交代形式である．
+
+    まさか，交代形式を行列式から定めるとは．
+\end{example}
+
+\begin{proposition}[basis]
+    $V$の基底を$e_1,\cdots,e_m$とし，それが定める双対基底を$\omega^1,\cdots,\omega^m$とする．
+    このとき，$\bigwedge^kV^*$の基底は次の族であり，従って次元は$\left(\begin{array}{c}m\\ k\end{array}\right)$である．
+    \[ \{\omega_{i_1}\wedge\cdots\wedge\omega_{i_k}\}_{i_1<\cdots<i_k} \]
+\end{proposition}
+
+\section{$k$次微分形式と外積}
+
+\begin{definition}　
+
+    1. 可微分多様体$M$上に定まる交代テンソル場$\omega=\{\omega_p\}_{p\in M}$を$k$次微分形式という．
+
+    2. $M$上の$k$次微分形式全体の集合を$\Omega^k(M)$と書く．$k=0$の時，$M$上の関数全体の集合となる．$M$の次元が１以上であるなら，無限次元線型空間となる．
+\end{definition}
+
+１次交代形式の組から$k$次交代形式を構成する際に導入した記号$\wedge$を，一般の構成に使えるように定義する．
+\begin{definition}
+
+    $\omega$を$k$形式，$\eta$を$l$形式とし，次のように局所座標$(U;x^1,\cdots,x^m)$で展開されるとする．
+    \[ \omega=\sum_{i_1<\cdots<1_k}a_{i_1,\cdots,i_k}dx^{i_1}\wedge\cdots\wedge dx^{i_k} \]
+    \[ \eta=\sum_{j_1<\cdots<j_l}b_{j_1,\cdots,j_l}dx^{j_1}\wedge\cdots\wedge dx^{j_l} \]
+    この２つが定める$k+l$次微分形式を次のように定める．
+    \[ \omega\wedge\eta = \sum_{i_1<\cdots<1_k}\sum_{j_1<\cdots<j_l}a_{i_1,\cdots,i_k}b_{j_1,\cdots,j_l}dx^{i_1}\wedge\cdots\wedge dx^{i_k}dx^{j_1}\wedge\cdots\wedge dx^{j_l} \]
+\end{definition}
+\begin{remark}
+    計算上は次の２点に注意すれば良い．
+
+    1. $dx\wedge dy=-dy\wedge dx$は交代形式になるための必要条件である．
+
+    2. $dx\wedge dx=0$は交代性の帰結である．
+
+    3. 結合法則と，加法についての分配法則が成り立つ．
+\end{remark}
+
+\begin{proposition}[well-definedness]
+    外積は，次のような特徴付けを持つ．（従って，基底の取り方に依らない）．
+    \[ \omega\wedge\eta(X_1,\cdots,X_k)=\frac{1}{k!l!}\sum_{\sigma\in S_{k+l}}\epsilon(\sigma)\omega(X_{\sigma(1)},\cdots,X_{\sigma(k)})\eta(X_{\sigma_{\sigma(k+1)},\cdots,\sigma_{sigma(k+l)}}) \]
+\end{proposition}
+
+\section{引き戻し}
+
+\begin{proposition}
+
+    $\varphi:M\to N$を$C^\infty$級写像，$\omega,\eta$を$N$上の微分形式とする．$\varphi$は外積を保存する．
+    \[ \varphi^*(\omega\wedge\eta)=(\varphi^*\omega)\wedge (\varphi^*\eta) \]
+\end{proposition}
+
+\chapter{積分定理}
+
+\section{外微分}
+多様体上での「関数の微分」の拡張は，関数の定める微分形式の方が本体だと思って，「微分形式の次数を１つあげる操作$d:\Omega^k(M)\to\Omega^{k+1}(M)$」として拡張される．
+
+次の系列をde Rham complexという．どこでも$d$を２回続けて合成すると$0$を得る．
+\[ 0\to\Omega^0(M)\xrightarrow{d}\Omega^1(M)\xrightarrow{d}\cdots\xrightarrow{d}\Omega^m(M)\to 0 \]
+
+\begin{proposition}
+    $M$上の$k$形式$\omega$を，座標近傍$(U;x^1\cdots,x^m)$を用いた局所座標表示を，次のようにおく．
+    \[ \omega=\sum_{i_1<\cdots<i_k}f_{i_1,\cdots,i_k}dx^{i_1}\wedge\cdots\wedge dx^{i_k} \]
+    この$\omega$の外微分$d\omega$を次のように定義する．
+    \[ d\omega :=\sum_{i_1<\cdots<i_k}df_{i_1,\cdots,i_k}\wedge dx^{i_1}\wedge\cdots\wedge dx^{i_k} \]
+\end{proposition}
+\begin{remark}
+    元々外積は高度に形式的な概念に過ぎない．これに対して，１段階次数をあげる行為を，「係数であった関数$f_{i_1,\cdots,i_k}$を，外積に参加させる」という行為で定義する．
+    こうして結果的に次数が上がっている．係数は再び関数になる．多様体の次元$m$より大きな次数を持った微分形式は作り出せない．
+
+    むしろこんなに簡単で形式的な操作で微分を掌握する理論が作れたことが１つの到達点に間違いない．
+\end{remark}
+
+\begin{proposition}
+    任意の関数$f$について，$d(df)=0$である．
+\end{proposition}
+
+\begin{proposition}[well-definedness]
+    
+\end{proposition}
+
+\begin{proposition}
+    $\omega,\eta$をそれぞれ$k,l$次の微分形式とする．
+    \[ d(\omega\wedge\eta)=(d\omega)\wedge\eta+(-1)^k\omega\wedge d\eta \]
+\end{proposition}
+
+\begin{proposition}
+    \[ d(d\omega)=0 \]
+\end{proposition}
+\begin{proof}
+    $d(df)=0$と$d(dx^i)=0$から．後者は交代性による．
+\end{proof}
+
+\begin{proposition}[pullback]
+
+    $\varphi:M\to N$を$C^\infty$級写像とする．引き戻しは外微分を保存する．
+    \[ d(\varphi^*\omega)=\varphi^*(d\omega) \]
+\end{proposition}
+
+\section{微分形式の積分の定義}
+こうして拡張された微分に合わせて，「微分形式の積分」を定める．
+
+\begin{example}
+    微分形式の積分は，微分形式の空間$\Omega^1(M)$に座標を入れるたびに，（重）積分に落ちる．
+
+    例えば１変数の場合であれば，座標$x$について，$\omega=f(x)dx$と表示できるから，
+    \[ \int_I\omega:=\int^b_af(x)dx \]
+    と定めることができる．こうすることで，座標に依らない多様体上の微分形式の積分が定義できる．
+
+    実際にやっていることは，「関数の値を，経路に沿って足し合わせる」ことを抽象して，「接空間上の微分形式を，経路に沿って足し合わせる」に言い換えただけである．
+
+    これを一般化して，次を得る．
+\end{example}
+
+\begin{definition}
+    \[\mathrm{supp} (\omega):=\overline{\{ p\in M\mid \omega_p\ne 0 \}} \]
+\end{definition}
+
+\begin{proposition}
+    多様体$M$の最高次$m$微分形式$\omega$は，ある局所座標$(U;x^1,\cdots,x^m)$が存在して
+    $\mathrm{supp}(\omega)\subset V=\{ (x^1,\cdots,x^m)\in U\mid -a<x^i<a,\; i=1,\cdots,k \}\subset U$をみたし，局所座標表示すると次のようになるとする．
+    \[ \omega = f(x^1,\cdots,x^m)dx^1\wedge\cdots\wedge dx^m \]
+    この微分形式の$M$での積分は次のように表せ，正方形領域$V$の取り方に依らない．
+    \[ \int_M\omega := \int^a_{-a}\cdots\int^a_{-a}f(x^1,\cdots,x^m)dx^1\cdots dx^m \]
+\end{proposition}
+
+\section{向き}
+
+上の命題の証明でYacobianが出現した．これは曲線の向きなどの拡張になっている．
+\begin{definition}[座標近傍の向き]
+    ２つの座標近傍$(U;x^1,\cdots,x^m),(V;y^1,\cdots,y^m)$が同じ向きであるとは，$U\cap V\ne\varnothing$であり，その各点で$\frac{\partial (y^1,\cdots,y^m)}{\partial (x^1,\cdots,x^m)}>0$が成り立つことをいう．
+\end{definition}
+
+\begin{definition}[向き付け可能な多様体]
+    多様体$M$が向き付け可能(orientable)であるとは，$M$の座標近傍系$S=\{U_\alpha;x^1_\alpha,\cdots,x^m_\alpha\}_{\alpha\in A}$であって，どの互いに交わる２つの座標近傍も同じ向きになるものが存在することをいう．
+
+    この座標系$S$は，$M$に向き$O$を定める，という．
+\end{definition}
+\begin{example}
+    メビウスの帯は向き付け可能ではない．
+\end{example}
+
+\section{Stokesの定理}
+
+\begin{notation}
+    境界を持つ部分多様体$N$について，その境界点全体の集合を$\partial N$を書く．
+
+    $N$には，多様体$M$の向きから自然に向きが入り，$\partial N$には$N$からの向き$O_{\partial N}$が自然に入る．
+\end{notation}
+
+\begin{theorem}
+    $M$上の任意の$(m-1)$次微分形式$\eta$について，$N$がコンパクトである時，次が成り立つ．
+    \[ \int_Nd\eta =\int_{\partial N}\eta \]
+\end{theorem}
+
+\section{写像に沿った積分}
+
+\begin{definition}[写像に沿った積分]
+    積分領域を，コンパクトな$k$次元部分多様体だけでなく，コンパクトな$k$次元多様体からの$C^\infty$級写像全般に拡張する．
+\begin{center}
+    \begin{tikzcd}
+        M\ar[r, "\eta", ""{name=U,inner sep=1pt,below}] & \mathbb{R} \\
+        K\ar[u, "\varphi"] \ar[ur, bend right=30, "\varphi^*\eta"', ""{name=D,inner sep=1pt}] & 
+        \arrow[Rightarrow, bend right=20, from=U, to=D, "\varphi^*"']
+    \end{tikzcd}
+\end{center}
+この状況下で
+\[ \int_\varphi \eta:=\int_K\varphi^*\eta \]
+と定める．
+\end{definition}
+\begin{example}
+    $\eta$が１次の微分形式である場合，写像に沿った積分とは戦績分のことである．
+    \[ \int_c\omega:=\int_{[a,b]}c^*\omega \]
+    これは，滑らかな曲線$c:[a,b]\to M$に沿って，$M$上の１次微分形式$\omega$を引き戻して１変数積分したもの，と理解できる．
+\end{example}
+
+\begin{definition}[closed, exact]
+    
+    1. $d\eta =0$を満たす微分形式$\eta$を閉形式という．
+
+    2. １次元下の微分形式$\xi$が存在して，$\eta =d\xi$と表せる微分形式$\eta$を完全形式という．
+
+    3. 完全形式は閉形式である．何故なら，$d\eta =d^2\xi = 0$．
+\end{definition}
+
+\begin{proposition}
+    $\eta$を$M$上の閉じた$k$次微分形式とし，$K$を向きづけられたコンパクト$k$次元多様体とする．
+    写像$\psi:K\to M$が写像$\varphi:K\to M$を滑らかに変形したものであれば，
+    \[\int_\varphi\eta=\int_\psi\eta \]
+    が成り立つ．
+\end{proposition}
+\begin{example}
+    １次微分形式の場合について言えば，線積分するところの曲線$c$の始点と終点を変えなければ，連続変形しても線積分の値は変わらない，ということを言っている．
+\end{example}
+
+\begin{thebibliography}{99}
+    \bibitem{解析入門}
+        杉浦光夫『解析入門Ⅰ』
+        （東京大学出版会，1980）
+    \bibitem{多様体の基礎}
+        松本幸夫『多様体の基礎』
+        （東京大学出版会，1988）
+\end{thebibliography}
+
+\end{document}

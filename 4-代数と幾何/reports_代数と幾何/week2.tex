@@ -1,0 +1,105 @@
+\documentclass[uplatex, dvipdfmx]{jsarticle}
+\title{代数と幾何レポート 第２回}
+\author{司馬博文 J4-190549}
+\date{\today}
+\pagestyle{empty} \setcounter{secnumdepth}{4}
+\input{/Users/hirofumi.shiba48/Desktop/数理科学/preamble_CM.tex}
+\begin{document}
+\maketitle
+\begin{abstract}
+    ボロクソに採点してください．よろしくお願いします．
+\end{abstract}
+
+\section*{問題８}
+\subsection*{１}
+
+$W$の任意の元は$a,b\in K$を用いて
+\begin{equation}\label{eq-1}
+    \begin{pmatrix}a\\b\\-a-b\end{pmatrix}=a(e_1-e_3)+b(e_2-e_3)
+\end{equation}
+と表せるから，$e_1-e_3,e_2-e_3$は$W$の生成系である．また(式(\ref{eq-1}))$=0$の時，
+$ae_1+be_2-(a+b)e_3=0$であるが，$e_1,e_2,e_3$は$K^3$の基底だから$a=b=0$が従う．よって，
+$e_1-e_3,e_2-e_3$は線型独立でもある．
+\begin{flushright}$\blacksquare$\end{flushright}
+
+\subsection*{２}
+
+$a,b,c\in K$について，
+\begin{align*}
+    &a+b+c=0\land a=b=c\\
+    \Leftrightarrow& \begin{cases}
+        a=b=c,&Kの標数が3の時,\\
+        a=b=c=0,&それ以外の時,
+    \end{cases}
+\end{align*}
+であるから，
+\[\begin{cases}
+    W\cap W'=W',&Kの標数が3の時,\\
+    W\cap W'=0,&それ以外の時.
+\end{cases}\]
+\begin{flushright}$\square$\end{flushright}
+
+$K(e_1+e_2+e_3)=W'$より，$W+W'$の元は，$a,b,c\in K$を用いて，
+\begin{align*}
+    &a(e_1-e_3)+b(e_2-e_3)+c(e_1+e_2+e_3)\\
+    =&(a+c)e_1+(b+c)e_2+(c-a-b)e_3
+\end{align*}
+と表せる．$e_1-e_3,e_2-e_3,e_1+e_2+e_3$を形式的に基底として３次元$K$-線型空間と見た$W\oplus W'$と，数ベクトル空間$K^3$の部分空間である$W+W'$の間に定まる線型写像
+\[\xymatrix@R-2pc{
+    f:W\oplus W'\ar[r]&W+W'\\
+    \rotatebox[origin=c]{90}{$\in$}&\rotatebox[origin=c]{90}{$\in$}\\
+    {\begin{pmatrix}a\\b\\c\end{pmatrix}}\ar@{|->}[r]&{\begin{pmatrix}a+c\\b+c\\c-a-b\end{pmatrix}}
+}\]
+が可逆であることと，$f^{-1}(0_{K^3})=0$であることは同値である．
+（線型写像$h:V\to W$が全単射である時，$h^{-1}(0_W)=\{0_V\}$である．逆に$h^{-1}(0_W)=\{0_V\}$である時，任意に$w\in W$をとって$v_1,v_2\in f^{-1}(w)$とすると，$f(v_1-v_2)=f(v_1)-f(v_2)=w-w=0$より，$v_1=v_2$）．
+これが示せれば，$W+W'\simeq W\oplus W'$であり，また形式的な基底$(e_1-e_3,0),(e_2-e_3,0),(0,e_1+e_2+e_3)\in W\oplus W'$と$e_1,e_2,e_3\in K$が定める同型により$W\oplus W'\simeq K^3$であることから，（$W+W'\subset K^3$より）$W+W'=K^3$とわかる．
+\begin{align*}
+    \begin{cases}
+        a+c=0\\
+        b+c=0\\
+        c-a-b=0
+    \end{cases}
+    &\Leftrightarrow\begin{cases}
+        a+(a+b)=0\\
+        b+(a+b)=0\\
+        c=a+b
+    \end{cases}\\
+    &\Leftrightarrow\begin{cases}
+        a=b\\
+        a+b+b=0\\
+        c=a+b
+    \end{cases}\\
+    &\Leftrightarrow\begin{cases}
+        a=b\\
+        a+a+a=0\\
+        c=a+a
+    \end{cases}
+\end{align*}
+より，$K$の標数が3の時$f^{-1}(0)=\left\{\begin{pmatrix}0\\0\\0\end{pmatrix},\begin{pmatrix}1\\1\\2\end{pmatrix},\begin{pmatrix}2\\2\\1\end{pmatrix}\right\}$であり，
+それ以外の時$f^{-1}(0)=0$．
+よって，$K$の標数が3の時は$W'=K(e_1+e_2+e_3)\subset W$より，$W+W'=W$．それ以外の時は，上の$f$が同型を定めるが，$W+W'\subset K^3$だから，$W+W'=K^3$．
+\begin{flushright}$\blacksquare$\end{flushright}
+
+\begin{remark*}
+    単に$e_1-e_3,e_2-e_3,e_1+e_2+e_3$が$K^3$の基底になるかどうかを$=0$の時に係数が全て$0$になるかどうかによって検証しているだけであり，写像$f$の可逆性
+    とまで論じると大袈裟であることに気付きましたが，この際，言葉遣いと議論の運びが正しいかどうかを見ていただきたいです．
+\end{remark*}
+
+\section*{問題１９}
+\subsection*{１}
+
+$f$の値域は$f(K^n)=\langle x_1,\cdots,x_n\rangle=:W\subset V$である．
+$x_1,\cdots,x_n$が線型独立であることと，$x_1,\cdots,x_n$が$W$の基底であることは同値，
+これは$f$の終域を狭めて得られる写像$g:K^n\to W$が同型である事に同値．
+$i:W\to V$を包含写像とするとこれは単射だから，$f=i\circ g$が単射である事に同値．
+\begin{flushright}$\blacksquare$\end{flushright}
+
+\subsection*{２}
+
+$x_1,\cdots,x_n$が$V$の生成系である時，
+$f(K^n)=\langle x_1,\cdots,x_n\rangle =V$であるから
+（$f$は$x_1,\cdots,x_n$が定める線型写像だから，$f(K^n)=\{v\in K^n\mid \exists (a_1,\cdots,a_n)^T\in K^n,\; v=a_1x_1+\cdots+a_nx_n\}=\langle x_1,\cdots,x_n\rangle$），
+$f$が全射である事に同値．
+\begin{flushright}$\blacksquare$\end{flushright}
+
+\end{document}

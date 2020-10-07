@@ -1,0 +1,11 @@
+\documentclass[uplatex, dvipdfmx]{jsarticle}
+\usepackage{amsmath, amsfonts, amsthm, mathptmx, amssymb, ascmac, color, comment, graphicx}
+\usepackage{tikz, tikz-cd}
+\begin{document}
+
+\begin{center} \begin{tikzcd}
+    C \ar[d, "F_C"'] \ar[dr, phantom, "\circlearrowright"] & M \ar[l, "s"'] \ar[r, "t"] \ar[d, "F_M"] \ar[dr, phantom, "\circlearrowright"] & C \ar[d,"F_C"] \\
+    C & M' \ar[l,"t'" red] \ar[r, "s'"' red] & C
+\end{tikzcd} \end{center}
+
+\end{document}

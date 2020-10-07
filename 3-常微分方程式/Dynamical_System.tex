@@ -1,0 +1,1736 @@
+\documentclass[uplatex,dvipdfmx]{jsreport}
+\title{常微分方程式論（平地健吾先生）\\足助太郎先生}
+\author{}
+\pagestyle{headings} \setcounter{secnumdepth}{4}
+\input{/Users/hirofumi.shiba48/Desktop/数理科学/preamble_CM.tex}
+
+\begin{document}
+\tableofcontents
+
+\part{常微分方程式入門}
+「常微分方程式論」の授業程度の基礎理論と，諸例を挙げる．
+微分方程式論は，具体例に始まり，再び具体例に抜ける極めて広がりのある分野である．
+
+\chapter{導入と初期値問題の解}
+
+\section{分類と概観と譫妄}
+常微分方程式とは，関数空間$C^1(\R)$上の自己線型作用素$P$の核を定める問題である．
+
+\begin{notation}
+    $n\in\N\cup\{\infty\}$について，$C^n$級関数$f:A\to B$全体の集合を，$C^n(A,B)$で表す．
+\end{notation}
+\begin{definition}[常微分方程式]
+    1(微分方程式). 「微分方程式とは，未知函数に関する，それ，あるいはそれらの微分が現れる方程式のことである．」
+
+    2(常微分方程式). 独立変数が１つのみの微分方程式を\textbf{常微分方程式}という．
+
+    3(偏微分方程式). 独立変数が２つ以上の微分方程式を，出現する微分演算子に注目して\textbf{偏微分方程式}という．
+\end{definition}
+\begin{definition}[階数]
+    微分方程式に現れる微分の最高の階数を，微分方程式の階数という．階数が２以上の微分方程式を高階の微分方程式と総称する．
+\end{definition}
+
+\begin{definition}[関数方程式としての差分方程式と微分方程式]　
+
+    1. \underline{関数空間上の関係$R(x)$を満たす関数$x$の集合（または族）を求める問題}を\textbf{関数方程式}という．
+
+    2. 関数方程式のうち，独立変数を変化させた時の値の変化を指定する式によって与えられるものを\textbf{差分方程式}，独立変数による導関数との間の関係によって与えられる関数方程式を\textbf{微分方程式}という．
+    
+    3. 関数方程式$R(x),R'(x)$が等価であるとは，集合として等しい$R(x)=R'(x)$ということである．
+\end{definition}
+\begin{shadebox}\begin{definition}
+    $n,m,l=1,2,\cdots$として，\textbf{$n$階の$m$変数$l$本の常微分方程式(ODE)}とは，$n+2$個の$C^n$級関数に対する$l$-関数ベクトル値写像$F:(C^n(\mathbb{R};\mathbb{R}^m))^{n+2}\to (C^n(\mathbb{R};\mathbb{R}^m))^l$が存在して，
+    \[ F\left(t,x,\frac{dx}{dt},\cdots,\frac{d^nx}{dt^n}\right)=0 \]
+    と表せる関係式のことである（この時，パラメータ$t$や未知関数$x$は$m$-ベクトル値，即ち$m$個ずつある$l$本の方程式であり，$n$を階数という）．この標識では$t:\mathbb{R}\to\mathbb{R}^m$はパラメータであるが，対応する$n+2$次関数$G:\mathbb{R}^{n+2}\supset\Omega\to\mathbb{R}$を用いて外延的に次のように書き下すこともできる．
+    \[ \forall t\in\mathbb{R}\; G(t,x(t),x'(t),\cdots,x^{(n)}(t))=0 \]
+    このような$G$を定めるような関数$x(t)\in C^n(\mathbb{R};\mathbb{R}^m)$をこのOEDの\textbf{解}という．
+\end{definition}\end{shadebox}
+\begin{definition}[単独-連立，代数的，正規形，自励系，線型．]
+    1. $l>1$の時\textbf{微分方程式系／連立微分方程式}と呼ぶ．
+
+    2. $F$が有理式になる時，\textbf{代数的微分方程式}という．この時，$F$の分子の多項式について，次数の概念を考えることができる．各項についてその次数が一致する時，同次方程式という．
+
+    3. $F$を\underline{最高階の導関数}$\frac{d^nx}{dt^n}$\underline{について解かれた形}で表示された微分方程式
+    \[ \frac{d^nx}{dt^n} = f\left( t,x,\frac{dx}{dt},\cdots,\frac{d^{n-1}x}{dt^{n-1}} \right) \]
+    を，\textbf{正規形}という．
+    
+    4. $F$が$F\left(x,\frac{dx}{dt},\cdots,\frac{d^nx}{dt^n}\right)=0$と表される時，「方程式は独立変数$t$に陽には依存しない」といい，方程式$F$を\textbf{自励系(autonomous)}である，という．
+
+    5. $F$が独立変数$t$についてを除いて，$x$とその導関数についての一次式である時，方程式$F$は\textbf{線型}であるという．
+\end{definition}
+\begin{remark}[関数としての変数]
+    これを書きながら思ったのは，独立変数$x$や従属変数$t$は何者かということである．平地先生の講義では$f:\mathbb{R}^{n+1}\supset\Omega\to\mathbb{R}$として定式化していらっしゃった．
+    もちろんそれで十分であろうが，関数に微分作用素が作用するという観点からはどうなるのか．この時に局所座標$(\varphi;x^1,\cdots,x^n)$とは何か，ただのplace holderか，写像として定式化できるかがまだよくわかっていない．
+\end{remark}
+
+\begin{proposition}[正規高階OEDの１階連立系]
+    正規形$n$階方程式$\frac{d^nx}{dt^n} = f\left( t,x,\frac{dx}{dt},\cdots,\frac{d^{n-1}x}{dt^{n-1}} \right)$について，独立変数$x$とその$t$についての導関数を，新たに未知関数
+    \[ z_0=x,\; z_1=\frac{dx}{dt},\; z_2=\frac{d^2x}{dt^2},\;\cdots\;, z_{n-1}=\frac{d^{n-1}x}{dt^{n-1}}  \]
+    とみなせば，次の正規形$n$連立１階方程式と等価になる．
+    \[ \frac{d}{dt}\left(\begin{array}{c}z_0\\z_1 \\ \vdots \\ z_{n-2}\\z_{n-1}\end{array}\right) = \left(\begin{array}{c}z_1\\z_2 \\ \vdots \\ z_{n-1}\\z_n=f(t,z_0,\cdots,z_{n-1})\end{array}\right) \]
+\end{proposition}
+
+\begin{proposition}
+    代数的正規形方程式は，代数的正規形連立方程式に書き換えられる．
+\end{proposition}
+\begin{remark}
+    逆は一般には成り立たない．
+\end{remark}
+
+\subsection{初期値問題と境界値問題と，微分方程式の解}
+
+現実問題は，大抵，ODEにある種の追加の条件を加えた形で現れる．それを扱うための言葉を用意する．
+\begin{screen}
+    \begin{definition}[初期値問題と境界値問題]　
+
+        1. 微分方程式$F(t,x,dx/dt,\cdots,d^nx/dt^n)=0$に加えて，
+        \[ x(t_0)=\xi_0,\; \frac{dx}{dt}(t_0)=\xi_1,\;\cdots,\frac{d^{n-1}x}{dt^{n-1}}(t_0)=\xi_{n-1} \]
+        という制約条件を加えたものを「初期値問題」といい，この条件を初期条件という．
+
+        2. 微分方程式$F:C^n(U;\mathbb{R}^m)^{n+2}\to C^n(\mathbb{R};\mathbb{R}^m)^l$に加えて，関数$x$の定義域$U$の境界点に於ける値を指定する形での条件を付け加えたものを，「境界値問題」という．
+
+        また，$x(a)=\xi_1,x(b)=\xi_2,\cdots$という形での条件をDirichlet型，$dx/dt(a)=\xi_1, dx/dt(b)=\xi_2$という形の条件をNeumann型の境界条件という．
+    \end{definition}
+\end{screen}
+
+\begin{definition}[微分方程式の解]　
+
+    1. 微分方程式$F=0$の解とは，これを満たす関数$x:U\to\mathbb{R}^m$をいう．（2.の観点からは特殊解と呼び分ける）．
+
+    2. 関数の族$(x(t,C))_{C\in\mathbb{R}}$であって，全ての$C$について関数$x(t,C)$が$F=0$の解であり，また$F$に関する全ての初期値問題の解がこれに含まれる時，族$(x(t,C))_{C\in\mathbb{R}}$を一般解という．
+
+    3. 解の一意性が成り立たない状況下で，一般解の形で径数付けることが出来ないような特殊解を，特に特異解と呼ぶ．
+\end{definition}
+
+\subsection{軌道，安定性，}
+
+\begin{shadebox}
+    以降，$f:\mathbb{R}^n\supset U\to \mathbb{R}^m$として，自励的な微分方程式系
+    \[ \frac{d}{dt}x=f(x) \]
+    を考え，特に初期条件$x(t_0)=\xi$を満たす解を１つ$x(t)=\varphi(t;t_0,\xi)$と置く．
+    
+    ここまでは一般性の高い設定と思えるが，以降$\varphi$は$-\infty<t<\infty$で定義されているものとしてしまう．
+\end{shadebox}
+
+\subsection{変数分離形・同次形の微分方程式}
+結局「解ける積分」は本質的には変数分離形だけなので，これを特別視して取り上げる．これは第一積分が自明な微分方程式である．
+
+変数分離形を一般化した形が完全微分形の微分方程式であり，実際変数分離形とは，ポテンシャルが$F(x)+G(y)$という形で表せる完全微分形の微分方程式のことである．
+
+\begin{proposition}[変数分離形の方程式の解法]
+    一変数関数$f,g$を用いて，$\frac{dy}{dx}=f(x)g(y)$と表せる正規形の微分方程式を\textbf{変数分離形}という．
+
+    $f,g$がLipschitz連続ならば，次の方法によって一般解を求めることができる．
+
+    1. $g(y)=0$を満たす根$y_0$を求め，$y\equiv y_0$は解である．
+
+    2. $g(y)\ne 0$ならば，積分$\int\frac{dy}{g(y)}=\int f(x)dx$を実行して$y$を$x$の関数として得る．
+
+    $f,g$が特にLipschitz連続でない場合でも，定数変化法により得た解の十分性を確認することが出来る．
+\end{proposition}
+
+\begin{proposition}[同次形の方程式の解法]
+    関数$h$を用いて，$\frac{dy}{dx}=h\left(\frac{y}{x}\right)\;(x\ne 0)$と表せる微分方程式を\text{同次形}の微分方程式という．
+
+    $u(x):=\frac{y(x)}{x}$と置くと，この関数$u$についての変数分離形の方程式に変換される．
+\end{proposition}
+\begin{proof}
+    $y(x)=u(x)x$であるから，$\frac{y}{x}=u'x+u$より，$u+xu'=h(u)$，従って$u'=\frac{h(u)-u}{x}$という変数分離形の微分方程式を得る．
+\end{proof}
+
+\subsection{その他の「解ける微分方程式」：変数分離形へ帰着する変数変換が知られている形の微分方程式}
+
+・Bernoulli型：微分が，定数項はなく，線型項と非線型項の２項のみからなる非線形方程式である時，可積である．
+
+特殊は変数変換$z=\frac{y}{y^m}$で，線型方程式に返信するクラスの，非線形方程式．
+要は，非斉次項がなく，非線形項が１個だけの場合．
+
+・Riccati型：微分が２次方程式で表される非線形方程式であるとき，特殊解が１つでも見つかれば，解ける．
+
+・Lagrange型：正規形でさえないが，変数変換一発で，逆関数についての線型方程式の形をした正規形に落とし込める．
+
+・Clairaut型：$f$が恒等写像$f(x)=x$であった場合のLagrange型．
+直線族の包絡線として解曲線を得られる．
+
+\subsection{変数分離形の方程式を積分により解いて，定数変化法で十分性を確認する手法}
+
+\section{Gronwallの方程式}
+Cauchyの存在と一意性定理\ref{thm-Cauchy-existence-uniqueness}の証明に用いる．
+\section{解の存在}
+平地先生の授業では，２回目からこの基礎理論に突入した．以降，正規形の１階常微分方程式を考察する．
+\begin{definition}[正規形の１階常微分方程式]
+    独立変数$x$と$\R^n$-値関数$y$とに関する微分方程式であって，$\R^n\times\R$上の開集合$U$上の関数$f:U\to\R^n$を用いて
+    \[\frac{dy}{dx}=f(x,y(x))\]
+    と表される常微分方程式を，\textbf{正規形の１階常微分方程式}という．
+\end{definition}
+この時の関数$f$の性質に依存して，この常微分方程式が解をどう持つか，存在と一意性が変わる．
+
+\begin{itembox}[l]{正規形の１階常微分方程式の解}
+    1(定理\ref{thm-Peano-existence}). 関数$f$が連続であれば局所解は存在するが，一意的ではない．
+
+    2(定理\ref{thm-Cauchy-existence-uniqueness}). 関数$f$がLipschitz連続であれば，局所解は一意に存在する．
+
+    3(定理\ref{thm-linear-existence-and-uniqueness}). 関数$f$が$y$について線型で連続ならば，任意の区間上で解は一意に存在する．
+\end{itembox}
+
+\subsection{正規形の方程式を解く}
+
+\begin{theorem}[Peanoの存在定理：正規形の常微分方程式の連続条件下での局所解の存在定理]\label{thm-Peano-existence}　
+
+    関数$f:\mathbb{R}^2\supset U\to\mathbb{R}$が連続であれば，任意の初期条件$(x_0,y_0)\in U$に対して，次の初期値問題の解となるような$x=x_0$近傍上の関数$y:I:=[x_0-\epsilon,x_0+\epsilon]\to\mathbb{R}$が存在し，次を満たす．これを局所解という．
+    \begin{align*}
+        y(x_0) &=y_0 \\
+        y'(x) &=f(x,y(x))\;\;\;(\exists\epsilon>0\;\forall x\in [x_0-\epsilon,x_0+\epsilon])
+    \end{align*}
+\end{theorem}
+\begin{remark}
+    一般にLipschitz連続性を仮定した場合よりも定義域は狭くなり，また解の一意性は失われる．
+\end{remark}
+定理の証明は後述する．
+\begin{example}[局所解は一意的ではない]
+    $f(x,y)=\sqrt{|y|}$とし，次の初期値問題を考える．
+    \begin{align*}
+        y(0) &=0 \\
+        y'(x) &=\sqrt{|y|}\;\;\;(\exists\epsilon>0\;\forall x\in [x_0-\epsilon,x_0+\epsilon])
+    \end{align*}
+    この解は$y(x)\equiv 0$や$y(x)=\frac{1}{4}x^2(x\ge 0), -\frac{1}{4}x^2(x<0)$などがある．これは，関数$f$が$y=0$にて連続だが微分可能ではないことに因る．
+
+    前者のように一般解の表示から漏れる形の解を\textbf{特異解}という．いや待てよ，これは大域解を２つ構成していないか？
+\end{example}
+\begin{example}[局所-大域の軸の他にも，解の滑らかさ(regularity)も大事なパラメータである]
+    方程式$\begin{cases}
+        xy'=2y\\
+        y(1)=1
+    \end{cases}$を考える．
+
+    1. $x\ge 0$の範囲では唯一つの解$y(x)=x^2$を持つ．
+
+    2. $\R$上での大域的な$C^1$級の一般解は，$\begin{cases}
+        x^2, &x\ge 0\\
+        cx^2, &x<0
+    \end{cases}\;(c\in\R)$である．
+
+    3. $\R$上での大域的な$C^2$級の解は唯一つに定まり，$y(x)=x^2$である．
+\end{example}
+\begin{remark}
+    このことより，「微分方程式には定義域や拘束条件，また，解の滑らかさに関する条件が付随しており，これらが異なれば別の方程式である」と考える．
+    とはいえ，多くの場合にはこれらの附随する条件は明らかである．また，このようなことを気にしすぎると方程式を解くのに困難が生じるので，必要に応じて思い出すことにする．
+\end{remark}
+
+\begin{screen}
+    正規形の１階常微分方程式は，必ず局所解を持ち，一意でない．局所的な関数は十分過ぎるほどにあるのだ．
+\end{screen}
+
+\subsection{連続性の精査}
+単に連続であるより強い条件であるLipschitz連続性（＝線型オーダーより速く収束する連続性）を関数$f$に課すと（$C^1$級ならばこれを満たす），局所解は始めて一意になる．
+\begin{definition}[Lipschitz continuity]
+    連続関数$f:\mathbb{R}\supset O \to\mathbb{R}$について，定数$L>0$が存在して，$\forall y,y'\in D\;\; |f(y)-f(y')|<L|y-y'|$を満たす時，\textbf{$f$はLipschitz連続である}という．このような$L$の\underline{下限}をLipschitz定数という．
+\end{definition}
+多変数関数に対するLipschitz連続性は，通常の連続性と同様，２種類定まる．point-wiseか，組としての総体として振る舞うか．
+\begin{definition}[uniform Lipschitz continuity]
+    $f(x,y)$を$O\subset\R^2$上の関数とする．\textbf{$f$が$O$上$y$の関数として$x$について一様Lipschitz連続である}とは，次が成り立つことをいう．
+    \[ \exists L\ge 0,\;\forall (x,y_1),(x,y_2)\in O,\; |f(x,y_1)-f(x,y_2)|\le L|y_1-y_2| \]
+\end{definition}
+\begin{definition}[uniformly continuous]関数$f:\R^n\supset O\to\R$が$O$上一様連続であるとは，次を満たすことをいう．
+    \[\forall\epsilon>0,\;\exists\delta>0\;,\forall y\in O,\;(y'\in O,\;\|y-y'\|<\delta\Rightarrow\|f(y)-f(y')\|<\epsilon)\]
+\end{definition}
+\begin{remark}
+    この場合は一様収束と違って，一様ノルムの形でsupでは書けないのか．
+\end{remark}
+\begin{example}
+    $f(y)=y^2$として$f:\R\to\R$を定めると，$f$は連続だが一様連続ではない．$\varepsilon>0$に対してどんな$\delta>0$を取っても，十分原点から遠くに$|y-y'|< 0$を取れば$|f(y)-f(y')|\ge\varepsilon$である．
+\end{example}
+\begin{theorem}[Heine-Cantor：定義域がコンパクトならば連続と一様連続は同値]
+    $K\subset\R^n$をコンパクトとする．$f:K\to\R$は連続ならば一様連続である．
+\end{theorem}
+\begin{proof}
+    $\epsilon>0$を任意に取る．すると$f$は連続だから，任意の$y\in K$について対応する$\delta_y>0$が存在して，
+    \[ \forall y'\in K.\;\|y-y'\|<\delta_y\Rightarrow\|f(y)-f(y')\|<\frac{\epsilon}{2} \]
+    が成り立つ．各点$y\in K$に対するこの構成は$B_y:=B(y;\frac{\delta_y}{2})$とすれば一般化できて，$\{B_y\}_{y\in K}$は$K$の開被覆である．
+    すると$K$はコンパクトだから，$r\in\N$が存在して$K\subset B_{y_1}\cup\cdots\cup B_{y_r}$を満たす$y_1,\cdots,y_r\in K$が存在する．これについて$\delta:=\frac{\min\{\delta_{y_1},\cdots,\delta_{y_r}\}}{2}>0$と定めれば，
+    任意の$y,y'\in K$について，$\|y-y'\|<\delta$ならば，$y\in B_{y_i}$を満たす$1\le i\le r$が存在するからこれについて，
+    \begin{align*}
+        \|y_i-y'\| \le \|y_i-y\| + \|y-y'\| &< \frac{\delta_{y_i}}{2} + \delta\\
+        &\le \frac{\delta_{y_i}}{2}+\frac{\delta_{y_i}}{2} = \delta_i
+    \end{align*}
+    が成り立つから，
+    \begin{align*}
+        |f(y)-f(y')|&\le |f(y)-f(y_i)|+|f(y_i)-f(y')|\\
+        &< \frac{\epsilon}{2} + \frac{\epsilon}{2} = \epsilon
+    \end{align*}
+    が従う．即ち，$\exists\delta>0\,\;\forall y,y'\in K,\; \|y-y'\|<\delta\Rightarrow |f(y)-f(y')|<\epsilon$を得た．
+\end{proof}
+\begin{remark}
+    すごく綺麗だ．議論が成り立つ概念のパッケージを作って数学的実体のように名前をつけて親しむ，という手法の極みのようだ．
+\end{remark}
+\begin{lemma}[Lipschitz連続ならば一様連続]
+    $f:O\to\R$がLipschitz連続ならば，一様連続である．
+\end{lemma}
+\begin{proof}
+    $f$は一様連続であるから，$L>0$が存在して，任意の$y,y'\in O$について，$|f(y)-f(y')|\le L|y-y'|$が成り立つ．
+    従って，任意の$\epsilon>0$に対して，$\delta=\frac{\epsilon}{L}$とすれば，任意の$y,y'\in O$について，
+    \[ |y-y'|<\delta \Rightarrow |f(y)-f(y')|\le L|y-y'|<L\frac{\epsilon}{L}=\epsilon \]
+    が成り立つ．
+\end{proof}
+\begin{remark}
+    Lipschitz連続は収束の速さのオーダーに関する言及であるとともに，下に閉じているから，$\le$の方である．
+\end{remark}
+\begin{example}[一様連続だがLipschitz連続でない例]\label{example-uniform-but-not-Lipschitz}
+    次のような関数$f:[0,1]\to\R$は，コンパクトな有界閉集合$[0,1]$上微分可能であるから一様連続であるが，Lipschitz連続ではない．
+    \[f(x)=\begin{cases}
+        x^\frac{3}{2}\sin\frac{1}{x}, &x\in (0,1]\\
+        0,&x=0
+    \end{cases}\]
+    例えば$y_n:=\frac{1}{2n\pi}(n=1,2,\cdots)$という点において脆弱性がある，この周りでは収束が遅くなる（なぜ？Taylor展開から理解できそうだが）．この点での$f$の微分係数は，
+    $f'(x)=\frac{3}{2}x^{\frac{1}{2}}\sin\frac{1}{x}-x^{-\frac{1}{2}}\cos\frac{1}{x}$に$x=\frac{1}{2n\pi}$を代入すると，$f'(y_n)=\sqrt{2n\pi}$．
+    従って，任意の$L>0$に対して，$n=\lceil L^2\rceil$とすると，$n,L>0$より$\sqrt{n}\ge L$だから，$y_n$の近傍で次が成り立つ．
+    \begin{align*}
+        |f(y_n)-f(y')| &= |-\sqrt{2n\pi}|\cdot |y_n-y'|+O(|y_n-y'|^2) \\
+        &\ge |L\sqrt{2\pi}|\cdot |y_n-y'|+O(|y_n-y'|^2)\\
+        &> L|y_n-y'|\;\;\;(\exists r>0,\; y'\in B(y_n,r))
+    \end{align*}
+    
+    なるほど，導関数$f'(x)$が点列$\left\{\frac{1}{2n\pi}\right\}_{n=1,2,\cdots}$について有界じゃない，即ち$f'$は$(0,1]$上連続だが，$x=0$では非有界なので，そこをついたのか．
+    補題\ref{lemma-C1-then-Lipschitz}が成り立つということは，この場合（導関数が非有界になる点を持つ場合）を除けば，全ての$C^1$級関数はLipschitz連続だという事になる．
+
+    てことは待てよ，$C^1$級かつ導関数が有界でない例なんてあったのか．これがそうか．本当か？？
+    いや，有界区間上の連続関数は最大値を持つことに矛盾するな．つまり，$f$は$[0,1]$上微分可能だが，$(0,1]$上でしか$C^1$級ではないのだ．
+    一般の$O$について，このことをまとめると次のようになる．$O\subset\R^n$が有界閉集合かそうでないかについて場合分けすることになる．
+
+    1. $f$が一般の$O\subset\R^n$上$C^1$級でも，$O$のコンパクトでない部分（$(0,1]$上の$x\to 0$など）で非有界になる場合は，Lipschitz連続にはならない．
+
+    2. $f$が有界閉集合$K\subset\R^n$上で$C^1$級なら全て解決．
+\end{example}
+
+\begin{lemma}[$C^1$級かつ導関数が有界ならばLipschitz連続]\label{lemma-C1-then-Lipschitz}
+    $f:O\to\R$を$C^1$級とする．
+
+    1(導関数が有界ならばLipschitz連続). $\forall x\in O,\; |f'(x)|\le L$が成り立つならば，$f$はLipschitz連続であり，Lipschitz定数は$L_0\le L$である．
+
+    2(結局コンパクトな定義域が最強). $K\subset O$がコンパクトならば，$f$は$K$上Lipschitz連続である．
+\end{lemma}
+\begin{proof}
+    1. $|f(y)-f(y')|\le L|y_n-y'|$は少なくとも成り立つから．本当の$L_0$は$L$かもしれないし，もう少し小さいかもしれない．
+    
+    2. 定義域がコンパクトならば，連続な導関数$f'(x)$は最大値・最小値を持つから有界である．従って，$\forall x\in O,\; |f'(x)|\le L$を満たす$L>0$が存在するから，1.より．
+\end{proof}
+
+\begin{screen}
+    ３つの命題をまとめると，$C^1$級かつ導関数が有界$\longrightarrow$Lipschitz連続$\longrightarrow$一様連続$\longrightarrow$連続．
+    
+    ただし，\textbf{定義域がコンパクトなら}一様連続$\longleftrightarrow$連続．
+
+    まだLipschitz連続性がよくわかっていない．なぜ出てきたのか．
+\end{screen}
+
+\subsection{存在と一意性定理}
+\begin{shadebox}\begin{theorem}[Cauchyの存在と一意性定理：正規形の常微分方程式のLipschitz条件の下での局所解の存在と一意性]\label{thm-Cauchy-existence-uniqueness}
+    常微分方程式
+    \[\begin{cases}
+        \frac{dy}{dx}=f(x,y(x))\\
+        y(x_0)=y_0
+    \end{cases}\]
+    について，関数$f$の$K:=[x_0-a,x_0+a]\times[y_0-b,y_0+b]\;(a,b>0)$への制限は連続かつ$y$の関数として$x$について一様Lipschitz連続であるとする．
+
+    $M:=\max_{(x,y)\in K}|f(x,y)|$に対して$a_1:=\min\left\{a,\frac{b}{M}\right\}$と置けば（ただし，$M=0$の時は$\frac{b}{M}=+\infty$とする），この方程式の解は$[x_0-a_1,x_0+a_1]$を含む区間上で存在し，この範囲で一意的である．
+\end{theorem}\end{shadebox}
+\begin{remark}
+    1. $y$を$\R^n$-値関数としても全く同様の定理が同様の証明で成り立つのが線型代数の威力である．
+
+    2. $f$が連続なので，得られる解の導関数も連続，即ち$C^1$級である必要がある．
+
+    3. 主な証明法にはPicardの逐次近似法とCauchyの折れ線法とが開発されているが，後者は準備が必要で，また$f$が単に連続なPeanoの存在定理の場合にも使えるので，一緒に後述する．
+    Picardの逐次近似法とは，不動点による関数定義である．これが上手くいく初期値の幅$a_1$は一般に小さい．
+
+    4. 僕が習ったTaylor展開の証明法は，無限階の微分方程式に対してのPicardの逐次近似法だったのか（多分微妙に違う）．
+\end{remark}
+\begin{proof}
+    $I:=[x_0-a_1,x_0+a_1]$に対して，$C^1$級関数$y:I\to\R$についての積分方程式
+    \[ y(x) = y_0 + \int^x_{x_0}f(t,y(t))dt \;(x\in I)\]
+    を解くことと同値である．これを次のように定める関数列$\{y_n\}_{n\in\N}$の極限として構成することを考える．
+    $I$上の定数関数を$y_0(x)\equiv y_0$とする．次に，$n=1,2,\cdots$について，関数$y_n$を
+    \begin{align}\label{equation-Picard}
+        y_n(x) = y_0 + \int^x_{x_0}f(t,y_{n-1}(t))dt
+    \end{align}
+    と帰納的に定める．次の順番で証明を構成する．
+
+    1. これで$I$上の$C^1$級関数の列$\{y_n\}_{n\in\N}$が確かに定まっている．また特に$|y_n(x)-y_0|\le b\;(x\in I)$が成り立つ．（ここで抑えることが必要なので，単に$a_1=\min\{a,b\}$とは出来ない）．
+
+    2. 列$\{y_n\}_{n\in\N}$は$n\to\infty$の時，或る関数$y$に$I$上一様収束する．従って，式\ref{equation-Picard}の両辺の極限をとって，
+    \begin{align*}
+        \lim_{n\to\infty}y_n(x) &= y_0 + \lim_{n\to\infty}\int^x_{x_0}f(t,y_{n-1}(t))dt \\
+        &= y_0 + \int^x_{x_0}\lim_{n\to\infty}f(t,y_{n-1}(t))dt\\
+        &= y_0 + \int^x_{x_0}f(t,y(t))dt
+    \end{align*}
+    が従い，解$y$が構成できることも確認する．
+
+    3. この解$y$以外の解は存在しない．
+
+    まず$M$の値に依って場合分けをする．$M=0$の条件は$f=0$のみが満たし，この場合の解は特異解$y\equiv y_0$が存在し，またこれのみである．従って定理は成り立つ．
+
+    以降$M\ne 0$とする．
+
+    \underline{1.} 数学的帰納法により証明する．$y_0(x)\equiv y_0$は$C^1$級関数であり，$|y_0-y_0|=0\le b$である．
+
+    $C^1$級関数$y_{n-1}:I\to\R$が定義されていて$|y_{n-1}(x)-y_0|\le b\;(x\in I)$を満たすとする．すると，
+    \[ y_n(x) = y_0 + \int^x_{x_0}f(t,y_{n-1}(t))dt \]
+    は$y_{n-1}$は特に連続であるから$\int^x_{x_0}f(t,y_{n-1}(t))dt$が連続微分可能より$y_n$も連続微分可能．また，
+    \begin{align*}
+        \left| \int^x_{x_0}f(t,y_{n-1}(t))dt \right| &\le \left| \int^x_{x_0}|f(t,y_{n-1}(t))|dt \right|\\
+        &\le \left|\int^x_{x_0}Mdt\right| = |x-x_0|M\\
+        &\le \frac{b}{M}M = M\;(\because x\in I=[x_0-a_1,x_0+a_1]より|x-x_0|\le a_1)
+    \end{align*}
+    より，$y_n(x)-y_0|\le b\;(x\in I)$が成り立つ．
+
+    \underline{2.} まず，次が成り立つ．
+    \begin{lemma*}
+        \[|y_n(x)-y_{n-1}(x)|\le\frac{M}{L}\frac{L^n}{n!}|x-x_0|^n\;(x\in I,n=1,2,\cdots)\]
+    \end{lemma*}
+    \begin{proof}[\bf{証明}]
+        数学的帰納法により証明する．$n=1$の時，次が成り立つ．
+        \begin{align*}
+            |y_1(x)-y_0(x)| \le |y_1(x)-y_0|
+            &= \left|\int^x_{x_0}f(t,y_0)dt\right|\\
+            &\le \left|\int^x_{x_0}Mdt\right| = M|x-x_0|
+        \end{align*}
+        $n=k-1$について，$|y_{k-1}(x)-y_{k-2}(x)|\le \frac{M}{L}\frac{L^{k-1}}{(k-1)!}|x-x_0|^{k-1}\;(x\in I)$が成り立つと仮定すると次が従う．
+        \begin{align*}
+            |y_k(x)-y_{k-1}(x)| &=\left| \int^x_{x_0}f(t,y_{k-1}(t))dt - \int^x_{x_0}f(t,y_{k-2}(t))dt \right|\\
+            &\le  \left| \int^x_{x_0}|f(t,y_{k-1}(t))dt - f(t,y_{k-2}(t))|dt \right|\\
+            &\le \left| \int^x_{x_0}L|y_{k-1}(t)-y_{k-2}(t)| dt \right|\;\;(\because f\mathrm{\;is\;Lipschitz-continuous\;about\;}y)\\
+            &\le \left| \int^x_{x_0}L\frac{M}{L}\frac{L^{k-1}}{(k-1)!}|t-x_0|^{k-1} dt \right|\\
+            &= \left[ \frac{M}{L}\frac{L^k}{k!}|t-x_0|^{k} \right]^x_{x_0} = \frac{M}{L}\frac{L^k}{k!}|x-x_0|^{k}\;\;(x\in I)
+        \end{align*}
+    \end{proof}
+    この補題を$m>n$について適用すると，
+    \begin{align*}
+        |y_m(x)-y_n(x)| &\le \sum^m_{k=n+1}|y_k(x)-y_{k-1}(x)|\\
+        &\le \sum^m_{k=n+1}\frac{M}{L}\frac{L^k}{k!}|x-x_0|^k\\
+        &\le \sum^m_{k=n+1}\frac{M}{L}\frac{L^k}{k!}a_1^k\;\;\;(\because x\in I=[x_0-a_1,x_0+a_1])
+    \end{align*}
+    が従う．また，$n\ge 2La_1\Leftrightarrow \frac{1}{2}\ge\frac{L}{n}a_1(>0)$の時，$k>n$を満たす$k$について$\left(\frac{1}{2}\right)^k\ge\left(\frac{L}{n}a\right)^k=\frac{L^k}{n^k}a^k>\frac{L^k}{k!}a^k$より，
+    ではなく（この条件と同値な$\frac{1}{n^k}\ge\frac{1}{k!}\;(k>n)$部分がまずい．反例は$k=3,n=2$など），
+    $\frac{1}{2}\ge\frac{L}{n}a_1>\frac{L}{n+1}a_1>\cdots>\frac{L}{m}a_1$と$\left(\frac{1}{2}\right)^k\ge\left(\frac{L}{n}a\right)^k$より，
+    \begin{align*}
+        \sum^m_{k=n+1}\frac{M}{L}\frac{L^k}{k!}a_1^k &\le \frac{M}{L}\frac{L^{n+1}}{(n+1)!}a_1^{n+1}\sum^{m-n-1}_{k=0}\frac{1}{2^k}\;(等号成立はm=n+1)\\
+        &< \frac{M}{L}\frac{L^{n+1}}{(n+1)!}a_1^{n+1}\cdot 2\\
+        &\le \frac{M}{L}\left(\frac{L}{n+1}a_1\right)^{n+1}\cdot 2\;\;はやはり正しくなくて，ここまでしか言えない．\\
+        &\le \frac{M}{L}\frac{1}{2^{n+1}}\cdot 2\\
+        &\le \frac{M}{2^{n}L}
+    \end{align*}
+    がさらに従う．これ\underline{と$\lim_{n\to\infty}\frac{(La_1)^{n+1}}{(n+1)!}=0$}とより，列$\{y_n\}_{n\in\N}$の一様収束性，即ち
+    \[ \forall\epsilon>0,\;\exists N\in\N,\;m,n\ge N\Rightarrow |y_m(x)-y_n(x)|<\epsilon\;(x\in I) \]
+    が示せた．これより，例えば$\epsilon>0$に対して，$|y_n(x)-y(x)|<\frac{\epsilon}{La_1}$を満たす$N$について，
+    \begin{align*}
+        \left|\int^x_{x_0}f(t,y_n(t))dt-\int^x_{x_0}f(t,y(t))dt\right| &\le \left|\int^x_{x_0}|f(t,y_n(t))dt-f(t,y(t))|dt\right|\\
+        &\le \left|\int^x_{x_0}L|y_n(t)-y(t)|dt\right|\\
+        &< \left|\int^x_{x_0}\frac{\epsilon}{a_1}dt\right|\\
+        &\le \epsilon
+    \end{align*}
+    より，$\lim_{n\to\infty}\int^x_{x_0}f(t,y_{n-1}(t))dt=\int^x_{x_0}\lim_{n\to\infty}f(t,y_{n-1}(t))dt$が従う．
+
+    \underline{3.} Gronwallの不等式から示す．
+\end{proof}
+
+これを$y$が一般の$\R^n$-値関数の場合にも拡張することを考える．微分方程式系も，高階の方程式も，同じ方法で受容される．
+\begin{definition}[ノルム]
+    $y=\begin{pmatrix}y_1\\\vdots\\y_n\end{pmatrix}$に対して，$|y|=\sum^n_{i=1}|y_i|$と定める．
+\end{definition}
+\begin{remark}
+    Euclidノルム$\|y\|=\sqrt{\sum^n_{i=1}|y_i|^2}$を用いても良いが，非本質的な係数が掛かる，とのこと．
+\end{remark}
+\begin{definition}[一様Lipschitz連続]
+    $O\subset\R^{n+1}=\R\times\R^n$上の関数$f=f(x,y)$が，\textbf{$O$上で$y$の関数として$x$について一様Lipschitz連続である}とは，次の２条件を満たすことをいう．
+
+    1. $f$は$n+1$次関数として連続
+
+    2. $\exists L>0,\; \forall (x,y_1),(x,y_2)\in O,\; |f(x,y_1)-f(x,y_2)|<L|y_1-y_2|$
+\end{definition}
+\begin{remark}
+    右辺が標準ノルムによる$\|y_1-y_2\|$でないことに注意．
+\end{remark}
+
+\begin{theorem}[Cauchyの存在と一意性定理：$n$本の微分連立方程式系の場合]\label{thm-Cauchy-existence-uniqueness-higher-order}
+    関数$f$は$R:=\{(x,y)\in\R^{n+1}\mid|x-x_0|\le a,|y-y_0|\le b\}$上で連続で，$y$に関して一様Lipschitz連続であるとする．
+    $M:=\max_{(x,y)\in R}|f|$，$a_1:=\max\left\{a,\frac{b}{M}\right\}$とすると，$f$が定める正規形の常微分方程式系の解は少なくとも$[x_0-a_1,x_0+a_1]$上では存在し，この範囲で一意的である．
+\end{theorem}
+
+\begin{example}例\ref{example-uniform-but-not-Lipschitz}と同様に，一様連続だがLipschitz連続ではない例を見る．
+    $f(x,y)=3y^\frac{2}{3}$が定める常微分方程式$\begin{cases}
+        y'(x) = f(x,y(x))\\
+        y(x_0) = y_0
+    \end{cases}$を考えると，導関数は$\frac{\partial f}{\partial y}=2y^{-\frac{1}{3}}$であり，$\R\setminus\{0\}$上で連続だから，関数$f$は$0<a<b$または$a<b<0$を満たす$a,b$について，$S_{a,b}:=\{(x,y)\in\R^2\mid a\le y\le b\}$上で
+    $f|_{S_{a,b}}$は$y$の関数として$x$について一様にLipschitz連続である．従って，定理\ref{thm-Cauchy-existence-uniqueness}より解は$S_{a,b}$上ただ一つであり，それは次のように構成されるものである．
+    \begin{align*}
+        &\frac{dy}{dx} = 3y^\frac{2}{3}\\
+        &\int y^{-\frac{2}{3}}dy = \int 3dx\;(\because y\ne 0)\\
+        &3y^\frac{1}{3} = 3x + 3(y_0^\frac{1}{3}-x_0)\\
+        &y=(x+(y_0^\frac{1}{3}-x_0))^3
+    \end{align*}
+    一方，任意の$x$に対して$(x,0)$を含む任意の閉長方形ではLipschitz連続ではない．例えば$S=\{(x,y)\mid|x|\le 1,|y|\le 1\}$と$(0,0)\in S$について，特に$y_n=\frac{1}{n^3}$という点列に注目すると，
+    任意に与えられた定数$L\ge 0$に対して，$|f(0,y_n)-f(0,0)|=3\left(\frac{1}{n^3}\right)^\frac{2}{3}=\frac{3}{n^2}$かつ$|y_n-0|=\frac{1}{n^3}$より，$n>\frac{L}{3}$の範囲で
+    \[ |f(0,y_n)-f(0,0)|=\frac{3}{n^2}=\frac{3n}{n^3}>\frac{L}{n^3}=L|y_n-0| \]
+    が成り立ってしまう．定理\ref{thm-Cauchy-existence-uniqueness}が適用できず，そして今回は特に解は一意的でなく，無数に存在する．
+    点$(x_0,0)$を通る$C^1$級の解は，
+    \[y_c(x)=\begin{cases}
+        0, &x\le c\\
+        (x-c)^3, &x\ge c.
+    \end{cases}\;(c\ge x_0)\]
+    \[y_{c_1,c_2}(x)=\begin{cases}
+        (x-c_1)^3, &x\le c_1,\\
+        0, &c_1\le x\le c_2,\\
+        (x-c_2)^3, &c_2\le x.
+    \end{cases}\;(c_1\le x_0\le c_2)\]
+    などがある．これらを図示すると，要は$y=0$にてスライドすることが許されている．このLipschitz連続でない点で全てが狂う．
+    
+    $C^\infty$級の解でさえ一意にはならない．$(0,0)$を通る解に，$y\equiv 0$と$y=x^3$がある．
+\end{example}
+\begin{remark}
+    今までの議論を追っていると，Lipschitz連続性が破れる時は必ず導関数が発散している不連続点が原因になっている．従って「Lipschitz連続でないなら，解は一意でない」と言えそうな気がする．特異的な場合を除いて？
+\end{remark}
+
+$f$が線型関数である線型常微分方程式の場合は，$f$が連続であるのとLipschitz連続であるのは同値であり，そしてもっと多様な定義域について，例えば開集合の場合でも，または有界でなくても定義できる．
+\begin{theorem}[線型常微分方程式の場合]\label{thm-linear-existence-and-uniqueness}
+    $x_0\in I\subset\R$を区間とし，$A,b$を$I$上で定義された連続関数とする．次の常微分方程式は$I$上でただ一つの解を持つ．
+    \[\begin{cases}
+        y'(x) = A(x)y(x) + b(x)\\
+        y(x_0) = y_0
+    \end{cases}\]
+\end{theorem}
+
+\chapter{諸例}
+
+\section{Newtonの運動法則}
+物理学という営みは，微分方程式の言葉を用いて物理法則を書くことから始まった．
+苑田先生の初回授業も，突然その取り扱いから始まって戸惑いながら呑み込んだのを覚えている．
+
+\section{Logistic方程式}
+環境資源に限りがあるときの，補正された指数関数増殖のモデルとして，1838年にP. Verhulstが人口動態に初めて適用した．
+兵站学という名前に，当時の社会で先人たちが基礎研究を切り開く逞しさを感じる．
+
+\begin{theory}
+    総人口$N(t)$の変化分は，$\mu$を定数として，次のようにモデル化する．
+    \[ \frac{dN(t)}{dt} = \mu\left(1-\frac{N(t)}{M}\right)N(t) \]
+    これは$N(t)=M$を不動点として持つ．
+\end{theory}
+\begin{remark}
+    これは解曲線同士が決して交わらないということの良い例になる．これは常微分方程式の解の一意性と同値な条件となっている．
+    任意の有界閉区間$R=[-a,a]\times[-b,b]$内で$f$は$C^1$級だから特にLipschitz連続で，定理\ref{thm-Cauchy-existence-uniqueness}より初期値$(x_0,y_0$が決まるとそれを通る解が一意的に逐次近似法により構成されるからである．
+\end{remark}
+
+\section{平面上の曲線の微分方程式}
+
+$x^2+y^2=r^2$は原点中心の半径$r>0$の円を表す．この方程式の両辺を$x$で微分すると，暗黙のうちに$y$を$x$の関数とみて，$2x+2y\cdot y'=0$即ち$yy'+x=0$を得る．
+実は，この微分方程式の解は，$r$を任意定数として$x^2+y^2=r^2$のみである．
+
+$(x-a)^2+(y-b)^2=r^2$は点$(a,b)$中心の半径$r>0$の円を表す．この方程式の両辺を$x$で微分すると，$2(x-a)+2(y-b)y'=0$，もう一度微分すると$2+2y'^2+2(y-b)y''=0$を得る．
+以上から，
+\[\begin{cases}
+    (x-a)^2+(y-b)^2=r^2\\
+    (x-a)+(y-b)y'=0\\
+    1+y'^2+(y-b)y''=0
+\end{cases}\]
+前２式から$(x-a)$を消去すると
+\[\begin{cases}
+    (y-b)^2(y'^2+1)=r^2\\
+    y-b=\frac{1+y'^2}{-y''}
+\end{cases}\]
+を得る．$y-b$も消去すると，$(1+y'^2)^3=r^2y''^2$を得る．この微分方程式の解は，$r$を任意定数として$(x-a)^2+(y-b)^2=r^2$のみである．
+
+\begin{screen}
+    「微分幾何学はこういうことをやっていきます．\textbf{曲がり方}から円の本質を見てゆこうとします．
+    これは円を代数方程式から微分方程式へ表現を変える段階に当たります．私も使ったことはないのですが．」
+\end{screen}
+
+\section{SIRモデル}
+1927年にKermackとMcKendrickにより提出された\cite{SIRモデル}，感染者数に比例する新感染数を実装した連続力学系．$S$をSusceptible，$I$をInfected，$R$をRecoveredとする．
+1905–06年のボンベイにおけるペスト流行のデータをうまく再現することが知られている．
+なお，KermackとMcKendrickは，更なる感染年齢を考慮した偏微分方程式によるモデルなども提出している．
+
+\begin{theory}$\beta>0$を感染率，$\gamma>0$を回復率（即ち$\frac{1}{\gamma}$が回復時間）を表現する定数として，
+    \[\begin{cases}
+        \frac{dS}{dt}(t) = -\beta S(t)I(t)\\
+        \frac{dI}{dt}(t) = \beta S(t)I(t) - \gamma I(t)\\
+        \frac{dR}{dt}(t) = \gamma I(t)
+    \end{cases}\]
+    するとこれは$S+I+R$を第一積分として持つから，本質的には２変数の力学系である．
+
+    感染開始条件は$\frac{dI}{dt}(0)>0\Leftrightarrow I_0(\beta S_0-\gamma)>0\Leftrightarrow\frac{\beta S_0}{\gamma}>1$
+    となるから，特徴量$\frac{\beta S_0}{\gamma}=:R_0$を基本再生産数と呼ぶ．
+\end{theory}
+
+\section{Schwartzian derivative}
+複素射影直線，特にmodular形式や超幾何関数の理論で現れ，単葉関数(univalent function)や等角写像(conformal mapping)Teichmüller空間で重要な役割を演じる，
+全てのMöbius変換の下で普遍な微分演算子である．
+\begin{definition}
+    式$\left(\frac{f''}{f'}\right)'-\frac{1}{2}\left(\frac{f''}{f'}\right)^2=\frac{f'''}{f'}-\frac{3}{2}\left(\frac{f''}{f'}\right)^2=:Sf$または$S_f$を$f$のシュワルツ微分という．
+\end{definition}
+
+\section{波動方程式}
+
+\section{熱方程式}
+
+\section{Cauchy-Riemann方程式}
+
+\section{}
+
+\chapter{線型常微分方程式}
+$y$について線型な関数$f(x,y)$が定める正規形の方程式を線型常微分方程式という．
+線型常微分方程式がまずは微分方程式の理論の基礎をなす．
+
+\begin{definition}[線型常微分方程式]
+    次の$n$本の式を，\textbf{線型常微分方程式系}という．
+    \[ \frac{dy_i}{dx}(x) = \sum^n_{j=1}a_{ij}(x)y_j(x)+b_i(x)\;(i=1,\cdots,n) \]
+    しかし，次のようにベクトル値関数（$A$を$M_n(\R)$-値関数，$y,b$を$\R^n$-値関数）と置くことで，これら全体を\textbf{線型常微分方程式}と呼び，
+    \begin{align*}
+        y(x) &={}^t(y_1(x),\cdots,y_n(x)),\\
+        A(x) &= \begin{pmatrix}a_{11}(x)&\cdots&a_{1n}(x)\\\vdots&\ddots&\vdots\\a_{n1}(x)&\cdots&a_{nn}(x)\end{pmatrix},\\
+        b(x) &= {}^t(b_1(x),\cdots,b_n(x))
+    \end{align*}
+    \[\frac{dy}{dx}(x)=A(x)y(x)+b(x)\]
+    と表示する．また，$(x)$は省略して表示する．
+\end{definition}
+この方程式は$A$が定数である場合は具体的に解ける（\ref{sec-定数係数}節）．また，$A$が$M_n(\R)$-値関数，$b$が$\R^n$-値関数として連続であるならば，任意の区間，特に$\R$上での解をただ一つ持つ（定理\ref{thm-linear-existence-and-uniqueness}）．
+\begin{definition}
+    $M_n(\R)$-値関数$A$，$\R^n$-値関数$b,y$について$f(x,y)=A(x)y(x)+b(x)$が定める線型常微分方程式について，
+    $b=0$である時，これを\textbf{斉次／同次}線型常微分方程式という．
+\end{definition}
+
+\section{線型常微分方程式の解の性質}
+$A$が$M_n(\R)$-値関数，$b$が$\R^n$-値関数として連続として，線型常微分方程式
+\begin{align}\label{equation-linear-ODE}
+        \frac{dy}{dx}&=Ax+b,&
+        y(x_0)&=y_0
+\end{align}
+について考える．
+
+\begin{notation}[解空間]
+    方程式\ref{equation-linear-ODE}の解空間とは，$A$を固定して，$b$で添字づけられた関数空間
+    \[ V_b=\{ f:\R\to\R^n\mid fは微分可能であって，\ref{equation-linear-ODE}の解である \} \]
+    とする．
+\end{notation}
+\begin{theorem}[重ね合わせの原理]線型常微分方程式\ref{equation-linear-ODE}について，次が成り立つ．
+    
+    1-1. $f_1\in V_{b_1},f_2\in V_{b_2}$とする．すると$f_1+f_2\in V_{b_1+b_2}$が成り立つ．
+
+    1-2. $\lambda\in\R$とする．$\lambda f_1\in V_{\lambda b_1}$が成り立つ．
+
+    2. $V_b\ne\varnothing$とし，$f_b\in V_b$とする．この時，$\varphi:V_b\to V_0$を$\varphi(f)=f-f_b$と定めると，これは可逆である．
+\end{theorem}
+\begin{remark}
+    1. より，$b_1=b_2=0$とベクトル加法単位元すると，$V_0$は実線型空間であることが含意されている．
+
+    2. は$V_b$がAffine空間であり，$\varphi$はAffine空間の射で，線型空間$V_0$に対してAffine同型であることを表している．
+
+    いや，これがAffine空間の理論か！こういう全体像だったのか．添字づけ$b$も線型空間であり，特に$b=0$の時これが動かなくなるために実線型空間を生成する．
+\end{remark}
+\begin{proof}
+    1. $f_1\in V_{b_1},f_2\in V_{b_2}$とする．
+    \[ (f_1+f_2)' = f_1'+f_2' = (Af_1+b_1)+(Af_2+b_2)=A(f_1+f_2)+(b_1+b_2) \]
+    より，$f_1+f_2\in V_{b_1+b_2}$である．$\lambda\in\R$とする．
+    \[ (\lambda f)' = \lambda f' = \lambda(Af_1+b_1)=A(\lambda f_1)+(\lambda b_1) \]
+    より，$\lambda f_1\in V_{\lambda b_1}$である．
+
+    2. $f\in V_b$に対して，$(f-f_b)'=(Af-b)-(Af_b-b)=A(f-f_b)$であるから，確かに$f-f_b\in V_0$である．
+    \begin{center}
+        \begin{tikzcd}
+            \psi:V_0 \ar[r] \ar[d, phantom, "\rotatebox{90}{$\in$}"]& V_b \ar[d, phantom, "\rotatebox{90}{$\in$}"]\\
+            f\ar[r, mapsto] & f+f_b
+        \end{tikzcd}
+    \end{center}
+    とすると，これは$\varphi$の逆射となっている．
+\end{proof}
+
+方程式\ref{equation-linear-ODE}を$y'-Ax=b$と変形し，特に$b=0$の場合に注目して，
+\begin{center}
+    \begin{tikzcd}
+        \Psi:C^\infty(\R,\R^n) \ar[r] \ar[d, phantom, "\rotatebox{90}{$\in$}"]&C^\infty(\R,\R^n)\ar[d, phantom, "\rotatebox{90}{$\in$}"]\\
+        f\ar[r, mapsto] & \frac{df}{dx}-Af
+    \end{tikzcd}
+\end{center}
+と写像$\Psi$を定めると，$A$倍も$\frac{d}{dx}$も線型演算子であるから，$\Psi$も線型写像である（$\Psi=\frac{d}{dx}+A$などと書く）．
+この$\Psi$について，関数$f$が斉次線型微分方程式$\frac{df}{dx}=Af$の解であることと，写像$\Psi$の核の元である$f\in\ker\Psi$こととは同値である．
+即ち，この場合斉次方程式の解空間は$V_0\subset C^\infty(\R,\R^n)$という部分空間である．
+
+なお，$D=\frac{d}{dx}:C^\infty(\R,\C)\to C^\infty(\R,\C)$の固有値$\alpha\in\R$に属する固有ベクトルは$e^{\alpha x}$である．
+これだけであるのは，固有関係$Dy=\alpha y$は常微分方程式であり，この解が一意的であるところから分かる．
+指数関数とは，微分作用素に対する固有ベクトルとして，関数空間$C^\infty(\R,\C)$の自然な基底なのである．
+
+\section{定数係数線型常微分方程式}\label{sec-定数係数}
+行列の指数写像の理論を用意して仕舞えば，全て統一的な方法で解くことが出来る．
+
+\subsection{行列の指数写像}
+
+\begin{definition}
+    方程式\ref{equation-linear-ODE}の$A$が定数関数である時，これを\textbf{定数係数線型常微分方程式}という．
+\end{definition}
+\begin{definition}[行列の指数関数]\label{def-exponentials-of-matrices}
+    $A\in M_n(\C)$に対して，$\exp A$を次の級数で定める．
+    \[ \exp A=\sum^{\infty}_{m_0}\frac{m!}{A^m} = I_n+A+\frac{A^2}{2!}+\frac{A^3}{3!}+\cdots \]
+    ただし，$A^0=I_n$と定める．
+    こうして定まる写像$\exp:M_n(\C)\to \GL_n(\C)$を行列の指数写像という．
+\end{definition}
+
+\begin{theorem}
+    定義\ref{def-exponentials-of-matrices}の級数は広義一様（コンパクト一様）に絶対収束する．特に，写像$\exp$はwell-definedである．
+\end{theorem}
+\begin{remark}
+    1. ここで，行列値の級数が絶対収束するとは，各成分が絶対収束することである（幾つか同値な定義は有る）．
+
+    2. 広義一様収束／コンパクト一様収束とは，任意の有界部分集合で一様収束することをいう．
+\end{remark}
+\begin{theorem}[複素指数写像の特徴付け]\label{thm-characteristcs-exponentials}
+    $A\in M_n(\R)$を$xA$で置き換えて，
+    \[ F_A(x):=\exp(xA)=I_n+xA+\frac{x^2A^2}{2!}+\frac{x^3A^3}{3!}+\cdots \]
+    と定めると，
+
+    1(指数関数性). $F'_A(x)=AF(x)=F(x)A$
+
+    2. $F_A(O)=I_n$
+
+    3(指数法則). $x_1,x_2\in\R$について，$F_A(x_1)F_A(x_2)=F_A(x_1+x_2)$．特に，$F_A(x)^{-1}=F_A(-x)$である．
+\end{theorem}
+\begin{remark}
+    1. 一般に3は$x,x_1,x_2\in\C$について成り立つ．可逆ということは任意の$x\in\R$について$F_A(x)$が正則であることを含意しているが，$\C$においては特に$F_A(x)=\exp xA$は複素解析的という意味でも正則である．
+
+    2. これを行列値関数$\exp$の特徴付けである．この場合は種々の性質の多くは，後で示す常微分方程式の解の存在と一意性から従う．
+\end{remark}
+\begin{proof}
+    1. $F_A(x)$の級数はコンパクト一様に絶対収束するから，項別微分可能で，
+    \begin{align*}
+        \frac{dF_A}{dx}(x) &= O_n + A + xA^2 + \frac{1}{2!}x^2A^3 + \cdots\\
+        &= AF_A(x)\\
+        &= F_A(x)A
+    \end{align*}
+    が従う．
+\end{proof}
+
+指数法則$e^ae^b=e^{a+b}$と同様の性質は満たすと言っても，$A,B$が行列であるときには，$(\exp A)(\exp B),\;(\exp B)(\exp A),\;\exp(A+B)$のどの二つも一般的には一致しない．
+\begin{proposition}
+    $A,B\in M_n(\C)$が$AB=BA$を満たすとする．このとき，$(\exp A)(\exp B)=(\exp B)(\exp A)=\exp(A+B)$が成り立つ．
+\end{proposition}
+証明は難しい．
+\begin{proposition}
+    $A\in M_n(\C),P\in\GL_n(\C)$であれば，$\exp(PAP^{-1})=P(\exp A)P^{-1}$が成り立つ．
+\end{proposition}
+
+\subsection{行列の直和}
+
+\begin{definition}
+    $A\in M_n(\C),B\in M_m(\C)$に対して，$A,B$を対角線上に並べて得る行列$\begin{pmatrix}A&O_2\\O_1&B\end{pmatrix}$を$A\oplus B$で表し，$A$と$B$の直和と呼ぶ．
+\end{definition}
+\begin{proposition}
+    $A\in M_n(\C)$について，$A=A_1\oplus A_2\oplus\cdots\oplus A_k\;(A_i\in M_{n_i}(\C))$と表せるとする．
+    このとき，次が成り立つ．
+    \[ \exp A=(\exp A_1)\oplus (\exp A_2)\oplus\cdots\oplus(\exp A_k) \]
+\end{proposition}
+\begin{example}
+    即ち，$A=\begin{pmatrix}a_{11}&0&\cdots&0\\0&a_{22}&&0\\\vdots&&\ddots&\vdots\\0&0&\cdots&a_{nn}\end{pmatrix}$
+    ならば$\exp A=\begin{pmatrix}e^{a_{11}}&0&\cdots&0\\0&e^{a_{22}}&&0\\\vdots&&\ddots&\vdots\\0&0&\cdots&e^{a_{nn}}\end{pmatrix}$
+    が成り立つ．
+\end{example}
+
+\begin{definition}
+    行列$J_n(a)\in M_n(\C)$を次のように定め，\textbf{$n$次のJordan block}という．
+    \[ J_n(a) = \begin{pmatrix}a&1&0&\cdots&0\\0&a&1&\cdots&0\\\vdots&&\ddots&\ddots&\vdots\\0&0&\cdots&a&1\\0&0&\cdots&0&a\end{pmatrix} \]
+    ただし，$n=1$の時は$J_1(a)=(a)$とする．
+\end{definition}
+\begin{lemma}
+    $n$次のJordan block $J=J_n(a)\in M_n(\C)$について，次が成り立つ．
+    \[\exp xJ=\begin{pmatrix}e^{ax}&xe^{ax}&\frac{x^2}{2!}e^{ax}&\frac{x^3}{3!}e^{ax}&\cdots&\frac{x^{n-1}}{(n-1)!}e^{ax} \\ 0&e^{ax}&xe^{ax}&\frac{x^2}{2!}e^{ax}&\cdots&\frac{x^{n-1}}{(n-1)!}e^{ax} \\ \vdots&&\ddots&\ddots&&\vdots \\ \vdots&&&\ddots&\ddots&\vdots \\ 0&0&\cdots&\cdots&e^{ax}&xe^{ax} \\ 0&0&\cdots&\cdots&\cdots&e^{ax}\end{pmatrix}\]
+\end{lemma}
+\begin{remark}
+    一般の$A\in M_n(\C)$について，$P\in\GL_n(\C)$が存在して，$P^{-1}AP$はJordan標準形となる．
+    すると以上の議論から一般の$A\in M_n(\C)$について$\exp A$を構成するアルゴリズムを得たことになる．
+\end{remark}
+
+\subsection{定数係数線型常微分方程式の解き方}
+
+$A$を$n$次正方行列，$y,b$を$\R^n$値連続関数として，
+\[ \frac{dy}{dx}(x) = Ay(x)+b(x) \]
+を解く．
+
+\begin{shadebox}\begin{theorem}[定数係数線型常微分方程式の解]
+    $A\in M_n(\R)$を$n$次正方行列，$b$を$\R^n$値連続関数とする．この時，微分可能な関数$y$についての常微分方程式
+    \begin{align*}
+        \frac{dy}{dx}(x)&=Ay(x)+b(x) & y(x_0)&= y_0
+    \end{align*}
+    は$\R$上で定義された解をただ一つ持ち，それは次のとおりである．
+    \begin{align*}
+        y(x) &= \exp(eA)\left(\int^x_{x_0}\exp(-tA)b(t)dt + \exp(-x_0A)y_0 \right)\\
+        &= \exp(eA)\int^x_{x_0}\exp(-tA)b(t)dt + \exp((x-x_0)A)y_0 
+    \end{align*}
+\end{theorem}\end{shadebox}
+\begin{proof}
+    定数変化法を行う．解$y$に対して，$z(x):=\exp(-xA)y(x)$と置く．すると，この導関数は，
+    \begin{align*}
+        \frac{dz}{dx}(x) &= -A\exp(-xA)y(x) + \exp(-xA)y'(x)\\
+        &= -A\exp(-xA)y(x) + \exp(-xA)(Ay(x)+b(x))\\
+        &= -\exp(-xA)Ay(x) + \exp(-xA)Ay(x) + \exp(-xA)b(x)\;\;(\because \mathrm{Th'm}\ref{thm-characteristcs-exponentials})\\
+        &= \exp(-xA)b(x)
+    \end{align*}
+    となる．従って，$z$とは$\exp(-xA)b(x)$という関数の原子関数であり，$z(x)=\exp(-xA)y(x)$と定めたのだから，
+    \begin{align*}
+        y(x) &= \frac{1}{\exp(-xA)}z(x)\\
+        &= \exp(xA)\int\exp(-xA)b(x)dx
+    \end{align*}
+    と一般解が得られる．
+
+    この$y(x_0)=y_0$下での特殊解は，$z(x_0)=\exp(-x_0A)y_0$より，
+    \[ y(x)=\exp(xA)z(x)=\exp(xA)\left(\int^x_{x_0}\exp(-xA)y(x)dx + \exp(-x_0A)y_0\right) \]
+    である．
+\end{proof}
+
+\section{高階の線型常微分方程式}
+$a_1,\cdots,a_n,b$を連続関数として，実数値関数$y$についての方程式
+\begin{equation}\label{equation-higher-order-linear-OED-1}
+    y^{(n)}+a_1y^{(n-1)}+a_2y^{(n-2)}+\cdots+a_ny=b
+\end{equation} 
+を考える．
+
+\subsection{連立線型常微分方程式への帰着}
+「連立線型常微分方程式に帰着する方法以外のものもある．いくつかはここでの解法に帰着できるし，そうでないものもある．
+方程式によっては他の解法の方が優れている場合も少なくないが，ここでは割愛する．」
+
+\begin{notation}
+    \[ z=\begin{pmatrix}z_0\\\vdots\\z_{n-1}\end{pmatrix}:=\begin{pmatrix}y\\y'\\\vdots\\y^{(n-1)}\end{pmatrix} \]
+    と定めると，
+    \[ \frac{dz}{dx} = \begin{pmatrix}y'\\y''\\\vdots\\y^{(n-1)}\\y^{(n)}\end{pmatrix} = \begin{pmatrix}z_1\\z_2\\\vdots\\z_{n-1}\\y^{(n)}\end{pmatrix} \]
+    が成り立つ．これを用いて方程式\ref{equation-higher-order-linear-OED-1}は
+    \begin{equation}\label{equation-higher-order-linear-OED-2}
+        y^{(n)} = -a_1z_{n-1}-\cdots-a_nz_0+b
+    \end{equation}
+    と書き換えられる．
+\end{notation}
+\begin{definition}[Companion行列]次の行列またはその転置を同伴行列という．
+    \[ C_n(\mu_1,\cdots,\mu_n)=\begin{pmatrix}0&1&0&0&\cdots&0\\0&0&1&0&\cdots&0\\\vdots&&&\ddots&&\vdots\\\vdots&&&&\ddots&\vdots\\0&0&0&\cdots&0&1\\\mu_1&\mu_2&&\cdots&&\mu_n\end{pmatrix} \]
+\end{definition}
+これを用いて，方程式\ref{equation-higher-order-linear-OED-2}は次のように書き換えられる．
+\begin{align}
+    \frac{dz}{dx} &= \begin{pmatrix}z_1\\z_2\\\vdots\\z_{n-1}\\y^{(n)}\end{pmatrix} = C_n(-a_n,-a_{n-1},\cdots,-a_1)\begin{pmatrix}z_0\\z_1\\\vdots\\z_{n-1}\end{pmatrix}+\begin{pmatrix}0\\\vdots\\0\\b\end{pmatrix}\\
+    \frac{dz}{dx} &= C_n(-a_n,-a_{n-1},\cdots,-a_1) z+\begin{pmatrix}0\\\vdots\\0\\b\end{pmatrix}\label{equation-higher-order-linear-OED-3}
+\end{align}
+この時，式\ref{equation-higher-order-linear-OED-1}の解空間を$S$，式\ref{equation-higher-order-linear-OED-3}の解空間を$S'$とすると，
+次の写像の対は$S,S'$間のAffine同型を与える．
+\begin{center}
+    \begin{tikzcd}
+        \varphi:S\ar[r]\ar[d, phantom, "\rotatebox{90}{$\in$}"] & S'\ar[d, phantom, "\rotatebox{90}{$\in$}"]&&\psi:S'\ar[r]\ar[d, phantom, "\rotatebox{90}{$\in$}"]&S\ar[d, phantom, "\rotatebox{90}{$\in$}"]\\
+        y\ar[r, mapsto] & {}^t(y,y',\cdots,y^{(n)}) &&z\ar[r,mapsto] & z_0
+    \end{tikzcd}
+\end{center}
+
+\subsection{定数係数の場合の解法}
+
+\begin{theorem}[定数係数斉次線型微分方程式系の場合]
+    方程式\ref{equation-higher-order-linear-OED-1}において，全ての$a_1,\cdots,a_n$が定数で$b=0$とする．
+    相異なる$\lambda_1,\cdots,\lambda_r\in\C$を用いて，
+    \[ \lambda^n+a_1\lambda^{n-1}+\cdots+a_{n-1}\lambda+a_{n}=(\lambda-\lambda_1)^{l_1}\cdots(\lambda-\lambda_r)^{l_r} \]
+    と表せる時，次が方程式\ref{equation-higher-order-linear-OED-1}の基本解系である．
+    \[ \left\{ \begin{array}{c}
+        e^{\lambda_1x},xe^{\lambda_1x},\cdots,x^{l_1-1}e^{\lambda_1x}\\
+        e^{\lambda_2x},xe^{\lambda_2x},\cdots,x^{l_2-1}e^{\lambda_2x}\\
+        \vdots\\
+        e^{\lambda_rx},xe^{\lambda_rx},\cdots,x^{l_r-1}e^{\lambda_rx}
+    \end{array} \right\} \]
+\end{theorem}
+
+\section{一般の線型常微分方程式：非定数係数}
+$\R^n$-値の$C^1$級関数$y$の線型常微分方程式
+\begin{equation}\label{equation-general-linear-ODE}
+    \frac{dy}{dx}(x) = A(x)y(x)+b(x)
+\end{equation}
+を解く．$A$が定数関数でない場合，$"\exp xA"$なるものを考えても$n=1$の場合でさえ上手くいかない．
+何故なら，$\frac{d}{dx}\exp xA=A\exp xA$という肝心な性質が，$A$が定数でなくなることにより失われるからである．
+結果として，方程式\ref{equation-general-linear-ODE}を一般的に解くことは難しく，外堀を埋める理論があるのみである．
+でもこの理論が，線型微分方程式の理論の骨子だとも思える．
+
+\begin{example}
+    
+\end{example}
+
+\subsection{$n=1$の場合}
+$y$が$\R$-値写像の時，$a,b$が連続なら，定数変化法により解くことができる．
+
+\begin{itembox}[l]{定数変化法}
+    $x_0\in\R$を勝手に１つ取り，$f(x):=\exp\left( \int^x_{x_0}a(t)dt \right)=e^{\int^x_{x_0}a(t)dt}$と定めると，
+$f'(x)=a(x)\exp\left( \int^x_{x_0}a(t)dt \right)=a(x)f(x)$となる．これを軸として，求めたい解を$y=y(x)$とすれば，
+方程式\ref{equation-general-linear-ODE}を$z(x):=\frac{y(x)}{f(x)}$についての微分方程式に翻訳するのが定数変化法である．
+\[\begin{cases}
+    y' = z'f+zf' = z'f + zaf\\
+    y' = ay + b = afz + b
+\end{cases}\]
+より，方程式\ref{equation-general-linear-ODE}の代わりに方程式$z'f=b$を解けば$z$から$y$が復元できる．
+\begin{align*}
+    \frac{dz}{dx}(x) &= \frac{b(x)}{f(x)} = b(x)\exp\left( -\int^x_{x_0}a(t)dt \right)\\
+    \Leftrightarrow z(x) &= \int b(x)\exp\left( -\int^x_{x_0}a(t)dt \right)dx
+\end{align*}
+より，
+\[y(x)=f(x)z(x)=\exp\left( \int^x_{x_0}a(t)dt \right)\left(\int b(x)\exp\left( -\int^x_{x_0}a(t)dt \right)dx\right)\]
+と復元できる．
+\end{itembox}
+実際，$a$が定数関数である時，
+\[ y(x) = e^{a(x-x_0)}\int b(x)e^{-a(x-x_0)}dx \]
+を得る．
+
+\subsection{$n$が一般の場合}
+
+結局定数変化法しかない．定数変化法が成り立つ必要条件を精査すると，実は複素指数関数の性質の一部しか使っていない．
+これを利用して$n$が一般の場合も解ける事がある．
+\begin{itembox}[l]{一般化された定数変化法}
+    次の２条件を満たす$C^1$級関数$\Lambda:\R\to M_n(\R)$を探す．
+    \begin{quotation}
+        i) $\frac{d\Lambda}{dx}(x)=A(x)\Lambda(x)$（$\frac{d\Lambda}{dx}(x)=\Lambda(x)A(x)$は要求していないことに注意．これで一気に条件が緩くなる）．
+        
+        ii) $\forall x\in\R,\; \det\Lambda(x)\ne 0$．
+    \end{quotation}
+    この関数について，解は次の通り．
+    \[ Y(x) = \Lambda(x)\int\Lambda^{-1}(x)b(x)dx \]
+\end{itembox}
+$n=1$の時は$\Lambda(x)=\exp\left(\int^x_{x_0}a(t)dt\right)$とすれば良かったが，$n>1$の時は一般的には構成できない．
+しかし，存在と一意性定理経由でその存在を証明する事ができる．
+
+\begin{theorem}
+    連続関数$A:\R\to M_n(\R)$の定める微分方程式$y'=Ay$について，次が成り立つ．
+
+    1. 条件を満たす$M_n(\R)$-値関数$\Lambda(x)$が存在する．
+
+    2. $f$を$y'=Ay$の解とすると，$v\in\R^n$がただ一つ存在して，$f(x)=\Lambda(x)v(x)$が成り立つ．
+
+    3. 条件を満たす別の$M_n(\R)$-値関数$\tilde{\Lambda}(x)$が存在したとする．この時，$P\in\GL_n(\R)$が一意的に存在して$\tilde{\Lambda}(x)=\Lambda(x)P$が成り立つ．
+\end{theorem}
+
+\begin{lemma}
+    $X,B\in M_n(\R)$で，$B=(b_1\;b_2\;\cdots\;b_n)$と置く．この時，
+    \[ \det(Xb_1\;b_2\;\cdots\;b_n)+\det(b_1\;Xb_2\;\cdots\;b_n)+\cdots+\det(b_1\;b_2\;\cdots\;Xb_n)=(\tr X)\det B \]
+\end{lemma}
+\begin{lemma}\label{lemma-Wronskian-1}
+    $y_1,\cdots,y_n$を斉次線型常微分方程式$y'=Ay$の解とし，これらが定める$M_n(\R)$-値関数$L=(y_1\;y_2\;\cdots\;y_n)$について，次が成り立つ．
+
+    1. $\frac{dL}{dx}=AL$
+
+    2. $\frac{d}{dx}\det L=(\tr A)\det L$
+\end{lemma}
+\begin{remark}
+    この時，$L$は正則だと限らない．例えば，$y_1=\cdots=y_n=0$の場合も含む．
+\end{remark}
+\begin{corollary}
+    $L$を補題\ref{lemma-Wronskian-1}の通りに定めると，次が成り立つ．
+    \[ \det L(t) = (\det L(0))\exp\left(\int^x_0(\tr A(t))dt\right) \]
+    特に，$\det L$は決して$0$にならないか，恒等的に$0$かのいずれかである．
+\end{corollary}
+\begin{definition}[Wronskian]
+    この$M_n(\R)$-値関数$L$をWronsky行列，\textbf{実数値関数$\det L$を，$y_1,\cdots,y_n$のWronskianという}．
+\end{definition}
+
+\begin{definition}[基本解]
+    微分方程式$y'=Ay$について，条件を満たす$M_n(\R)$-値関数$\Lambda=(y_1\;y_2\;\cdots\;y_n)$を\textbf{基本解行列}といい，
+    各$\R^n$-値関数$y_1,\cdots,y_n$を\textbf{基本解}という．
+\end{definition}
+即ち，微分方程式$y'=Ay$を満たす解$y_1,\cdots,y_n$の定めるWronskianが恒等的に$0$でないことと，これらが基本解行列をなすこととは同値である．
+
+\begin{theorem}
+    $y'=Ay$の解空間$V=\{f:\R\to\R\mid fはy'=Ayの解\}$は$n$次元実線型空間をなし，
+    基本解行列$\Lambda$が１つ与えられる度に，これが定める線型同型$\varphi_\Lambda:\R^n\to V$が$\varphi_\Lambda (v)=Av$により定まる．
+\end{theorem}
+
+\subsection{理論の高階への拡張}
+
+\begin{example}[２階の定数係数の線型常微分方程式の定数変化法で特殊解を求める]
+    \[ \frac{d^2y}{dx^2}(x) + p(x)\frac{dy}{dx}(x) + q(x)y(x) = r(x) \]
+    斉次方程式$y''+py'+qy=0$の基本解を$z_1(x),z_2(x)$と置く．特殊解$y$を$y(x)=u_1(x)z_1(x)+u_2(x)z_2(x)$と，$u'_1z_1+u'_2z_2=0$を満たす関数で置くと，
+    \begin{align*}
+        y' &= u_1z'_1 + u_2z'_2\\
+        y'' &= u'_1z'_1 + u_1 z''_1 + u'_2z'_2 + u_2z''_2
+    \end{align*}
+    より，線型作用素を$P=D^2+pD+q$と置くと，元の微分方程式は次のように変換される．$Pz_1=0,Pz_2=0$に注意して，
+    \begin{align*}
+        Py &= u_1Pz_1 + u_2Pz_2 + u'_1z'_1 + u'_2z'_2\\
+        &= u'_1z'_1 + u'_2z'_2 = r
+    \end{align*}
+    従って，$u_1,u_2$についての次の常微分方程式を解けば良い．
+    \begin{align*}
+        &\begin{cases}
+            u'_1z'_1 + u'_2z_2 = 0\\
+            u'_1z'_1 + u'_2z'_2 = r
+        \end{cases}\\
+        \Leftrightarrow& \begin{pmatrix}z_1&z_2\\z'_1&z'_2\end{pmatrix}\begin{pmatrix}u'_1\\u'_2\end{pmatrix}=\begin{pmatrix}0\\r\end{pmatrix}
+    \end{align*}
+    これが解ける条件は，$z_1,z_2$のWronskianが$0$でないことであるが，$z_1,z_2$は$Py=0$の基本解であるから，これは必ず満たされる．
+    これにより$u_1,u_2$を得ることで，$y(x)=u_1(x)z_1(x)+u_2(x)z_2(x)$から特殊解を得る．
+\end{example}
+
+\begin{example}[特別な形をした非斉次項の場合の特殊解]
+    まず$Py=y''+py'+qy=(D-\alpha)(D-\beta)y\;(\alpha,\beta\in\C)$と置く．すると方程式$Py=r$は次のように分解できる．
+    \[\begin{cases}
+        (D-\alpha)y_1 = r\\
+        (D-\beta)y_2 = y_1
+    \end{cases}\]
+    この時，第一段階の$(D-\alpha)y_1=r$に集中し，$r$が特別な形をしている場合の特殊解を求める．
+
+    (1) $r(x)=e^{\gamma x}\;(\gamma\in\C)$の時．
+
+    $\alpha\ne\gamma$ならば，$(D-\alpha)e^{\gamma x}=(\gamma - \alpha)e^{\gamma x}$だから，普通に積分して$y=\frac{1}{\gamma-\alpha}e^{\gamma x}$．
+
+    $\alpha=\gamma$ならば，$y=xe^{\alpha x}$と置くと，$(D-\alpha)y=e^{\alpha x}$より，これが解．
+
+    (2) $r(x)=x^me^{\gamma x}(m\in\N)$の時．定数変化法より，元の方程式$(D-\alpha)f(x)e^{\gamma x}=(f'-(\alpha -\gamma)f)e^{\gamma x}=x^me^{\gamma x}$
+    の代わりに$f$の方程式$f'-(\alpha-\gamma)f=x^m$を解けば良い．
+    $\alpha=\gamma$の時は簡単で，$f'(x)=\frac{x^(m+1)}{m+1}$である．$\alpha\ne\gamma$の時は，$f$を一般の$m$次多項式$f(x)=a_mx^m+a_{m-1}x^{m-1}+\cdots+a_1x+a_0$と置くと，$m$本の連立一次方程式を得る．
+\end{example}
+
+\begin{definition}[基本解]
+    方程式$y^{(n)}+a_1y^{(n-1)}+\cdots+a_n=0$の解空間の基底ことを，この方程式の\ref{基本解系}という．
+\end{definition}
+\begin{definition}[Wronskian]
+    $y_1,y_2,\cdots,y_n$を方程式$y^{(n)}+a_1y^{(n-1)}+\cdots+a_n=0$解とする．これらが定めるWronskianを次のとおりに定める．
+    \[ \det\begin{pmatrix}y_1&y_2&\cdots&y_n\\y'_1&y'_2&\cdots&y'_n\\\vdots&\vdots&&\vdots\\y^{(n-1)}_1&y^{(n-1)}_2&\cdots&y^{(n-1)}_n\end{pmatrix} \]
+\end{definition}
+
+\begin{theorem}[非斉次線型微分方程式系]
+    方程式$y'=Ay+b$の解空間を$V_b=\{y:\R\to\R^n\mid y'=Ay+b\}$と置く．
+    $z_0\in V_b$として，これについて平行移動させる写像$\psi_b:V_b\to V_0=V$は可逆である．
+    \begin{center}
+        \begin{tikzcd}
+            \psi_b:V_b\ar[r]\ar[d, phantom, "\rotatebox{90}{$\in$}"]&V_0\ar[d, phantom, "\rotatebox{90}{$\in$}"]\\
+            z \ar[r, mapsto] & z-z_0
+        \end{tikzcd}
+    \end{center}
+
+    また，$z\in V_b,y\in V$とすれば$z+y\in V_b$であり，これについて$\psi_b(z+y)=\psi_b(z)+y$となる．
+\end{theorem}
+
+\section{Affine空間}
+
+\begin{definition}[Affine空間]
+    体$K$に対して，集合$A$が$K$-Affine空間であるとは，次が成り立つことをいう．
+
+    1. $K$-線型空間$V$が存在して，次を満たす（この$V$を$A$の\textbf{線型基準空間}という）．
+
+    2. 任意の$a\in A$と$v\in V$に対して$a+v\in A$が定まり，次の３条件を満たす．
+    \begin{quotation}
+        i) $V$の中立元$o\in V$は，$A$でも中立元である．$\forall a\in A,\; o+a=a$
+
+        ii) $V$と$A$の元は結合的に混ざる．$\forall a\in A,\; v,w\in V,\; (a+v)+w=a+(v+w)$．
+
+        iii) $\forall a,b\in A,\; \exists!v\in V,\; b=a+v$が成り立つ．この関係を$v=b-a$と表す．
+    \end{quotation}
+\end{definition}
+
+\begin{theorem}[任意の点を基準として，そこからの変位ベクトルを取る写像は基準空間への同型になる]　
+
+    1. Affine空間$A$とその線型基準空間$V$について，各$a\in A$毎に，次のように定めた$\pi_a$は同型になる．
+    \begin{center}
+        \begin{tikzcd}
+            \pi_a:A\ar[r]\ar[d, phantom, "\rotatebox{90}{$\in$}"]&V\ar[d, phantom, "\rotatebox{90}{$\in$}"]\\
+            b\ar[r,mapsto]&b-a
+        \end{tikzcd}
+    \end{center}
+
+    2. $\forall a,b\in A,\; \forall c\in A,\; \pi_a(c)-\pi_b(c)=b-a\in V$が成り立つ．
+\end{theorem}
+
+Affine空間の射は，この基準空間への帰属関係から定める．
+\begin{definition}[Affine空間の射]
+    $A,B$をAffine空間，$V_A,V_B$をそれぞれの基準線型空間とする．写像$f:A\to B$がAffine写像であるとは，対応する線型写像$\varphi:V_A\to V_B$が存在して，次を満たすことをいう．
+    \[ \forall v\in A,\; \forall w\in V_A,\; f(v+w)=f(v)+\varphi(w) \]
+    即ち，$A$の任意の元$v\in A$について，次の図式が可換である．
+    \begin{center}
+        \begin{tikzcd}
+            A \ar[r, "f"] \ar[d, "\pi_v"'] & B \\
+            V_A \ar[r, "\varphi"'] & V_B \ar[u, "\pi^{-1}_{f(v)}"']
+        \end{tikzcd}
+    \end{center}
+\end{definition}
+\begin{remark}
+    写像$\pi_v$を次のように読み替えたと思うと分かりやすい．
+    \begin{center}
+        \begin{tikzcd}
+            \pi_v:A\ar[r]\ar[d, phantom, "\rotatebox{90}{$\in$}"]&V_A\ar[d, phantom, "\rotatebox{90}{$\in$}"]\\
+            w+v=z \ar[r, mapsto]& z-v=:w
+        \end{tikzcd}
+    \end{center}
+\end{remark}
+
+\begin{lemma}
+    1. $f$がAffine写像であることと，線型写像$\varphi$が存在して次の図式は可換である，即ち，$\forall v\in A,\; f(v)=\varphi(v-a)+b$が成り立つこととは同値である．
+    \begin{center}
+        \begin{tikzcd}
+            a \ar[rrr, mapsto] \ar[ddd, mapsto] &&& b:=f(a) \\
+            & A \ar[r, "f"] \ar[d, "\pi_a"'] \ar[ul, phantom, "\rotatebox{135}{$\ni$}"] & B \ar[ur, phantom, "\rotatebox{45}{$\ni$}"] &\\
+            & V_A \ar[r, "\varphi"'] \ar[dl, phantom, "\rotatebox{45}{$\in$}"] & V_B \ar[u, "\pi^{-1}_b"'] \ar[dr, phantom, "\rotatebox{135}{$\in$}"] & \\
+            v-a \ar[rrr, mapsto] &&& \varphi(v-a) \ar[uuu, mapsto]
+        \end{tikzcd}
+    \end{center}
+
+    2. Affine写像$f$が同型であることと，Affine写像$f$が全単射であることとは同値である．
+
+    3. Affine写像$f$が同型であることと，これが定める線型写像$\varphi$が同型であることとは同値である．
+\end{lemma}
+
+\section{Jordan標準形の求め方}
+対角化の問題での１つの理論的な基盤．「標準形」の中でも一番代表的なもの．
+
+\begin{theorem}[Jordan標準形]
+    $A\in M_n(\C)$に対して，$A$の固有値を$\lambda_1,\cdots,\lambda_r$，重複度を$\alpha_1,\cdots,\alpha_r$とし，それぞれの固有値に属する$A$の固有空間の次元を$s_1,\cdots,s_r$とする．
+    この時，正の整数$n_{i,1},\cdots,n_{i,s_i}\;(i=1,2,\cdots,r)$であって$\sum^{s_i}_{k=1}n_{i,k}=\alpha_i$を満たすものが存在し，ある正則行列$P\in\GL_n(\C)$が存在して次が成り立つ．
+    \[ P^{-1}AP = (J_{n_1,1}(\lambda_1)\oplus\cdots\oplus J_{n_1,s_1}(\lambda_1))\oplus\cdots\oplus(J_{n_r,1}(\lambda_r)\oplus\cdots\oplus J_{n_r,s_r}(\lambda_r)) \]
+    右辺は，各Jordan blockの並べ方を除いて一意に定まり，これをJordan標準形と呼ぶ．
+\end{theorem}
+\begin{remark}　
+    1. 非対角成分が存在した時，その隣接する２つの対角成分の値は同じでなければならない（$0$でも良い）．
+
+    2. 対角行列とは，$s_i=\alpha_i\;(i=1,\cdots,r)$を満たし，Jordan blockの大きさが全て１であるようなものである．
+\end{remark}
+
+\begin{notation}
+    1. 行列を$A_\lambda := A-\lambda I_n$と置く．
+
+    2. $A$によって$w$は変位$v$の差を除いて固有ベクトルの方向であるという関係を$v\leftarrow_\lambda w:\Leftrightarrow Aw=\lambda w+v\Leftrightarrow A_\lambda w=v$と置く．
+\end{notation}
+\begin{example}[$A\in M_6(\C)$のJordan標準形の求め方]
+    $P=(p_1\;p_2\;\cdots\;p_6)\in\GL_6(\C)$と置き，$A$の固有多項式は$(x-1)(x-3)^5$であるとする．
+    \[ P^{-1}AP =: J = \begin{pmatrix}1&&&&&\\ &3&1&&&\\ &&3&1&&\\ &&&3&&\\ &&&&3&1\\ &&&&&3\end{pmatrix} \]
+    とはどういうことかを考える．
+
+    まず$AP=PJ$であるから，
+    \begin{align*}
+        A(p_1\;p_2\;\cdots\;p_6) &= (Ap_1\;Ap_2\;Ap_3\;\;\;\;\;\;\;\;\;\;Ap_4\;\;\;\;\;\;\;\;Ap_5\;Ap_6)\\
+        &= (\;\;\;p_1\;3p_2\;\;3p_3+p_2\;\;\;3p_4+p_3\;3p_5\;\;3p_6+p_5)
+    \end{align*}
+    が成り立つ．$p_1$は固有値$1$に属する固有空間（次元$1$）の基底である．問題は，固有値$3$に重複度$5$があるが，固有空間の次元は$2$であることである．
+    この固有空間を$V$とし，「$\C^n$上の或る点$w$から$A_3$を$k$回施すことで辿り着く空間の範囲」を
+    \[ W_k=\{ v\in V\mid \exists w\in\C^n,\; v=A_3^kw \}\subset V \]
+    と置く．すると，重複度である$5$以下の自然数$k$が存在して，
+    \[ V=W_0\supset W_1\supset\cdots\supset W_k\supsetneq W_{k+1}=\{o\} \]
+    が成り立つ（これは一般に成り立つ証明すべき命題である）．$A_\lambda$らのkernelだけでなく，nilpotentなものも考慮に入れたので，こういう系列が出てくる．「ジョルダン鎖(chain)」というのはこの冪零的な性質をいうのだろう．
+
+\end{example}
+
+\begin{screen}
+    Jordan blockとは，固有空間の基底を両端とし，関係$\leftarrow_\lambda$で繋がったベクトルの系列(Jordan chain)を表す．
+    「$A\in M_n(\C)$の固有ベクトルからなる全体空間$\C^n$の基底」が取れない場合（固有空間の次元が足りない？）でも，このchainは取れるから，Jordan標準形が存在するのである．
+\end{screen}
+
+\section{コンパニオン行列と有理標準形}
+
+
+
+\chapter{全微分方程式とベクトル場，1-形式}
+
+\section{常微分方程式とベクトル場，積分曲線}
+$\R^{n+1}$変数の$\R^{n}$-値関数$f$が定める正規形の$\R^n$-値関数$y$についての常微分方程式
+\begin{equation}\label{equation-1-form}
+    \frac{dy}{dx}(x)=f(x,y)
+\end{equation}
+を考える．
+
+この方程式は，ある関数のグラフである曲線$\gamma$の速度ベクトルを各点に於て定めている，と考えることが出来る．
+解のグラフなんかを書いていただろうが，それを自然にかつ厳密に定式化しただけである．
+\begin{lemma}
+    1. $\R^n$-値関数$\varphi$は方程式\ref{equation-1-form}と$\varphi(x_0)=y_0$を満たすとする．
+    この曲線のグラフを$\Psi(x):=(x,\varphi(x))$とすると，このグラフの速度ベクトルは$D\Psi(x)=(1,D\varphi(x))=(1,f(x,\varphi(x)))$となる．
+\end{lemma}
+
+この解曲線とそのグラフとの関係を，ベクトル場の言葉を通じて結びつける．
+\begin{example}[微分方程式の定めるベクトル場]
+    方程式\ref{equation-1-form}は次のベクトル場$\{X(p)\}_{p\in\R^n}$を定める．
+    \[ X(p)=\frac{\partial}{\partial x}_p + \sum^n_{i=1}f_i(p)\frac{\partial}{\partial y_i}_p \]
+    すると，方程式\ref{equation-1-form}の解$\varphi$のグラフ$\Psi$の速度ベクトルが$D\Psi(x)=(1,D\varphi(x))=(1,f(x,\varphi(x)))$だから，これが定める勾配ベクトル場は
+    \begin{align*}
+        \grad \Psi(t) &= \frac{\partial}{\partial x}_{\Psi(t)} + \sum^n_{i=1}f_i(t,\varphi(t))\frac{\partial}{\partial y_i}_{\Psi(t)}\\
+        &= \frac{\partial}{\partial x}_{\Psi(t)} + \sum^n_{i=1}f_i(\Psi(t))\frac{\partial}{\partial y_i}_{\Psi(t)} = X(\Psi(t))
+    \end{align*}
+    が成り立つ．
+\end{example}
+\begin{definition}
+    $X$を$\R^{n+1}$上の$C^r$級ベクトル場とする．$C^{r+1}$級曲線$\gamma:I\to\R^{n+1}$が$X$の積分曲線であるとは，次が成り立つことをいう．
+    \begin{align*}
+        X(\gamma(t))&=D\gamma(t)\;(t\in I)
+    \end{align*}
+\end{definition}
+
+こうして，常微分方程式の求解行為は，ベクトル場から積分曲線を探す問題に帰着された．
+今，解の存在と一意性定理\ref{thm-Cauchy-existence-uniqueness-higher-order}を言い換えておく．
+こう言われると非常に不思議に感じられる．
+\begin{theorem}[解の存在と一意性定理のベクトル場への翻訳]
+    $X$を$\R^n$上の$C^1$級ベクトル場とする．
+
+    1(存在). 任意の$t_0\in\R,p\in\R^n$に対して，$\epsilon>0$が存在して，開区間$I=(t_0-\epsilon,t_0+\epsilon)$上で定義された$X$の積分曲線$\gamma:I\to\R^n$であって
+    $(t_0,p)$を通るものが存在する．
+
+    2(一意性). $\gamma:(a,b)\to\R^n,\gamma':(a',b')\to\R^n$は$\gamma(t_0)=p,\gamma'(t_0)=p$を満たし，いずれも$X$の積分曲線であるとする．
+    この時，$\gamma=\gamma'$ on $(a,b)\cap(a',b')$である．
+\end{theorem}
+
+\section{常微分方程式と全微分方程式}
+常微分方程式$\frac{dy}{dx}=f(x,y)$は$dy-f(x,y)dx=0$と表せる．これは$\R^{n+1}$上の1-形式についての全微分方程式である．
+また，この常微分方程式はベクトル場$X=\frac{\partial}{\partial x}+f(x,y)\frac{\partial}{\partial y}$を定める．
+
+ODEを偏微分方程式として解く方法であるとも言える．
+
+\begin{example}[全微分方程式の意味]
+    接ベクトル$v_p\in T_p\R^2$の「傾き」が$f(p)$に等しい，という条件が式$dy_p(v_p)-f(p)dx_p(v_p)=0$で表される．
+    即ち，$v_p$は線型形式$dy_p-f(p)dx_p:T_p\R^2\to\R$の零点である．これを各点$p\in\R^2$について束ねた写像$dy-fdx:T\R^2\to\R$の零点は
+    ベクトル場$X$であり，これを表す方程式$dy-fdx=0$を全微分方程式という．即ち右辺の$0$は$0$写像だと思える．
+
+    曲線$\gamma$がこの解であるとは，$\gamma$の$t$に於ける速度ベクトルを$v_p:=\frac{d\gamma}{dt}(t)$とすると，
+    この対応$\{v_p\}_{p\in\R^2}$が写像$dy-fdx$の零点になることをいう．これを各点$p\in\R^2$について書けば，標準基底と$\gamma(t)=p$を満たす$t$について$v_p=\frac{d\gamma_1}{d t}(t)\left(\frac{\partial}{\partial x}\right)_p+\frac{d\gamma_2}{d t}(t)\left(\frac{\partial}{\partial y}\right)_p$だから，
+    \begin{align*}
+        (dy_p-f(p)dx_p)(v_p)&=0\\
+        dy_p(v_p)&=f(p)dx_p(v_p)\\
+        \frac{d\gamma_2}{dt}(p)&=f(p)\frac{d\gamma_1}{dt}(p)
+    \end{align*}
+    となり，速度ベクトルは$v_p=\frac{\partial\gamma_1}{\partial t}(t)\left( \left(\frac{\partial}{\partial x}\right)_p + f(p)\left(\frac{\partial}{\partial y}\right)_p\right)$という形になることがわかる．これは確かに，長さの自由度は定数$\frac{d\gamma}{dt}(t)$だけの不定性があるが，「傾き」が$f(y)$になっている．
+
+\end{example}
+\begin{theorem}[変数変換に対する不変性]\label{thm-solution-change-of-variables}
+    $\zeta$を式\ref{equation-1-form}の解，$\eta$をそのグラフとする．この時，次の２条件は同値である．
+
+    1. 曲線$\gamma$も方程式\ref{equation-1-form}の解である．
+
+    2. 微分可能な曲線$\tau$が存在して，$\gamma=\zeta\circ\tau$が成り立つ．即ち，$\gamma,\zeta$が変数変換で写り合う．
+\end{theorem}
+
+\section{全微分方程式と1-形式}
+１解の常微分方程式は形式的な変形によって，1-形式についての条件とみなせる．これを全微分方程式という．
+これを解くとは，１形式$\omega:T\R^2\to\R$の核を見つけることに等しく，
+この元である$\omega(X)=0$を満たすベクトル場$X$の積分曲線が求める解$\gamma$である．
+
+従って微分方程式とは，多様体の様子を調べる上で重要な道具であるのだな．
+
+変数分離系とは第一積分が自明な場合の全微分方程式なのであった．
+しかし，上手く変数分離系にしないと閉形式にならず，第一積分を持たない．
+それくらいに，1-形式は$C^\infty(\R)$-倍についてsensitiveなのである．
+
+\begin{definition}[全微分方程式]
+    微分1-形式$\omega\in\Omega^1(\R^2)$について，方程式$\omega=0$を全微分方程式という．
+\end{definition}
+\begin{definition}[全微分方程式の解]
+    関数$\gamma:I\to\R^2$が全微分方程式$\omega=fdx+gdy=0$の解であるとは，$\gamma^*\omega=0$が成り立つことをいう．
+
+    即ち，次の同値な条件が成り立つことである．
+    \begin{align*}
+        &\forall t\in I,\;f(\gamma_1(t))\frac{d\gamma_1}{dt}(t) + g(\gamma_2(t))\frac{d\gamma_2}{dt}(t) = 0\\
+        &\forall t\in I,\; \omega_{\gamma(t)}(D\gamma(t))=0
+    \end{align*}
+\end{definition}
+$\gamma$は常微分方程式の解のグラフになっている．
+
+\subsection{関数の全微分の復習}
+
+\begin{definition}[（全）微分可能]
+    $f:\R^2\to\R$が$(x,y)\in\R^2$で全微分可能であるとは，$\alpha,\beta\in\R$が存在して，次を満たすことをいう．
+    \[ \lim_{\rho\to 0}\frac{|f(x+\Delta x,y+\Delta y)-(f(x,y)+\alpha\Delta x+\beta\Delta y) |}{\rho}=0 \]
+    ただし，各$(\Delta x,\Delta y)\in\R^2$に対して$\rho=\sqrt{(\Delta x)^2+(\Delta y)^2}$と定めた．
+    この時，$Df={}^t(\alpha,\beta),\;df_{(x,y)}=\alpha dx_{(x,y)}+\beta dy_{(x,y)}$と表す．
+\end{definition}
+これはやはり$D$がpointwiseな微分作用素で$f\in C^\infty(\R^2,\R)$に対して，$d$が外微分の作用素で$f\in\Omega^0(\R^2)$に対して作用しているように見える．
+
+\begin{theorem}[全微分可能ならば，連続で微分可能]
+    関数$f:\R^2\to\R$が$(x,y)$で全微分可能ならば，
+
+    1. $f$は$(x,y)$で連続．
+
+    2. $f$は$(x,y)$で偏微分可能で，$\alpha=\frac{\partial f}{dx},\;\beta=\frac{\partial f}{dy}$である．
+\end{theorem}
+これが成り立つからこそ，全微分という作用素は直接にはないが，pointwiseの意味で「微分可能性」として最適な概念として採用できるのである．
+
+\begin{theorem}[全微分可能の十分性条件]
+    関数$f:\R^2\to\R$は，$\frac{\partial f}{\partial x},\frac{\partial f}{\partial y}$がそれぞれ存在して連続であれば全微分可能である．
+\end{theorem}
+
+これらにより，次の概念がwell-definedになる．
+これが「関数の微分」の中心概念となり，文脈により「全微分」「微分」「外微分」を使い分けたり，戦略的に混用したりする．
+\begin{definition}[全微分，微分，外微分]
+    $f:\R^2\to\R$が$C^1$級である時，次を$f$の全微分，微分，外微分という．
+    \[ df_{(x,y)} = \frac{\partial f}{\partial x}(x,y)dx_{(x,y)}+\frac{\partial f}{\partial y}(x,y)dy_{(x,y)} \]
+    また，これを$(x,y)\in\R^2$について束ねると，$df=\frac{\partial f}{\partial x}dx+\frac{\partial f}{\partial y}dy$と書く．これは線型主要部$T\R^2\to \R$としての$T^*\R^2$上の等式である．
+\end{definition}
+おそらく全微分も1-形式を意識して言うのだろう．「全微分方程式」と言うくらいだから．
+
+\subsection{完全形の全微分方程式の求積法}
+
+\begin{definition}[完全な全微分方程式]
+    全微分方程式$\omega=0$が，$\omega$が完全形式である時，これを\textbf{完全形，（完全）積分可能}であるといい，$dF=\omega$を満たす関数$F$を\textbf{potential，第一積分}と言う．
+\end{definition}
+可積分系はこの延長にあるのか，と言うより「可積分系」を検索した瞬間葉層構造で足助さんの分野ど真ん中じゃないか．
+
+\[ \omega_{\gamma(t)} (\grad\gamma) = \omega_{\gamma(t)}\left(\frac{d\gamma_1}{dt}(t)\frac{\partial}{\partial x}_{\gamma(t)} + \frac{d\gamma_2}{dt}(t)\frac{\partial}{\partial y}_{\gamma(t)}\right) =0\;(t\in I) \]
+を満たす曲線$\gamma:I\to\R^2$を求めることを考える．
+
+\begin{lemma}[方向微分の特徴付け]
+    $p\in\R^2,v_p\in T_p\R^2$とする．
+
+    1. $dF_p(v_p)=v_p(F)$
+
+    2. $\gamma$を$t=0$にて$p$で速度ベクトル$v_p$を持つ曲線とすると，$v_p(F)=\frac{d(F\circ\gamma)}{dt}(0)$
+\end{lemma}
+今回はベクトル解析とは違って，逆方向から展開したな．ベクトル解析ではこちらの「微分作用素としての接ベクトル」が定義だった記憶がある．
+\begin{proof}
+    1. $v_p$の標準基底に対する係数を$a,b$とする．左辺について
+    \begin{align*}
+        dF_p(v_p) &= \left( \frac{\partial F}{\partial x}(p)dx_p + \frac{\partial F}{\partial y}(p)dy_p \right)(v_p)\\
+        &= \frac{\partial F}{\partial x}(p)a + \frac{\partial F}{\partial y}(p)b = v_p(F)
+    \end{align*}
+\end{proof}
+
+\begin{theorem}\label{thm-積分曲線と全微分方程式の解}
+    完全形の微分方程式$dF=0$が微分形式として$0$にならないとする．即ち，$dF=fdx+gdy$とおくと，$f,g$は同時に$0$にならないとする．
+    $\gamma:I\to\R^2$を微分可能な曲線とする．
+
+    1. $g$が$0$にならない範囲で，次の３条件は同値である．
+    \begin{quotation}
+        i) $\gamma$が方程式の解である．
+
+        ii) $F\circ\gamma$は定数関数である．
+
+        iii) $\gamma$は微分方程式$\frac{dy}{dx}(x)=-\frac{f(x,y)}{g(x,y)}$の解のグラフから，パラメータを取り替えることで得られる．
+    \end{quotation}
+
+    2. $f$が$0$にならない範囲で，次の３条件は同値である．
+    \begin{quotation}
+        i) $\gamma$が方程式の解である．
+
+        ii) $F\circ\gamma$は定数関数である．
+
+        iii) $\gamma$は微分方程式$\frac{dx}{dy}(y)=-\frac{g(x,y)}{f(x,y)}$の解のグラフから，パラメータを取り替えることで得られる．
+    \end{quotation}
+\end{theorem}
+\begin{proof}
+    i),iii) 定理\ref{thm-solution-change-of-variables}より，全微分方程式$fdx+gdy=0\Leftrightarrow \frac{f}{g}dx+dy=0$の解であることと，これが定める微分方程式$\frac{dy}{dx}(x)=-\frac{f(x,y)}{g(x,y)}$の解のグラフの，変数変換分の違いしか持たないこととは，同値である．
+
+    i),ii) 補題より，$\gamma$が$dF=0$の解であることと，$\frac{d(F\circ\gamma)}{dt}=0$ on $I$であること，即ち$\gamma$が$I$上定数関数であることと同値である．
+\end{proof}
+
+\begin{remark}
+    そう言う指摘をされてから気づいたが，$dF_p(v_p)$とは，$\grad F_p$との内積を取っていることに等しいので，条件$dF_p(v_p)=0$は$\grad F_p(p)$と$v_p$との直交条件である．
+    即ち，$F$が増える方向に直交する方向，「$F$の値が変わらない方向」に$v_p$が向いている条件である．
+    この直観を定理の形に落とし込んだのが定理\ref{thm-積分曲線と全微分方程式の解}．
+    やはりbra-ket記法は強力である，見てて気づかなかった．
+\end{remark}
+
+全微分方程式$\omega=0$は，$0$にならない関数$\mu$を掛ける操作について解空間を変えない．１の分割みたいな手法か？
+\begin{definition}[積分因子]
+    $C^r$級の1-形式$\omega$に対して，$C^r$級の関数$\mu$であって，$\mu\omega$が完全であるようなものを，$\omega$の積分因子という．
+\end{definition}
+
+\begin{example}[三角関数の微分が生成する1-形式]
+    1-形式$\omega\in\Omega^1(\R^2\setminus\{0\})$を$\omega=\frac{-y}{x^2+y^2}dx+\frac{x}{x^2+y^2}dy$と定めると，これはベクトル解析の授業でたくさん慣れ親しんだrot型の場を持ち，
+    \begin{align*}
+        \frac{\partial}{\partial y}\frac{-y}{x^2+y^2}=\frac{\partial}{\partial x}\frac{x}{x^2+y^2}=\frac{-x^2+y^2}{(x^2+y^2)^2}
+    \end{align*}
+    が成り立つから閉形式$d\omega=0$である．全く同様の理由でこれは第一積分を持つ．それが見やすいように，ここで$(x,y)=(r\cos\theta,r\sin\theta)\;(r>0,\theta\in[0,2\pi))$と変数変換すると，
+    \begin{align*}
+        \begin{pmatrix}dx\\dy\end{pmatrix} &= \begin{pmatrix}\cos\theta&-r\sin\theta\\\sin\theta&r\cos\theta\end{pmatrix}\begin{pmatrix}dr\\d\theta\end{pmatrix}\\
+        \begin{pmatrix}dr\\d\theta\end{pmatrix} &= \frac{1}{r}\begin{pmatrix}r\cos\theta&r\sin\theta\\-\sin\theta&\cos\theta\end{pmatrix}\begin{pmatrix}dx\\dy\end{pmatrix} = \frac{1}{r}\begin{pmatrix}r\cos\theta dx+r\sin\theta\\-\sin\theta dx+\cos\theta dy\end{pmatrix}
+    \end{align*}
+    $\omega=d\theta$が，$r>0,\theta\in[0,2\pi)$即ち，$\R^2\setminus [0,\infty)\times\{0\}$の範囲で成り立つ．しかし，$\R^2\setminus\{0\}$全域では，$\omega$は完全ではない．
+\end{example}
+
+\begin{example}[或る積分因子について完全になる1-形式]
+    \[ \omega=(\cos x-\sin x)dx + (\cos x)dy\;\in\Omega^1(\R^2) \]
+    を考える．
+    \begin{align*}
+        d\omega &= -\frac{\partial}{\partial y}(\cos x-\sin x)dx\wedge dy + \frac{\partial}{\partial x}(\cos x)dx\wedge dy\\
+        &= -\sin xdx\wedge dy
+    \end{align*}
+    より，特に$\R^2$上閉形式ではない．しかし，$e^{x+y}\omega\in\Omega^1(\R^2)$は，次の通り，閉形式になる！
+    \begin{align*}
+        d(e^{x+y}\omega) &= -\frac{\partial}{\partial y}(e^{x+y}(\cos x-\sin x))dx\wedge dy + \frac{\partial}{\partial x}(e^{x+y}\cos x)dx\wedge dy\\
+        &= -e^{x+y}(\cos x-\sin x)dx\wedge dy + e^{x+y}(\cos x-\sin x)dx\wedge dy = 0
+    \end{align*}
+    まさか！！！1-形式$\omega$は$C^\infty(\R^2)$倍について，完全になったりならなかったりするのか！それにしてもすごい例だ，狙いすましている．積分因子$e^{x+y}$はすごい．
+
+    また，関数$e^{x+y}\cos x$について，
+    \begin{align*}
+        d(e^{x+y}\cos x) = e^{x+y}(\cos x-\sin x)dx + e^{x+y}(\cos x)dy = e^{x+y}\omega
+    \end{align*}
+    より，これが完全な1-形式$e^{x+y}\omega$のポテンシャル（または第一積分）である．
+\end{example}
+
+\begin{example}[積分因子による一般の線型常微分方程式の第一積分の構成法]
+    一般の線型常微分方程式
+    \begin{align*}
+        \frac{dy}{dx}(x) &= P(x)y+Q(x)\\
+        \Leftrightarrow\;\;\; 0&= (Py+Q)dx-dy =:\omega
+    \end{align*}
+    が積分可能ならば，ポテンシャル$F$が存在して$F_x=Py-Q,\;F_y=-1$を満たすが，1-形式$\omega$は
+    係数に依存して完全性が変化し得るから，これよりももっと一般的な場合を，$\mu\in C^\infty(\R^2)$について
+    \begin{align*}
+        \frac{\partial F}{\partial x} &= \mu(Py+Q)&\cdots(*^1)\\
+        \frac{\partial F}{\partial y} &= -\mu&\cdots(*^2)
+    \end{align*}
+    を満たす関数$F$の範囲で探すのが良いのであった．これは全微分方程式$\mu\omega=0$のポテンシャルであって，条件が緩くなっているが，例えば$\mu$が指数関数など$\mu(x,y)=0$を取らない場合は，この$F$もまた$\omega=0$のポテンシャルである．
+
+    ここで，あまり根拠なく，$\mu$は$y$に依らない関数$\mu=\mu(x)$とする．すると，
+    \begin{align*}
+        -\frac{\partial\mu}{\partial x}=\frac{\partial^2F}{\partial x\partial y}=\frac{\partial^2F}{\partial y\partial x}=\mu P
+    \end{align*}
+    より，$P(x)$の原始関数の１つを$\tilde{P}(x)$とすると，$\mu(x)=Ce^{-\tilde{P}(x)}\;(C\in\R)$である．
+    こうして，積分因子が$x$のみの関数である状況下で$\mu\omega=0$のポテンシャル$F$は，$(*^2)\Leftrightarrow F(x,y)=-\mu(x)y+\varphi(x)$と$(*^1)$とを併せて，元の常微分方程式は線型だから，この時の$y$は$x$の関数$y(x)$を表すのではなく単に変数$y$の１次項であることに注意すると，
+    \begin{align*}
+        \mu(x)P(x)y+\mu(x)Q(x) = \frac{\partial F}{\partial x}(x,y) &= -\frac{d\mu}{dx}(x)y+\frac{d\varphi}{dx}(x)\\
+        &= -\mu(x)P(x)y+\frac{d\varphi}{dx}(x)
+    \end{align*}
+    より，$\frac{d\varphi}{dx}(x)=\mu(x)Q(x)=Ce^{-\tilde{P}(x)}Q(x)\;(C\in\R)$ここで簡単のため$C=1$とし，この原始関数を$\varphi(x)=\tilde{Q}(x)$とすると，改めて
+    \[ F(x,y)=-\mu(x)y+\varphi(x) = - e^{-\tilde{P}(x)}y+\tilde{Q}(x) \]
+    を得る．これが求める，1-形式$\mu\omega=0$のポテンシャルとなっている．実際，
+    \begin{align*}
+        dF(x,y) &= \frac{\partial F}{\partial x}(x,y)dx + \frac{\partial F}{\partial y}(x,y)dy\\
+        &= \left( P(x)e^{-\tilde{P}(x)}y+\mu(x)Q(x) \right)dx + \left( -e^{-\tilde{P}(x)} \right)dy\\
+        &= \mu(x)\left( P(x)y+Q(x) \right)dx - \mu(x)dy
+    \end{align*}
+    が成り立つ．こうして得たポテンシャル$F(x,y)$に対して，$F(x,y)=C\in\R$と置くことで，元の線型常微分方程式の一般解を得る．
+    \begin{align*}
+        &F(x,y) = C\\
+        \Leftrightarrow& -e^{-\tilde{P}(x)}y+\tilde{Q}(x) = C\\
+        \Leftrightarrow& e^{\tilde{P}(x)}\left( \tilde{Q}(x)-C \right)=y
+    \end{align*}
+    として，確かに一般解を得る．（最後の最後で，変数$y$の１次項としての$y$が，$x$の関数としての$y(x)$と混用されているのが気になる）．
+\end{example}
+
+\begin{screen}
+    積分因子の言葉による，一般の線型常微分方程式の解の公式の再解釈をした．方程式
+    \begin{align*}
+        \frac{dy}{dx}(x) &= P(x)y+Q(x)\\
+        \Leftrightarrow\;\;\; 0&= (Py+Q)dx-dy =:\omega
+    \end{align*}
+    に対して，$\mu=Ce^{-\tilde{P}(x)}\;(C\in\R)$は積分因子である．
+    これについて一般解は，
+    \begin{align*}
+        e^{\tilde{P}(x)}\left( \tilde{Q}(x)-C \right)=y
+    \end{align*}
+    であったのだった．実用上は，発見的方法である定数変化法以上のものが必要となる場合は少ない．
+\end{screen}
+
+\chapter{解析的な常微分方程式}
+
+\chapter{初期値や方程式の変化の下での解の変化}
+
+\part{基礎理論}
+
+\section{現象と法則}
+
+
+\chapter{A:初期値問題の解の構成}
+
+\begin{quotation}
+    微分方程式とその解との対応を正確に把握するのが微分方程式論の基礎である．
+
+    第１節で３通りの方法「冪級数」「Picardの逐次近似」「Cauchyの折れ線」による解の構成をみる．
+    これはいずれも局所解であるから，第２節で特異点周りでの扱いを見た後に，第３節で定義域を拡張することを考える．
+    最後に第４節で，その解の連続性や微分可能性などの性質を議論する．
+\end{quotation}
+
+
+\section{局所解の構成}
+
+\subsection{冪級数を使った解放}
+
+\begin{theorem}[Cauchy]
+    常微分方程式の初期値問題
+    \begin{align*}
+        \frac{dx}{dt}&=f(t,x), & x(t_0)&=\xi
+    \end{align*}
+    において，$f$が$(t,x)=(t_0,\xi)\in K\times K^m$の近傍で解析的ならば，$t=t_0$の近傍で解析的な解$x:K\to K^m$がただ一つ存在する．
+\end{theorem}
+
+\subsection{Picardの逐次近似法}
+
+\subsection{Cauchyの折れ線とPeanoの定理}
+
+\begin{theorem}[Peano]
+    常微分方程式の初期値問題
+    \begin{align*}
+        \frac{dx}{dt}&=f(t,x), & x(t_0)&=\xi
+    \end{align*}
+    において，$f$は$D=\{(t,x)\in\mathbb{R}^{m+1}\mid |t-t_0|\le r,||x-\xi ||\le\rho\}$で連続とする．この時，$\delta>0$が存在して，区間$[t_0-\delta,t_0+\delta]$上の関数$x$で，初期値問題の解となるものが存在する．
+\end{theorem}
+
+\section{特異点における局所解}
+
+\section{解関数の存在域}
+
+\section{初期値と助変数に関する解の連続性と微分可能性}
+
+\chapter{B:境界値問題}
+
+\part{解法理論}
+
+\chapter{A:求積法}
+
+\chapter{B:変数係数線型方程式を満たす特殊関数}
+
+\chapter{C:解析力学の技法}
+
+\begin{quotation}
+    （中略）代わりに，導関数を含まない関係式を用いて，軌道が特定できるかということが主要な問題となる．（後略）
+
+    17世紀，微分積分学はNewton, Leibnizによって始められ，18世紀，Euler, d'Alembert, Lagrange らによって確立されていった．これ以降，微分積分学の主要な動機の一つに古典的な力学の問題を解くと言ったことが意識されていくのだが，古典力学に由来する微分方程式をシステマティックに解く方法論が，解析力学の名の下に集積されていく．
+
+    線型性という性質を仮定した世界を系統的に扱う技術として線型代数があり，その重要性は20世紀以降，十分に理解されてきたと思う．一方で，非線型現象も含めた微分方程式の解を求める技法としての解析力学の重要性は十分に意識されてはこなかったのではないだろうか．
+
+    物理学においては，解析力学を，量子力学や統計力学への導入として重要視することが多いかと思うのだが，筆者はむしろ常微分方程式の解法理論としての重要性を強調したい．
+\end{quotation}
+
+\section{Lagrange形式とHamilton形式}
+
+\begin{definition}[canonical equations of Hamilton]
+    $p_k,q_k\;(k=1,\cdots,n)$についての$C^2$級関数$H$について，次のような方程式系を，正準方程式系，またはHamilton系という．
+    \[ \frac{dq_k}{dt}=\frac{\partial H}{\partial p_k},\;\;\;\frac{dp_k}{dt}=-\frac{\partial H}{\partial q_k}\;\;\; (k=1,\cdots,n) \]
+    各$p_k,q_k$を座標にもつ$2n$次元空間を相空間と呼ぶ．この$2n$変数関数$H(p,q)$をHamiltonianと呼ぶ．
+\end{definition}
+\begin{remark}　
+
+    1. 正準方程式は，Hamilton形式の解析力学において，作用を
+    \[ S[p,q]=\int^{t_f}_{t_i}\left( \sum_ip_i(t)\dot{q}(t)-H(p,q;t) \right)dt \]
+    とした時に，最小作用の原理を念頭において，これが最小値を取るための必要条件である停留条件を表した条件式である．この文脈では運動方程式と呼ばれる．
+
+    2. Hamilton関数を，独立変数$t$にも陽に依存しているとする$2n+1$変数関数$H(p,q;t)$と考える場合は，非自励Hamilton系という．この時，$\frac{dH}{dt}=\frac{\partial H}{\partial t}$であり，次の命題\ref{prop-Hamilton-invariants}は成り立たない．
+    併し，これは自励的なHamilton系に帰着できる．
+\end{remark}
+
+\begin{proposition}
+    非自励的なHamilton系は，自励的なHamilton系に帰着できる
+\end{proposition}
+
+\begin{proposition}\label{prop-Hamilton-invariants}
+    Hamilton系において，Hamilton関数$H$は保存量（第一積分）になる．
+\end{proposition}
+\begin{proof}
+    \begin{eqnarray*}
+        \frac{dH}{dt}&=&\sum^n_{k=1}\left( \frac{\partial H}{\partial q_k}\frac{dq_k}{dt}+\frac{\partial H}{\partial q_k}\frac{dp_k}{dt} \right) \\
+        &=& \sum^n_{k=1}\left( \frac{\partial H}{\partial q_k}\frac{\partial H}{\partial p_k}+\frac{\partial H}{\partial q_k}\frac{\partial H}{\partial q_k} \right) =0
+    \end{eqnarray*}
+\end{proof}
+
+\subsection{力が保存力である場合の$n$体Newton運動方程式は正準方程式になる．}
+
+\part{定性理論}
+
+\part{新微分方程式対話}
+
+\section{最適制御理論とPontryagin's maximum principle}
+
+最適制御理論(optimal control theory)とは，ある力学系が，ある目的関数に対して最大化／最小化する軌道を決定するための理論体系のことである．\footnote{en.wikipedia.orgから． It has numerous applications in both science and engineering. For example, the dynamical system might be a spacecraft with controls corresponding to rocket thrusters, and the objective might be to reach the moon with minimum fuel expenditure. Or the dynamical system could be a nation's economy, with the objective to minimize unemployment; the controls in this case could be fiscal and monetary policy.}
+
+Pontryaginは，論文"The Mathematical Theory of Optimal Processes" (Pontryagin et al., 1962).にて，目的関数を最大化する最適操作量とは，Hamiltonianを最大化するような操作量と同値であり，後者を調べれば良いという方針を与え，その際にすぐに得られる必要条件を定理という形で与えた．
+なお，ここに於て，相空間上の点$x$と双対的な量$\psi$は，時刻$t$に於ける瞬間増加率$\left.\frac{dx}{dt}\right|_{t=t}$の，最終量$J$への寄与率を表し，Hamiltonianはそれらの適切な重みをつけた線型和となる\cite{Shoot/root balance of plants: Optimal growth of a system with many vegetative organs}．
+$\psi$の導入が全くの余剰に見えるのに上手く働いているので，魔法に見える．なお，記法は\cite{坂和愛幸}を参考にした．
+
+以降関数と言った時，全て実数値一変数関数$\mathbb{R}\to\mathbb{R}$とする．
+\begin{definition}[制御過程]
+    次を満たす連立１階微分方程式系
+    \[ \frac{dx^i}{dt}=f^i(x^1,\cdots,x^n;u^1,\cdots,u^r)\;\;\; (i=1,\cdots,n) \]
+    を，操作量$\mathbf{u}=\{u_i\}_{i=1,\cdots,r}$と制御変数$\mathbf{x}=\{x_i\}_{i=1,\cdots,n}$についての制御系と呼ぶ．
+
+    1. 各$u^i(t)\;(i=1\cdots,r)$は，あらかじめ与えられた部分的に連続な関数である．
+
+    2. $\forall t\in\mathbb{R}\; \mathbf{u(t)}={}^t(u^1(t),\cdots,u^r(t))\in \Omega$を満たす閉領域$\Omega\subset\mathbb{R}^r$が存在する．
+\end{definition}
+\begin{definition}[最適制御問題]次のような問題を，最適制御問題という．
+
+    ある初期条件$\mathbf{x_0}=\{x^i(t_0)\}_{i\in [n]}$と，目的点$\mathbf{x_1}=\{x^i(t_1)\}_{i\in [n]}$について，
+    各操作量$\mathbf{u}(t)=\{u_i(t)\}_{i\in [r]}$と，それに依る制御過程$\frac{dx^i}{dt}=f^i(x^1,\cdots,x^n;u)\;\;\; (i\in [n])$が定める軌道$\mathbf{x}(t)=\{x^i(t)\}_{i\in [n]}\subset\mathbb{R}^n$のうち，
+    次を満たすような操作量と軌道の組$(\mathbf{u}(t),\mathbf{x}(t))$を決定せよ．
+
+    \begin{center}
+        ある目的関数$f^0(x^1,\cdots,x^n;u^1,\cdots,u^r)$について，
+    \[ J=\int^{t_1}_{t_0}f^0(\mathbf{x}(t),\mathbf{u}(t))dt \]
+    という値を最小化する．
+    \end{center}
+
+    この時の操作量$(\mathbf{u}(t))$を最適操作量，軌道$(\mathbf{x}(t))$を最適軌道という．
+\end{definition}
+
+\begin{remark}[Hamilton系への換言]　
+    
+    1. 一般化座標にあたるベクトル$\tilde{\mathbf{x}}(t)={}^t(x^0,\cdots,x^n)$を次のように構成する．
+    これは，制御過程$\tilde{f}={}^t(f^0,\cdots,f^n)$が$n+1$次元空間に定めるベクトル場に対する積分曲線として，$n+1$次元曲線$\tilde{x}$を定義していることに他ならない．
+
+    $x^0(t):=\int^t_{t_0}f^0(\mathbf{x}(t),\mathbf{u}(t))dt$
+    と置くと，$\frac{dx^0(t)}{dt}=f^0(\mathbf{x}(t),\mathbf{u}(t)), x^0(t_1)=J,x^0(t_0)=0$を満たす．
+    これについて拡張した$n+1$次元ベクトル$\tilde{\mathbf{x}}(t)$の力学系を設定する．
+    \begin{eqnarray*}
+        \frac{dx^i}{dt} &=& f^i(\mathbf{x},\mathbf{u})\;\;\;(i\in n+1) \\
+        \tilde{\mathbf{x}}(t_0)&=& (0,\mathbf{x}_0) = (0,x_0^1,\cdots,x_0^n) \\
+        \tilde{\mathbf{x}}(t_1) &=& (x^0(t_1)=J,\mathbf{x}_1) = (J,x^1_1,x^n_1)
+    \end{eqnarray*}
+
+    2. 一般化運動量にあたるベクトル$\tilde{\psi}(t)=(\psi_0,\cdots,\psi_n)$を次のように構成する．
+    \[ \frac{d\psi_i(t)}{dt} = -\left( \frac{\partial f^0 (x^1,\cdots,x^n;\mathbf{u})}{\partial x^i} \psi_0 +\cdots + \frac{\partial f^n (x^1,\cdots,x^n;\mathbf{u})}{\partial x^i} \psi_n  \right) \;\;\;(i\in n+1) \]
+    この$n+1$本の式は行列を用いて次のように書き換えられる．
+    \[ \frac{d}{dt}(\psi_0\;\cdots\;\psi_n) = -  (\psi_0\;\cdots\;\psi_n) \left(\begin{array}{lcr}\frac{\partial f^0}{\partial x^0}&\cdots&\frac{\partial f^0}{\partial x^n} \\ \vdots&\ddots&\vdots \\ \frac{\partial f^n}{\partial x^0} & \cdots & \frac{\partial f^n}{\partial x^n}\end{array}\right) \]
+    これはベクトル場の変数変換の公式で見たことがある．接空間の基底にあたるものであろうか．
+
+    3. 最後に，Hamiltonianを次のように置く．
+    \[ H(\tilde{\psi}(t),\mathbf{x},\mathbf{u}):=f^0(\mathbf{x},\mathbf{u})\psi_0 + \cdots + f^n(\mathbf{x},\mathbf{u})\psi_n \]
+    すると，制御過程を次のHamilton系に落とし込むことが出来たことになる．（＊これを満たすことを$\tilde{\psi}(t)$の定義としても良い）．
+    \begin{eqnarray*}
+        \frac{dx^i}{dt} &=& \frac{\partial H(\tilde{\psi}(t),\mathbf{x},\mathbf{u})}{\partial\psi_i}\;\;\; (i\in n+1) \\
+        \frac{d\psi_i}{dt} &=& -\frac{\partial H(\tilde{\psi}(t),\mathbf{x},\mathbf{u})}{\partial x^i}\;\;\; (i\in n+1)
+    \end{eqnarray*}
+\end{remark}
+\begin{remark}
+    本当にベクトル場みたいだな．Mac Laneの言葉が分かる気がする，数学は全て一つだ．
+\end{remark}
+
+\begin{notation}
+    各$(\tilde{\psi},\mathbf{x})$について，最適操作量$\mathbf{u}(t)$が与える最大値を次のように置く．
+    \[ M(\tilde{\psi},\mathbf{x}):=\max_{\mathbf{u}\in\Omega}H(\tilde{\psi},\mathbf{x},\mathbf{u}) \]
+\end{notation}
+
+\begin{theorem}[Pontryagin]
+    ある最適制御問題について，$\mathbf{u}(t)$を最適操作量，$\mathbf{x}$を$\mathbf{x}(t_0)=\mathbf{x}_0$から$\mathbf{x}(t_1)=\mathbf{x}_1$に至る最適軌道とすると，次が成り立つ（ことが必要条件である）．
+
+    \begin{center}
+        
+        次の３条件を満たす零でない連続なベクトル$\tilde{\psi}(t)$が存在する．
+
+    1. 次のHamilton系の条件を満たす．
+    \begin{eqnarray}
+        \frac{dx^i}{dt} &=& \frac{\partial H(\tilde{\psi}(t),\mathbf{x},\mathbf{u})}{\partial\psi_i}\;\;\; (i\in n+1) \\
+        \frac{d\psi_i}{dt} &=& -\frac{\partial H(\tilde{\psi}(t),\mathbf{x},\mathbf{u})}{\partial x^i}\;\;\; (i\in n+1)
+    \end{eqnarray}
+
+    2. $M(\tilde{\psi},\mathbf{x})=\max_{\mathbf{u}\in\Omega}H(\tilde{\psi},\mathbf{x},\mathbf{u})$である．
+
+    3. $\psi_0(t_0)\le 0\land M(\tilde{\psi}(t_0),\mathbf{x}(t_0))=0$または$\psi_0(t_1)\le 0\land M(\tilde{\psi}(t_1),\mathbf{x}(t_1))=0$
+    \end{center}
+
+    なお，次の条件は$1\land 2\land 3$から導かれる．
+    \[ \forall t\in [t_0,t_1]\;\; M(\tilde{\psi}(t),\mathbf{x}(t))=0 \]
+\end{theorem}
+
+特に，最適制御問題のうち，目的関数を$f^0=1$とした場合は，$n$次元空間上の弧長／移動所要時間を最小にするクラスの問題となる．
+
+\begin{corollary}
+    $f^0=1$を満たす最適制御問題について，
+\end{corollary}
+
+\begin{example}[\cite{Optimal growth schedule of deciduoustree seedlings}で使用されていたモデル]
+    関数の定義域は$[0,T]$とする．パラメータ$Y(t)$を生殖器官重量とし，パラメータ$X(t)$を栄養器官重量とする．$r(t)$は栄養器官のassimilation効率を表す係数，$0\le u(t)\le a(t)\le 1$を植物の生活史戦略に関する操作量とする．
+    次を仮定した力学系は，２次元のHamilton系となる．
+    \begin{eqnarray*}
+        \frac{dY}{dt} &=& (1-u)rX (=:f^0)  \\
+        \frac{dX}{dt} &=& urX (=:f^1) \\
+        Y(0)=0,\; Y(T)&=&:J,\;X(0)=1
+    \end{eqnarray*}
+    Hamiltonianは次のようになる．
+    \begin{eqnarray}
+        H &=& \frac{dY}{dt}\psi_0 + \frac{dX}{dt}\psi_1 \\
+        &=& (\psi_1-\psi_0)urX + \psi_0rX \label{formula-hamiltonian}
+    \end{eqnarray}
+    ここで，$\psi_0,\psi_1$は次を満たす．
+    \begin{eqnarray}
+        \frac{d\psi_0}{dt} &=& - \left( \frac{\partial f^0}{\partial Y}\psi_0 + \frac{\partial f^1}{\partial Y}\psi_1 \right) = - (0+0) = 0 \label{formula-derivative-psi-0} \\
+        \frac{d\psi_1}{dt} &=& - \left( \frac{\partial f^0}{\partial X}\psi_0 + \frac{\partial f^1}{\partial X}\psi_1 \right) = - ur\psi_0 - (1-u)r\psi_1
+    \end{eqnarray}
+    これら$\psi_0,\psi_1$は，それぞれ，時刻$t$に於ける瞬間生殖器官／栄養器官増加率$\left.\frac{dY}{dt}\right|_{t=t}$の，最終生殖器官生産率$J$への寄与率を表している\cite{Shoot/root balance of plants: Optimal growth of a system with many vegetative organs}．
+    そこで，次のように置く．何故ならば，時刻$t=T$において，$\left.\frac{dY}{dt}\right|_{t=T}$の値はそのまま$J=\int^T_0dY$の値に寄与し，$\left.\frac{dX}{dt}\right|_{t=T}$の値はもはや$J$の値に寄与しないからである．
+    \begin{eqnarray}
+        \psi_0(T)&=&1 \label{formula-boundary-psi-0} \\
+        \psi_1(T)&=&0
+    \end{eqnarray}
+    式\ref{formula-derivative-psi-0}を，境界条件\ref{formula-boundary-psi-0}の下で解くと，$\psi_0\equiv 1$．これによってHamiltonian \ref{formula-hamiltonian}は次のように書き換えられる．
+    \begin{eqnarray}
+        H = (\psi_1-1)urX+rX
+    \end{eqnarray}
+    Pontryaginの最大値定理より，この$H$を最大化する関数$u=u^*(t)$を求めれば良い．従って，$u^*(t)$について，次が必要条件として得られる．
+    \begin{eqnarray}
+        \forall t\in [0,T]\;\; \psi_1(t)>1 &\Rightarrow& u^*(t)=a(t) \\
+        \forall t\in [0,T]\;\; \psi_1(t)<1 &\Rightarrow& u^*(t)=0
+    \end{eqnarray}
+    今，$t=0$に於て，$u(0)>0$で始める戦略を仮定したから，$\psi_1(t_s)=1$を満たす転換点$t_s$が少なくとも１つ必要である．
+    しかし，このような点が２つ以上存在した場合，$\frac{d\psi_1}{dt}(t^*_s)\ge 0$を満たす点$t^*_s$が存在する．すると，
+    \begin{eqnarray*}
+        \frac{d\psi_1}{dt}(t^*_s) &\ge& 0 \\
+        -ur\psi_1(t^*_s)-(1-u)r &\ge& 0 \\
+        -ur-r+ur&\ge&0\\
+        r&\ge&0
+    \end{eqnarray*}
+    より，理想的な環境$\forall t\in [0,T]\; r(t)>0$では，これはPontryaginの最大値定理から得る必要条件と両立しないことから，これは最適戦略とはならない．
+    従って，最適戦略$u^*$に存在する転換点$t_s$はただ一つである．
+
+    これより，$\frac{d\psi_1}{dt}=-ur\psi_1-(1-u)r\psi_0$を用いて，$\forall t\in [t_s,T]\; u(t)=0$と$\psi_1(t_s)=1,\psi_1(T)=0$とより，次を得る．
+    \begin{eqnarray*}
+        \int^T_{t_s}d\psi_1 &=& -\int^T_{t_s}(u(t)r(t)+(1-u(t))r(t))dt = -\int^T_{t_s}r(t)dt
+    \end{eqnarray*}
+    であるから，
+    \begin{equation}\label{formula-mysterious}
+        \int^T_{t_s}r(t)dt = 1
+    \end{equation}
+    を得る．$\forall t\in [t_s,T]\; u(t)=0$より，$t_s$以降$X$は増えないから，最終栄養器官重量は$X(t_s)$である．しかし式\ref{formula-mysterious}より，
+    \begin{equation}
+        X(T) = X(t_s) = \int^T_{t_s}X(t)r(t)dt = \int^T_{t_s}dY = Y(T)
+    \end{equation}
+    より，求める最適戦略$u$は，$t_s$時点で生産していた栄養器官重量$X(t_s)(=X(T))$を同じだけの生殖器官重量$Y(T)=J$を生産するような戦略である．
+
+    また，$r(t)\equiv r$と定値関数とすると，式\ref{formula-mysterious}より，
+    \begin{eqnarray*}
+        1 &=& r(T-t_s) \\
+        t_s &=& T-\frac{1}{r}
+    \end{eqnarray*}
+\end{example}
+
+
+\section{微分方程式とその解}
+
+\begin{definition}[一階微分方程式]
+    勝手に取った３変数関数$F(t,x,y)$（但し，$\frac{\partial y}{\partial t}\ne 0$）に対して，
+    この$t$と同じ定義域$T$を持った関数$x$とその微分$x'$について
+    $$F(t,x,x') = 0$$
+    即ち全ての$t\in T$について$F(t,x(t),x'(t))=0$が成り立つとき，この方程式，または陰伏関数$f$としてそれを$x'$について解いて得る$x' = f(t,x)$を，一階の微分方程式と呼ぶ．
+\end{definition}
+
+$x'=f(t,x)$について，これを積分法によって，任意の$t\in T$について表示すると，ある勝手に取った点$t_0\in T$と対応する$x_0:=x(t_0)$を定めて
+\begin{equation}
+    x(t) = x(t_0) + \int^t_{t_0}f(\tau,x(\tau))d\tau \hspace{5mm}\forall\, t\in T
+\end{equation}
+と表示できる．こうすると，右辺は積分計算によって，高校で習った通りに簡約可能である．
+ここで，右辺の被積分関数の関数$x$のところに，定数関数$x_0$を入れた時に得る値を$x_1$とする．
+\begin{equation}
+    x_1(t) = x_0 + \int^t_{t_0}f(\tau, x_0)d\tau \hspace{5mm}\forall\, t\in T
+\end{equation}
+これは$t$についての一次関数である．こうして，関数列$\{x_n\}$を取れる．もしこれに極限と呼べるものが存在し，
+\begin{equation}
+    \overline{x}(t) = x_0 + \int^t_{t_0}f(\tau, \overline{x})d\tau \hspace{5mm}\forall\, t\in T
+\end{equation}
+が成立するが，これは微分方程式$x'=f(t,x)$の解を，$x_0$に始まり，$(t-t_0)$の無限冪級数の形で得た事に当たる．
+
+$$e^M := \sum^\infty_{n=0} \frac{M^n}{n!}$$なので，
+\begin{eqnarray}
+    e^{\left(\begin{array}{cc}0&t \\ -t&0\end{array}\right)} &=& \left(\begin{array}{cc}0&t \\ -t&0\end{array}\right) + \frac{1}{2!}\left(\begin{array}{cc}0&t \\ -t&0\end{array}\right)^2 + \frac{1}{3!}\left(\begin{array}{cc}0&t \\ -t&0\end{array}\right)^3 + \cdots \\
+    &=& \left(\begin{array}{cc} -\frac{t^2}{2!}+\cdots & t - \frac{t^3}{3!}+\cdots \\ -t+\frac{t^3}{3!}+\cdots&-\frac{t^2}{2!}+\cdots\end{array}\right) \\
+    &=& \left(\begin{array}{cc}\cos(t)&\sin(t) \\ -\sin(t) &\cos(t)\end{array}\right)
+\end{eqnarray}
+であるから，連立方程式
+$$\left\{ \begin{array}{ccc} \frac{dx}{dt}&=&y \\ \frac{dy}{dt}&=&-x \end{array} \right.$$の解は，
+\begin{equation}\frac{d}{dt}\left(\begin{array}{c} x\\ y \end{array}\right) = \left(\begin{array}{cc} 0 & 1\\-1 &0 \end{array}\right)\left( \begin{array}{c}x\\ y\end{array} \right)\end{equation}
+より，
+\begin{equation}\mathbf{x}_1(t)=\mathbf{x}_0+\int^t_{t_0}\left(\begin{array}{cc} 0 & 1\\-1 &0 \end{array}\right)\mathbf{x}d\tau\end{equation}
+と表せて，このまま$M=\left(\begin{array}{cc} 0 & 1\\-1 &0 \end{array}\right)$として，$(t-t_0)M$の冪を係数とした冪級数の和を得るから，解は
+\begin{equation}
+    \mathbf{x}(t) = \mathbf{x}_0e^{\left(\begin{array}{cc} 0 & (t-t_0)\\-(t-t_0) &0 \end{array}\right)}
+\end{equation}
+と得る．即ち，
+\begin{equation}
+\left(\begin{array}{c} x\\ y \end{array}\right) = \left(\begin{array}{cc} \cos(t-t_0) & \sin(t-t_0)\\-\sin(t-t_0) &\cos(t-t_0) \end{array}\right)\left(\begin{array}{c} x_0 \\ y_0 \end{array}\right)
+\end{equation}
+が解である．ベクトル$\left(\begin{array}{c} x_0 \\ y_0 \end{array}\right)$が初期定数である．
+
+\section{行列の指数関数}
+
+\begin{thebibliography}{99}
+    \bibitem{坂和愛幸}
+    『最適制御理論におけるポントリャーギンの最大原理』坂和愛幸．計測と制御，1962．
+    \bibitem{Optimal growth schedule of deciduoustree seedlings}
+    "Optimal growth schedule of deciduoustree seedlings" M.TATENO and N. VVATANABE. Functional Ecology, 1988，2，89-96.
+    \bibitem{Shoot/root balance of plants: Optimal growth of a system with many vegetative organs}
+    "Shoot/root balance of plants: Optimal growth of a system with many vegetative organs" Yoh Iwasa, and Jonathan Roughgarden. 
+    Theoretical Population Biology. Volume 25, Issue 1, February 1984, Pages 78-105. 
+    \bibitem{SIRモデル}
+    W. O. Kermack and A. G. McKendrick (1927). “A Contribution to the Mathematical Theory of Epidemics”. Proc. Roy. Soc. of London. Series A 115 (772): 700-721.
+\end{thebibliography}
+
+\end{document}

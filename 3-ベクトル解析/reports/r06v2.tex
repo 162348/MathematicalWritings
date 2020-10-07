@@ -1,0 +1,244 @@
+\documentclass[dvipdfmx,nosetpagesize, uplatex]{jsarticle}
+%
+\newcommand\GAKUSEISHOBANGO{J4-190549}% 学生証番号
+\newcommand\NAMAE{司馬博文}% 氏名
+\newcommand\KYODOSAKUSEISHA{なし}% 共同作成者（ある場合）
+% 上の三行について，{}内に記入の上183行以降を適宜編集すれば良い．
+%
+\usepackage{amsmath,amssymb,amscd,amsthm,amsbsy,multicol}
+\usepackage[shortlabels,inline]{enumitem}
+\renewcommand\labelenumi{\theenumi)}
+\renewcommand{\thefootnote}{\dag\arabic{footnote}}
+\DeclareMathOperator{\grad}{\mathrm{grad}}
+\newcommand\R{\mathbb{R}}
+\pagestyle{plain}
+%
+\setlength{\paperwidth}{257mm}
+\setlength{\paperheight}{364mm}
+\setlength{\textwidth}{170mm}
+\setlength{\textheight}{280mm}
+% \setlength{\oddsidemargin}{-2.0cm}
+% \setlength{\evensidemargin}{-.3cm}
+\setlength{\topmargin}{-31mm}
+%\setlength{\footskip}{2cm}
+%
+\newtheoremstyle{StatementsWithStar}% ?name?
+{3pt}% ?Space above? 1
+{3pt}% ?Space below? 1
+{}% ?Body font?
+{}% ?Indent amount? 2
+{\bfseries}% ?Theorem head font?
+{\textbf{.}}% ?Punctuation after theorem head?
+{.5em}% ?Space after theorem head? 3
+{\textbf{\textup{#1~\thetheorem{}}}{}\,$^{\ast}$\thmnote{(#3)}}% ?Theorem head spec (can be left empty, meaning ‘normal’)?
+%
+\newtheoremstyle{StatementsWithStar2}% ?name?
+{3pt}% ?Space above? 1
+{3pt}% ?Space below? 1
+{}% ?Body font?
+{}% ?Indent amount? 2
+{\bfseries}% ?Theorem head font?
+{\textbf{.}}% ?Punctuation after theorem head?
+{.5em}% ?Space after theorem head? 3
+{\textbf{\textup{#1~\thetheorem{}}}{}\,$^{\ast\ast}$\thmnote{(#3)}}% ?Theorem head spec (can be left empty, meaning ‘normal’)?
+%
+\newtheoremstyle{StatementsWithStar3}% ?name?
+{3pt}% ?Space above? 1
+{3pt}% ?Space below? 1
+{}% ?Body font?
+{}% ?Indent amount? 2
+{\bfseries}% ?Theorem head font?
+{\textbf{.}}% ?Punctuation after theorem head?
+{.5em}% ?Space after theorem head? 3
+{\textbf{\textup{#1~\thetheorem{}}}{}\,$^{\ast\ast\ast}$\thmnote{(#3)}}% ?Theorem head spec (can be left empty, meaning ‘normal’)?
+%
+\newtheoremstyle{StatementsWithCCirc}% ?name?
+{6pt}% ?Space above? 1
+{6pt}% ?Space below? 1
+{}% ?Body font?
+{}% ?Indent amount? 2
+{\bfseries}% ?Theorem head font?
+{\textbf{.}}% ?Punctuation after theorem head?
+{.5em}% ?Space after theorem head? 3
+{\textbf{\textup{#1~\thetheorem{}}}{}\,$^{\circledcirc}$\thmnote{(#3)}}% ?Theorem head spec (can be left empty, meaning ‘normal’)?
+%
+\theoremstyle{definition}
+ \newtheorem{theorem}{定理}[section]
+ \newtheorem{corollary}[theorem]{系}
+ \newtheorem{proposition}[theorem]{命題}
+ \newtheorem*{proposition*}{命題}
+ \newtheorem{lemma}[theorem]{補題}
+ \newtheorem*{lemma*}{補題}
+ \newtheorem*{theorem*}{定理}
+ \newtheorem{definition}[theorem]{定義}
+ \newtheorem{example}[theorem]{例}
+ \newtheorem{notation}[theorem]{記号}
+ \newtheorem*{notation*}{記号}
+ \newtheorem{assumption}[theorem]{仮定}
+ \newtheorem{question}[theorem]{問}
+ \newtheorem{reidai}[theorem]{例題}
+ \newtheorem{remark}[theorem]{注}
+% \newtheorem*{remarknonum}{注}
+ \newtheorem*{definition*}{定義}
+ \newtheorem*{remark*}{注}
+ \newtheorem*{question*}{問}
+%
+\theoremstyle{StatementsWithStar}
+ \newtheorem{definition_*}[theorem]{定義}
+ \newtheorem{question_*}[theorem]{問}
+ \newtheorem{example_*}[theorem]{例}
+ \newtheorem{theorem_*}[theorem]{定理}
+ \newtheorem{remark_*}[theorem]{注}
+%
+\theoremstyle{StatementsWithStar2}
+ \newtheorem{definition_**}[theorem]{定義}
+ \newtheorem{theorem_**}[theorem]{定理}
+ \newtheorem{question_**}[theorem]{問}
+ \newtheorem{remark_**}[theorem]{注}
+%
+\theoremstyle{StatementsWithStar3}
+ \newtheorem{remark_***}[theorem]{注}
+ \newtheorem{question_***}[theorem]{問}
+%
+\theoremstyle{StatementsWithCCirc}
+ \newtheorem{definition_O}[theorem]{定義}
+ \newtheorem{question_O}[theorem]{問}
+ \newtheorem{example_O}[theorem]{例}
+ \newtheorem{remark_O}[theorem]{注}
+%
+\theoremstyle{definition}
+%
+\renewcommand{\proofname}{\underline{証明}}
+%
+\raggedbottom
+\allowdisplaybreaks
+%
+\everymath{\displaystyle}
+%
+\begin{document}
+\thispagestyle{empty}
+\setlength{\parindent}{1zw}
+\setlength{\baselineskip}{14pt}
+\setcounter{section}{6}
+\newcounter{version}
+\setcounter{version}{2}
+\noindent
+2020年度ベクトル解析（足助担当）レポート問題~\thesection~v\theversion%\par\noindent
+\hfil2020/6/8（月）\par\noindent
+提出先：ITC-LMSのページの「課題」\par\noindent
+提出期間：2020/6/8（月）$\sim$ 2020/6/15（月）\textbf{9:00}\par\noindent
+返却はITC-LMSを用いて6/22日（月）以降に行う．\par\noindent
+※ レポートの作成方法は特に指定しないが，提出ファイルはPDF形式とすること．
+なお，ファイル名は，「``回数"+``学生証番号の下7桁.pdf\/"」（例：64123456.pdf）とすること．
+ファイルの作成にあたって印刷やスキャンなどに困難があれば速やかに足助まで申し出ること．
+\vskip-18pt\noindent
+\begin{table}[h]
+\begin{tabular}{|c|c|c|} \hline
+& & \\[-13pt]
+学生証番号& 氏名 & 共同作成者（ある場合）\\[2pt] \hline
+\rule{0pt}{16pt}%
+\parbox[c]{9.2zw}{\GAKUSEISHOBANGO\hfill} & \parbox[c]{13.0zw}{\NAMAE\hfill} & \parbox[c]{25.6zw}{\KYODOSAKUSEISHA\hfill}\\[6pt] \hline
+%「\hfill」の前に必要事項を記入すること．
+\end{tabular}
+\end{table}
+
+\noindent
+% 5/31 v2：積分区間が$[0,s]$となっていたのを$[0,t]$に修正．\par
+% \noindent
+% 5/23 v3：1)の$x^i$が誤って$x^j$となっていたので修正．\par
+% \ \par
+% ここでは函数などは全て$C^\infty$級とする．
+\begin{question*}
+${}^t(x,y,z)$を$\R^3$の標準的な座標とし，$S^2=\{{}^t(x,y,z)\in\R^3\mid x^2+y^2+z^2=1\}$とする．
+函数（スカラー場）$f\colon\R^3\to\R$を$f(x,y,z)=z^2$により定め，また，$\theta\in[-\pi/2,\pi/2]$について$C_\theta=\{{}^t(x,y,z)\in S^2\mid z=\sin\theta\}$とする．
+\begin{enumerate}
+\item
+$\int_{C_\theta}f(p)\lvert dp\rvert$を求めよ\footnote{記号の復習をしておくと，この場合，$p$は$C_\theta$上を動く．}．
+\item
+$\int_{S^2}f(p)\lvert dA\rvert$を求めよ．
+また，右辺を直接計算することにより$\int_{S^2}f(p)\lvert dA\rvert=\int_{-\pi/2}^{\pi/2}\left(\int_{C_\theta}f(p)\lvert dp\rvert\right)d\theta$が成り立つことを示せ．
+\item
+$f$が一般の場合にも$\int_{S^2}f(p)\lvert dA\rvert=\int_{-\pi/2}^{\pi/2}\left(\int_{C_\theta}f(p)\lvert dp\rvert\right)d\theta$が成り立つことを示せ．
+\end{enumerate}
+\end{question*}
+\par
+\ \par
+\noindent
+{\small
+※ 参考文献がある場合には最後にまとめて箇条書きで示すこと．\par\noindent
+※ \textbf{全体として２ページに収めること．}\par\noindent
+※ 共同作成者に記載がないにもかかわらず，ほかのレポートとほぼ同一であるレポートが散見される．
+誰かと共同してレポートを作成することは構わないが，そのことは明記すること．
+それをしなければ剽窃であって，これは学術上の致命的な不正行為である．
+万一，写される側がそのことを承知していなかったことが露見した場合には重大な結果をもたらす可能性がある．
+}
+
+\rightline{（以上）}\par
+%
+% 以下が解答欄である．２ページ以内に収まるように注意すること．なお，紙面レイアウトやフォントサイズを変更しないこと．
+%
+\noindent
+
+\subsection*{1)}
+
+$C_\theta$のパラメータ付けを$\varphi(t)=\left(\begin{array}{c}\cos\theta\cos t \\ \cos\theta\sin t \\ \sin\theta\end{array}\right)\; (t\in [0,2\pi])$とすると，
+\begin{eqnarray*}
+    \int_{C_\theta}f(p)|dp| &=& \int^{2\pi}_0f(\varphi(t))||D\varphi(t)||dt \\
+    &=& \int^{2\pi}_0\sin^2\theta |\cos\theta|dt = 2\pi\sin^2\theta|\cos\theta|
+\end{eqnarray*}
+より，$2\pi\sin^2\theta|\cos\theta|$．
+
+\subsection*{2)}
+
+$S^2$の三角形分割$\{S_i\}_{i=1}^8$を，上半球面$S^2_+$については
+\begin{align*}
+    S_1 &= \Sigma_+\cap\{{}^t(x,y,z)\in\mathbb{R}\mid x\ge 0,y\ge 0\}\\
+    S_2 &= \Sigma_+\cap\{{}^t(x,y,z)\in\mathbb{R}\mid x\le 0,y\ge 0\}\\
+    S_3 &= \Sigma_+\cap\{{}^t(x,y,z)\in\mathbb{R}\mid x\ge 0,y\le 0\}\\
+    S_4 &= \Sigma_+\cap\{{}^t(x,y,z)\in\mathbb{R}\mid x\le 0,y\le 0\}
+\end{align*}
+などとし，下半球面についても$S_5,\cdots,S_7$を同様に定める．今回，関数$f$は$z$軸周りのあらゆる回転変換について（特に$\frac{\pi}{2}$回転について）不変であることに注目し，特に$S_1$を中心に考える．
+$\Delta=\left\{ {}^t(r\cos\theta,r\sin\theta)\in\mathbb{R}^2\mid 0\le r\le 1, 0\le\theta\le\frac{\pi}{2} \right\}$とし，
+$S_1$のパラメータ付$\psi_1:\Delta\to S_1$を，$\psi_1\left(\begin{array}{c}r \\\theta \end{array}\right)=\left(\begin{array}{c}r\cos\theta \\ r\sin\theta \\ \sqrt{1-r^2}\end{array}\right)$とする．
+
+すると，
+\begin{eqnarray*}
+    \int_{S^2}f(p)|dA| &=& \sum^8_{i=1}\int_{\Delta}f\left(\psi_i\left(\begin{array}{c}r \\\theta \end{array}\right)\right)\left|\left| \frac{\partial \psi_i}{\partial r}\left(\begin{array}{c}r \\\theta \end{array}\right)\times \frac{\partial \psi_i}{\partial \theta}\left(\begin{array}{c}r \\\theta \end{array}\right) \right|\right|drd\theta \\
+    &=& 8\int_{\Delta}f\left(\psi_1\left(\begin{array}{c}r \\\theta \end{array}\right)\right)\left|\left| \frac{\partial \psi_1}{\partial r}\left(\begin{array}{c}r \\\theta \end{array}\right)\times \frac{\partial \psi_1}{\partial \theta}\left(\begin{array}{c}r \\\theta \end{array}\right) \right|\right|drd\theta \\
+    &=& \int_\Delta (1-r^2)\frac{r^2}{1-r^2}drd\theta \\
+    &=& 8\int^1_0r^2dr\int^{\frac{\pi}{2}}_0d\theta = 4\pi\int^1_0\frac{r^3}{3} = \frac{4}{3}\pi
+\end{eqnarray*}
+より，$\int_{S^2}f(p)|dA|=\frac{4}{3}\pi$を得る．
+
+また，
+\begin{eqnarray*}
+    \int^{\frac{\pi}{2}}_{-\frac{\pi}{2}}\left( \int_{C_\theta}f(p)|dp| \right)d\theta
+    &=& 2\pi\int^{\frac{\pi}{2}}_{-\frac{\pi}{2}} \sin^2\theta |\cos\theta|d\theta \\
+    &=& 4\pi \int^{\frac{\pi}{2}}_0 \frac{\sin^3}{3} = \frac{4}{3}\pi
+\end{eqnarray*}
+が成り立ち，$\int_{S^2}f(p)|dA|=\int^{\frac{\pi}{2}}_{-\frac{\pi}{2}}\left( \int_{C_\theta}f(p)|dp| \right)d\theta$を得る．
+
+\subsection*{3)}
+
+2)の解答の途中で定義した$S^2$の三角形分割$\{S_i\}_{i=1,\cdots,8}$に対して，閉区間$\Delta:=[0,2\pi]\times \left[-\frac{\pi}{2},\frac{\pi}{2}\right]$の分割$\{\Delta_i\}_{i=1,\cdots,8}$を次のように定める．
+\begin{align*}
+    \Delta_1 &= \left[0,\frac{\pi}{2}\right] \times \left[0,\frac{\pi}{2}\right] &
+    \Delta_2 &= \left[0,\frac{\pi}{2}\right] \times \left[\frac{\pi}{2},\pi\right]\\
+    \Delta_3 &= \left[0,\frac{\pi}{2}\right] \times \left[\pi,\frac{3\pi}{2}\right] &
+    \Delta_4 &= \left[0,\frac{\pi}{2}\right] \times \left[\frac{3\pi}{2},2\pi\right]\\
+    \Delta_5 &= \left[-\frac{\pi}{2},0\right] \times \left[0,\frac{\pi}{2}\right] &
+    \Delta_6 &= \left[-\frac{\pi}{2},0\right] \times \left[\frac{\pi}{2},\pi\right]\\
+    \Delta_7 &= \left[-\frac{\pi}{2},0\right] \times \left[\pi,\frac{3\pi}{2}\right] &
+    \Delta_8 &= \left[-\frac{\pi}{2},0\right] \times \left[\frac{3\pi}{2},2\pi\right]
+\end{align*}
+すると，これらの$\Delta_i$に対する$\varphi(t)=\left(\begin{array}{c}\cos\theta\cos t \\ \cos\theta\sin t \\ \sin\theta\end{array}\right)$の制限（そのそれぞれを$\varphi_i$とする）が，それぞれ$S_i$のパラメータ付けになっている．
+このことから，一般の連続関数$f:S^2\to\mathbb{R}$について，定義5.2.2より，
+\begin{eqnarray*}
+    \int_{S^2}f|dA| &=& \sum^8_{i=1}\int_{S_i}f|dA| \\
+    &=& \sum^8_{i=1}\int_{\Delta_i}f\left(\varphi_i\left(\begin{array}{l}t \\\theta \end{array}\right)\right)\left|\left| \frac{\partial \varphi_i}{\partial t}\left(\begin{array}{c}t \\\theta \end{array}\right)\times \frac{\partial \varphi_i}{\partial \theta}\left(\begin{array}{c}t \\\theta \end{array}\right) \right|\right|dtd\theta \\
+    &=& \int_\Delta f\left(\varphi\left(\begin{array}{c}t \\\theta \end{array}\right)\right)\left|\left| \frac{\partial \varphi}{\partial t}\left(\begin{array}{c}t \\\theta \end{array}\right)\times \frac{\partial \varphi}{\partial \theta}\left(\begin{array}{c}t \\\theta \end{array}\right) \right|\right|dtd\theta \\
+    &=& \int^{\frac{\pi}{2}}_{-\frac{\pi}{2}} \left( \int^{2\pi}_0 f\left(\varphi\left(\begin{array}{c}t \\\theta \end{array}\right)\right) \left|\left| \frac{\partial \varphi}{\partial t}\left(\begin{array}{c}t \\\theta \end{array}\right)\times \frac{\partial \varphi}{\partial \theta}\left(\begin{array}{c}t \\\theta \end{array}\right) \right|\right|dt \right) d\theta
+\end{eqnarray*}
+が従うから，$\int_{S^2}f|dA|=\int_{-\pi/2}^{\pi/2}\left(\int_{C_\theta}f(p)\lvert dp\rvert\right)d\theta$である．
+
+\end{document}

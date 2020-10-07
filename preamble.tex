@@ -1,6 +1,11 @@
 \usepackage{amsmath, amsfonts, amsthm, amssymb, ascmac, color, comment, wrap fig}
 
+\usepackage{mathtools}
+\mathtoolsset{showonlyrefs=true} %labelを附した数式にのみ附番される．
+
 \usepackage{tikz, tikz-cd}
+\usepackage[all]{xy}
+\def\objectstyle{\displaystyle} %デフォルトではxymatrix中の数式が文中数式モードになるので，それを直した．
 
 %化学式をTikZで簡単に書くためのパッケージ．
 \usepackage[version=4]{mhchem} %texdoc mhchem
@@ -8,7 +13,6 @@
 \usepackage{chemfig}
 %IS単位を書くためのパッケージ
 \usepackage{siunitx}
-
 %取り消し線を引くためのパッケージ
 \usepackage{ulem}
 
@@ -19,11 +23,51 @@
 %加藤晃史さんがフル活用していたtcolorboxを，途中改ページ可能で．
 \usepackage[breakable]{tcolorbox}
 
-%足助さんからもらったオプション
-\usepackage[shortlabels,inline]{enumitem}
-\usepackage[top=15truemm,bottom=15truemm,left=10truemm,right=10truemm]{geometry}
+%enumerate環境を凝らせる．
+\usepackage{enumerate}
 
+%日本語にルビをふる
+\usepackage{pxrubrica}
+
+%足助さんからもらったオプション
+%\usepackage[shortlabels,inline]{enumitem}
+%\usepackage[top=15truemm,bottom=15truemm,left=10truemm,right=10truemm]{geometry}
+
+%以下，ソースコードを表示する環境の設定．
+\usepackage{listings,jvlisting} %日本語のコメントアウトをする場合jlistingが必要
+%ここからソースコードの表示に関する設定
+\lstset{
+  basicstyle={\ttfamily},
+  identifierstyle={\small},
+  commentstyle={\smallitshape},
+  keywordstyle={\small\bfseries},
+  ndkeywordstyle={\small},
+  stringstyle={\small\ttfamily},
+  frame={tb},
+  breaklines=true,
+  columns=[l]{fullflexible},
+  numbers=left,
+  xrightmargin=0zw,
+  xleftmargin=3zw,
+  numberstyle={\scriptsize},
+  stepnumber=1,
+  numbersep=1zw,
+  lineskip=-0.5ex
+}
+%lstlisting環境で，[caption=hoge,label=fuga]などのoptionを付けられる．
+\makeatletter
+    \AtBeginDocument{
+    \renewcommand*{\thelstlisting}{\arabic{chapter}.\arabic{section}.\arabic{lstlisting}}
+    \@addtoreset{lstlisting}{section}
+    }
+\makeatother
+%caption番号を「[chapter番号].[section番号].[subsection番号]-[そのsubsection内においてn番目]」に変更
+\renewcommand{\lstlistingname}{program}
+%caption名を"program"に変更
+
+%%%
 %%%フォント
+%%%
 
 %本文・数式の両方のフォントをTimesに変更するお手軽なパッケージだが，LaTeX標準数式記号の\jmath, \amalg, coprodはサポートされない．
 % \usepackage{mathptmx}
@@ -39,10 +83,75 @@
 % \renewcommand{\rmdefault}{pplx} %makes LaTeX use Palatino in place of CM Roman．Do not use the Euler math fonts in conjunction with the default Computer Modern text fonts – this is ugly!
 
 %%% newcommands
-    %参考文献で⑦というのを出したかった．
+    %参考文献で⑦というのを出したかった．\circled{n}と打てば良い．LaTeX StackExchangeより．
 \newcommand*\circled[1]{\tikz[baseline=(char.base)]{\node[shape=circle,draw,inner sep=0.8pt] (char) {#1};}}
 
+%%%
+%%% ショートカット 足助さんからのコピペ
+%%%
+
+\DeclareMathOperator{\grad}{\mathrm{grad}}
+\DeclareMathOperator{\rot}{\mathrm{rot}}
+\DeclareMathOperator{\divergence}{\mathrm{div}}
+\newcommand\R{\mathbb{R}}
+\newcommand\N{\mathbb{N}}
+\newcommand\C{\mathbb{C}}
+\newcommand\Z{\mathbb{Z}}
+\newcommand\Q{\mathbb{Q}}
+\newcommand\GL{\mathrm{GL}}
+\newcommand\SL{\mathrm{SL}}
+\newcommand\False{\mathrm{False}}
+\newcommand\True{\mathrm{True}}
+\newcommand\tr{\mathrm{tr}}
+\newcommand\M{\mathcal{M}}
+\newcommand\F{\mathbb{F}}
+% \newcommand\H{\mathbb{H}} すでにある．
+\newcommand\id{\mathrm{id}}
+\newcommand\A{\mathcal{A}}
+%\renewcommand\coprod{\rotatebox[origin=c]{180}{$\prod$}}
+\newcommand\pr{\mathrm{pr}}
+\newcommand\U{\mathfrak{U}}
+\newcommand\Map{\mathrm{Map}}
+\newcommand\dom{\mathrm{dom}}
+\newcommand\cod{\mathrm{cod}}
+\newcommand\supp{\mathrm{supp}}
+%%% 複素解析学
+\renewcommand\Re{\mathrm{Re}\;}
+\renewcommand\Im{\mathrm{Im}\;}
+\newcommand\Gal{\mathrm{Gal}}
+\newcommand\PGL{\mathrm{PGL}}
+\newcommand\PSL{\mathrm{PSL}}
+%%% 解析力学
+\newcommand\x{\mathbf{x}}
+\newcommand\q{\mathbf{q}}
+%%% 集合と位相
+\newcommand\ORD{\mathrm{ORD}}
+
+%%% 圏
+\newcommand\Hom{\mathrm{Hom}}
+\newcommand\Mor{\mathrm{Mor}}
+\newcommand\Aut{\mathrm{Aut}}
+\newcommand\End{\mathrm{End}}
+\newcommand\op{\mathrm{op}}
+\newcommand\ev{\mathrm{ev}}
+\newcommand\Ob{\mathrm{Ob}}
+\newcommand\Ar{\mathrm{Ar}}
+\newcommand\Arr{\mathrm{Arr}}
+\newcommand\Set{\mathrm{Set}}
+\newcommand\Grp{\mathrm{Grp}}
+\newcommand\Cat{\mathrm{Cat}}
+\newcommand\Mon{\mathrm{Mon}}
+\newcommand\CMon{\mathrm{CMon}}
+\newcommand\Pos{\mathrm{Pos}}
+\newcommand\Vect{\mathrm{Vect}}
+\newcommand\FinVect{\mathrm{FinVect}}
+\newcommand\Fun{\mathrm{Fun}}
+\newcommand\Ord{\mathrm{Ord}}
+
+%%%
 %%% 定理環境 以下足助さんからのコピペ
+%%%
+
 \newtheoremstyle{StatementsWithStar}% ?name?
 {3pt}% ?Space above? 1
 {3pt}% ?Space below? 1
@@ -98,7 +207,11 @@
  \newtheorem*{notation*}{記法}
  \newtheorem{assumption}[theorem]{仮定}
  \newtheorem{question}[theorem]{問}
+ \newtheorem{counterexample}[theorem]{反例}
  \newtheorem{reidai}[theorem]{例題}
+ \newtheorem{problem}[theorem]{問題}
+ \newtheorem*{solution*}{\bf{［解］}}
+ \newtheorem{discussion}[theorem]{議論}
  \newtheorem{remark}[theorem]{注}
  \newtheorem{universality}[theorem]{普遍性} %非自明な例外がない．
  \newtheorem{universal tendency}[theorem]{普遍傾向} %例外が有意に少ない．
@@ -106,10 +219,18 @@
  \newtheorem{theory}[theorem]{理論} %実験事実とその（さしあたり）整合的な説明．
  \newtheorem{fact}[theorem]{実験事実}
  \newtheorem{model}[theorem]{模型}
+ \newtheorem{explanation}[theorem]{説明} %理論による実験事実の説明
+ \newtheorem{anomaly}[theorem]{理論の限界}
+ \newtheorem{application}[theorem]{応用例}
+ \newtheorem{method}[theorem]{手法} %実験手法など，技術的問題．
+ \newtheorem{history}[theorem]{歴史}
+ \newtheorem{research}[theorem]{研究}
 % \newtheorem*{remarknonum}{注}
  \newtheorem*{definition*}{定義}
  \newtheorem*{remark*}{注}
  \newtheorem*{question*}{問}
+ \newtheorem*{axiom*}{公理}
+ \newtheorem*{example*}{例}
 %
 \theoremstyle{StatementsWithStar}
  \newtheorem{definition_*}[theorem]{定義}

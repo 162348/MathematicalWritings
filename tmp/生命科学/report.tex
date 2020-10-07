@@ -1,0 +1,164 @@
+\documentclass[uplatex, dvipdfmx]{jsarticle}
+    
+\title{生命科学レポート}
+\author{司馬博文 J4-190549}
+\date{\today}
+\pagestyle{headings} \setcounter{secnumdepth}{4}
+\input{/Users/hirofumi.shiba48/Desktop/数理科学/preamble.tex}
+\renewcommand{\proofname}{\bf ［解答］}
+\begin{document}
+\maketitle
+\section{第一問}
+
+\begin{table}[htb]
+    \begin{center}\begin{tabular}{|l|l|l|l|} \hline
+        1．二酸化炭素 & 2．RNA & 3．RNA world & 4．３つ組 \\ \hline
+        5．DNA & 6．翻訳 & ７．遺伝子発現 & ８．リン脂質二重層 \\ \hline
+        9．シアノバクテリア（藍藻）&10．$\frac{1}{100000}$&11．呼吸&12．自由エネルギー \\ \hline
+        13．電気化学ポテンシャル&14．電気化学ポテンシャル&15．エネルギーの受渡し&16．代謝系 \\ \hline
+        17．半減&18．30億塩基対&19．2\%&20．２万\\\hline
+        21．転写因子&22．1000&23．中立な変異&24．遺伝的浮動\\\hline
+        25．10&26．低い&27．精子&28．生物間相互作用 \\\hline
+        29．植物&30．50\%&31．種内競争&32．報復力\\\hline
+    \end{tabular}\end{center}
+\end{table}
+
+\section{第二問}
+
+\subsection{小問１}
+\subsubsection{問Ⅴ}
+
+(a)：突然変異に因る生態形質の獲得
+
+(b)：適応度の差に因る自然選択
+
+\subsubsection{問Ⅵ}
+
+$t_s$を遅らせると，
+確かに単位時間あたりの純生産量は大きくなるが，
+その分，生殖成長に費す時間が短くなることに因り
+総生殖器官生産量が小さくなる影響の方が，大きくなるから．
+
+\subsubsection{問Ⅶ}
+
+A. クロロフィルの生合成が阻害されて
+量が減り，光合成の効率が悪くなることで，植物の
+単位時間あたり純生産量が減少するから．
+
+B. 窒素不足環境では$r$が小さくなるため，
+$t_s$はより小さくなるから，最適な生殖戦略では
+切替時期は早くなる．
+
+\subsubsection{問Ⅷ}
+
+虫媒花では開花している期間の長いほど，より多くの受粉が行われるので，
+より沢山の種子が生産でき適応度が高くなるように，
+累計生殖器官生産量よりも，生殖器官の発達を持続させている
+期間が長いことの方が生殖に有利に働くような環境に適応した場合．
+
+\subsection{小問２}
+
+記法は\cite{坂和愛幸}を，そのほかに\cite{Optimal growth schedule of deciduoustree seedlings}\cite{Shoot/root balance of plants: Optimal growth of a system with many vegetative organs}を参考にした．その該当箇所にも適宜注記した．
+
+\begin{proof}
+関数の定義域は$[0,T]$とする．パラメータ$Y(t)$を生殖器官重量とし，パラメータ$X(t)$を栄養器官重量とする．$r(t)$は栄養器官のassimilation効率を表す係数，$0\le u(t)\le a(t)\le 1$を植物の生活史戦略に関する操作量とする．
+    次を仮定した力学系は，２次元のHamilton系となる．
+    \begin{eqnarray*}
+        \frac{dY}{dt} &=& (1-u)rX (=:f^0)  \\
+        \frac{dX}{dt} &=& urX (=:f^1) \\
+        Y(0)=0,\; Y(T)&=&:J,\;X(0)=1
+    \end{eqnarray*}
+    Hamiltonianは次のようになる．
+    \begin{eqnarray}
+        H &=& \frac{dY}{dt}\psi_0 + \frac{dX}{dt}\psi_1 \\
+        &=& (\psi_1-\psi_0)urX + \psi_0rX \label{formula-hamiltonian}
+    \end{eqnarray}
+    ここで，$\psi_0,\psi_1$は次を満たす．
+    \begin{eqnarray}
+        \frac{d\psi_0}{dt} &=& - \left( \frac{\partial f^0}{\partial Y}\psi_0 + \frac{\partial f^1}{\partial Y}\psi_1 \right) = - (0+0) = 0 \label{formula-derivative-psi-0} \\
+        \frac{d\psi_1}{dt} &=& - \left( \frac{\partial f^0}{\partial X}\psi_0 + \frac{\partial f^1}{\partial X}\psi_1 \right) = - ur\psi_0 - (1-u)r\psi_1
+    \end{eqnarray}
+    これら$\psi_0,\psi_1$は，それぞれ，時刻$t$に於ける瞬間生殖器官／栄養器官増加率$\left.\frac{dY}{dt}\right|_{t=t}$の，最終生殖器官生産率$J$への寄与率を表している\cite{Shoot/root balance of plants: Optimal growth of a system with many vegetative organs}．
+    そこで，次のように置く．何故ならば，時刻$t=T$において，$\left.\frac{dY}{dt}\right|_{t=T}$の値はそのまま$J=\int^T_0dY$の値に寄与し，$\left.\frac{dX}{dt}\right|_{t=T}$の値はもはや$J$の値に寄与しないからである．
+    \begin{eqnarray}
+        \psi_0(T)&=&1 \label{formula-boundary-psi-0} \\
+        \psi_1(T)&=&0
+    \end{eqnarray}
+    式\ref{formula-derivative-psi-0}を，境界条件\ref{formula-boundary-psi-0}の下で解くと，$\psi_0\equiv 1$．これによってHamiltonian \ref{formula-hamiltonian}は次のように書き換えられる．
+    \begin{eqnarray}
+        H = (\psi_1-1)urX+rX
+    \end{eqnarray}
+    Pontryaginの最大値定理より，この$H$を最大化する関数$u=u^*(t)$を求めれば良い．従って，$u^*(t)$について，次が必要条件として得られる．
+    \begin{eqnarray}
+        \forall t\in [0,T]\;\; \psi_1(t)>1 &\Rightarrow& u^*(t)=a(t) \\
+        \forall t\in [0,T]\;\; \psi_1(t)<1 &\Rightarrow& u^*(t)=0
+    \end{eqnarray}
+    今，$t=0$に於て，$u(0)>0$で始める戦略を仮定したから，$\psi_1(t_s)=1$を満たす転換点$t_s$が少なくとも１つ必要である．
+    しかし，このような点が２つ以上存在した場合，$\frac{d\psi_1}{dt}(t^*_s)\ge 0$を満たす点$t^*_s$が存在する．すると，
+    \begin{eqnarray*}
+        \frac{d\psi_1}{dt}(t^*_s) &\ge& 0 \\
+        -ur\psi_1(t^*_s)-(1-u)r &\ge& 0 \\
+        -ur-r+ur&\ge&0\\
+        r&\ge&0
+    \end{eqnarray*}
+    より，理想的な環境$\forall t\in [0,T]\; r(t)>0$では，これはPontryaginの最大値定理から得る必要条件と両立しないことから，これは最適戦略とはならない．
+    従って，最適戦略$u^*$に存在する転換点$t_s$はただ一つである．
+
+    これより，$\frac{d\psi_1}{dt}=-ur\psi_1-(1-u)r\psi_0$を用いて，$\forall t\in [t_s,T]\; u(t)=0$と$\psi_1(t_s)=1,\psi_1(T)=0$とより，次を得る．
+    \begin{eqnarray*}
+        \int^T_{t_s}d\psi_1 &=& -\int^T_{t_s}(u(t)r(t)+(1-u(t))r(t))dt = -\int^T_{t_s}r(t)dt
+    \end{eqnarray*}
+    であるから，
+    \begin{equation}\label{formula-mysterious}
+        \int^T_{t_s}r(t)dt = 1
+    \end{equation}
+    を得る．$\forall t\in [t_s,T]\; u(t)=0$より，$t_s$以降$X$は増えないから，最終栄養器官重量は$X(t_s)$である．しかし式\ref{formula-mysterious}より，
+    \begin{equation}
+        X(T) = X(t_s) = \int^T_{t_s}X(t)r(t)dt = \int^T_{t_s}dY = Y(T)
+    \end{equation}
+    より，求める最適戦略$u$は，$t_s$時点で生産していた栄養器官重量$X(t_s)(=X(T))$を同じだけの生殖器官重量$Y(T)=J$を生産するような戦略である．
+
+    また，$r(t)\equiv r$と定値関数とすると，式\ref{formula-mysterious}より，
+    \begin{eqnarray*}
+        1 &=& r(T-t_s) \\
+        t_s &=& T-\frac{1}{r}
+    \end{eqnarray*}
+\end{proof}
+
+以上より，次の系を図示する．
+\begin{eqnarray*}
+    \frac{dY}{dt} &=& \begin{cases}
+        0 & t< t_s \\
+        rX & t\ge t_s
+    \end{cases}\\
+    \frac{dX}{dt} &=& \begin{cases}
+        rX & t< t_s \\
+        0 & t\ge t_s
+    \end{cases}
+\end{eqnarray*}
+ただし，$r=0.05/$日，$T=100$日，$X(0)=1\;\mathrm{g},Y(0)=0\;\mathrm{g}$とする．
+すると，$t_s=T-\frac{1}{r}=80$日より，$X(t),Y(t)$を図示すると次のとおり．
+\begin{center}
+    \begin{figure}[h]\caption{Pontryaginの最大値定理を満たす戦略による$X(t)$（赤線）と$Y(t)$（青線）の軌跡} \centering
+        \includegraphics[width=17cm]{figure.JPG}
+    \end{figure}
+\end{center}
+
+\subsection{小問３}
+
+芋の方が，同じ個体を再生産できる上に，多くの栄養を貯蓄しているために環境条件が揃わないことによって種子が発芽できないなどのリスクが少ない．
+一方で，無性生殖であるから，同一個体が長く生存するに従って有害な突然変異が蓄積する危険性がある．
+
+このような場合に，種子であれば，有性生殖であるから遺伝子は刷新され，また突然の環境の変異などに対応できるような遺伝子の多様性を生み出すことができる．
+
+\begin{thebibliography}{99}
+        \bibitem{坂和愛幸}
+        『最適制御理論におけるポントリャーギンの最大原理』坂和愛幸．計測と制御，1962．
+        \bibitem{Optimal growth schedule of deciduoustree seedlings}
+        "Optimal growth schedule of deciduoustree seedlings" M.TATENO and N. VVATANABE. Functional Ecology, 1988，2，89-96.
+        \bibitem{Shoot/root balance of plants: Optimal growth of a system with many vegetative organs}
+        "Shoot/root balance of plants: Optimal growth of a system with many vegetative organs" Yoh Iwasa, and Jonathan Roughgarden. 
+        Theoretical Population Biology. Volume 25, Issue 1, February 1984, Pages 78-105. 
+\end{thebibliography}
+
+\end{document}

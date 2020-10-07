@@ -1,0 +1,206 @@
+\contentsline {part}{第I部\hspace {1zw}線型代数の世界}{4}% 
+\contentsline {chapter}{\numberline {第1章}行列と線型空間}{5}% 
+\contentsline {section}{\numberline {1.1}基底と次元}{5}% 
+\contentsline {section}{\numberline {1.2}行列表示}{5}% 
+\contentsline {chapter}{\numberline {第2章}自己準同型}{6}% 
+\contentsline {section}{\numberline {2.1}最小多項式}{6}% 
+\contentsline {subsection}{\numberline {2.1.1}特別な自己準同型}{6}% 
+\contentsline {section}{\numberline {2.2}固有値と対角化}{6}% 
+\contentsline {chapter}{\numberline {第3章}双線型形式}{8}% 
+\contentsline {section}{\numberline {3.1}スペクトル定理}{9}% 
+\contentsline {part}{第II部\hspace {1zw}量子論の枠組み}{10}% 
+\contentsline {chapter}{\numberline {第4章}閉じた有限自由度系の純粋状態についての枠組み}{11}% 
+\contentsline {section}{\numberline {4.1}状態ベクトル：(Ⅰ) 系の状態はヒルベルト空間の規格化された射線で表される．}{11}% 
+\contentsline {subsection}{\numberline {4.1.1}状態の重ね合わせと干渉効果}{12}% 
+\contentsline {section}{\numberline {4.2}可観測量：(Ⅱ) 系の可観測量はエルミート演算子で表される．}{13}% 
+\contentsline {section}{\numberline {4.3}作用素：(Ⅲ) 系への観測以外の操作は（反）ユニタリ演算子で表される．}{14}% 
+\contentsline {subsection}{\numberline {4.3.1}ヒルベルト空間の射}{14}% 
+\contentsline {subsection}{\numberline {4.3.2}射影}{14}% 
+\contentsline {section}{\numberline {4.4}波動関数}{15}% 
+\contentsline {section}{\numberline {4.5}bra と ket：内積記法の構造}{15}% 
+\contentsline {section}{\numberline {4.6}スペクトル分解}{16}% 
+\contentsline {section}{\numberline {4.7}Bornの確率規則：(Ⅳ)}{16}% 
+\contentsline {subsection}{\numberline {4.7.1}連続化}{17}% 
+\contentsline {section}{\numberline {4.8}時間発展と観測：(Ⅴ)}{17}% 
+\contentsline {subsection}{\numberline {4.8.1}閉じた系の時間発展：Schr\IeC {\"o}dinger方程式}{17}% 
+\contentsline {subsection}{\numberline {4.8.2}測定直後の状態：射影仮説}{18}% 
+\contentsline {part}{第III部\hspace {1zw}量子化学：原子とその化学結合論}{19}% 
+\contentsline {chapter}{\numberline {第5章}元素と原子}{20}% 
+\contentsline {section}{\numberline {5.1}宇宙内の元素}{20}% 
+\contentsline {chapter}{\numberline {第6章}結合の理論と分子}{21}% 
+\contentsline {section}{\numberline {6.1}古典的な理論から直接の延長としての化学結合論：VB法}{21}% 
+\contentsline {subsection}{\numberline {6.1.1}ルイス構造式(Lewis structure)}{21}% 
+\contentsline {subsection}{\numberline {6.1.2}共鳴(28, Pauling)}{22}% 
+\contentsline {subsection}{\numberline {6.1.3}原子価電子対反発(VSEPR)則}{22}% 
+\contentsline {subsection}{\numberline {6.1.4}原子価結合理論(Valence Bond Theory)}{22}% 
+\contentsline {subsection}{\numberline {6.1.5}昇位と混成軌道(30, Pauling)}{23}% 
+\contentsline {section}{\numberline {6.2}分子の構造と対称性}{24}% 
+\contentsline {subsection}{\numberline {6.2.1}分子の対称性}{24}% 
+\contentsline {subsection}{\numberline {6.2.2}分子軌道の分類}{24}% 
+\contentsline {section}{\numberline {6.3}量子論による化学結合論の基礎：分子軌道法(Moleculer Orbital theory)}{24}% 
+\contentsline {subsection}{\numberline {6.3.1}様々な精度の近似}{24}% 
+\contentsline {subsection}{\numberline {6.3.2}多原子分子の理論}{25}% 
+\contentsline {subsubsection}{\numberline {6.3.2.1}水素分子イオン}{25}% 
+\contentsline {subsubsection}{\numberline {6.3.2.2}一般の等核２原子分子}{28}% 
+\contentsline {subsubsection}{\numberline {6.3.2.3}異核２原子分子}{29}% 
+\contentsline {subsubsection}{\numberline {6.3.2.4}多原子分子}{29}% 
+\contentsline {section}{\numberline {6.4}$\pi $電子についての理論}{29}% 
+\contentsline {subsection}{\numberline {6.4.1}様々な精度の近似}{29}% 
+\contentsline {subsection}{\numberline {6.4.2}HMO法による分子軌道の定性的説明}{30}% 
+\contentsline {subsection}{\numberline {6.4.3}芳香族性：H\"{u}ckel ruleの一般化}{31}% 
+\contentsline {subsection}{\numberline {6.4.4}$\pi $電子の振る舞いと分子の性質}{32}% 
+\contentsline {subsubsection}{\numberline {6.4.4.1}全$\pi $電子エネルギーと非局在化エネルギー}{32}% 
+\contentsline {subsubsection}{\numberline {6.4.4.2}電子密度}{32}% 
+\contentsline {subsubsection}{\numberline {6.4.4.3}$\pi $結合次数}{32}% 
+\contentsline {subsubsection}{\numberline {6.4.4.4}$\pi $分子軌道と紫外可視吸収スペクトル}{32}% 
+\contentsline {subsection}{\numberline {6.4.5}分子軌道論による化学反応の理論}{33}% 
+\contentsline {subsubsection}{\numberline {6.4.5.1}フロンティア軌道理論}{33}% 
+\contentsline {subsubsection}{\numberline {6.4.5.2}付加環化反応(cycloaddition)への応用}{34}% 
+\contentsline {subsubsection}{\numberline {6.4.5.3}電子環状反応への応用：Woodward-Hoffmann則}{34}% 
+\contentsline {subsubsection}{\numberline {6.4.5.4}Photochromism}{35}% 
+\contentsline {section}{\numberline {6.5}配位結合の理論}{35}% 
+\contentsline {subsection}{\numberline {6.5.1}配位結合}{35}% 
+\contentsline {subsection}{\numberline {6.5.2}Lewis酸／塩基}{35}% 
+\contentsline {subsection}{\numberline {6.5.3}配位子場理論}{36}% 
+\contentsline {subsubsection}{\numberline {6.5.3.1}結晶場理論に拠るd軌道の分裂：点電荷モデル}{36}% 
+\contentsline {subsubsection}{\numberline {6.5.3.2}分子軌道理論によるd軌道の分裂}{37}% 
+\contentsline {subsubsection}{\numberline {6.5.3.3}強い配位子場と弱い配位子場}{37}% 
+\contentsline {subsection}{\numberline {6.5.4}遷移金属錯体の色}{37}% 
+\contentsline {subsubsection}{\numberline {6.5.4.1}配位子場遷移：d-d遷移}{37}% 
+\contentsline {subsubsection}{\numberline {6.5.4.2}電荷移動遷移}{38}% 
+\contentsline {subsubsection}{\numberline {6.5.4.3}Luminescence}{38}% 
+\contentsline {subsection}{\numberline {6.5.5}金属錯体の磁性}{38}% 
+\contentsline {subsubsection}{\numberline {6.5.5.1}反磁性と常磁性}{39}% 
+\contentsline {subsubsection}{\numberline {6.5.5.2}金属錯体の磁気モーメント}{39}% 
+\contentsline {subsubsection}{\numberline {6.5.5.3}常磁性とスピン秩序状態}{40}% 
+\contentsline {subsubsection}{\numberline {6.5.5.4}スピンクロスオーバー錯体}{40}% 
+\contentsline {subsubsection}{\numberline {6.5.5.5}地磁気}{40}% 
+\contentsline {section}{\numberline {6.6}分子の異性体}{41}% 
+\contentsline {section}{\numberline {6.7}化学結合と結晶学}{41}% 
+\contentsline {section}{\numberline {6.8}超分子化学導入}{41}% 
+\contentsline {part}{第IV部\hspace {1zw}分子間力論とそれを基調とした宇宙観}{42}% 
+\contentsline {chapter}{\numberline {第7章}溶媒の役割と性質の取り扱いの基礎}{44}% 
+\contentsline {section}{\numberline {7.1}溶媒も含めた２種分子のなす系の対称的取り扱い}{44}% 
+\contentsline {section}{\numberline {7.2}溶液の一般的議論に用いる概念}{44}% 
+\contentsline {subsection}{\numberline {7.2.1}２つの軌道の相互作用による安定化度合いの評価}{44}% 
+\contentsline {subsection}{\numberline {7.2.2}熱力学支配の法則}{44}% 
+\contentsline {subsection}{\numberline {7.2.3}最終的に作りたい理論}{44}% 
+\contentsline {subsection}{\numberline {7.2.4}ギブスエネルギー}{44}% 
+\contentsline {subsection}{\numberline {7.2.5}動径分布関数}{45}% 
+\contentsline {section}{\numberline {7.3}溶媒の分類と性質を示す尺度}{45}% 
+\contentsline {subsection}{\numberline {7.3.1}極性とプロトン性}{45}% 
+\contentsline {subsection}{\numberline {7.3.2}誘電率：極性の強さの指標}{45}% 
+\contentsline {subsection}{\numberline {7.3.3}３種のスケール：solvatochromismによる溶液の極性の評価}{45}% 
+\contentsline {section}{\numberline {7.4}溶解性の熱力学的議論}{46}% 
+\contentsline {section}{\numberline {7.5}溶液の熱力学}{46}% 
+\contentsline {subsection}{\numberline {7.5.1}chemical potential}{46}% 
+\contentsline {subsection}{\numberline {7.5.2}実在溶液補正}{47}% 
+\contentsline {subsection}{\numberline {7.5.3}化学反応に於ける熱力学}{47}% 
+\contentsline {chapter}{\numberline {第8章}分子間相互作用}{48}% 
+\contentsline {section}{\numberline {8.1}イオンが関わる相互作用}{48}% 
+\contentsline {subsection}{\numberline {8.1.1}イオン-イオン間相互作用：静電相互作用}{48}% 
+\contentsline {subsection}{\numberline {8.1.2}イオン-永久双極子間相互作用}{49}% 
+\contentsline {subsection}{\numberline {8.1.3}イオン-誘起双極子相互作用}{49}% 
+\contentsline {section}{\numberline {8.2}van der Waals力}{49}% 
+\contentsline {subsection}{\numberline {8.2.1}双極子-双極子相互作用：配向力}{49}% 
+\contentsline {subsection}{\numberline {8.2.2}双極子-誘起双極子相互作用：誘起力}{49}% 
+\contentsline {subsection}{\numberline {8.2.3}誘起双極子-誘起双極子相互作用：分散力}{49}% 
+\contentsline {section}{\numberline {8.3}斥力}{50}% 
+\contentsline {section}{\numberline {8.4}芳香環が関わる相互作用}{50}% 
+\contentsline {subsection}{\numberline {8.4.1}slip stackとedge-to-face}{50}% 
+\contentsline {subsection}{\numberline {8.4.2}この様な弱い相互作用を実験的に測定する方法}{50}% 
+\contentsline {subsection}{\numberline {8.4.3}Donor-Acceptor相互作用}{51}% 
+\contentsline {subsection}{\numberline {8.4.4}カチオン-$\pi $相互作用}{51}% 
+\contentsline {subsection}{\numberline {8.4.5}アニオン-$\pi $相互作用}{52}% 
+\contentsline {section}{\numberline {8.5}水素結合}{52}% 
+\contentsline {subsection}{\numberline {8.5.1}水素結合の配向の角度}{52}% 
+\contentsline {subsection}{\numberline {8.5.2}水素結合の強さの，酸性度・電気陰性度からの評価}{53}% 
+\contentsline {subsection}{\numberline {8.5.3}水素結合における共鳴の効果}{53}% 
+\contentsline {subsection}{\numberline {8.5.4}allosteric協同性：分極の大きさの増加の，水素結合の強さへの寄与}{53}% 
+\contentsline {subsection}{\numberline {8.5.5}水素結合における二次的相互作用}{53}% 
+\contentsline {subsection}{\numberline {8.5.6}水素結合のchelate協同性と生体反応}{54}% 
+\contentsline {subsection}{\numberline {8.5.7}水素結合の振動特性：水素結合は結合距離に強い相関がある}{54}% 
+\contentsline {subsection}{\numberline {8.5.8}低障壁水素結合と生命}{54}% 
+\contentsline {subsection}{\numberline {8.5.9}水素結合のエネルギーの評価：形成には２つの要因がある}{54}% 
+\contentsline {section}{\numberline {8.6}疎水効果}{55}% 
+\contentsline {subsection}{\numberline {8.6.1}水の構造}{55}% 
+\contentsline {subsection}{\numberline {8.6.2}水中における水素結合}{55}% 
+\contentsline {subsection}{\numberline {8.6.3}水の異常性}{56}% 
+\contentsline {subsubsection}{\numberline {8.6.3.1}沸点と融点の高さ}{56}% 
+\contentsline {subsubsection}{\numberline {8.6.3.2}誘電率の高さ，表面張力の強さ，熱容量の大きさ}{56}% 
+\contentsline {subsubsection}{\numberline {8.6.3.3}同位体の振る舞い}{57}% 
+\contentsline {subsubsection}{\numberline {8.6.3.4}熱膨張率と等温圧縮率}{57}% 
+\contentsline {subsubsection}{\numberline {8.6.3.5}水の異常性の説明}{57}% 
+\contentsline {subsection}{\numberline {8.6.4}疎水効果}{57}% 
+\contentsline {subsubsection}{\numberline {8.6.4.1}小さな疎水分子に対する疎水効果}{57}% 
+\contentsline {subsubsection}{\numberline {8.6.4.2}疎水効果における折り畳み構造の形成：folding}{58}% 
+\contentsline {subsubsection}{\numberline {8.6.4.3}疎水効果による分子の集合}{58}% 
+\contentsline {subsubsection}{\numberline {8.6.4.4}大きな疎水分子の分子集合の原理}{58}% 
+\contentsline {subsubsection}{\numberline {8.6.4.5}疎水分子の表面積と自由エネルギーの関係式}{59}% 
+\contentsline {subsubsection}{\numberline {8.6.4.6}非古典的疎水効果}{59}% 
+\contentsline {section}{\numberline {8.7}ハロゲン結合}{60}% 
+\contentsline {chapter}{\numberline {第9章}分子認識}{61}% 
+\contentsline {section}{\numberline {9.1}結合定数と自由エネルギー}{61}% 
+\contentsline {section}{\numberline {9.2}定圧熱容量変化}{62}% 
+\contentsline {section}{\numberline {9.3}協同性(cooperativity)}{62}% 
+\contentsline {subsection}{\numberline {9.3.1}chelate cooperativity}{62}% 
+\contentsline {subsection}{\numberline {9.3.2}allosteric cooperativity}{63}% 
+\contentsline {subsubsection}{\numberline {9.3.2.1}ヘモグロビンに於ける協同性}{63}% 
+\contentsline {subsubsection}{\numberline {9.3.2.2}ヘムと一酸化炭素との結合}{64}% 
+\contentsline {section}{\numberline {9.4}分子認識に関わるパラメータの決定手法}{64}% 
+\contentsline {subsection}{\numberline {9.4.1}結合比の決定}{64}% 
+\contentsline {subsection}{\numberline {9.4.2}結合等温線}{64}% 
+\contentsline {subsection}{\numberline {9.4.3}熱力学パラメータの決定}{64}% 
+\contentsline {subsection}{\numberline {9.4.4}測定の時間スケール}{64}% 
+\contentsline {subsection}{\numberline {9.4.5}紫外可視吸収スペクトル}{64}% 
+\contentsline {subsection}{\numberline {9.4.6}蛍光スペクトル}{64}% 
+\contentsline {subsection}{\numberline {9.4.7}ベネシ-ヒルデブランドプロット}{64}% 
+\contentsline {subsection}{\numberline {9.4.8}核磁気共鳴分光法}{64}% 
+\contentsline {subsection}{\numberline {9.4.9}等温滴定カロリメトリー法}{64}% 
+\contentsline {section}{\numberline {9.5}分子認識の例}{64}% 
+\contentsline {subsection}{\numberline {9.5.1}静電相互作用による分子認識}{64}% 
+\contentsline {subsection}{\numberline {9.5.2}水素結合による分子認識：DNA認識}{66}% 
+\contentsline {subsection}{\numberline {9.5.3}疎水効果による分子認識}{66}% 
+\contentsline {chapter}{\numberline {第10章}自己集合}{68}% 
+\contentsline {section}{\numberline {10.1}自己集合の分類}{68}% 
+\contentsline {section}{\numberline {10.2}人工系に於ける自己集合}{70}% 
+\contentsline {subsection}{\numberline {10.2.1}水素結合を利用した自己集合}{70}% 
+\contentsline {subsection}{\numberline {10.2.2}イオン相互作用（塩橋）を利用した自己集合}{71}% 
+\contentsline {subsection}{\numberline {10.2.3}配位結合を利用した自己集合}{71}% 
+\contentsline {subsection}{\numberline {10.2.4}rotaxaneとcatenaneと分子機械}{71}% 
+\contentsline {subsection}{\numberline {10.2.5}2016年ノーベル化学賞「分子マシンの設計と合成」：Jean-Pierre Sauvage, James Stoddart, Bernard Feringa}{72}% 
+\contentsline {subsection}{\numberline {10.2.6}複雑なtopologyを持つ分子と自己集合}{72}% 
+\contentsline {subsection}{\numberline {10.2.7}その他ナノテクノロジー}{73}% 
+\contentsline {subsection}{\numberline {10.2.8}DNAナノテクノロジー}{73}% 
+\contentsline {section}{\numberline {10.3}自己集合の形成機構の精査：エネルギー地形理論}{73}% 
+\contentsline {subsection}{\numberline {10.3.1}Energy Landscape Theoryの基礎}{74}% 
+\contentsline {subsection}{\numberline {10.3.2}タンパク質のfolding}{74}% 
+\contentsline {subsection}{\numberline {10.3.3}ウイルスの自己集合}{74}% 
+\contentsline {subsection}{\numberline {10.3.4}線維状の自己集合性ポリマー}{75}% 
+\contentsline {subsection}{\numberline {10.3.5}自己集合性錯体の形成機構}{77}% 
+\contentsline {section}{\numberline {10.4}相分離生物学へ}{77}% 
+\contentsline {part}{第V部\hspace {1zw}相分離生物学}{78}% 
+\contentsline {chapter}{\numberline {第11章}導入：超分子から生物学的相分離へ}{79}% 
+\contentsline {section}{\numberline {11.1}分子間力の世界観と生命}{79}% 
+\contentsline {section}{\numberline {11.2}細胞生物学の補足}{80}% 
+\contentsline {subsection}{\numberline {11.2.1}細胞の区画：cell membrane, cytoskelton, nuclear membrane, cytoplasma, cytosol}{80}% 
+\contentsline {subsection}{\numberline {11.2.2}核内の構造：nucleous, nuclear matrix and lamina, chromatine}{81}% 
+\contentsline {subsection}{\numberline {11.2.3}核外の構造：endoplastic reticulum, ribosome, Goldi body, Goldi vesicle, lysosome, vacuole, mitochondrion, peroxisome}{81}% 
+\contentsline {subsection}{\numberline {11.2.4}核外の特別な構造：plastid, chloroplast}{83}% 
+\contentsline {section}{\numberline {11.3}DNAの複製}{83}% 
+\contentsline {subsection}{\numberline {11.3.1}その他のDNA：plasmid}{83}% 
+\contentsline {section}{\numberline {11.4}細胞の内と外}{83}% 
+\contentsline {subsection}{\numberline {11.4.1}大きな物質のやりとり：exocytosis, endocytosis, endosome, clathrin}{83}% 
+\contentsline {chapter}{\numberline {第12章}情報伝達と液-液相分離}{85}% 
+\contentsline {section}{\numberline {12.1}分子生物学：セントラルドグマとアンフィンセンドグマ}{85}% 
+\contentsline {section}{\numberline {12.2}遺伝子の発現}{86}% 
+\contentsline {subsection}{\numberline {12.2.1}プリオン様タンパク質}{86}% 
+\contentsline {chapter}{\numberline {第13章}タンパク質パラダイムの転換}{87}% 
+\contentsline {chapter}{\numberline {第14章}RNAパラダイムの転換}{88}% 
+\contentsline {chapter}{\numberline {第15章}細胞内オーガナイザーと場の構築}{89}% 
+\contentsline {chapter}{\numberline {第16章}アミロイドと低分子コントロール}{90}% 
+\contentsline {chapter}{\numberline {第17章}プリオンは何故保存されてきたのか？}{91}% 
+\contentsline {chapter}{\numberline {第18章}細胞内にある物理学}{92}% 
+\contentsline {chapter}{\numberline {第19章}タンパク質溶液の理論とテクノロジー}{93}% 
+\contentsline {chapter}{\numberline {第20章}新しいタンパク質研究}{94}% 
+\contentsline {chapter}{参考文献}{95}% 

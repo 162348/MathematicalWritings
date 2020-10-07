@@ -1,0 +1,2781 @@
+\documentclass[uplatex, 12pt, dvipdfmx]{jsarticle}
+\title{}
+\author{司馬博文 J4-190549\\hirofumi-shiba48@g.ecc.u-tokyo.ac.jp}
+\date{\today}
+\pagestyle{headings} \setcounter{secnumdepth}{4}
+\input{/Users/hirofumi.shiba48/Desktop/数理科学/preamble_CM.tex}
+\begin{document}
+\tableofcontents
+
+\section{Categories}
+
+\subsection{Introduction}
+\subsection{Functions of sets}
+\subsection{Definition of a category}
+\begin{definition}[Category]　
+
+    1. 対象$A,B,C,\cdots$というものがある．
+
+    2. 射$f,g,h,\cdots$というものがある．
+
+    3. 各射には$\mathrm{dom}(f)=A, \mathrm{cod}(f)=B$という対象が紐づけられていて，その関係を$f:A\to B$と書く．
+
+    4. $\mathrm{cod}(f)=\mathrm{dom}(g)$を満たす射$f,g$に対し，$g\circ f:\mathrm{dom}(f)\to \mathrm{cod}(g)$という射が定義される．
+
+    5. 各対象$A$には$1_A:A\to A$という特別な射が定義される（単位射）．
+
+    6. 射は結合律を満たす．$h\circ (g\circ f)=(h\circ g)\circ f$
+
+    7. 単位射は合成について単位的である．$f:A\to B$として，$f\circ 1_A=f=1_B\circ f$
+\end{definition}
+
+\subsection{Examples of categories}
+
+1. 集合の圏$\mathbf{Sets}$と，有限集合の圏$\mathbf{Sets}_\mathrm{fin}$
+\begin{example*}[集合の圏から，対象の集合と射の集合に特定の制限を付け加えることで，自由に部分圏が作れる他の例．]　
+
+    1. 対象：有限集合，射：単射　は合成について閉じる．
+
+    2. 対象：集合，射：ファイバーが高々２元集合である写像　は合成について閉じないので圏ではない．
+
+    3. 対象：集合，射：ファイバーが高々有限集合である写像　は合成について閉じる．「高々可算である」でも大丈夫そう．
+
+    4. 対象：集合，射：ファイバーは無限集合である多価写像　は恒等写像がこれを満たさないので，単位射の特徴付けを満たす射が存在しなくなる．
+\end{example*}
+
+2. Category of structured sets
+\begin{definition*}[具体圏]
+    圏$C$が，忘却関手$U:C\to\mathbf{Set}$を持つとき，これを具体圏と呼ぶ．
+\end{definition*}
+
+3. 順序集合と単調写像の圏$\mathbf{Pos}$
+
+4. 二項関係の圏$\mathbf{Rel}$：写像は特別な二項関係と見れるから，$\mathbf{Sets}$はこの部分圏である．
+
+射$f:A\to B$は$A\times B$の部分集合で，単位射$1_A$は恒等写像$id_A$のグラフと同じグラフを持つ関係，即ち自明な同値関係$=_A$になる．
+合成は，２つの関係$R\subset A\times B, S\subset B\times C$から作れる「相対関係$(a,c)\in S\circ R:\Leftrightarrow \exists (a,b)\in R, (b,c)\in S$」として作れば確かに閉じている．
+
+5. 有限圏としての自然数：射は順序関係である．
+
+6. 圏の圏$\mathbf{Cat}$
+\begin{definition}[Functor]
+    関手$F:\mathbf{C}\to\mathbf{D}$とは，次を満たす対象写像と射写像の組である．
+
+    1. $F(f:A\to B)=F(f):F(A)\to F(B)$
+
+    2. $F(1_A)=1_F(A)$
+
+    3. $F(g\circ f)=F(g)\circ F(g)$
+\end{definition}
+
+7. 圏としてのpreorder：任意の２つの間に射が１つしか存在しない圏（細い圏）．従って，Hesse図の上に作った自由圏そのものである．
+
+\begin{definition*}[thin category]
+    圏$C$が次の条件を満たす時，細い圏であるという．
+    
+    任意の２つの対象$x,y\in C$について，
+    \begin{center}\begin{tikzcd}
+        x \ar[r, "f"] \ar[r, "g"'] & g
+    \end{tikzcd}\end{center}
+    となっている時，必ず$f=g$である．
+\end{definition*}
+\begin{remark*}
+    細い圏に於いて，２つの対象間で双方向に射が存在する場合，これは互いに逆射になる．
+\end{remark*}
+\begin{proposition*}
+    細い圏は，prosetと同型で，posetと同値である．
+\end{proposition*}
+\begin{remark}
+    細い圏は全てposetと同型である，としなかったのがむしろ圏論特有の自由度の高さ，表現力の豊かさとなっている．
+\end{remark}
+\begin{proof}
+    圏$C$の対象の集合を集合$P$とし，その間の関係$x\le y$を
+    \[ x\le y:\Leftrightarrow \exists f:x\to y\in C \]
+    と定めると，この関係は反射性と推移性を満たし，前順序集合(preordered set)となる．
+    今，関手$F:C\to P$を対象集合は$1_P$，射集合は$f:x\to y\mapsto x\le y$とすると，これはいずれも可逆で，確かに圏の同型である．
+
+    この時，集合$P$について，次のように約束する．
+    \[ x\le y\land y\le x\Rightarrow x=y \]
+    すると集合$P/=$は順序集合(partially ordered set)である．
+    関手$F':C\to P/=$は厳密な意味では可逆ではない．
+\end{proof}
+
+8. 圏としてのposet：poset categoriesと呼ぶ．perorder categoryを同型な対象について畳み込んだもの．
+
+9. 位相空間からの例
+\begin{proposition*}
+    $T_0$ spaces $X$ are posets under the specialization ordering:
+    \[ x\le y \Leftrightarrow \forall U\in O(X)\; (x\in U\Rightarrow y\in U) \]
+\end{proposition*}
+
+10. 数理論理学からの例：演繹体系に付随する圏 category of proofs
+対象を式とし，その間に証明がある$\varphi\vdash\psi$時，射$\varphi\to\psi$を定義する．
+
+11. 計算機科学からの例：関数型プログラミング言語Lに付随する圏$C(L)$
+対象は$L$のデータ型，射は関数とする．単位射はdo nothing programで，合成は関数の連続適用$g\circ f=f:g$である．
+
+12. 集合$X$に付随する離散圏$\mathbf{Dis}(X)$
+
+13. 単一対象圏としてのmonoid
+
+射が対象の間に持つ構造「２つの対象と順番付きで紐づけられている」と「単位射の存在」と「合成についての閉性（＝推移性）」とを，そっくりそのまま，順序関係に翻訳すれば前順序である．
+射自体の持つ構造「結合性」と「単位射の存在」を，代数構造に翻訳すればモノイドである．いずれも最低限の圏である．
+それぞれに付加構造として対称性を加えれば，半順序と群を得る．半順序とモノイドが，この本の主要な例になる．
+
+8., 13.の観点から，posetの射とは関手だし，monoidの射も関手と見做せる．
+
+\subsection{Isomorphisms：とCayley表現関手}
+
+\begin{definition}[同型]
+    圏$C$に於いて，次を満たす射$f:A\to B$を同型という．
+    \[ \exists g:B\to A\in C\; g\circ f=1_A \land f\circ g=1_B \]
+\end{definition}
+\begin{remark*}[例えばPosでは，全単射な射は，同型だとは限らない．]
+    射を何らかの写像だとすると，この同型であるための条件は全単射であることと同値．従ってこの定義は，具体圏に於ける台写像の「全単射」性を一般の圏に写し取ったものに思える．
+    だから，全単射でないのに同型になることはないはずだ．
+    だが，全単射な射は可逆だとは限らない．例えばPosやTopなどである．
+
+    これは台集合への情報の与え方に依るのだろうか．グラフによる与え方（つまり「より細かい」という語が定義できるような構造）だと，このようなことが起こる？
+    より「細かい」構造が定義されている集合へ向けた射は，全単射であろうと可逆ではない．
+\end{remark*}
+
+\begin{definition}[群]
+    群とは，可逆なモノイドのことである．従って，全ての射が同型であるような単一対象圏のことである．
+\end{definition}
+
+\begin{theorem*}[Cayley]
+    群$G=(G,\cdot,e,{}^{-1})$は，$\mathrm{Aut}(G)$の或る部分群と同型になる．
+\end{theorem*}
+\begin{proof}
+    Cayley representation $\overline{G}\subset\mathrm{Aut}(G)$を構成する．各$g\in G$に対して，$\overline{g}\in\overline{G}\subset\mathrm{Aut}(G)$を次のような射として定める．
+    \begin{center}\begin{tikzcd}
+        \overline{g}=g^*:G\ar[r] \ar[d, phantom, "\rotatebox{90}{$\in$}"] & G \ar[d, phantom, "\rotatebox{90}{$\in$}"] \\
+        h \ar[r, mapsto] & g\cdot h
+    \end{tikzcd}\end{center}
+    この時，$\overline{G}$は群になっていることを，写像$F:G\to \overline{G}$が群の射であることを示すことによって確認する．
+    $F(f\cdot g)=F(f)\circ F(g)$は$G$の演算$\cdot$の結合性より，また$F(e)=1_G$も成り立つ．
+    なお，各射の可逆性については，$F(f\cdot f^{-1})=F(f)\circ F(f^{-1})=1_G=F(e)$より成り立つ．
+
+    群の射$F:G\to \overline{G}$の逆射$H$を構成する．
+    \begin{center}\begin{tikzcd}
+        H:\overline{G}\ar[r] \ar[d, phantom, "\rotatebox{90}{$\in$}"] & G \ar[d, phantom, "\rotatebox{90}{$\in$}"] \\
+        \overline{g} \ar[r, mapsto] & g=\overline{g}(e)
+    \end{tikzcd}\end{center}
+    これについて，確かに$F\circ H=1_{\overline{G}}, H\circ F=1_G$が成り立つ．従って，$G\simeq \overline{G}$
+\end{proof}
+
+\begin{remark}[Two different levels of isomorphisms]
+    構成した群$\overline{G}\subset\mathrm{Aut}(G)$の元である，$g$を集合$G$に左から作用させる写像$\overline{g}$は，群$G$の置換であり，集合の同型である．
+    一方，構成した関手$F,H$は群の同型である．
+\end{remark}
+
+\begin{theorem*}
+    任意の圏$C$は，或る具体圏と同型である．
+\end{theorem*}
+\begin{proof}
+    圏$C$から，同型な圏$\overline{C}$を構成する．関手$\overline{　}:C\to\overline{C}$の対象写像を次のように定める．
+    \begin{center}\begin{tikzcd}
+        C \ar[r] \ar[d, phantom, "\rotatebox{90}{$\in$}"] & \overline{C} \ar[d, phantom, "\rotatebox{90}{$\in$}"] \\
+        c \ar[r, mapsto] & \overline{c}=\{ f\in\mathrm{arr}(C)\mid \mathrm{cod}(f)=c \}
+    \end{tikzcd}\end{center}
+    射関手を次のように定める．
+    \begin{center}\begin{tikzcd}
+        C \ar[r] \ar[d, phantom, "\rotatebox{90}{$\in$}"] & \overline{C} \ar[d, phantom, "\rotatebox{90}{$\in$}"]\\
+        g:c\to d \ar[r, mapsto] & \overline{g}=g^*:\hom_C(-,c)\to\hom_C(-,d)
+    \end{tikzcd}\end{center}
+    ただし，この写像$g^*$は，任意の対象$x\in C$に対して，
+    \begin{center}\begin{tikzcd}
+        \hom_C(x,c) \ar[r] \ar[d, phantom, "\rotatebox{90}{$\in$}"] & \hom_C(x,d)\ar[d, phantom, "\rotatebox{90}{$\in$}"]\\
+        f:x\to c \ar[r, mapsto] & g\circ f:x\to d
+    \end{tikzcd}\end{center}
+    と対応づける写像（関手の射／自然変換）である．
+    この関手は可逆であり，逆関手の$\overline{x}\in\overline{C}$成分は射写像は次の通りである．
+    \begin{center}\begin{tikzcd}
+        \overline{C} \ar[r] \ar[d, phantom, "\rotatebox{90}{$\in$}"] & C \ar[d, phantom, "\rotatebox{90}{$\in$}"]\\
+        \overline{g}:\hom_C(-,c)\to\hom_C(-,d) \ar[r, mapsto] & \overline{g}(1_c)
+    \end{tikzcd}\end{center}
+\end{proof}
+\begin{remark*}
+    こうして，対象$c$を「$c$に入射する射」に写し，射を「$c$に入射するHom集合同士の自然変換」に写す構成関手$\overline{　}:C\to\overline{C}$を「Cayley表現関手」と呼ぶことにしようか．
+    群論でのCayley表現のアナロジーとして，ここでも「表現」という語が，「対象$c$を取り巻く射の動きを定式化することで，$c$の内部構造が漏れ出しているのを捉える」という精神を感じる．
+
+    これが「表現」という術語の出処であろう．この時点ではまだ素朴の意味で「$C$の表現$\overline{C}$」という感覚である．
+    また，これが「ホム関手」「ホム集合」という概念の出処でもある．集合での表現を持つから，我々の「具体」性という得意分野に引きずりこめるのだ．
+    また，何度も本文内で注意されるが，集合に頼り過ぎないで，純粋に圏論的なまま理論を豊かにしていくのも大事である．（群論だってそうなのだろう）．
+    例えば，一般の圏を白紙から考えるとき，対象の間の射全体の集まりは「集合」であるとは限らないのだ．
+
+    また，2-圏の起こりにも見える．また戻って来たい．
+\end{remark*}
+
+\subsection{Constructions on categories}
+
+前章の終わりに出て来たCayley representationの考え方が，圏論の階層性の萌芽の全てなんじゃないか．
+これを分解したような圏の構成法についての言葉を整理する．
+
+
+\subsubsection{Product}
+
+\begin{itembox}[l]{$C\times D$}
+    対象：$(c,d)\in \mathrm{obj}(C)\times \mathrm{obj}(D)$
+
+    射：$(f,g)\in \mathrm{mor}(C)\times\mathrm{mor}(D)$
+
+    合成，単位射：徹底的に「要素毎」の考え方（直積の普遍性）
+\end{itembox}
+
+\subsubsection{Opposite}
+
+\begin{itembox}[l]{$C^{op}$}
+    対象：同じ
+
+    射：$f:C\to D\in C$に対して，$f^*:D^*\to C^*\in C^{op}$
+
+    合成：順序を逆にしたもの
+
+    $C^{op}=(C,M,t,s,c\circ w,e)$
+\end{itembox}．
+
+この時の構成関手${}^{op}$は良く関手を分解するときに用いる．
+
+dualityとは，ある圏が，別の圏の反対（の部分圏）になるという対応が成り立つこと（を主張する命題のこと）である．
+
+\subsubsection{arrow category：lifting}
+
+\begin{itembox}[l]{arrow category $\overrightarrow{C}$}
+    対象：射
+
+    射$g:(f:A\to B)\to (f':A'\to B')$：足を結びつける$C$の射と頭を結びつける$C$の射の組$g:=(g_1,g_2)$，すなわち，次の$f'\circ g_1=g_2\circ f$を主張する可換図式
+    \begin{center}\begin{tikzcd}
+        A \ar[r, "g_1"] \ar[d, "f"'] & A' \ar[d, "f'"]\\
+        B \ar[r, "g_2"] & B'
+    \end{tikzcd}\end{center}
+    合成：成分毎$(h_1,h_2)\circ (g_1,g_2)=(h_1\circ g_1, h_2\circ g_2)$，または，可換図式を繋げて外回りを取ること
+    
+    単位射：$1_f=(1_A,1_B)$
+\end{itembox}
+
+対象は射$f:A\to B$だが，要は$(A,B)$，これはどう考えても$C\times C$あるいは$[2,C]$と同型になる．
+\begin{proposition*}[arrow category と product category の関係]
+    次の関手が存在する．
+\begin{center}\begin{tikzcd}
+    C & \overrightarrow{C} \ar[l, "\mathrm{dom}"'] \ar[r, "\mathrm{cod}"] & C
+\end{tikzcd}\end{center}
+    即ち，対象$f:A\to B\in\overrightarrow{C}$について，その定義域に写す関手と，その終域に写す関手とが，射影に相当する．
+\end{proposition*}
+
+\begin{remark*}[nLab "lift"より]
+    arrow categoryの射としての可換図式$(g_1,g_2)$を，「$f_1,f_2$間のlifting problem (between $f_1$ and $f_2$)」とも言う．
+    \begin{center}\begin{tikzcd}
+        A \ar[r, "g_1"] \ar[d, "f"'] & A' \ar[d, "f'"]\\
+        B \ar[r, "g_2"] \ar[ur, dashed, "\exists\gamma"] & B'
+    \end{tikzcd}\end{center}
+    上図を可換にする$\gamma:B\to A'$が存在する時，これをliftと呼び，このlifting problem $(g_1,g_2)$はsolution $\gamma$を持つ，と言う．
+    またこのliftが一意的である時，$f$と$f'$は直交する（$f\perp f'$）と言う．
+    定義\ref{def-projective-object}参照．
+\end{remark*}
+
+\subsubsection{slice / over category：頭を共通の対象に突っ込んだ射と，足元の移動}
+
+圏$C$と対象$c\in C$について，
+\begin{itembox}[l]{$C/c$（直観的）}
+    対象：$c$を的とする射$f:x\to c$全体の集合$\{ f\in\mathrm{arr}(C)\mid \mathrm{cod}(f)=c \}$．これを\textbf{$c$上の対象}という（$f$を省略して$B$をそうみなすこともある）．
+    
+    射：２対象$f:x\to c, f':x'\to c$に対して両足を結ぶ$C$の射$a:x\to x'$．これを$c$上の射という．
+    つまり，次の$C$の図式を可換にする射$a:x'\to x\in C$（$f=f'\circ a$）．
+    \begin{center}\begin{tikzcd}
+    x\ar[rr, "a"] \ar[dr, "f"'] & & x' \ar[dl, "f'"] \\
+    &c&
+    \end{tikzcd}\end{center}
+\end{itembox}
+\begin{proposition*}[slice category と arrow category の関係]
+    これは，対象を，終域を$c$とする射のみに限ったため，arrow categoryの充満部分圏である．
+\end{proposition*}
+
+対象について，そのcodomain $c$を忘れ，射$a:(x,c)\to (x',c)$についても$c$を忘れれば，先ほどの$\mathrm{cod}$に当たるものが，忘却関手$C/c\to C$となる．
+（これは一種の具体圏だったのか？）
+\begin{proposition*}[slice category と product category の関係]
+    次の関手が存在する．
+\begin{center}\begin{tikzcd}
+    C & \overrightarrow{C} \ar[l, "\mathrm{dom}"'] \ar[r, "\mathrm{cod}"] & C
+\end{tikzcd}\end{center}
+    即ち，対象$f:x\to c\in\overrightarrow{C}$について，その定義域に写す関手と，その終域に写す関手（＝）とが，射影に相当する．
+\end{proposition*}
+
+\begin{itembox}[l]{数学原論での導入$C_A$（形式的）}
+    圏$C=(C,M,s,t,c,e)$とその対象$A\in C$に対して，$A$上の圏$C_A=(C_A, M_A, s_A, t_A, c_A, e_A)$を，以下のように定める．
+
+    1. $C_A=\{ f\in M\mid t(f)=A \}$．
+
+    2. $M_A=\{(g,k)\in M_s\underset{C}{\times}{}_tM\mid g\in C_A\}$．
+    これはさらに$M_A=C_A{}_s\underset{C}{\times}{}_tM$とも表せ，「$A$上の対象と，そこに差し込む$A$上の射の組」であり，長さ２のpathだと思うこともできる．（この時，砕けたときには第二成分である$k$のみをさして「$A$上の射」と呼ぶのだった．）
+    この射の源は下の図を可換にする$f=g\circ k$であり，的は第一成分である$g$である．
+    \begin{center}
+        \begin{tikzcd}
+            B \ar[rr, "k"] \ar[dr, "f"'] & & D\ar[dl, "g"] \\
+            & A &
+        \end{tikzcd}
+    \end{center}
+
+    3. $s_A:M_A\to C_A$は合成$c$の$M_A$への制限$c\restriction_{M_A}:C_A{}_s\underset{C}{\times}{}_tM\to C_A$．
+
+    4. $t_A:M_A\to C_A$は第一射影$\mathrm{pr}_1$．
+
+    即ち，$A$上の射$(g,k)$は，$f=g\circ k\mapsto g$と写す．
+
+    5. $c_A$は$c_A((h,l),(g,k))=(h, l\circ k)$
+    \begin{center}
+        \begin{tikzcd}
+            M_A{}_{s_A}\underset{C_A}{\times}{}_{s_A}M_A \ar[r] \ar[d, phantom, "\rotatebox{90}{$\in$}"] & M_A \ar[d, phantom, "\rotatebox{90}{$\in$}"]\\
+            \left( (h,l),(g,k) \right) \ar[r, mapsto] & (h,l\circ k)
+        \end{tikzcd}
+    \end{center}
+    ２つの射$(h,l)$と$(g,k)$が合成可能であるとは，$(h,l)$の源$h\circ l$と$(g,k)$の的$g$が等しい$h\circ l= g$ということである．
+    即ち，次の可換図式のように，２つの三角形可換図式を繋げて大外周りを取ったものになる．
+    \begin{center}
+        \begin{tikzcd}
+            B \ar[dr, "h"'] & C \ar[l, "l"'] \ar[d, "g"] & D \ar[l, "k"'] \ar[dl, dashed, "g\circ k"]\\
+            & A &
+        \end{tikzcd}
+    \end{center}
+
+    6. $e_A(f)=(f,1_{s(f)})$で定める．即ち，$f:B\to A$とすると，$(g,1_B)$であり，$g\circ 1_B=g$を$g$に写す恒等射になっている．
+    \begin{center}
+        \begin{tikzcd}
+            X \ar[dr, "g"'] \ar[rr, "1_X"] & & X \ar[dl, dashed, "g"] \\
+            & A &
+        \end{tikzcd}
+    \end{center}
+\end{itembox}
+\begin{remark*}
+    これまた3.4.は「道」みたいな定め方だな．形式的には結構技巧的なものになっている．
+    \begin{quote}
+        一般的に幾何的な対象のなす圏を考えているときは$A$上の圏といえば$C_A$であり，代数的な対象を考えているときは$A$上の圏というと$C^A$になる．
+    \end{quote}
+\end{remark*}
+
+\subsection*{slice category 構成の定める関手}
+
+$C$の射$g:c\to d$に対して，自然変換$g^*:C/c\to C/d$が定まる．
+\begin{center}\begin{tikzcd}
+    C/c \ar[r] \ar[d, phantom, "\rotatebox{90}{$\in$}"] & C/d\ar[d, phantom, "\rotatebox{90}{$\in$}"]\\
+    f:x\to c \ar[r, mapsto] & g\circ f:x\to d \\
+    a:(f:x\to c)\to (f':x'\to c) \ar[r] & a:(g\circ f:x\to d)\to (g\circ f':x'\to d)
+\end{tikzcd}\end{center}
+
+従って，slice categoryの構成は，関手("composition functor")$C/(-):C\to \mathbf{Cat}$を定める．
+
+これは勝手な圏$C$に対して，関手圏としての表現を与えるCayley表現関手のアナロジー，と思うことが出来る．
+Cayley表現関手は，抽象的な群や圏を，「射の集合」として具体化する．slice categoryの構成は，圏を「圏の圏」とする．
+というより，これに忘却関手$U:\mathrm{Cat}\to\mathrm{Sets}$を合成した関手であった．
+\[ \overline{　} = U\circ C/(-) \]
+
+\begin{remark*}
+    composition functorは，Hom関手の射写像である．
+    これをこの本ではCayley representationから導入し，圏論としてはまずslice categoryを定義したわけだ．どっちが主軸だろう？
+
+    いや，Hom関手が要はover categoryの構成写像なのか！？
+\end{remark*}
+
+\begin{proposition*}[coslice category]
+    \[ (-)/C = C/(-)\circ {}^{op} \]
+    である．
+\end{proposition*}
+
+\begin{example}
+    \[\mathrm{Sets}_*\simeq 1/\mathrm{Sets}\]
+    となる．何故なら，$\mathrm{Sets}_*$の射$f:(A,a)\to (B,b)$は，圏$1/\mathrm{Sets}$の射$f$と対応し，対象は図式の中の通り，$1$から出る射$a,b$と対応させれば良い．
+    \begin{center}
+        \begin{tikzcd}
+            1 \ar[r, "a"] \ar[dr, "b"'] & A \ar[d, "f"]\\
+            & B
+        \end{tikzcd}
+    \end{center}
+    こうして同型が構成できる．
+\end{example}
+
+\begin{proposition*}
+    $1\in C$を圏$C$に於ける終対象とする．この時，
+    \[ C\simeq C/1 \]
+\end{proposition*}
+\begin{proof}
+    対象写像を$a\in C$を，唯一の射$a\to 1$に写す写像とする．
+    この後どのように射写像を定めれば，可逆な関手$C\to C/1$を定められるのかが分からない．
+\end{proof}
+
+\subsection*{Posに於けるslice category}
+
+\begin{definition*}[principal ideal]
+    順序集合$(P,\le)$の部分集合$I$がイデアルであるとは，次の３条件が成り立つことをいう．
+
+    1. $I\ne\varnothing$
+
+    2(lower set). $\forall x\in I\; \forall y\in P\; (y\le x\Rightarrow y\in I)$
+
+    3(directed set). $\forall x,y\in I\; \exists z\in I\; (x\le z\land y\le z)$
+
+    イデアル$I\subset P$が主イデアルであるとは，単元生成されたイデアル（$p$を含む最小のイデアル）のことをいう．
+    即ち，$\downarrow(p)=\{q\in P\mid p\le p\}$である．
+\end{definition*}
+\begin{remark*}
+    2.の形の条件は群論の時点から見たことがある．idealは元々抽象代数からの借入語である．
+
+    directed setは有向集合と呼ばれる．前順序集合(preorder)のうち，どの２元も\underline{上界}を持つものをいう．即ち，半束ならば有向集合だが，有向集合だからと言って半束であるとは限らない（上界は複数あっても上限が存在するとは限らない）．
+\end{remark*}
+
+\begin{proposition*}[principal ideal]
+    poset category $P$について，
+    \[ P/p \simeq \downarrow (p) \]
+\end{proposition*}
+
+\subsection{Free categories}
+
+\subsubsection{Free monoid}
+
+\begin{definition*}[free functor from Mon]
+    自由関手$M:\mathrm{Sets}\to\mathrm{Mon}$とは，集合$A$から，$A^*=W(A):={}^{<\omega}\!A$を台集合として，concatenation演算子$*$を積とし，空列$-$を単位元としたモノイド$(A^*,*,-)$に対応させる関手である．
+\end{definition*}
+\begin{remark*}
+    $A=\varnothing$の時$M(A)$は自明なモノイドであり，$A=1$の時，一進法表記した$M(A)=\mathbb{N}$である．
+
+    $A=\mathbb{N}$とした場合，集合上では$\mathbb{N}\simeq U(M(\mathbb{M}))$であるが，モノイドとしては全く違う．
+\end{remark*}
+
+\begin{definition*}[UMP of free monoids]
+    $M(A)$が集合$A$から生成される自由モノイドである（即ち，関手$M:\mathrm{Sets}\to\mathrm{Mon}$が自由関手である）とは，次の条件を満たすことである．
+
+    任意のモノイド$N\in\mathrm{Mon}$と，それとの任意の写像$f:A\to U(N)$に対応して，モノイドの射$\overline{f}:M(A)\to N$が唯一つ存在して，次の図式を可換にする$i:A\to U(M(A))$が存在する．
+    \begin{center}
+        \begin{tikzcd}
+            U(M(A)) \ar[r,dashed, "U(\overline{f})"] & U(N)\; (\mathrm{on}\hspace{0.5em}\mathrm{Sets}) & M(A) \ar[r,dashed, "\overline{f}"] & N \; (\mathrm{on}\hspace{0.5em}\mathrm{Mon}) \\
+            A \ar[u,dotted, "i"] \ar[ur, "f"']
+        \end{tikzcd}
+    \end{center}
+    論理構造を明確にするために，この条件を，集合とモノイドの組$(A,M(A))$に対する条件として形式化すると，
+    \[ \exists i:A\to U(M(A))\; \forall f:A\to U(N)\; \exists! \overline{f}:M(A)\to N \; (f=U(\overline{f})\circ i) \]
+    \rightline{$\blacksquare$}
+\end{definition*}
+\begin{remark*}　
+
+    1. 今後何度も戻ることになるのだが，次の写像$\varphi$が定まるというだけで，これが単射であるとも言っていない．況してや全射ではない．
+    \[ \varphi:\mathrm{Hom}_{Set}(A,U(N))\to\mathrm{Hom}_{Mon}(M(A),N) \]
+    なお，この写像$\varphi$が同型になることを，「$M$は$U$の左随伴関手(left adjoint)である」という．
+
+    2. 考えれば考えるほど，$M\circ U=id_{Mon}$だと思ってしまう．$M(U(f)\circ i)=M(U(f))\circ M(i)=f\circ id_M=f$となる．
+    いや，違うな，$M(U(\mathbb{N}))=M(1)$ではないもんな．ここらへんは，随伴関手の，余単位-単位随伴による定義の話か！
+\end{remark*}
+
+\begin{proposition*}[自由モノイド関手$M$は忘却関手$U$の左随伴である]
+    次が成り立つ．
+    \[ \varphi:\mathrm{Hom}_{Set}(A,U(N))\simeq\mathrm{Hom}_{Mon}(M(A),N) \]
+\end{proposition*}
+\begin{proof}
+    写像$\psi:\mathrm{Hom}_{Mon}(M(A),N)\to\mathrm{Hom}_{Set}(A,U(N))$を，$f:M(A)\to N$に対して，$U(f)\circ i:A\to U(N)$を対応させる写像とする．
+    \begin{center}
+        \begin{tikzcd}
+            U(M(A)) \ar[r,dashed, "U(f)"] & U(N)\; (\mathrm{on}\hspace{0.5em}\mathrm{Sets}) & M(A) \ar[r,dashed, "f"] & N \; (\mathrm{on}\hspace{0.5em}\mathrm{Mon}) \\
+            A \ar[u,dotted, "i"] \ar[ur, "U(f)\circ i"']
+        \end{tikzcd}
+    \end{center}
+    ここで，$U(f)\circ i:A\to U(N)$が定める射$\overline{U(f)\circ i}$とは，自由モノイド$M(A)$のUMPの一意性条件により，$f$に他ならない．
+    即ち，$\varphi\circ\psi=id$である．
+    
+    逆も成り立つ．下図のように，勝手にとった$f:A\to U(N)$について，$\varphi$は$\overline{f}:M(A)\to N$へ写す．
+    \begin{center}
+        \begin{tikzcd}
+            U(M(A)) \ar[r,dashed, "U(\overline{f})"] & U(N)\; (\mathrm{on}\hspace{0.5em}\mathrm{Sets}) & M(A) \ar[r,dashed, "\overline{f}"] & N \; (\mathrm{on}\hspace{0.5em}\mathrm{Mon}) \\
+            A \ar[u,dotted, "i"] \ar[ur, "f"']
+        \end{tikzcd}
+    \end{center}
+    $\psi(\overline{f})=U(\overline{f})\circ i$は，上の図式が可換であることより，$f$に等しい．
+\end{proof}
+
+\begin{proposition}
+    勝手な集合$A$について，$A$上の自由モノイド$M(A)=(A^*,*,-)$は，上の普遍性を満たす．
+\end{proposition}
+\begin{proof}
+    $A$を勝手な集合，$N=(N,\cdot,u)$を勝手なモノイド，$f:A\to U(N)$を勝手な写像とする．
+    一意的な$\overline{f}:M(A)\to N$と，$i:A\to M(A)$とを順に構成し，$f=U(\overline{f})\circ i$を満たすようにできることを示せばいい．
+    $f$を用いて，写像$\overline{f}$を
+    $$\begin{cases}
+        \overline{f}(-) &= u \\
+        \overline{f}(a_1,\cdots,a_i) &= f(a_1)\cdot\cdots\cdot f(a_i)\;\;\; (a_1,\cdots,a_i\in A)
+    \end{cases}$$
+    で定めると，確かにこれはモノイドの射である．
+    これに続いて，$i:A\to U(M(A))$を包含写像とすると，
+    \begin{eqnarray*}
+        f(a)&=& U(\overline{f})\circ i(a)\;\;\; (\forall a\in A) \\
+        &=& U(\overline{f})(a)
+    \end{eqnarray*}
+    が成り立つ．ここで，$\overline{f}$は一意的に定めることができているので，確かに$M(A)$はUMPを満たす．
+\end{proof}
+\begin{remark*}[自由モノイドの普遍性として妥当な直観的理由]
+    $M(A)$の生成系$A$のそれぞれについて行き先を定める写像$f:A\to U(N)$から，モノイドの射$\overline{f}:M(A)\to N$を一般的に（＝関手的に），そして一意的に構成可能である．
+    次元というか，軌道のようなものは潰れるかもしれないが．
+    この時，足元は生成系$A$から，その上の自由モノイド$M(A)$にまで持ち上がる．
+    それに対応するのが包含写像$i:A\to M(A)$である．
+    このような性質を持つのが，生成系$A$を指定した時に付随して確定するモノイド$M(A)$のことで，このようなものはとても標準的で自然なものだから，とりあえず「自由」と呼ぶ．が，このように，背後には関手がある．
+
+    この時，モノイドの射$\overline{f}$の存在性が"no noise"に対応し（純粋なモノイド性のみを持ち，それ以上の，公理に含まれない非自明な関係は一切持たない．だから，
+    任意のモノイド$N$に対してこのような射が存在する．），一意性が"no junk"に対応する（生成元に関しての閉包であり，生成元とモノイドの公理には行き先が指定されておらず，自由度が残っているような元は全く含まれていない）．
+\end{remark*}
+
+\begin{proposition}[UMPが対象を同型を除いて一意に定める]
+    $M,N\in\mathrm{Mon}, i:A\to U(M), j:A\to U(N)$を写像とし，$(A,M),(A,N)$はいずれも自由モノイドの普遍性を満たすとする．この時，$M\sim N$である．
+\end{proposition}
+\begin{proof}
+    $(A,M)$の普遍性に対して$f=j$を適用し，$(A,N)$の普遍性に対して$f=i$を適用すれば，互いに逆射となるモノイドの射$\overline{i}, \overline{j}$を得る．
+\end{proof}
+\begin{example*}
+    $M(1)\simeq\mathbb{N}$として，UMPにより同型を除いて一意に定まる．
+\end{example*}
+
+\subsubsection{Free Category}
+今回はグラフの道として定式化するが，analogousな定式化は他にも存在する．それらをまとめてpath categoryと呼ぶ．
+
+\begin{definition*}[有向グラフ]
+    集合$V(G),E(G)$とその間の写像$s:E(G)\to V(G), t:E(G)\to V(G)$の４つ組$G=(V(G), E(G), s,t)$を有向グラフと言う．
+    \begin{center}
+        \begin{tikzcd}
+            E \ar[r, "s"] \ar[r, "t"] & V 
+        \end{tikzcd}
+    \end{center}
+
+    頂点の有限列$(e_1,\cdots,e_n)\in {}^{<\omega}\! E(G)$であって，$t(e_i)=s(e_{i+1})\; (i=1,\cdots,n-1)$を満たすものを道という．
+\end{definition*}
+
+\begin{definition*}[有向グラフ上の自由圏]
+    有向グラフ$G$に対して，$G$から生成される自由圏$\mathbf{C}(G)$を，$C(G)=(V, \mathrm{path}(E),\mathrm{dom}, \mathrm{cod}, \circ ,e)$定める．
+
+    \begin{center}
+        \begin{tikzcd}
+            M_s\underset{C}{\times}{}_tM \ar[r, "\circ"] & M \ar[r, "\mathrm{dom}"] \ar[r, "\mathrm{cod}"' near start] & C \ar[l, "e" near start]
+        \end{tikzcd}
+    \end{center}
+
+    1. 対象は頂点とする．
+
+    2. 射は，$G$の道とする．$(e_1, \cdots, e_n)$を道としたとき，射を$e_n\cdots e_1$と書くこととする．
+
+    3. 合成は道の結合とする．あるいは，文字列$e_n\cdots e_1$の結合と考えても良い．
+
+    4. 各頂点$v$に対して，単位射$1_v$を考える．
+\end{definition*}
+\begin{example*}
+    $V(G)=1$であった場合，$C(G)$は一点対象圏であり，$E(F)$上の自由モノイド（に付随する圏）と同型になる．
+\end{example*}
+
+\begin{definition*}[有向グラフ準同型]
+    グラフの射$h:G\to H$とは，次を可換にする写像の組$(h_0, h_1)$である．
+    \begin{center}
+        \begin{tikzcd}
+            G_1 \ar[r, "s"] \ar[d, "h_1"'] & G_0 \ar[l, "t"] \ar[d, "h_0"] \\
+            H_1 \ar[r, "t"'] \ar[r, "s"] & H_0
+        \end{tikzcd}
+    \end{center}
+\end{definition*}
+
+\begin{definition*}[圏の忘却関手]
+    忘却関手$U:\mathrm{Cat}\to \mathrm{Graphs}$を
+    \begin{center}\begin{tikzcd}
+        M_s\underset{C}{\times}{}_tM \ar[r, "\circ"] & M \ar[r, "\mathrm{dom}"] \ar[r, "\mathrm{cod}"' near start] & C \ar[l, "e" near start]
+    \end{tikzcd}\end{center}
+    を，台グラフ
+    \begin{center}\begin{tikzcd}
+        M \ar[r, "\mathrm{dom}"] \ar[r, "\mathrm{cod}"'] & C
+    \end{tikzcd}\end{center}
+    に写す，６組$(C,M,s,t,c,e)$を４組$(C,M,s,t)$に情報を落とす行為だとみなせる．
+\end{definition*}
+\begin{remark*}
+    一般に忘却関手は「集合の付加構造を落とす」関手であるが，圏自体の忘却関手も，圏論的な定式化を使えば，全く同じような議論「グラフの付加構造を落とす」ものとして理解できる．
+
+    一般に，射をそのままedgeと見做してしまっているので，自然な有向グラフとは程遠く（推移性が無駄に残っている），$C$と$U$は互いに逆関手ではない．
+    $U$の左随伴が自由圏構成関手$C$である．
+\end{remark*}
+
+\begin{definition*}[自由圏の普遍性]
+    \[ \exists i:G\to U(C(G))\; \forall h:G\to U(D) \; \exists !\overline{h}:C(G)\to D\; (U(\overline{h})\circ i=h) \]
+\end{definition*}
+\begin{example*}　
+
+    1. グラフ$(1, E, \Psi)$上の自由圏は単一対象圏となる．
+
+    2. グラフ$(2, \{0\to 1\})$上の自由圏は，finite category $2$と同型．
+
+    3. グラフ\begin{center}
+        \begin{tikzcd}
+            A \ar[r, "e"] & B \ar[l, "f"]
+        \end{tikzcd}
+    \end{center}上の自由圏は，無限個の道が存在するために，無限個の射が存在する
+\end{example*}
+
+\subsection{Foundations: large, small, and locally small}
+
+\begin{definition}[finite, small, locally small, large]
+    圏$(C,M,s,t,c,e)$が有限であるとは，$C,M$が有限集合であることをいう．
+    小さいとは，$C,M$が集合であることをいう．
+    $C,M$のいずれかでも集合ではない場合，大きいという．
+\end{definition}
+
+\begin{definition}[hom-setとlocally small]
+    $\hom_C(X,Y)=\{ f\in C_1\mid f:X\to Y \}$が集合であるとき，局所的に小さいという．圏が小さい場合は局所的にも小さい．
+\end{definition}
+\begin{remark*}
+    圏を考える際，「$\bigcirc\bigcirc$全体のなす圏」など，大抵は言及が雑すぎるので，その圏は大抵小さくはならない．しかし，対象の集合$C$は（従って$M$も）集合にはならずとも，対象を集合とした圏Sets, Pos, Top, GroupにおいてHom集合は大抵集合になる．
+
+    その主な理由は，条件を無条件に化しただけでは（例えば群の公理など）そのメンバーが集合になるとは限らないから，クラスについての知見が必要になるからである．
+    例えば［有限集合］FinSetも小さくない．全ての集合$X$について$\{X\}$とすれば有限集合を作れるからである．同様の理由で［小さな圏］Catも自身は圏として小さくない．
+
+    しかし，［遺伝的有限集合］SetsFinとすれば小さくできる．$C=V_\omega$はZFCの下では集合である．
+    即ち，FinSetは小さな圏と同値であるため，「本質的に小さい」と言える．
+\end{remark*}
+
+
+\begin{remark}
+    Posetとして見た$\mathbb{R}$は小さい圏だが，具体圏ではない．(structured setではないから？)
+
+    Posは具体圏だが小さくはない．
+\end{remark}
+
+\begin{remark*}[Grothendieck宇宙と到達不可能基数は同じ！？ nLab "finite category"]
+    (Locally) finite categories may also be called (locally) $\omega$-small; this generalises from $\omega$ (the set of natural numbers) to (other) inaccessible cardinals (or, equivalently, Grothendieck universes).
+\end{remark*}
+
+\subsection{Exercises}
+
+\section{Abstract structures}
+圏論的な言葉だけで，圏の対象や射を特徴付ける性質を述べる．
+このような性質のことをひとまずabstruct characterizationと呼ぶこととする．UMPはその良い例である．
+
+\subsection{Epis and monos：代数的に定めた，圏論的単射・全射の条件}\label{subsection-monoepi}
+
+\subsubsection{射の左右の簡約可能性は，Sets上と具体圏上で微妙に条件が違う．}
+
+単射は左に付いても単位的な働きしかせず，全射は右に付いても単位的な働きしかしない，まるで筒抜け，という
+写像の合成における振る舞いのみを抽出して，次の圏論的概念を定める．
+\begin{definition}[圏論的単射・全射]射$f:A\to B\in C$について
+
+    1. 次（左簡約可能条件）を満たすとき，monomorphismという．
+    \[ \forall C\in C\;\;\; \forall g,h:C\to A\;\;\; (fg=fh\Rightarrow g=h) \]
+    \begin{center}
+        \begin{tikzcd}
+            C \ar[r, "g"] \ar[r, "h"'] & A \ar[r, "f"] & B
+        \end{tikzcd}
+    \end{center}
+
+    2. 次（右簡約可能条件）を満たすとき，epimorphismという．
+    \[ \forall D\in C\;\;\; \forall i,j:B\to D\;\;\; (if=jf\Rightarrow i=j) \]
+    \begin{center}
+        \begin{tikzcd}
+            A \ar[r, "f"] & B \ar[r, "i"] \ar[r, "j"'] & D
+        \end{tikzcd}
+    \end{center}
+\end{definition}
+
+\begin{proposition}[Setsでは全射も全写も同値である]
+    $f\in \mathrm{Sets}$に於ては，次は同値．
+
+    1. $f$はmonicである．
+
+    2. $f$は単射である．
+\end{proposition}
+\begin{proof}
+    1.$\Rightarrow$2.について．
+    $f:X\to Y$をmonicとすると，特に$g,h:1\to X$について，$g\ne h\Rightarrow fg\ne fh$である．
+    ここで，$1$は一点集合であるから，$g\ne h\Leftrightarrow g(0)\ne h(0)$，$fg\ne fh\Leftrightarrow f(g(0))\ne f(h(0))$が成り立つことに注意すると，これは$f$が単射である条件である．
+
+    2.$\Rightarrow$1.について．
+    $f:X\to Y$を単射として，勝手な$Z$について$g,h:Z\to X$を取る．ここで$g\ne h$を仮定する．すると，$g(c)\ne h(c)$を満たす$c\in C$が存在するから，その$c$について$f\circ g(c)\ne f\circ h(c)$より，$fg\ne fh$を得る．
+\end{proof}
+
+\begin{example}[具体圏のmonic：単写性に同値．]
+    1. 次の命題が成り立つ．
+    
+    2. この命題の証明と，上記の命題の証明を見比べると，$A$の元と射$1\to A$とを同一視した行為が，UMP of $M(1)$により，具体圏の中にも終対象$1$の代わりに自由対象$M(1)$が同じ役割を果たす．
+    \ref{subsection-generalized-elements}節では，このことを，「一般化された要素」という観点から捉え直す．
+\end{example}
+
+\begin{proposition*}次の２条件は同値である．
+
+    1. Monにおいて，射$f:M\to N$がmonicである．
+    
+    2. 台写像$U(f):U(M)\to U(N)$がmonicである．
+\end{proposition*}
+\begin{proof}
+    思いの外微妙な論理であった(5/18/2020)
+\end{proof}
+
+\begin{example}[Posに於ける状況は退化してしまっている．Posでは射の存在性の$0,1$コードしか大事じゃなく，合成は全く使わない次元だからであろう．]
+    Posにおいて，射$p\le q$はmonicかつepicである．何故なら，Hom-setの元は高々１つであるから．$g=h$とならないような$g,h:r\to p$は取れない．
+\end{example}
+
+\begin{example}[具体圏のepic：全写性より弱い]\label{example-epis-notnecessarily-surjective}
+    1. 次の命題が成り立つ．全射でないモノイドの射$i$でも，生成元さえ正しく伝えていれば，右簡約可能である．もっとすっきり表現する言葉があるはずである．
+
+    2. また一般に，具体圏上でmonicかつepicでも同型とは限らない（命題\ref{prop-iso_is_monoepi}）し，台写像も同型とは限らない．
+    \begin{proposition*}[全写でないモノイドのepic射]
+        包含写像（monicな集合の射）$i:(\mathbb{N},+,0)\to(\mathbb{Z},+,0)$は，epicなモノイドの射であるが，特に全射（集合の射としてepic）ではない．
+    \end{proposition*}
+    \begin{proof}
+        $i$がMon上でepicであるとは，$i$の右簡約則，即ち，$f,g:(\mathbb{Z},+,0)\to (M,*,u)$について，$f|_\mathbb{N}=g|_\mathbb{N}\Rightarrow f=g$を示せば良い．
+
+        いま，$f|_\mathbb{N}=g|_\mathbb{N}$とすると，実は$f(-1)=g(-1)$を示せば，各$f(-i)=g(-i)\; (i=2,3,4,\cdots)$も得る．
+        \begin{eqnarray*}
+            f(-1) &=& f(-1)*g(0) \\
+            &=& f(-1)*g(1-1) \\
+            &=& f(-1)*g(1)*g(-1) \\
+            &=& f(-1)*f(1)*g(-1) \\
+            &=& f(0)*g(-1) \\
+            &=& g(-1)
+        \end{eqnarray*}
+        $i$は包含写像であり，$\mathbb{Z}\setminus\mathbb{N}\ne\varnothing$だから，明らかに集合の全射ではない．
+    \end{proof}
+\end{example}
+
+\subsubsection*{同型射との関係}
+
+可逆性によって同型射を，簡約可能性によってmonic, epic射を定義した．両側簡約可能だからと言って可逆だとは限らないが，逆は勿論成り立つ．
+群論の初歩でも似たような議論があるように，非常に代数的に定義している，まるで射の代数である．
+\begin{proposition}[可逆な射は簡約可能である]\label{prop-iso_is_monoepi}
+    同型射は，monicかつepicである．
+\end{proposition}
+\begin{proof}
+    $m:B\to C$は逆射を$e:C\to B$とする同型であるとする．すると，$mx=my$と仮定すれば，$x=(em)x=e(mx)=e(my)=y$を導けるから，$m$はmonicである．
+\end{proof}
+
+\subsubsection{Sections and retractions：右逆元と左逆元の対}
+可逆性は簡約可能性より強い概念になる．従って，全てのsectionはmonicだし，全てのretractionはepicである．
+
+\begin{definition}[左右可逆性をsplitで表す，右逆元をsection，左逆元をretractionと呼ぶ．]　
+
+    1. 左（右）逆射を持つ射を\textbf{split} mono(epi)と呼ぶ．
+
+    2. $es=1_A$を満たす射$s:A\to X, e:X\to A$について，$e$に対する右逆元$s$をsectionまたはsplittingとよび，$s$に対する左逆元$e$をretractionと呼ぶ．
+    この時に引き戻される所の対象$A$を$X$のretractと呼ぶ．
+    \begin{center}
+        \begin{tikzcd}
+            A \ar[r, "s"] \ar[dr, "1_A"'] & X\ar[d, "e"] \\
+            & A
+        \end{tikzcd}
+    \end{center}
+\end{definition}
+\begin{remark*}
+    はじめretractionの概念はKarol Borsukにより1931にトポロジーで定義され，圏論におけるretructionはこれの拡張になって居る．
+    圏論におけるsectionの概念は，Mac Laneの著書"Homology"(63)ではまだ右逆元と呼んでおり，EilenbergとJohn Coleman Mooreが65年にcoretractionと呼んだのが始まりである．60年代にsectionに取って代わられた．
+
+    可逆性については，関手は単位射や合成を保存するので，mono/epiのsplitablilityも保存する．
+    これは例\ref{example-epis-notnecessarily-surjective}で，忘却関手$U:\mathrm{Mon}\to\mathrm{Sets}$が，splitじゃないepiである包含写像$i:\mathbb{N}\to\mathbb{Z}$を保存しなかった（Sets上ではepicではなくなった）例と対照的である．
+\end{remark*}
+\begin{example*}[各圏での例と，切断は制限と似ていること]　
+    
+    1. Setsにて，空でない集合からの単射は引き戻せるので切断であるが，空集合からの包含写像は引き戻せない．
+
+    2. $\mathrm{Vect}_K$にて，monoとsection，epiとretractionは一致する．即ち，簡約可能性と可逆性が一致する．基底の動きを追えばいいのかもしれない．
+
+    3. The categorical concept of a section is important in homological algebra, and is also closely related to the notion of a section of a fiber bundle in topology: in the latter case, a section of a fiber bundle is a section of the bundle projection map of the fiber bundle.
+
+    4. 商集合$\overline{X}$と商写像$\pi :X\to\overline{X}$について，商写像$\pi$の切断は，$X$上の同値類内の代表元選択写像である．その値（代表系）を，特にcombinatoricsでは"transversal"または"cross-section"などという．
+
+    \underline{切断は制限と似ている}．$S$が完全代表系であることは，$\pi\circ s=1_{\overline{X}}$を満たす切断$s$について$S=s(\overline{X})$であると言ってもいいし，斎藤本のように$\pi |_S$が可逆である（要は切断を持つ）と言っても良い．
+\end{example*}
+\begin{example}[Setsでの退化した様子と，選択公理]
+    Sets上では，
+    
+    1. $\varnothing\to A$というものを除いて，monoである（左簡約可能）こと，split monoである（左可逆）こと，単射であることは全て同値．
+    
+    2. epicである（右簡約可能）こと，split epicである（右可逆）こと，全射であることは全て同値．
+
+    なお，Setsにおいて「全射ならば右逆元が存在する」という方向の条件は，選択公理と同値である．
+    
+    実際，$e:E\to X$を全射とする．即ち，各fiber $E_x=e^{-1}(\{x\})$は空でない．このとき，$es=1_X$を満たす切断$s$が存在するとは，$E$上の集合の族$(E_x)_{x\in X}$から，各
+    $x$について，$s$の値とすべき$s(x)\in E_x$を選び出すことに等しい．（なお，切断$s$に対して，選び出すところの各$E_x$を，（写像$(E_x)_{x\in X}$に止まらず
+    一般の関係$K$について）Bourbaki集合論要約では「切断\textbf{面}」と呼んでいる．）
+
+    逆に，空でない集合の族$(E_x)_{x\in X}$が与えられたとき，$E=\{(x,y)\in X\times \bigcup_{x\in X}E_x\mid x\in X, y\in E_x\}$と定めれば，先ほどと同じ状況であり，$E$からの全射$e:E\to X$を第一射影（添え字集合への射影）として定めると，これの切断$s:X\to E$は選択関数である．
+    $e\circ s=1_X$を満たす切断$s$が存在するということは選べているということになる．
+\end{example}
+\begin{remark*}[選択公理：２本の世界樹からの風景]
+    これらは全て，集合の族$(E_x)_{x\in X}$という対象が，射$e:E\to X$（のfiber）として圏論的にも翻訳されていることによる．
+    \underline{集合族を写像$X\to\bigcup_{x\in X}E_x$という向きでは定式化しにくいのに，逆だとやりやすい非対称性がある}．反変の冪集合関手，連続写像の定義，共変性と反変性，どこまで関係があるのだろうか．
+
+    まず，全射$e:E\hookrightarrow X$を定めると，$E$上に同値関係$R_e$が定まり，それによる直和分割が生じるから，対応する射影$p_{x_1},\cdots,p_{x_n},\cdots$がある．
+    これらは全部$X$によって添字付けられているが，とりあえず自然数$n$を用いて$X$の各元を書き分けたが，濃度は不明．
+    \begin{center}
+        \begin{tikzcd}
+                & & X \ar[d, dashed, bend right=20, "s"'] \ar[ddll, dashed, "s_{x_1}"'] \ar[ddl, dashed, "s_{x_2}"] \ar[ddr, dashed, "s_{x_n}"] & & \\
+                & & E \ar[u, hook, bend right=20, "e"'] \ar[dll ,"p_{x_1}"] \ar[dl, "p_{x_2}"] \ar[dr, "p_{x_n}"']  & & \\
+            E_{x_1} & E_{x_2} & \cdots & E_{x_n} & \cdots
+        \end{tikzcd}
+    \end{center}
+    その状況下で，族$(s_x)_{x\in X}$，即ち，射$s:X\to E$を定めることができるか，が選択公理の内容である．
+
+    この時，$e\circ s=1_E$を満たし得る全ての$s$の集合を，
+    \[ \prod_{x\in X} E_x := \{ s:X\to E\mid e\circ s=1_E \}\]
+    と書く．これはHom集合で，その元は射（一般化された対象）である．
+\end{remark*}
+\begin{proposition*}
+    Setにおいて，次の２条件は同値．
+    \begin{center}
+        \begin{tikzcd}
+            X \ar[r, "f"] & Y \ar[r, bend left=20, "g"] \ar[r, bend right=20, "h"'] & Z
+        \end{tikzcd}
+    \end{center}
+
+    1. $f$は全射である．
+
+    2. $f$はepicである（$\forall g,h\;\; g\circ f=h\circ f \Rightarrow g=h$）．
+\end{proposition*}
+\begin{proof}
+    1.$\Rightarrow$2.について．$g,h:Y\to Z$を勝手にとり，$g\circ f=h\circ f$を満たして居るとする．即ち，
+    \[ \forall x\in X\;\;\; g(f(x))=h(f(x)) \]
+    $f$は全射より，この条件は次を含意している．
+    \[ \forall y\in Y \;\;\; g(y)=h(y) \]
+    よって，$g=h$を結論づけることができ，$f$はepicであると言える．
+
+    2.$\Rightarrow$1.について．勝手に$y\in Y$を取る．$f^{-1}(y)\ne\varnothing$を示せば良い．
+    今，勝手な$g:Y\to Z$と，それと$g(y)\ne h(y)$であるが，その他の元については$g$に一致するような$h$とについても，$g\ne h$である以上，$g\circ f\ne h\circ f$を結論づけることができる．
+    従って，$\exists x\in X\;\;\;g(f(x))\ne h(f(x))$であるから，$\exists x\in X\; f(x)=y$であり，$f^{-1}(y)\supset \{x\}$を得た．
+\end{proof}
+\begin{proposition*}
+    次の２条件は同値である．
+
+    1. $f$は全射である．
+
+    2. $f$は右可逆である．（$\exists g:Y\to X\; f\circ g=1_Y$）
+\end{proposition*}
+\begin{proof}
+    2.$\Rightarrow$1.について．$\forall y\in Y\; f(g(y))=y$が成り立つ$g$が存在するということは，$\forall y\in Y\; f^{-1}(y)\supset \{g(y)\}$を与える写像$g$が確約されているということだから，$f$は全射である．
+
+    1.$\Rightarrow$2.について．$\forall y\in Y\; f^{-1}(y)\ne\varnothing$である．この時，次のような$g$が構成すれば良い．
+    \begin{center}
+        \begin{tikzcd}
+            g:Y \ar[r] \ar[dd, phantom, "\rotatebox{90}{$\in$}"] & X \\
+                & f^{-1}(y) \ar[d, phantom, "\rotatebox{90}{$\in$}"] \\
+            y\ar[r, mapsto] & x
+        \end{tikzcd}
+    \end{center}
+    以上の条件で，$g:Y\to X$が定義できたとする約束を，選択公理という．
+\end{proof}
+
+\begin{definition*}[射影的対象の定義２種]\label{def-projective-object}対象$P$がprojectiveであるとは，
+
+    1. 次の条件
+    \[ \forall e:E\twoheadrightarrow X, f:P\to X \;\;\;\;\; \exists \overline{f}:P\to E\;\;\;\;\; (e\circ\overline{f}=f) \]
+    \begin{center}
+        \begin{tikzcd}
+            & E \ar[d,twoheadrightarrow, "e"] \\
+            P \ar[ur,dotted,  "\overline{f}"] \ar[r, "f"'] & X
+        \end{tikzcd}
+    \end{center}
+    が成り立つことをいう．
+    即ち，射影的対象から出る任意の射$f:P\to X$は，全射$e:E\to X$を通じて分解する．
+    この条件(left lifting propoerty against epimorphisms)を"$f$ lifts across $e$"とも表現する．また，$\overline{f}$をliftとも言う．
+
+    2. hom関手$\mathrm{Hom}_C(P,-):C\to\mathrm{Sets}$がepic射を保存する．
+\end{definition*}
+\begin{remark*}[射影，liftの言葉で説明できるSets, Topの事象]　
+    
+    1. 環上の射影的加群の概念の一般化だと思える．射影的加群とは，環上の加群／群の完全系列（前の射の像が後の射の核に正確に一致するもの）を保存する関手（完全関手）にもなるような表現可能関手$\hom(P,-)$を構成する加群$P$のことである．この時点ではおそらく射影性も強いのだろうが，現時点ではまだ，すでにホモロジー代数の分野で一度射の言葉に消化されてから圏論に届いている用語なので，射影感は薄まっているのであろう．
+    この双対概念は単射的対象(injective object)といい，$f=\overline{f}\circ i$を満たす$\overline{f}$をextentionと言う．
+
+    2. 選択公理は，「Sets内の全ての対象として射影的である」ことを主張する．どんな集合$P$からも，より大きい集合$E$があって，$P$で添字づけられた集合族$\{E_p\}_{p\in P}$が作れる．そこから
+
+    3. 選択公理を圏論の言葉で弱めた"the Category of Sets Has Enough Projectives (CoSHEP)"と言う公理をpresentation axiomと呼んで，数学の基礎付けの候補として考える流儀もある．
+    
+    4. 殆どの具体圏内の自由対象も射影的対象になる．
+
+    5. lifting propoertyで位相空間の分離性を特徴付けることができる．(nLab "separation axioms in terms of lifting properties")
+    あとHomotopy lifting propoertyと言うものもある．
+\end{remark*}
+
+\begin{proposition*}[射影性の引き戻し]
+    全ての圏$C$について，射影対象$P$のretract $A$は射影対象である．
+\end{proposition*}
+\begin{proof}
+    いま，$A$は$P$のretractだから，$e\circ s=1_A$とし，$X,Y$を勝手な対象，$f:A\to X$を勝手な射，$g:Y\twoheadrightarrow X$を勝手なepi射とする．
+    \begin{center}
+        \begin{tikzcd}
+            Y \ar[r, "g"] & X \\
+            A \ar[u, dotted, "\overline{f\circ e}\circ s"] \ar[ur, "f"'] \ar[r, "s"] & P \ar[ul, dashed, "\overline{f\circ e}"] \ar[u, "f\circ e"'] \ar[l, "e"]
+        \end{tikzcd}
+    \end{center}
+    $P$は射影的対象だから，$f\circ e=\overline{f\circ e}\circ g$を満たす射$\overline{f\circ e}:P\to Y$が存在する．これの両辺に右から$s$との合成をとると，$f\circ e\circ s=f=\overline{f\circ e}\circ g\circ s$である．
+    
+    従って，条件を満たす射$\overline{f\circ g}\circ s$が存在し，$A$も射影的対象である．
+\end{proof}
+
+\begin{screen}
+    1. Sets上では，ZFCを認めるならば，monic / 左簡約可能, split monic / 左可逆, 単射の３つと，epic / 右簡約可能, split epic / 右可逆, 全射の３つは同値である．
+
+    2. 具体圏上では，忘却関手$U$はmonic性を正確に保存する（同値）．従って，具体圏上でmonicとは，台写像が単射であることに同値．
+
+    3. 具体圏上では，忘却関手$U$はepic性を保たない．従って，epicだからと言って台写像が全射とは限らないが，逆は成り立つ（ちゃんとモノイドの射となっているのならば）．
+\end{screen}
+
+\subsection{Initial and terminal objects}
+
+monoとepiやsplitは射の代数的性質であった．
+次に，対象を射の様子で決定していく営みを，まずは一番明晰な例から始める．
+
+\begin{definition}
+    圏$C$において，
+
+    1. 任意の対象$C$について，$\hom(0,C)$が一元集合である時，$0\in C$を始対象と言う．
+
+    2. 任意の対象$C$について，$\hom(C,1)$が一元集合である時，$1\in C$を終対象と言う．
+\end{definition}
+
+\begin{proposition}
+    始対象は同型を除いて一意である．
+\end{proposition}
+\begin{proof}
+    $1,1'\in C$がいずれも始対象であるとする．
+    この時，$\hom(1,1'),\hom(1'1)$はいずれも一元集合で，$\hom(1,1),\hom(1',1')$もいずれも一元集合だから，その元は互いに逆射である．
+    従って，$1\simeq 1'$．
+\end{proof}
+
+\begin{example}　
+
+    1. Setsにて，空集合は始対象であり，一点集合が終対象である．
+    この時，空集合全体の集合は一通りであるが，一点集合全体の集合は宇宙によるが少なくとも一通りではない．
+    従って，$\mathrm{Set}\simeq\mathrm{Set}^{op}$は成り立たない．一般に関手${}^{op}$は同型にならないのか！
+
+    2. 同様にして，Catでは，空圏$0$が始対象であり，$1$が終対象である．
+
+    3. Grp, Mon, Vectでは，自明な群が始対象でも終対象でもある．
+
+    4. Ringsでは$\mathbb{Z}$が始対象であり，零環が終対象である．環って何者だよ．
+
+    5. Poset categoryでは，始対象は存在すれば最大元であり，終対象は存在すれば最大元である（同型射は単位射のみとしたので，存在すれば唯一つだと約束済みである）．
+    これらを持つようなPosetを有界という．特に，Boolean algebraは双方を持つ．
+
+    6. ブール代数の圏BAでの始対象は$2$，終対象は$1$である．
+
+    7. slice category $C/X=C_X$において，対象$1_X:X\to X$は終対象である．
+    対象とは$X$に差し込む$C$の射$f$であり，この場合$\hom(f,1_X)=\{f\}$となる．
+    \begin{center}
+        \begin{tikzcd}
+            Y \ar[rr, "f"] \ar[dr, "f"'] & & X \ar[dl, "id_X"] \\
+            & X &
+        \end{tikzcd}
+    \end{center}
+\end{example}
+\begin{remark*}
+    射の沸き出しが「始まり」であり，射の行き着く先が「終わり」である．すると，Boolean algebraの最小元と最大元である0,1と意味が一致して，記法が綺麗だ．
+\end{remark*}
+
+\begin{definition*}[ブール代数１]
+    ブール代数とは，次を満たす６組$B=(B,\land,\lor,0,1,\lnot)$である．
+
+    \[ 0\le a \]
+    \[ a\le 1 \]
+    \[ a\le c\;\land\; b\le c\Leftrightarrow a\lor b\le c \]
+    \[ c\le a \;\land\; c\le b \Leftrightarrow c\le a\land b \]
+    \begin{equation}\label{formula-BooleanAlgebra-introduction-of-not}
+        a\le\lnot b\Leftrightarrow a\land b=0
+    \end{equation}
+    \begin{equation}\label{formula-BooleanAlgebra-excluded-middle}
+        \lnot\lnot a=a
+    \end{equation}
+\end{definition*}
+\begin{remark*}
+    すぐに言える系は
+    \[ a\land a\ne 0\Rightarrow a\ngeq \lnot a \land a\nleq\lnot a  \]
+    \[ a\land\lnot a=0 \]
+\end{remark*}
+\begin{definition*}[ブール代数２]
+    ブール代数とは，７組$B=(B,\land,\lor,0,1,\Rightarrow,\lnot)$であり，２種の演算を備えた有界束，従って「有界で任意の部分集合について上限と下限を持つような半順序集合(poset)」である．
+
+    1. $\forall a,b,b'\in B\;\;\; a\le (b\Rightarrow b'):\Leftrightarrow (a\land b)\le b'$
+    
+    2. $\forall b\in B\;\;\; b\land\lnot b=0,\; b\lor\lnot b=1$
+\end{definition*}
+\begin{remark*}
+    $(B,\land,\lor)$を分配束，$(B,\land,\lor,0,1,\Rightarrow)$をHeyting代数という．
+
+    complementedな分配束，条件2を満たすHeyting代数のクラス，$a\land b\le c:\Leftrightarrow a\le\lnot b\lor c$を満たす一項演算を備えた束，などは全て等価な定義である．
+
+    そもそも束が，可換なモノイドのうち，吸収律も余計に満たすクラスである．
+
+    条件2の２つの主張は等価（双対）である．また，条件2は排中律$\lnot\lnot = id_B$と等価である．
+\end{remark*}
+\begin{example*}
+    冪集合$P(X)$は，$\land=\cap, \lor=\cup, 0=\varnothing, 1=X, \lnot=X\setminus -$として，束どころか，Boolean algebraをなす．
+    特に$X$が一点集合のときは真理値$2=\{0,1\}$である．$X$が空集合のときは自明なブール代数となる．
+\end{example*}
+
+\begin{proposition*}
+    全ての束準同型は$\lnot$を保つので，従ってそのままBAの射である．(nLab "Boolean Algebra")
+\end{proposition*}
+
+\subsection{Generalized elements}\label{subsection-generalized-elements}
+
+\subsubsection*{始対象への射}
+
+\begin{example*}
+    1. Sets, Poset category では，対象$A$から始対象$0$への射$A\to 0$が存在する時，$A\simeq 0$である．
+
+    2. Mon, Groupsでは，始対象と終対象は一致するので，全ての対象$A$について射$A\to 0$も一意に取れる．
+\end{example*}
+
+\begin{definition*}[ultrafilter]
+    部分集合$F\subset B$がブール代数$B$のfilterであるとは，
+
+    1(closed upward). \begin{equation}\label{formula-BAfilter-closed-upward}
+        a\in F\;\land\; a\le b\Rightarrow b\in F
+    \end{equation}
+
+    2(closed under meets). \begin{equation}\label{formula-BAfilter-closed-under-meets}
+        a\in F\;\land\; b\in F\Rightarrow a\land b\in F
+    \end{equation}
+    
+    を満たすことである．$F$を真に包含するfilter $F'$が$F'=B$しか存在しない時，filter $F$を極大(maximal)であるという．またこの$F$をultrafilterともいう．
+\end{definition*}
+
+\begin{proposition*}[ブール代数上のultrafilterの同値な条件]
+    ブール代数$B$と真のフィルター$F\subset B$について，次の２条件は同値である．
+
+    1. $F$はultrafilterである．
+
+    2. 任意の$b\in B$について，$b\in F$か$\lnot b\in F$かのいずれか一方である．
+
+    3. $x\notin F\Rightarrow \exists y\in F\; (x\land y=0)$
+
+    4(prime ideals). $x\lor y\in F \Rightarrow x\in F \lor y\in F$
+\end{proposition*}
+\begin{remark*}
+    ４つ目の条件素イデアルとは，補集合も，射の向きを変えたposet categoryについて，イデアルになるものことである．（従って，全ての素イデアルは真のイデアルである．）
+
+    条件２が強いと思ったが，超フィルターと素フィルターが一致するから，$b$か$\lnot b$のいずれかはフィルタに入ってしまうのか．
+\end{remark*}
+\begin{proof}
+    1.$\Rightarrow$2.を考える．$b\le b$と式\ref{formula-BooleanAlgebra-introduction-of-not}（$a\le c\;\land\; b\le c\Leftrightarrow a\lor b\le c$）を併せると，$b\land\lnot b=0$を得る．
+    従って，$b\in F\;\land\; \lnot b\in F$とすると，$0\in F$となって，超filter $F$が真のフィルターであることに矛盾する．
+    一方で，$b,\lnot b\notin F$と仮定すると，$b/B=\uparrow (b)=\{a\in B\mid b\le a\}$は真のfilter（$0\notin b/B$）であり，$F$よりも真に大きい．従って，$F$が超filterであることに矛盾．
+    よって，$b\in F$と$\lnot b\in F$のいずれか一方である．
+    
+    2.$\Rightarrow$1.を考える．$F$を真のフィルターとして，任意の$b\in B$について，$b\in F$か$\lnot b\in F$かのいずれか一方であるとする．
+    $b\in B\setminus F$を任意にとり，これを含む$F$より大きい真のフィルター$F'$を考えると，$b\notin F$より，$\lnot b\in F$であるから，$b,\lnot b\in F'$となる．すると，フィルターの定義より$b\land \lnot b=0\in F'$となるから，これは$F'=B$である．
+    従って，フィルター$F$は極大である．
+\end{proof}
+
+\begin{definition*}[Ultrafilter functor]
+    ブール代数の超filterを取るという関手$\mathrm{Ult}:\mathbf{BA^{op}}\to\mathbf{Sets}$を定義する．
+\end{definition*}
+\begin{proposition*}[Ultrafilter functorは表現可能である！？]
+    ブール代数の射$p:B\to 2$は，$B$上の超フィルターと一対一に対応する．
+    \[ \hom_{BA}(B,2)\simeq \mathrm{Ult}(B) \]
+\end{proposition*}
+\begin{remark*}
+    等価な主張が「$B$の全てのprime idealは，$\phi:B\to 2$が存在して$\phi^{-1}(0)$に対応する．
+
+    より一般的な主張は，任意の射$\phi:A\to B$に対して，$B$上の超filter $U$の逆像$\phi^{-1}(U)$は$A$の超filterである．この対応を$\mathrm{St}\varphi:\mathrm{Ult}(B)\to\mathrm{Ult}(A)$とすると，
+    これは対象写像をUlt，射写像をStとして，ブール代数の圏BAから位相空間の圏Topへの関手が定まったことになる．
+\end{remark*}
+\begin{proof}
+    写像$U:\hom_{\mathrm{BA}}(B,2)\to \mathrm{St}(B)$を，各$p:B\to 2$に対して$U_p:=p^{-1}(1)$と置く．
+    こうして定めた$U_p$は超filterになって居る．何故ならば，次の３条件が満たされるからである．
+    
+    1. $a\in U_p,a\le b$とすると，$p$は関手だから，$1=p(a)\le p(b)$となる．$1$は最大元だから$p(b)=1$より，式\ref{formula-BAfilter-closed-upward}を満たす．
+    
+    2. $a,b\in U_p$とすると，$p(a)=p(b)=1$で，$p(a)\land p(b) = 1\in U_p$であるから，式\ref{formula-BAfilter-closed-under-meets}を満たす．
+
+    3. 性質「任意の$b\in B$について，$b\in U_p$か$\lnot b\in U_p$かのいずれか一方である．」も，$b\in U_p$と仮定すれば，$p$はブール代数の射だから$p(\lnot b)=\lnot p(b)=0$より$\lnot b\notin U_p$で，逆も成り立つので成り立つ．
+
+    逆に，写像$p:\mathrm{St}(B)\to\hom_{\mathrm{BA}}(B,2)$を，
+    超フィルター$U\subset B$に対して，射$p_U:B\to 2$（$p_U(b)=1:\Leftrightarrow b\in U$）を対応させる写像として定める．超フィルター$U$に$b$か$\lnot b$のいずれかが入って居ることにより，$p_U$は構造$\lnot$を保ち，確かにブール代数の射になる．
+
+    こうして定めた写像$U,p$は互いに逆写像になって居る．
+\end{proof}
+
+\begin{remark*}
+    1. ブール代数の射$B\to 2$は，真理値表の行１つに対応する．例えば$B$を$P(2)$から生成したものとすると，
+    \begin{center}
+        \begin{tikzcd}
+            & 1 & \\
+            a\ar[ur] & & \lnot a \ar[ul] \\
+            & 0　\ar[ul] \ar[ur] &
+        \end{tikzcd}
+    \end{center}
+    ２つの超フィルターが，$b:=\lnot a$とかけば，それぞれ次の行に対応する．
+    \[\begin{array}{|l|c||r|}\hline
+            a & b & a\lor b  \\ \hline
+            0 & 1 & 1  \\\hline
+            1 & 0 & 1  \\ \hline
+    \end{array}\]
+
+    2. 以上の議論と類比的なことがRingsでの，始対象への射$A\to\mathbb{Z}$で起こる．これが対応するのは超フィルターの代わりに，prime idealと呼ばれる．
+\end{remark*}
+
+\subsubsection*{終対象からの射}
+
+\begin{example}
+    1. Setsにて，$X\simeq\mathrm{Hom}_{Sets}(1,X)$
+
+    2. Poset category, Topにて，$\mathrm{Hom}_{Pos}(1,P)$は，$P$の台集合に対応する．
+
+    3. 一般の圏$C$において，$\mathrm{Hom}_C(1,A)$の元を，$A$のglobal elements, points, constantsなどという．
+
+    4. Sets, Poset category, Topにて，全ての点$x:1\to P$において$fx=gx$が成り立つことと，$f=g$であることは同値である．
+
+    5. Monにて，$\mathrm{Hom}_{Mon}(1,M)$は「$0\in 1$を$M$の単位元$u_M$に対応させる射$1\to M$」の一点集合である．従って，任意の射$h,j:M\to N$に対して，全ての（１つしかないが）$x:1\to M$について，$hx=jx$である．Monoids do not "have enough points."
+    このような話は例\ref{example-epis-notnecessarily-surjective}でもあった．
+
+    6. BAにて，$\mathrm{Hom}_{BA}(1,B)\; (B\ne 1)$は空集合である．実際，$f:1\to B$をその元とし，$f(0)=b\in B$と置くと，$f$は一項演算$\lnot$の構造を保つために$f(\lnot 0)=\lnot b\ne b$が必要だが，これは$0=\lnot 0\in 1$による$f(0)=f(\lnot 0)$と両立しない．従って，$1$と$B\ne 1$の間に，$\lnot$の構造を保つ束の射はない．
+\end{example}
+
+\begin{definition*}
+    対象$A$に対して，勝手な対象$X$からの射$x:X\to A$を，$A$のgeneralized elementまたはvariable elementまたは$A$の$X$-値点($X$-valued point on $A$)という．
+    特に$X=1$の時，global element, points, constantsなどという．これは通常のSetsの世界でいうelementsと一致する．
+\end{definition*}
+\begin{remark*}[ここから始まる手法をThe method of functor of pointsという．]
+
+    0(nLab generalized elements). そっか，Sets上で知ってたelementsという概念自体が，拡張性のない囚われたものだったのか．$x\in X$を拡張する自由度としての射は今までのスキームだと全く見えて居なかった．
+    これを介して，再び"elementwise"に，還元主義的に，多くの圏論的概念も捉え直すことができる．この見地からは普遍性も言い換えられて，というより普遍性とは，拡張された要素を考慮に入れることで目の前のglobal elementsのことはむしろ見なくても大局的なことがわかるということである．
+
+    0':そしてこの拡張された元の見方とは，$C$の対象$A$を，前層の圏への埋め込み$y:C\hookrightarrow [C^{op},Set]$の値$h_A$として関手的に見る，ということに他ならない．関手$h_A$とは，generalized elements of $A$を各stage $X$で切り出しながら用いることに他ならない．generalized elementとは関手だったのだ！
+
+    0'':It is also worth noting that the internal logic or type theory of a category provides us a way to go backwards formally. By reasoning about “abstract elements” in a set-theoretic style like ordinary elements, the interpretation then “compiles” such proofs to category-theoretic ones which actually apply to all generalized elements.
+
+    1. Computer scientistsとlogiciansは，射$1\to A$を定数や閉項とし，一般の射$X\to A$を任意の項とする．
+
+    2. This idea often allows restating of definitions or properties of morphisms (such as monomorphism or product) given by a universal property in more familiar terms, by stating their relation to elements. Some very general theorems, such as Yoneda's lemma and the Mitchell embedding theorem, are of great utility for this, by allowing one to work in a context where these translations are valid. This approach to category theory, in particular the use of the Yoneda lemma in this way, is due to Grothendieck, and is often called the method of the functor of points.
+
+    3. Test objectとして使われて，射$p:T\to A$を$T$-valued point of $A$ともいう．
+    $T$の役割によって$\hom_C(T,A)$の様子は変わるが，全ての$T$-valued points of $A$，即ち$A$のgeneralized elementsの集合は，"functor of points" of $A$ともいい，Yonedaの補題により，$A$を一意に決定する．
+
+    4(Good for testing). $f:A\to B$がmonicであるとは，任意の$x,x'\in\hom(X,A)$について，$x\ne x'\Rightarrow fx\ne fx'$であることだが，これは「$f$が一般化された元について単射である」と言い換えられる．
+
+    5. $C$の図式が可換$\alpha f=\beta g$であるとは，全ての一般化された元$x$について$\alpha fx=\beta gx$であるということである．（元の場合は$x=1_A$の場合に当たる．）
+\end{remark*}
+\begin{proposition*}[All objects have enough generalized elements.]
+    全ての圏$C$における任意の射$f,g:C\to D$について，次の２条件は同値である．
+    
+    1. $f=g$である．
+
+    2. $\forall x\in\mathrm{Hom}_C(X,C)\; (fx=gx)$
+\end{proposition*}
+\begin{proof}
+    1.$\Rightarrow$2.は明らかだから2.$\Rightarrow$1.を示す．特に$X=C$として，$x=id_C$とすると，$f\circ id_C=g\circ id_C$より$f=g$が従う．
+\end{proof}
+
+\begin{example}[一般化された元は，定数よりも，より多くの構造に言及できる．]\label{example-generalized-elements}
+    次のような２つのPoset category $X,A$とその間の射$f:X\to A$（点線で表した）を考える．
+    \begin{center}
+        \begin{tikzcd}
+            &    & & c \\
+            y \ar[rrr, dashed, bend left=20] & & z \ar[ur, dashed] & b \ar[u] \\
+                & x\ar[ul] \ar[ur] \ar[rr, dashed] & & a \ar[u] \\
+                & X & & A
+        \end{tikzcd}
+    \end{center}
+    これはPosにてmonicかつepicであるが，同型ではない．さらに進んで，$X\simeq A$でないことを示したい．
+
+    1. $X,A$を区別する不変量(invariant)を見つける．今回$\mathrm{Hom}_{Pos}(1,X)\simeq\mathrm{Hom}_{Pos}(1,A)$であるが，$|\mathrm{Hom}_{Pos}(2,X)|=5$と$|\mathrm{Hom}_{Pos}(2,A)|=6$は要素の数が違う．
+    \begin{proposition*}
+        全ての圏$C$において，$P\simeq Q$ならば，$\mathrm{Hom}(2,P)\simeq\mathrm{Hom}(2,Q)$である．
+    \end{proposition*}
+    \begin{proof}
+        $i:P\to Q$を同型とする．写像$i_*:\mathrm{Hom}(2,P)\to\mathrm{Hom}(2,Q)$を次のように定める．
+        \begin{center}
+            \begin{tikzcd}
+                i_*:\mathrm{Hom}(2,P)\ar[r] \ar[d, phantom, "\rotatebox{90}{$\in$}"] & \mathrm{Hom}(2,Q) \ar[d, phantom, "\rotatebox{90}{$\in$}"] \\
+                f \ar[r, mapsto] & i\circ f
+            \end{tikzcd}
+        \end{center}
+        と定めると，$i:P\to Q$の逆射$j$から同様に定めた写像$j_*:\mathrm{Hom}(2,Q)\to\mathrm{Hom}(2,P)$が$i_*$の逆射となる．
+    \end{proof}
+    \begin{remark*}
+        $\mathrm{Hom}(X,-)$は常に関手になり，関手は常に同型を保存する．
+    \end{remark*}
+\end{example}
+
+\begin{example}
+    1. 一般化された元$t:T\to A$のうち，特定の$T$が特異的に意味を持つことが多い(revealing)．
+    そこで，このような$t$をfigures of shape $T$ in $A$や，a generalized element with stage of definition given by $T$と呼ぶ．
+    
+    2. 前の例\ref{example-generalized-elements}でPosの射$2\to P$が$P$内の$p\le p'$を満たす組$(p,p')$と対応した．これはa figure of shape $2$ in $P$の例であり，非常にgeometricな直観に合う．
+
+    3. Monの圏では，終対象からの射は常に１つしかなかった．しかし，$M(1)$からの射（figures of shape $\mathbb{N}$ in $M$）については次が成り立つ．
+    \begin{proposition*}[$M(1)$-値点がモノイドの射を決定する]
+        圏Monの射$f,g:M\to M'$について，次の２つは同値．
+
+        1. $f=g$である．
+
+        2. 任意の$x\in \mathrm{Hom}_{Mon}(M(1),M)$について$fx=gx$である．
+    \end{proposition*}
+    \begin{proof}\textbf{［誤］}
+        2.$\Rightarrow$1.を示す．
+        
+        $U(M)$上の任意のglobal element $y:1\to U(M)$を取る．すると，これによって定まるモノイドの射$\overline{y}:M(1)\to M$について，仮定より，$f\circ \overline{y}=g\circ\overline{y}$が成り立つ．
+        
+        この時，下の図式は可換であるから，特に左側のSets上の図式の一番外側の大回りの図式も可換になる．これより，$f\circ \overline{y}=g\circ\overline{y}$はいずれも，（自由モノイド$M(1)$のUMPにより存在が保証されるところの）$U(f)\circ y$が定める射であり，また同時に$U(g)\circ y$が定める射でもある．つまり，$f\circ \overline{y}=g\circ\overline{y}=\overline{U(f)\circ y}=\overline{U(g)\circ y}$が成り立つ．
+        \begin{center}
+            \begin{tikzcd}
+                U(M(1)) \ar[r, dashed, "U(\overline{y})"] \ar[rr, bend left=30, "{U(f\circ\overline{y}),U(g\circ\overline{y})}"] & U(M) \ar[r, "{U(f),U(g)}"] & U(M') & M(1) \ar[r, "\overline{y}"] \ar[dr, dashed, "f\circ\overline{y}=g\circ\overline{y}=\overline{U(f)\circ y}"'] & M \ar[d, bend right=20, "f"'] \ar[d, bend left=20, "g"] \\
+                1 \ar[u, "i"] \ar[ur, "y"] \ar[urr, "{U(f)\circ y, U(g)\circ y}"'] & & & & M'
+            \end{tikzcd}
+        \end{center}
+
+        この時，自由モノイド$M(1)$のUMPの一意性条件により，$U(f)\circ y=U(g)\circ y$が必要である．
+
+        以上のことが任意にとった$y$について成り立つのだから，次が導けたことになる．
+        \[\forall y\in U(M)\; U(f)(y)=U(g)(y) \]
+        即ち，モノイドの射$f,g$が写像として等しいことを得た．
+    \end{proof}
+    \begin{proof}
+        2.$\Rightarrow$1.を示す．
+        
+        $U(M)$上の任意のglobal element $y:1\to U(M)$を取る．すると，これによって定まるモノイドの射$\overline{y}:M(1)\to M$について，仮定より，$f\circ \overline{y}=g\circ\overline{y}$が成り立つ．これから，$U(f\circ\overline{y})=U(g\circ\overline{y})$が従う．
+        
+        この時，下の図式は可換であるから，特に左側のSets上の図式の一番外側の大回りの図式も可換になる．これより，$U(f)\circ y=U(g)\circ y$が従う．
+        \begin{center}
+            \begin{tikzcd}
+                U(M(1)) \ar[r, dashed, "U(\overline{y})"] \ar[rr, bend left=30, "{U(f\circ\overline{y}),U(g\circ\overline{y})}"] & U(M) \ar[r, "{U(f),U(g)}"] & U(M') & M(1) \ar[r, "\overline{y}"] \ar[dr, dashed, "f\circ\overline{y}=g\circ\overline{y}=\overline{U(f)\circ y}"'] & M \ar[d, bend right=20, "f"'] \ar[d, bend left=20, "g"] \\
+                1 \ar[u, "i"] \ar[ur, "y"] \ar[urr, "{U(f)\circ y, U(g)\circ y}"'] & & & & M'
+            \end{tikzcd}
+        \end{center}
+
+        以上のことが任意にとった$y$について成り立つのだから，次が導けたことになる．
+        \[\forall y\in U(M)\; U(f)(y)=U(g)(y) \]
+        即ち，モノイドの射$f,g$が写像として等しいことを得た．
+    \end{proof}
+
+    4. 次が成り立つ．モノイド$M$の台集合$U(M)$は，一般化された要素$M(1)\to M$，即ち，$M$内の全ての figures of shape $\mathbb{N}$によって定まる．
+    \[ U(M)\simeq \mathrm{Hom}_{Sets}(1,U(M))\simeq \mathrm{Hom}_{Mon}(M(1),M) \]
+    これより，モノイド$M$からの写像$U(M)\to -$を考えるときは，$M$の元の代わりに，$M$内の全ての$\mathbb{N}$の型$\mathbb{N}\to M$を考えればいい．
+
+    5. 田中先生が補足してくれた．Grp, Vectでも似たようなことが成り立ち，Vectでは$\mathbb{R}$が$M(1)$の役割を担う．
+\end{example}
+
+\subsection{Products}
+
+\begin{proposition*}
+    Setsにおいて，集合$A,B\in\mathrm{Sets}$の直積(cartesian product)$A\times B:=\{ (a,b)\mid a\in A,b\in B \}$である．
+    からの写像$\pi_1:A\times B\to A$,$\pi_2:A\times B\to B$をそれぞれ第一射影と第二射影とすると，次の図式は可換になる．
+    \begin{center}
+        \begin{tikzcd}
+            & 1 \ar[dl, "a"'] \ar[d, "{(a,b)}"] \ar[dr, "b"] & \\
+            A & A\times B \ar[r, "\pi_2"'] \ar[l, "\pi_1"] & B
+        \end{tikzcd}
+    \end{center}
+\end{proposition*}
+
+\begin{definition}[UMP of a product diagram]
+    任意の圏$C$において，対象$A,B$の直積図式(product diagram)とは，対象$P$とそれからの射$p_1:P\to A, p_2:P\to B$があって，次を満たすもののことである．
+
+    任意の対象$X$と任意の射$x_1:X\to A, x_2:X\to B$について，ただ一つの射$u:X\to P$が存在して，次の図式を可換にする．
+    \begin{center}
+        \begin{tikzcd}
+            & X \ar[dl, "x_1"'] \ar[dr, "x_2"] \ar[d, dashed, "u"] & \\
+            A & P \ar[l, "p_1"] \ar[r, "p_2"'] & B
+        \end{tikzcd}
+    \end{center}
+\end{definition}
+\begin{remark}
+    次の２つに主張が分解できる．
+
+    1. $x_1=p_1u\;\land\; x_2=p_2u$を満たす射$u:X\to U$が存在する．
+
+    2. $v:X\to U$も$x_1=p_1v\;\land\; x_2=p_2v$を満たすならば，$v=u$である．
+\end{remark}
+
+\begin{proposition}\label{prop-UMP-prod}
+    圏$C$の対象$A,B$の積$P$は，同型を除いて一意的である．
+\end{proposition}
+\begin{proof}
+    $P$と射$p_1:P\to A, p_2:P\to B$と，$Q$と射$q_1:Q\to A,q_2:Q\to B$のいずれも，$A$と$B$の積のUMPを満たすとする．
+
+    $Q$についてのUMPより，$i:P\to Q$が，$P$についてのUMPより，$j:Q\to P$がそれぞれ存在し，次の図式を可換にする．
+    \begin{center}
+        \begin{tikzcd}
+            & P \ar[d, dashed, "i"] \ar[dl, "p_1"'] \ar[dr, "p_2"] & \\
+            A & Q \ar[l, "q_1"'] \ar[r, "q_2"] \ar[d, dashed, "j"] & B \\
+            & \ar[ul, "p_1"] \ar[ur, "p_2"']
+        \end{tikzcd}
+    \end{center}
+    すると，特に$p_1\circ j\circ i=p_1$かつ$p_2\circ j\circ i=p_2$が成り立つ．
+    これを$p_1\circ 1_P=p_1$と$p_2\circ 1_P=p_2$と見比べると，UMPの一意性条件により，$j\circ i=1_P$かつ$i\circ j=1_P$である．
+
+    同様にして，$i\circ j=1_Q$も得る．
+
+    以上より，$P\simeq Q$である．
+\end{proof}
+\begin{notation*}
+    1. この$A$と$B$についての一意的な積を，$A\times B$と書く．
+
+    2. UMPの定義内にある記号について，射$u:X\to A\times B$を$\langle x_1,x_2\rangle$と書く．
+
+    3. 積への射$f:X\to A\times B$は，射の組$(f_1:X\to A,f_2:X\to B)$と一対一対応する．
+
+    4. 積からの射$g:A\times B\to Y$は，一般化された元$f=(f_1,f_2)$について，一般化された元$g\langle f_1,f_2\rangle$が対応するので，いわば「一般化された２変数関数」と言える．
+    \begin{center}
+        \begin{tikzcd}
+            & X \ar[dl, "f_1"'] \ar[d, "f"] \ar[dr, "f_2"] & \\
+            A & A\times B\ar[l, "p_1"'] \ar[r, "p_2"] \ar[d, "g"] & B \\
+            & Y &
+        \end{tikzcd}
+    \end{center}
+\end{notation*}
+
+\subsection{Examples of products}
+
+\begin{remark}
+    
+\end{remark}
+
+
+
+\subsection{Categories with products}
+
+\begin{definition}
+    
+\end{definition}
+
+\subsection{Hom-sets}
+\begin{proposition}
+    
+\end{proposition}
+
+\begin{definition}
+    
+\end{definition}
+
+\begin{corollary}[表現可能関手は積を保存する]\label{corollary-representable-functors-preserve-limits}
+    
+\end{corollary}
+\subsection{Exercises}
+
+\section{Duality}
+
+\subsection{The duality principle}
+
+\begin{itembox}[l]{数学基礎論の確認}
+    閉論理式のことを文という．文の集合を公理系という．
+
+    $L$-構造$\mathcal{M}$は，議論領域$M$と写像$F:L\to M$の組$\mathcal{M}=(M,F)$である．この写像$F$を解釈(interpretation)といい，この$F$による$L$の像は，$R\in L$に対して$R^\mathcal{M}\in M$などと書く．
+
+    $L-$構造$\mathcal{M}$が$L-$公理系$T$のモデルである（$\mathcal{M}\models T$）とは，$\forall\varphi\in T\; \mathcal{M}\models \varphi$のことである．
+    ただし，$\mathcal{M}\models\varphi$とは充足関係である．これは，$F$で$\varphi$を写した先の論理式が，$M$上で成り立つことを表す．
+\end{itembox}
+
+\begin{definition*}[圏の形式的定義]
+    $(C,M,s,t,\circ,e)$であって，次の７条件を満たすものが圏である．
+    \begin{align*}
+        s(1_A) &=A & t(1_A) &=A \\
+        f\circ 1_{s(f)} &=f & 1_{t(f)}\circ f &=f \\
+        s(g\circ f) &= s(f)& t(g\circ f) &= t(g) \\
+    \end{align*}
+    \[h\circ (g\circ f) = (h\circ g)\circ f\]
+
+    なお，この定義を圏の言語の中で表した公理系(theory)をCTとする．
+\end{definition*}
+斎藤先生の本ではこれが可換図式で示されている．次の「代入$[c\circ\omega =c, t=s,s=t]$」操作が視覚的に表現されるからであろう．
+
+\begin{definition*}[圏の言語]
+    圏論の言語(the elementary language of category theory)を定め，$L_{\mathrm{CT}}$とする．
+\end{definition*}
+
+\begin{definition*}[双対文]
+    $\Sigma$を$L_{\mathrm{CT}}$-文とする．これに，次の代入を施した文字列$\Sigma^*:=\Sigma[c\circ\omega =c, t=s,s=t]$は同様に$L_{\mathrm{CT}}$-文となる．これを双対文という．
+\end{definition*}
+
+\begin{proposition*}\label{prop-logic-sentence}
+    $\Delta$も$L_{\mathrm{CT}}$-文とする．圏の公理系関係なく，$\Sigma\Rightarrow\Delta$が成り立つ（＝証明が存在する）時，$\Sigma^*\Rightarrow\Delta^*$が成り立つ．
+\end{proposition*}
+\begin{proof}
+    $\Sigma\Rightarrow\Delta$証明を表す記号列$P$について，双対文と同様の置換を施したもの$P[c\circ\omega =c, t=s,s=t]$は，$\Sigma^*\Rightarrow\Delta^*$の証明を表す記号列である．
+\end{proof}
+
+\begin{proposition*}\label{prop-logic-theory}
+    $\mathrm{CT}=\mathrm{CT}^*$である（記号列としての一致）．
+\end{proposition*}
+\begin{proof}
+    実際に書き直してみれば，確かに置換$[c\circ\omega =c, t=s,s=t]$について不変である．
+\end{proof}
+
+\begin{proposition}[formal duality]
+    任意の$L_{\mathrm{CT}}$-文$\Sigma$について，次（のメタ命題？命題図式）が成り立つ．
+    \[ (\mathrm{CT}\Rightarrow\Sigma) \Rightarrow (\mathrm{CT}\Rightarrow\Sigma^*) \]
+\end{proposition}
+\begin{proof}
+    命題\ref{prop-logic-sentence}より，CTも$L_{\mathrm{CT}}$-文であるから，
+    \[ (\mathrm{CT}\Rightarrow\Sigma) \Rightarrow (\mathrm{CT}^*\Rightarrow\Sigma^*) \]
+    が成り立つ．これに命題\ref{prop-logic-theory}を合わせて，主張を得る．
+\end{proof}
+
+\begin{proposition*}\label{prop-logic-model}
+    $L_{\mathrm{CT}}$-文$\Sigma$が，或る圏$C$で成立したとする．（即ち，構造を$\mathcal{C}=(C,F)$とすると，$\mathcal{C}\models\Sigma$である）．
+    この時，$L_{\mathrm{CT}}$-文$\Sigma^*$が圏$C^{op}$で成立する．（即ち，構造を$\mathcal{C}^{op}=(C^{op},F)$とすると，$\mathcal{C}^{op}\models\Sigma^*$である）．
+\end{proposition*}
+
+\begin{proposition}[Conceptual duality]\label{prop-duality-conceptual}
+    $L_{\mathrm{CT}}$-文$\Sigma$が全ての圏$C$にて充足されるとする．この時，$L_{\mathrm{CT}}$-文$\Sigma^*$も全ての圏で成立する．
+\end{proposition}
+\begin{proof}
+    命題\ref{prop-logic-model}より，全ての圏で成り立つような$L_{\mathrm{CT}}$-文$\Sigma$は，特に勝手な圏$C$でもその反対圏$C^{op}$でも成り立つのだから，$\Sigma^*$も圏$C,C^{op}$の両方で成り立つ．
+\end{proof}
+
+\begin{screen}
+    これでやっとBool代数の定義が完全なものになる，ということだろうか．
+
+    圏論において可換図式が中心的な役割を演じるのは，反対圏の中で考えることと双対概念を考えることが一致し，またそれが直観的な操作「射の向きと合成の順序を逆にする」で得られることによる．
+\end{screen}
+
+\subsection{Coproducts}
+
+\begin{definition}[product]
+    図式$A\xleftarrow{p_1}P\xrightarrow{p_2}B$が$A,B$の積であるとは，任意の図式$A\xleftarrow{z_1}Z\xrightarrow{z_2}B$について，ただ一つの射$u:Z\to P$が存在して次が可換にすることである．
+    \begin{center}
+        \begin{tikzcd}
+            & X \ar[dl, "z_1"'] \ar[dr, "z_2"] \ar[d, dashed, "u"] & \\
+            A & P \ar[l, "p_1"] \ar[r, "p_2"'] & B
+        \end{tikzcd}
+    \end{center}
+\end{definition}
+\begin{definition*}
+    積の定義に現れる射を全て逆にした時に誕生する定義文によって定義される概念（即ち，反対圏での積）を$A,B$の余積といい，$A+B$と書く．
+\end{definition*}
+
+\begin{example}
+    1. Setsでの余積は，非交和／無縁和である．なお，Setsでは，全ての有限集合は，有限個の終対象$1$の余積で表され，それに要する数を濃度という．"In this spiritm we often write simply $2=1+1,3=1+1+1$".というように，こうして濃度の和が定義される．
+\end{example}
+
+\begin{example}[具体圏での直和の構成]
+    \begin{proposition*}[自由関手は余積を保つ]
+        集合$A,B$と自由モノイド関手$M$について，次が成り立つ．
+        \[ M(A)+M(B)\simeq M(A+B) \]
+    \end{proposition*}
+    \begin{proof}　
+
+        \begin{center}
+            \begin{tikzcd}
+                & N & \\
+                M(A) \ar[ur] \ar[r] & M(A+B) \ar[u, dashed] & M(B)\ar[l] \ar[ul] \\
+                A \ar[u, "\eta_A"] \ar[r] & A+B \ar[u, "\eta_{A+B}"'] & B\ar[l] \ar[u, "\eta_B"']
+            \end{tikzcd}
+        \end{center}
+    \end{proof}
+    \begin{remark*}
+        これは忘却関手が表現可能で積を保つことに因る？少なくとも，もっと統一的な事実の一部である．
+    \end{remark*}
+\end{example}
+
+\begin{example}[Topにて]
+    ２つの位相空間$X,Y$の余積$X+Y$は，$X+Y=(X\rotatebox[origin=c]{180}{$\prod$} Y,O(X)\times O(Y))$である．特に，$X,Y$が離散空間であった場合，そのtopologyが$O(X+Y)\simeq O(X)\times O(Y)$を満たすとは，
+    $P(X+Y)\simeq P(X)\times P(Y)$即ち$2^{X+Y}\simeq 2^X\times 2^Y$を表す．これは指数法則のようにも見えるし，冪集合をBool代数と見た時，「Bool代数の積は，余積の冪集合のBool代数と同型」ともみなせる．
+\end{example}
+
+\begin{example*}[Posにて]
+    1. Posの余積は，その圏の直和からつくるらしいが，どう作るのか．
+
+    2. 最小元$0$を持つPosetからなる圏$\mathrm{Pos}_0$における直和は，２つのPosetの通常の（Pos）としての直和を取ってから，その最小元$0$を同一視することによって構成される．$A+_{\mathrm{Pos}_0}B=(A+_{\mathrm{Pos}}B)/(0_A=0_B)$．
+    なお，この商集合を取る操作はcoequalizerからも理解できる．
+\end{example*}
+
+\begin{example}[Poset categoryにて]
+    順序集合$P$の$p,q\in P$の直和$p+q$とは，任意の$p\le z,q\le z$を満たす$z\in P$について，$p+q\le z$であるような元であるから，$P$の下限，即ち直和とは結び$\lor$に他ならない．
+\end{example}
+
+\begin{example}[証明の圏にて]
+    自然演繹におけるdisjunction $\lor$の導入則と除去則は余積に当たる．
+\end{example}
+
+\begin{example}[一般のモノイドの余積]
+    \begin{definition*}[一般のモノイドの余積]
+        一般のモノイド$(A,u_A,\cdot_A),(B,u_B,\cdot_B)$について，その余積を$A+B:=M(U(A)+U(B))/\sim$と定義する．ただし，同値関係$\sim$は次の４つの場合を満たす閉包（次の４つの同値関係のグラフの和）である．
+        
+        1(空白の除去). $(\cdots xu_Ay\cdots)\sim (\cdots xy\cdots)$
+
+        2(空白の除去). $(\cdots xu_By\cdots)\sim (\cdots xy\cdots)$
+
+        3(演算導入). $(\cdots aa'\cdots)\sim (\cdots a\cdot_Aa'\cdots)$
+
+        4(演算導入). $(\cdots bb'\cdots)\sim (\cdots b\cdot_Bb'\cdots)$
+
+        即ち，直和モノイド$A+B$は，空白$-$の同値類$[-]$，即ち$A,B$同士の元を適切に演算し，単位元は消去した結果空白になるものの集合で，積は代表元同士を結合したものが代表する同値類を対応させる演算である．
+    \end{definition*}
+    \begin{proposition*}
+        こうして定義したモノイド$(A+B,[-],\cdot)$は，代表元の取り方に依らない．
+    \end{proposition*}
+    \begin{proposition*}
+        余積に伴うinjection $i_A:A\to A+B,i_B:B\to A+B$はいずれもモノイドの準同型である．
+    \end{proposition*}
+    \begin{proof}
+        $i_A(a\cdot_Aa')=i_A(a)\cdot i_A(a')$と$i_A(u_A)=[-]$を導けば良い．
+    \end{proof}
+    \begin{proposition*}
+        こうして定義したモノイド$(A+B,[-],\cdot)$は，$A,B$の余積としての普遍性を満たす．即ち，任意のモノイドの射$f:A\to M,g:B\to M$について，ただ一つ$[f,g]:A+B\to M$が存在して，図式を可換にする．
+    \end{proposition*}
+    \begin{proof}
+        まず，写像$U(f),U(g)$が直和集合$U(A)+U(B)$上に定める写像$[U(f),U(g)]$が，直和集合$U(A)+U(B)$上の自由モノイド上に定めるモノイドの射を$[f,g]'$とする．すると，モノイドの射は単位元とモノイド積とを保存するから，同値関係$\simeq$とも両立する．というより，これを潰す．モノイドの射$[f,g]'$の定める同値関係は，$\simeq$以上に粗い．従って，$\simeq$の定める商写像$q$について分解し，次の図式は可換である．
+        \begin{center}
+            \begin{tikzcd}
+                U(A)+U(B) \ar[r, "{[U(f),U(g)]}"] & U(M) \\
+                M(U(A)+U(B)) \ar[r, "{[f,g]'}"] \ar[d, two heads, "p"'] & M \\
+                M(U(A)+U(B))/\sim \ar[ur, dashed, "{[f,g]}"']
+            \end{tikzcd}
+        \end{center}
+        このモノイドの射$[f,g]$が，構成すべきモノイドの射である．
+
+        あとはこれが$hi_A=f\land hi_B=g$を満たす唯一の$h$であることを示せば良い．
+    \end{proof}
+\end{example}
+
+\begin{example*}[Grp初め，その他の代数の圏]
+    圏Grpでも同様の構成で余積が定義され，「自由積(free product)$\oplus$」と呼ばれている．
+\end{example*}
+
+\begin{example}[Abでは，余積について閉じていない]
+    ２つのAbel群$A,B$の自由積$A\oplus B$は，そのままではAbel群だとは限らない．或る同値関係について折りたたむと余積$A+B$が構成できる．が，もっと巨視的な構造がある．まず，構成は次のように出来る．
+    \begin{definition*}[Abでの余積]
+        圏Abでの余積は次のように定義する．
+        \[ A+B=A\oplus B/\equiv =F(U(A)+U(B))/\sim' \]
+        ただし，同値関係$\equiv$とは，次のような「文字列の並び替えただけのものは同一視する」というものである．
+        \[ (a_1b_1b_2a_2\cdots)\equiv (a_1a_2\cdots b_1b_2\cdots) = (ab) \]
+        すると，最後の等号は$A\oplus$上の同値関係$\sim$が定める等号である，これより次の命題が成り立つ．
+        また，同値関係$\sim'$とは，グラフ$\sim\cup\equiv$で定まる同値関係である．
+    \end{definition*}
+    \begin{proposition*}
+        圏Abにおいて，２つのAbel群$(A,+_A,0_A),(B,+_B,0_B)$の余積$A+B$と積$A\times B$は，台集合を共通とする．
+        \[ U(A+B)=U(A\times B) \]
+    \end{proposition*}
+    \begin{proof}
+        前述したように，任意の元は$(ab)\in U(A+B)$という形をしているから，これを$(a,b)\in U(A\times B)$と対応させる標準的な全単射が存在する．
+    \end{proof}
+    この全単射はそのまま圏Ab上で同型射になる．
+    \begin{proposition}[Mac Lane：Abでは直和と直積が同型]
+        圏Abでは，任意の２つのAbel群$(A,+_A,0_A),(B,+_B,0_B)$の間に，標準的な同型$\varphi_{AB}$が存在する．
+        \[ \varphi_{AB}:A+B\to A\times B \]
+    \end{proposition}
+    \begin{proof}[証明１]
+        $\varphi_{AB}(ab)=(a,b)$とすれば良い．但し空行については$\varphi_{AB}(-)=\varphi_{AB}(u_Au_B)=(u_A,u_B)$とする．つまり，$A+B$の元は必ず「$A$の元と$B$の元との２文字からなる文字列」にまで簡約した状態を標準形とすれば，対応する．
+        するとこれは確かに群の射である．積は$\varphi_{AB}((ab)(a'b'))=\varphi_{AB}(aa'bb')=(aa',bb')=(a,b)\cdot_{A\times B}(a',b')$と保存する．
+    \end{proof}
+    \begin{proof}[証明２]
+        または，$A\to A\times B$つまり$(A\to A,B\to B)$という写像の組から構成しても良い．すると，$\varphi_{AB}=[(1_A,0_B),(0_A,1_B)]$である．
+    \end{proof}
+    \begin{remark*}
+        Grothendieckはアーベル群の圏Abからいくつかの性質を抽出してアーベル圏(Abelian Group)を定義し，公理的なホモロジー代数の統一的基盤となった．
+        本には「この（？）事実はMac Laneによって発見され，アーベル群の間の（または加群や線型空間の間の）並行な射$f,g:A\to B$の間の加法という二項演算に繋がることが示された．
+        "In fact, the group structure of a particular abelian group $A$ can be recovered from this operation on arrows into $A$. More generally, the existence of such an addition operation on arrows can be used as the basis of an abstract description of categories like Ab, called abelian categories, which are suitable for axiomatic homology theory."
+    \end{remark*}
+\end{example}
+
+\begin{proposition}
+    余積は同型を除いて一意である．
+\end{proposition}
+\begin{proof}
+    あらゆる圏において，２つの対象の積は同型を除いて一意である（命題\ref{prop-UMP-prod}）．従って，その双対的な主張は，全ての圏において成り立つ（命題\ref{prop-duality-conceptual}）．
+\end{proof}
+
+\begin{screen}　
+    1. 余積$A+ B$が定める，$f:A\to X, g:B\to X$に対応するただ一つの射$A+B\to X$を，積（$(f,g)$や$\langle f,g\rangle$）の双対を意識して$)f,g($や$[f,g]$と書くこととする．ところで積写像は，積対象間の，同様に和写像は和対象間に定まる特別な$(f,g),[f,g]$のことである．
+    2. 自由圏に於ける余積は，忘却関手によっては保存されない．
+    \[ U(A+B)\ne U(A)+U(B) \]
+    \[ M(U(A)+U(B))/\sim = A+B \]
+\end{screen}
+
+\subsection{Equalizers}
+準同型の核の概念，特に代数多様体(variety)や分離公理（「論理式$\varphi(x)$を満たすような$X$の部分集合は集合である」というもの．22年にFrenkelがより強い置換公理で置き換えた．）を抽象化した概念を考える．
+ちょうど同時期にベクトル解析の分野にて，関数の零点集合を使ったこのような多様体の指定の仕方は特異点を生まない性質の良い道具だということを学んだ．
+また，具体圏上でのmonicとepicの振る舞いが非対称（\ref{subsection-monoepi}節）であることが効いてくる概念である．coequalizerは商集合の一般化となる！
+
+\begin{definition}
+    圏$C$，ある並行な射$f,g:A\to B$に対して，その等化子$\mathrm{eq}(f,g)$とは，次の図を可換にする唯一つの射$e:E\to A$である．
+    \begin{center}\begin{tikzcd}
+        E \ar[r, "e"] & A \ar[r, bend left=20, "f"] \ar[r, bend right=20, "g"'] &B\\
+        Z \ar[u, dashed, "u"] \ar[ur, "z"']
+    \end{tikzcd}\end{center}
+    即ち，次の三条件が成り立つ．
+
+    1. $f\circ e=g\circ e$
+
+    2. $f\circ z=g\circ z$
+
+    3. $e\circ u=z$
+\end{definition}
+
+\begin{example}[Top]
+    連続関数$f,g:\mathbb{R}^2\to\mathbb{R}$を$f(x,y)=x^2+y^2, g(x,y)=1$と定める．この時，$f,g$の等化子は，包含写像$i:S=\{(x,y)\in\mathbb{R}^2\mid x^2+y^2=1\}\rightarrowtail\mathbb{R}^2$である．
+    この普遍性を確認すると，任意の一般化された要素$z:Z\to\mathbb{R}^2$について，$fz=gz$ならば$z\in S$である．what it really means is $z=\overline{z}\circ i$と分解できることをいう．
+    今包含写像$i$は特にmonicであるから，このような$\overline{z}$は一意である．
+    \begin{center}\begin{tikzcd}
+        S \ar[r, hook, "i"] & \mathbb{R}^2 \ar[r, bend left=20, "x^2+y^2"] \ar[r, bend right=20, "1"'] &\mathbb{R}\\
+        Z \ar[u, dashed, "\overline{z}"] \ar[ur, "z"']
+    \end{tikzcd}\end{center}
+\end{example}
+
+\begin{example}[Setsでは等化子は部分集合と同一視できる]\label{example-equalizer-Sets}
+    任意の写像$f,g:A\to B$について，その等化子は包含写像$i:\{ x\in A\mid f(x)=g(x) \}\hookrightarrow A$である．
+    これは$A$の部分集合と同一視できるが，このように，等化子による部分集合の理解の代表的な考え方といえば，特性関数$\chi_U:A\to 2$であろう．特性関数と$\top\circ !:A\to 2$つまり定値写像$1:A\to 2$との等化子で，$A$の部分集合を指定できる．
+    同様に，$A$上の真理値関数$\varphi:A\to 2$に対応して，variety $V_\varphi:\{x\in A\mid \varphi(x)=\top\}$を構成できる．これは，命題$\varphi$の外延(extension)として分離公理によって集合と認められるような集合であるとも見れる．
+    \begin{proposition*}[等化子の文脈で]
+        \[ \mathrm{Hom}_{\mathrm{Sets}}(A,2)\simeq P(A) \]
+    \end{proposition*}
+    \begin{proof}
+        集合$U$に対してその特性関数を取る写像$\chi_U:P(A)\to\mathrm{Hom}_{\mathrm{Sets}}(A,2)$と，特性関数$\varphi:A\to 2$に関してその真理集合を取る写像$V_\varphi:\mathrm{Hom}_{\mathrm{Sets}}(A,2)\to P(A)$とは互いに逆射である．
+    \end{proof}
+    これは随分見慣れた関係であるが，これは次の関係の影である．
+    \begin{proposition}\label{prop-equalizer-monic}
+        全ての圏において，等化子$e:E\to A$はmonic（左簡約可能）である．
+    \end{proposition}
+    \begin{proof}
+        等化子の対象となる射を$f,g:A\to B$と置く．すると，勝手な$z:Z\to A$について，唯一つの射$x:Z\to E$が存在して次の図式は可換である．
+        \begin{center}\begin{tikzcd}
+            E \ar[r, "e"] & A \ar[r, bend left=20, "f"] \ar[r, bend right=20, "g"'] &B\\
+            Z \ar[u, bend left=20, "x"] \ar[u, bend right=20, "y"'] \ar[ur, "z"']
+        \end{tikzcd}\end{center}
+        ここで，$y:Z\to E$を，$ex=ey$を満たす射と仮定し，$x=y$を導く．仮定$ey=ex$と$ex=z$より，確かに$y$も上図を可換にする．$e$が等化子であることより，$z$の$e$についての分解は一意だから，$x=y$．
+    \end{proof}
+\end{example}
+
+\begin{example}[Pos, Mon]
+    1. $f,g:A\to B$の等化子$e:A(f=g)\to A$が存在するためには，まず$A(f=g)$がその圏の対象になるか，また$e$がその圏の射になるかの確認が必要である．
+
+    \begin{proposition*}[Monでの等化子]
+        $f,g:A\to B$の等化子$e:A(f=g)\to A$について，$A(f=g)=\{ a\in A\mid f(a)=g(a) \}$は，元のモノイド$A$の積と単位元について部分モノイドになる．
+    \end{proposition*}
+    \begin{proof}
+        $u_A\in A$について，$f,g$はモノイドの射だから$f(u_A)=u_B=g(u_A)$が成り立つ．よって$u_A\in A(f=g)$．
+        
+        次に，$a,a'\in A(f=g)$とした時，$f(a\cdot_A a')=f(a)\cdot_B f(a')=g(a)\cdot_B g(a')=g(a\cdot_A a')$より，$a\cdot_Aa'\in A(f=g)$．
+
+        以上より，$A(f=g)$は$A$の部分モノイドである．
+    \end{proof}
+
+    2. 可換性まで仮定し，アーベル群においては，$f,g$の等化子は，$\forall x\in A\; f(x)=g(x)\Leftrightarrow (f-g)(x)=0_A$が成り立つので$f-g,0$の等化子に等しい．なお，このように一般の射$h$と単位元に写す定値写像$0$との等化子（の始域である部分群のことかなやはり）のことを，射$h$の核といい，$\mathrm{ker}(h)$と表す．
+    \[ \mathrm{ker}(f-g) \hookrightarrow A \xrightarrow{f,g} B \]
+\end{example}
+
+\subsection{Coequalizers}
+商集合の概念の一般化で，「対象について，何か射の言葉で指定したものを潰して(collapse)出来る射を指定する」道具と捉えられる．
+射の言葉が自由でさらに精密なので，より自由度と精度が高い．
+
+なんか使っているうちに「マスク」「蓋」「キャップ」のような感覚になってきた．
+
+商集合は，「似たもの同士」を一括りにして抽象化する際に用いる．この時の道具が「同値関係である．」
+この性格の良さは次の命題に要約されている．
+\begin{proposition*}
+    $\sim$を集合$X$上の同値関係とする．各$x\in X$についての同値類$[x]:=\{ y\in X\mid x\sim y \}$を定義すると，$X$はいくつかの同値類によって直和分割される．
+\end{proposition*}
+\begin{remark*}商写像$q$は，$f$よりも粗い同値関係$R_f$を$X$に定めるような任意の$X$からの写像$f:X\to Y$について，分解(extend along $q$)する．
+    \begin{center}
+        \begin{tikzcd}
+            X \ar[r, "q"] \ar[dr, "f"'] & X/\sim \ar[d, dotted] \\
+            & Y
+        \end{tikzcd}
+    \end{center}
+\end{remark*}
+
+\begin{definition}
+    並行な射$f,g:A\to B$について，その余等化子$\mathrm{coeq}(f,g)$とは，任意の$zf=zg$を満たす$z:B\to Z$について，唯一つの$u:Q\to Z$が存在して次の図式を可換にする射$q:B\to Q$である．
+    \begin{center}
+        \begin{tikzcd}
+            A \ar[r, bend left=20, "f"] \ar[r, bend right=20, "g"'] & B \ar[r, "q"] \ar[dr, "z"'] & Q \ar[d, dashed, "u"] \\
+            & & Z
+        \end{tikzcd}
+    \end{center}
+\end{definition}
+\begin{remark*}[なんかすごい言い換え見つけた]
+    等化子の普遍性は一般的に分かり易い気がする．等化子は，$f,g$に対して右「潰し」可能な$e:E\to A$（$fe=ge$）のうち，$E$が終対象のようなもの（要は上の図を可換にするという文脈が外れると射はたくさんあり得る）になっている．要は，$f,g$で一致する部分を最大元とっている．
+
+    一方で余等化子は，左「マスク」機能を満たす$q$（$qf=qg$）のうち，始対象のようなものであるから，最小のマスクである．
+
+    なお，前件である$zf=zg$とは，$z$が，任意の$a\in A$について，$f$と$g$の行き先$f(a),g(a)$を潰すような同値関係$f(a)\sim_zg(a)$を定めることを表す．従って，$f,g$として，ある同値関係$R$のグラフからの第一，第二射影をとると，$z$は少なくとも$R$よりも粗い同値関係$R_z\supset R$を定めることを表す．
+\end{remark*}
+\begin{proposition}\label{prop-coequalizer-epic}
+    全ての圏において，余等化子はepic（右簡約可能）である．
+\end{proposition}
+\begin{proof}
+    全ての圏に於ける命題\ref{prop-equalizer-monic}の双対主張は，全ての圏において成り立つ．
+\end{proof}
+
+\begin{example}[商写像は余等化子$q$のSetsに於ける特別な場合である]
+    $R\subset X\times X$を$X$上の同値関係とする．これが定める商写像$\pi_R:X\to X/R$とは，任意の$f\circ\mathrm{pr}_2=f\circ\mathrm{pr}_1$を満たす（＝$R$より粗い同値関係を定める）射$f:X\to Y$について次の図式を可換にする射である．
+    \begin{center}
+        \begin{tikzcd}
+            R \ar[r, bend left=20, "\mathrm{pr}_1"] \ar[r, bend right=20, "\mathrm{pr}_2"'] & X \ar[r, "\pi"] \ar[dr, "f"'] & X/R \ar[d, dashed, "\overline{f}"] \\
+            & & Z
+        \end{tikzcd}
+    \end{center}
+    $f$は$\pi$について分解しているので，$\pi$よりも粗い写像である．従って，$\pi$が「ちょうど」$R$について潰す写像である$R$の商写像に他ならない．
+
+    また，今回は$\pi$がepicであることを先に得ているので，このことからすぐに上の図式を一意にするような，即ち$\overline{f}\pi=f$を満たす$\overline{f}$が一意であることがわかる．
+    これは例\ref{example-equalizer-Sets}での議論と非対称的である．
+\end{example}
+\begin{remark*}
+    すると，一般の写像$f,g:A\to B$の余等化子$\mathrm{coeq}(f,g)$とは，同値関係$f(a)=g(a)$，即ち$f-g$の定める同値関係について潰す商写像である．
+    等化子の議論に非常に接近しているが，別に等化子の言葉は使えないだろう．等化子とは$A$上に定まるfiber積であり，同値関係ほど繊細じゃない．
+\end{remark*}
+
+\begin{example}[Top]
+    
+\end{example}
+
+\begin{example}[Presentation of algebras]
+    
+\end{example}
+
+\subsection{Exercises}
+
+\section{Groups and categories}
+等化子のうち，可換性を仮定した代数の圏に於ける場合として得た，準同型の核の概念を用いて，群を調べる．
+群論は特に，Cayley表現の時からそうであったが，集合論的代数系の代表として，非常に圏論的にも示唆に富む，まるで片割れを探し求めているかのように．
+圏と群の関わりは，次の３つに分類できる．
+
+1. 圏の中に現れる群
+
+2. 群の圏
+
+3. 圏としての群
+
+\subsection{Groups in category}
+\subsection{The category of groups}
+\subsection{Groups as categories}
+\subsection{Finitely presented categories}
+\subsection{Exercises}
+
+\section{Limits and colimits}
+
+\subsection{Subobjects}
+
+Setsにて，全ての$X$の部分集合は，$X$上の等化子として表現できたのであった（一般化された対象）．特にTrueへの定値写像$1$と$A$の特性関数$\chi_A$とについて$A=\mathrm{Eq}(1,\chi_A)$である．
+また，等化子はmonicで，余等化子はepicであった．（命題\ref{prop-equalizer-monic}，\ref{prop-coequalizer-epic}）．
+従って，等化子やmono射は一般化された部分集合（＝部分対象）と考えることが出来るのではないか．実は，後者を選ぶと，これは順序を定め，包含関係の一般化としてうまくいく．
+
+\begin{definition}[Subobject]
+    任意の圏$C$に於て，あるmono射$m:M\rightarrowtail X$のことを，対象$X\in C$の部分対象という．
+    一般化された対象（$X$の$M$-値点）としての見方から，$M$のことも部分対象と呼んでしまう．
+\end{definition}
+\begin{remark}[対象$X$の部分対象全体は圏をなす．]
+    勝手な対象$X$の部分対象$m:M\to X,m':M'\to X$に対して，その間に射$f:m\to m'$があるならば，それはslice圏$C/X$の射$f=(m',F)$である．ただし，$C$の射$F$は次の図式を可換にする．
+    \begin{center}
+        \begin{tikzcd}
+            M \ar[r, "F"] \ar[dr, "m"'] & M' \ar[d, "m'"] \\
+            & X
+        \end{tikzcd}
+    \end{center}
+    従って，対象$X$の部分対象全体の圏$\mathrm{Sub}_C(X)$は圏$C/X$の部分圏である．
+
+    また，各$m\in \mathrm{Sub}_C(X)$は$C$上のmonicな射であるから，$m=m'F\land m=m'F'\Rightarrow F=F'$が成り立ち，$\mathrm{Sub}_C(X)$のHom集合は高々一点集合である．従って，これはPoset categoryを同型について畳み込む前のPreorder categoryである．なお，部分対象と言ったときに，これを同型について畳み込んだ同値類のことを指すこともある．
+    従って，集合論における包含関係の一般化として捉えられるため，この圏$\mathrm{Sub}_C(X)$に於て射が存在するという関係を$m\subset m':\Leftrightarrow \exists f:m\to m'$と定め，$m \equiv m':\Leftrightarrow m\subset m'\land m\supset m'$などと書く．
+\end{remark}
+
+\begin{example*}[Setsと，そこからの所属関係の一般化]
+    $\mathrm{Sub}_{\mathrm{Sets}}(X)\simeq P(X)$全ての部分対象は，１つの部分集合によって表現される．多分2によっても表現される．
+
+    また，下図に於て$f$もmonicであるから，$M$は$M'$の部分対象である．
+    \begin{center}
+        \begin{tikzcd}
+            N' \ar[r, tail, "n'"] & M \ar[r, tail, "f"] \ar[dr, tail, "m"'] & M' \ar[d, tail, "m'"] \\
+            N \ar[u, tail, "g"] \ar[ur, tail, "n"'] \ar[rr, dotted, "m\circ n"'] &  & X
+        \end{tikzcd}
+    \end{center}
+    従って，$m:M\rightarrowtail X$は次の関手を定める．Hom関手とも違う，階層が．
+    \begin{center}
+        \begin{tikzcd}
+            m_*:\mathrm{Sub}(M) \ar[r] \ar[d, phantom, "\rotatebox{90}{$\in$}"] & M' \ar[d, phantom, "\rotatebox{90}{$\in$}"] \\
+            n:N\rightarrowtail M \ar[r, mapsto] & m\circ n:N\rightarrowtail X \\
+            (g,n') \ar[r, mapsto] & (g,mn')
+        \end{tikzcd}
+    \end{center}
+
+    これを一般の圏にも拡張して，局所的所属関係(local membership relation)を定めることができる．
+    \begin{center}
+        \begin{tikzcd}
+            Z \ar[r, "f"] \ar[d, tail, "z"'] & M\ar[dl, tail, "m"] \\
+            X
+        \end{tikzcd}
+    \end{center}
+    上図の時，$z\in_XM:\Leftrightarrow \exists f:Z\to M\;\mathrm{s.t.}\; z=m\circ f$と定めれば，$Z\subset_X M$である．
+    この時，$z,m$がmonicであるから，$f$もmonicである．
+    \begin{proposition*}[???]
+        上の可換図式において，monicな$z$がmonicな$m$について$f$と分解する時，$f$もmonicである．
+    \end{proposition*}
+    \begin{proof}
+        $g,h:-\to Z$を取る．$z$がmonicより，$zg=zh\Rightarrow g=h$であるから，$(mf)g=(mf)h\Rightarrow g=h$である．ところで，$m$もmonicであるから，$(mf)g=(mf)h\Rightarrow fg=fh$である．従って，$g\ne h\Rightarrow $？？？
+    \end{proof}
+\end{example*}
+
+\begin{definition*}[local membership relation]
+    $X$上の所属関係$\in_X$とは，$z\in_XM:\Leftrightarrow \exists f:Z\to M\;\mathrm{s.t.}\; z=m\circ f$と定める．
+    \begin{center}
+        \begin{tikzcd}
+            Z \ar[rr, dotted, "f"] \ar[dr, "z"'] & & M \ar[dl, "m"] \\
+            & X
+        \end{tikzcd}
+    \end{center}
+\end{definition*}
+\begin{remark*}
+    $\in_X$が結ぶのは，一般化された対象$z$と，右辺は対象$M$で，すごく慣れない．
+\end{remark*}
+
+\begin{example}[等化子の普遍性を局所包含関係の言葉で書き換えられる．]
+    $z=\mathrm{Eq}(f,g)$とする．
+    \begin{center}
+        \begin{tikzcd}
+            E \ar[r, "e"] & A \ar[r, bend left=20, "f"] \ar[r, bend right=20, "g"'] & B
+        \end{tikzcd}
+    \end{center}
+    この等化子の普遍性は$z\in_AE\Leftrightarrow f(z)=g(z)$と書き換えられる．
+    \begin{center}
+        \begin{tikzcd}
+            Z\ar[r, dashed, "u"] \ar[d, tail, "z"'] & E\ar[dl, tail, "e"] \\
+            A
+        \end{tikzcd}
+    \end{center}
+    つまり，等化子とは，$f(z)=g(z)$を満たすような$z$を全て含んだ閉包のようなものである．
+\end{example}
+
+\subsection{Pullbacks}
+交叉(intersection)と逆像との一般化である．
+今までの一般化された対象とsubobjectの系列の中で，"A pullback is therefore the categorical semantics of an equation."(nLab)と言える．
+この導入の仕方が本当に綺麗で自然だ，凄すぎる．$Z$は$P=A\underset{C}{\times}B,A\times B$にそれぞれ別の普遍性による射を定め，pullback squareと呼ばれる四角形を可換にする中で「最大」なのがpullback，制限なしで「最大」なのが直積である．
+\begin{center}
+    \begin{tikzcd}
+        Z \ar[ddrr, bend left=20, "{\langle z_1,z_2\rangle}" near start] \ar[ddrrr, bend left=40, "z_2"] \ar[dddrr, bend right=40, "z_1"'] \ar[dr, dotted, "u"'] & & & \\
+            & A\underset{C}{\times}B \ar[drr, bend left=20, "p_2"] \ar[dr, "e"] \ar[ddr, bend right=20, "p_1"']\\
+                & & A\times B \ar[r, "\pi_2"] \ar[d, "\pi_1"'] \ar[dr, phantom, "{\hbox{\sout{$\circlearrowright$}}}"] & B \ar[d, "g"] \\
+                & & A \ar[r, "f"'] & C
+    \end{tikzcd}
+\end{center}
+従って，四角形型の可換図式を完成させるためのuniversal solutionだとも言える．
+
+\begin{definition}[引き戻し]
+    任意の圏$C$に於て，$f,g\in\mathrm{Hom}_C(-,C)$の引き戻しとは，任意の$(Z,z_1,z_2)$に対して，唯一つの射$u$を定めて次の図式を可換（$p_1u=z_1\land p_2u=z_2$）にする唯一つの$(P,p_1,p_2)$のことである．
+    \begin{center}
+        \begin{tikzcd}
+            Z \ar[drr, bend left=20, "z_2"] \ar[dr, dotted, "u"] \ar[ddr, bend right=20, "z_1"']\\
+                & P \ar[r, "p_2"] \ar[d, "p_1"'] & B \ar[d, "g"] \\
+                & A \ar[r, "f"'] & C
+        \end{tikzcd}
+    \end{center}
+    この図式全体を可換にするという制限の中での，直積$P$とみなせる．もちろん，制限を外せば唯一つの射$u':P\to A\times B$が存在する．
+    この観点から，図式中の記号を$u=\langle z_1,z_2\rangle, P=A\underset{C}{\times}B$とも表す．
+\end{definition}
+
+引き戻しは，積$A\times B$の定める射$f\pi_1,g\pi_2$の等化子である．
+\begin{proposition}[引き戻しの等化子としての特徴付け]
+    積と等化子の備わる圏$C$の，任意の射の組$f,g\in\mathrm{Hom}_C(-,C)$に対して，次の図式を考える．なお，$A\times B$の普遍性より$e=\langle p_1,p_2\rangle$であるが，これは$f\pi_1\ne g\pi_2$の等化子である．従って下図は可換であるというわけではない．
+    \begin{center}
+        \begin{tikzcd}
+            E \ar[drr, bend left=20, "p_2"] \ar[dr, dotted, "e"] \ar[ddr, bend right=20, "p_1"']\\
+                & A\times B \ar[r, "\pi_2"] \ar[d, "\pi_1"'] \ar[dr, phantom, "{\hbox{\sout{$\circlearrowright$}}}"] & B \ar[d, "g"] \\
+                & A \ar[r, "f"'] & C
+        \end{tikzcd}
+    \end{center}
+    次の２条件は同値である．
+
+    1. $e=\langle p_1,p_2\rangle$は等化子$\mathrm{Eq}(f\pi_1,g\pi_2)$である．
+
+    2. $(E,p_1,p_2)$は$f,g$の引き戻しである．
+\end{proposition}
+\begin{proof}
+    1.$\Rightarrow$2.について．$fz_1=gz_2$を満たす$(Z,z_1:Z\to A,z_2:Z\to B)$を任意に取る．すると，$A\times B$の普遍性より，唯一つの射$\langle z_1,z_2\rangle$が存在し，$z_1=\pi_1\circ\langle z_1,z_2\rangle,z_2=\pi_2\circ\langle z_1,z_2\rangle$を満たす．
+    また，$fz_1=gz_2$と合わせると$f\circ\pi_1\circ\langle z_1,z_2\rangle=g\circ\pi_2\circ\langle z_1,z_2\rangle$が成り立つから，等化子$E$の普遍性より，唯一つの射$u:Z\to E$が存在して，$eu=\langle z_1,z_2\rangle$を満たす．よって，各図式の可換性の議論より，射$u$が$p_1u=z_1\land p_2u=z_2$を満たす唯一つの射である．一意性は，等化子の普遍性（または$e$がmonicであること）から従う．
+    \begin{center}
+        \begin{tikzcd}
+            Z \ar[ddrr, bend left=20, "{\langle z_1,z_2\rangle}" near start] \ar[ddrrr, bend left=40, "z_2"] \ar[dddrr, bend right=40, "z_1"'] \ar[dr, dotted, "u"'] & & & \\
+                & E \ar[drr, bend left=20, "p_2"] \ar[dr, "e"] \ar[ddr, bend right=20, "p_1"']\\
+                    & & A\times B \ar[r, "\pi_2"] \ar[d, "\pi_1"'] \ar[dr, phantom, "{\hbox{\sout{$\circlearrowright$}}}"] & B \ar[d, "g"] \\
+                    & & A \ar[r, "f"'] & C
+        \end{tikzcd}
+    \end{center}
+
+    2.$\Rightarrow$1.について．
+\end{proof}
+
+\begin{corollary}[dual statement]\label{corollary-nesessaries-for-pullback-categories}
+    任意の圏$C$について，二項積(binary product)と等化子を備えているならば，引き戻しも持つ．
+\end{corollary}
+
+\begin{example}[Setsでは，引き戻しは直積の部分集合（fiber積）である]
+    また，$f:A\to B, i:V\to B$に対して，これらの引き戻しとは，逆像$f^{-1}(V)$に他ならない．$\overline{f}$は写像$f$の標準分解（の途中（$f$の制限というevident factorization））である．
+    \begin{center}
+        \begin{tikzcd}
+            f^{-1}(V) \ar[r, "\overline{f}"] \ar[d, "j"'] & V\ar[d, "i"] \\
+            A \ar[r, "f"'] & B
+        \end{tikzcd}
+    \end{center}
+    $V$を一点集合とすればfiberとなる．
+
+    これが引き戻しであることを確認する．$z:Z\to A$を勝手に取る．対応する中央射は，その制限$z:Z\to f^{-1}(V)$であり，これが存在するための条件$z\in f^{-1}(V)$と$fz\in V$は同値．従って，任意の$(Z,z_1,z_2)$，即ち一般化された$A\times V$の元に対して，中央射$\langle z_1,z_2\rangle :Z\to f^{-1}(V)$即ち$f^{-1}(V)$の元が存在する．とは言えないよな？？？なぜだ？
+\end{example}
+
+\begin{proposition*}[引き戻しはmonomorphismを保存する]
+    全ての圏$C$に於て，次のpullback diagramで，$m$がmonicならば，その引き戻し$m'=f^*m$もmonicである．
+    \begin{center}
+        \begin{tikzcd}
+            A\times_BM \ar[r] \ar[d,"m'"'] & M\ar[d, "m"] \\
+            A\ar[r, "f"'] & B
+        \end{tikzcd}
+    \end{center}
+\end{proposition*}
+\begin{remark*}
+    同様に，同型射を保存する．なお，$f^*g$がmonicだからと言って，$g$がmonicとは限らない．
+\end{remark*}
+\begin{proposition*}[一般化された逆像としての引き戻し：基底変換]
+    pullbackについて片方の引数を$f:A\to B$と固定した時，これは次の反変関手$f^{-1}$を定める．
+    \begin{center}
+        \begin{tikzcd}
+            f^{-1}:\mathrm{Sub}(B) \ar[r] \ar[d, phantom, "\rotatebox{90}{$\in$}"] & \mathrm{Sub}(A) \ar[d, phantom, "\rotatebox{90}{$\in$}"] \\
+            m \ar[r, mapsto] & m'
+        \end{tikzcd}
+    \end{center}
+\end{proposition*}
+\begin{remark*}
+    これはpullback functor $f^*:C/B\to C/A$の制限関手で（系\ref{corollary-pullbackfunctor-and-inversmapping}），これは圏$C$に依っては基底変換と呼ぶ．（命題\ref{prop-pullback-functor}）
+\end{remark*}
+
+\subsection{Properties of pullbacks}
+前節の最後で，pullbackの関手性に到達した．$f:A\to B$の定める引き戻しは，圏上に大きな流れ$f^*:C/B\to C/A$を定め，これを座標変換という．
+
+\begin{lemma}[two-pullbacks]\label{lemma-two-pullbacks}
+    引き戻しを備える圏$C$に於て，次の可換図式を考える．
+    \begin{center}
+        \begin{tikzcd}
+            F \ar[r, "f'"] \ar[d, "h''"'] & E\ar[d, "h'"] \ar[r, "g'"] & D \ar[d, "h"] \\
+            A \ar[r, "f"'] & B\ar[r, "g"'] & C
+        \end{tikzcd}
+    \end{center}
+
+    1(引き戻しの合成). ２つの四角形図式がpullback diagramならば，大外周りの図式もpullback diagramである．即ち
+    \[ A\times_B(B\times_CD)\simeq A\times_CD \]
+
+    2. 右正方形と大外長方形の図式が引き戻しならば，左正方形の図式も引き戻しである．
+\end{lemma}
+\begin{proof}
+    Diagram chase.
+\end{proof}
+
+\begin{lemma*}
+    3. 外周と左側の四角形が引き戻しでも，右側の四角形が引き戻しではないことがある．
+\end{lemma*}
+
+\begin{corollary}[可換三角形の引き戻しは可換三角形である．]
+    次の可換図式の，任意の対象$C'$とそれからの射$h:C'\to C$による引き戻しを考える．
+    \begin{center}
+        \begin{tikzcd}
+            A \ar[dr, "\gamma"] \ar[dd, "\alpha"] & \\
+            & B \ar[dl, "\beta"] \\
+            C
+        \end{tikzcd}
+    \end{center}
+    もし，$C'$の周りに次の射$\alpha':A'\to C',\beta':B'\to C'$が見つかれば，唯一つの$\gamma':A'\to B'$が存在し，元の可換三角形が一意的に復元され，$h_\beta\gamma'=\gamma h_\alpha$はpullback diagramである．
+    \begin{center}
+        \begin{tikzcd}
+            A\ar[dr, dotted, "\gamma'"] \ar[dd, "\alpha'"' near start] \ar[rr, "h_\alpha"]  & & A \ar[dr, "\gamma"] \ar[dd, "\alpha" near start] & \\
+                & B' \ar[dl, "\beta'"] \ar[rr, "h_\beta"' near start] & & B \ar[dl, "\beta"] \\
+            C' \ar[rr, "h"']  & & C
+        \end{tikzcd}
+    \end{center}
+\end{corollary}
+\begin{proof}
+    Apply the two-pullbacks lemma \ref{lemma-two-pullbacks}．
+\end{proof}
+
+\begin{proposition}[Pullback functor]\label{prop-pullback-functor}
+    射$h:C'\to C$に沿った引き戻しは，次の反変関手$h^*:\mathbf{C}/C\to\mathbf{C}/C'$を定める．
+    \begin{center}
+        \begin{tikzcd}
+            h^*:\mathbf{C}/C \ar[r] \ar[d, phantom, "\rotatebox{90}{$\in$}"] & \mathbf{C}/C' \ar[d, phantom, "\rotatebox{90}{$\in$}"] \\
+            \alpha:A\to C \ar[r, mapsto] & \alpha':C'\times_CA\to C'
+        \end{tikzcd}
+    \end{center}
+\end{proposition}
+\begin{remark*}
+    引き戻しは，同型以上には一意に定まらないので，その扱いを突っ込まれていた．「圏$C$が小さくない場合，これを示す方法はないのではないか？」．「一般の圏ではどうなるのかはっきりと言えないってことだろうか？」「すごく気持ち悪いとずっと思っています．」
+\end{remark*}
+\begin{proof}
+    
+\end{proof}
+
+\begin{corollary}\label{corollary-pullbackfunctor-and-inversmapping}
+    引き戻しを備えた圏$C$の，任意の射$f:A\to B$について，次のCat上の図は可換である．
+    \begin{center}
+        \begin{tikzcd}
+            \mathrm{Sub}(A) \ar[d] & \mathrm{Sub}(B) \ar[l, "f^{-1}"'] \ar[d] \\
+            \mathbf{C}/A & \mathbf{C}/B \ar[l, "f^*"]
+        \end{tikzcd}
+    \end{center}
+\end{corollary}
+\begin{proof}
+    $f^{-1}$は$f^*$の制限関手$f^*|_{\mathrm{Sub}(B)}$であるため．
+\end{proof}
+
+\begin{example}[pullback functor (座標変換)と論理]　
+
+    \begin{center}
+        \begin{tikzcd}
+            E \ar[r, "f'"] \ar[d, "g'"'] & B\ar[d, "g"] \\
+            A \ar[r, "f"'] & C
+        \end{tikzcd}
+    \end{center}
+    Setsにて，$E=A\times_CB$は，等化子$\mathrm{Eq}(f\pi_1,g\pi_2)$とも表せたのであった．
+    \begin{center}
+        \begin{tikzcd}
+            E \ar[r, "{\langle f',g'\rangle}"] & A\times B \ar[r, bend left=20, "f\pi_1"] \ar[r, bend right=20, "g\pi_2"'] & C
+        \end{tikzcd}
+    \end{center}
+    今，$B=1,C=2=\{\top,\bot\},g=\top:1\to 2$とすると，この等化子$\mathrm{Eq}(f\pi_1,\top\pi_2)$とは，「命題（真理値関数）$f:A\to 2$の外延」であるのであった．
+    \begin{center}
+        \begin{tikzcd}
+            E \ar[r, "{\langle f',g'\rangle}"] & A\times 1 \ar[r, bend left=20, "f\pi_1"] \ar[r, bend right=20, "\top\pi_2"'] & 2
+        \end{tikzcd}
+    \end{center}
+    これは，特性関数と部分集合の同一視$\Phi:2^A\simeq P(A)$であるが，これを引き戻しの言葉で捉え直すと次のようになる．
+    \begin{center}
+        \begin{tikzcd}
+            U \ar[r, "!"] \ar[d] & 1 \ar[d, "\top"] \\
+            A\ar[r, "\chi_U"] & 2
+        \end{tikzcd}
+    \end{center}
+    即ち，条件$\varphi:A\to 2$をその外延$V_\varphi=\{x\in A\mid \varphi(x)=\top\}$に写す同型$\Phi:2^A\to P(A)$は，$\varphi$の定めるfiber $\varphi^{-1}$へ写す写像に他ならない．$V_\varphi = \Psi(\varphi) = \varphi^{-1}(\top)$．
+
+    さて，２上の射を考える．勝手にとった$f:B\to A$について，逆像関手$P(A)\simeq\mathrm{Sub}(A)/\equiv\to P(B)\simeq\mathrm{Sub}(B)/\equiv$が定まるのだが，これは次のようにして，$V_\varphi\subset A$から，$V_{\varphi\circ f}\subset B$が定まるということである．
+    \begin{center}
+        \begin{tikzcd}
+            f^{-1}(V_\varphi)=V_{\varphi\circ f}\ar[r] \ar[d, "{f^*\varphi^*\top=(\varphi\circ f)^*\top}"'] & \varphi^{-1}(\top) \ar[r] \ar[d, "\varphi^*\top"] & 1=\{\top\} \ar[d, "\top"] \\
+            B \ar[r, "f"'] & A\ar[r, "\varphi"'] & 2
+        \end{tikzcd}
+    \end{center}
+    これは，論理学の世界で，項$\varphi$内に出現する変数$x$を$f$に従って置換する行為を，propositional function $\varphi$の変数$x$を$f$が定める「変数変換$f^*$」によって変換する行為によって"modeled"されたことを意味する．
+    \[ f^{-1}(V_\varphi) = f^{-1}(\{ x\in A\mid \varphi(x)=\top \}) = \{y\in B\mid \varphi(f(y))=\top\} = V_{\varphi\circ f} \]
+\end{example}
+
+\begin{example}[集合族に対する座標変換]
+    集合族$(A_i)_{i\in I}$の添字を，$\alpha:J\to I$に沿って付け替え，$(A_{\alpha(j)})_{j\in J}$を得ることを考える．
+
+    $p_i:A_i\to I$を，添字への射影，即ち$i\in I$への定値写像とする．これらは，直和の普遍性により，射$p=[p_i]:\rotatebox[origin=c]{180}{$\prod$}_{i\in I}A_i\to I$を定める（$(i,a)\in\rotatebox[origin=c]{180}{$\prod$}_{i\in I}A_i$を$i$に写す第一射影）．これの$\alpha:J\to I$に関する引き戻し$\alpha^*p$が定める直和が$\rotatebox[origin=c]{180}{$\prod$}_{j\in J}A_{\alpha(j)}$である．
+    \begin{center}
+        \begin{tikzcd}
+            \rotatebox[origin=c]{180}{$\prod$}_{j\in J}A_{\alpha(j)} \ar[r] \ar[d, "q"'] & \rotatebox[origin=c]{180}{$\prod$}_{i\in I}A_i \ar[d, "p"] \\
+            J \ar[r, "\alpha"'] & I
+        \end{tikzcd}
+    \end{center}
+    即ち，
+    \[ J_\alpha\underset{I}{\times}{}_p\rotatebox[origin=c]{180}{$\prod$}_{i\in I}A_i = \rotatebox[origin=c]{180}{$\prod$}_{j\in J}A_{\alpha(j)} \]
+    である．これは確かに，$I$上での$\alpha^{-1}(i)\times p^{-1}(i)$というfiber積は，$A_i$に属していた$a\in A_i$を，新たに$\alpha^{-1}(i)=j\in J$で指定される$j$と紐付け直す行為である．
+\end{example}
+
+\begin{example*}[pullbackとしてのintersection]
+    $A,B\subset C$とし，$i,j$をその包含写像とする．この時のfiber積とは共通部分に他ならない．
+    \begin{center}
+        \begin{tikzcd}
+            A\times_CB=A\cap B \ar[r, "j^*i"] \ar[d, "i^*j"] & B \ar[d, "j"] \\
+            A \ar[r, "i"'] & C
+        \end{tikzcd}
+    \end{center}
+    $f:A'\to A$による引き戻しは関手$f^{-1}$を定め，その関手性により$f^{-1}(A\cap B)=f^{-1}(A)\cap f^{-1}(B)$が得られる．
+\end{example*}
+
+\clearpage
+
+\subsection{Limits}
+
+\begin{proposition}
+    圏$C$についての次の２条件は同値である．
+
+    1. 圏$C$は有限積と等化子を備える．
+
+    2. 圏$C$は引き戻しと終対象を備える．
+\end{proposition}
+\begin{proof}
+    1.$\Rightarrow$2.について．系\ref{corollary-nesessaries-for-pullback-categories}より，圏$C$は二項積と等化子を備えるならば，引き戻しを備える．また，圏$C$は有限積を備えるから，特に$0$項積，即ち終対象を備える．
+
+    2.$\Rightarrow$1.について．まず２項積の存在を示す．次のように，任意の対象$A,B$に対して，終対象１上での$!_A,\;!_B$の引き戻しを考える．
+    \begin{center}
+        \begin{tikzcd}
+            A\times_1B \ar[r, "p_2"] \ar[d, "p_1"'] & B \ar[d, "!_B"] \\
+            A \ar[r, "!_A"'] & 1
+        \end{tikzcd}
+    \end{center}
+    この$A\times_1B$が直積の普遍性を満たすことを確認する．$Z\in\mathbf{C}$と$z_1:Z\to A,z_2:Z\to B$を任意に取る．すると，$1$が終対象であるから，唯一つの射$!_Z\;Z\to 1$を介して，次の図式は可換になる．
+    \begin{center}
+        \begin{tikzcd}
+            Z \ar[r, "z_2"] \ar[d, "z_1"'] \ar[dr, "!_Z"] & B \ar[d, "!_B"] \\
+            A \ar[r, "!_A"'] & 1
+        \end{tikzcd}
+    \end{center}
+    従って，$A\times_1B$が$!_A,\;!_B$の引き戻しであるから，唯一つの射$u:Z\to A\times_1B$が存在して，$z_1=p_1u,z_2=p_2u$を満たす．従って，$A\times_1B\simeq A\times B$である（この記法は$=$ではダメなのか？）．
+
+    以降，同様の方法で，$n$項積の存在を示せる．
+
+    次に，二項積も用いて，任意の射$f,g:A\to B$に対して，等化子$\mathrm{Eq}(f,g)$の存在を示す．次の引き戻しを考える．
+    \begin{center}
+        \begin{tikzcd}
+            E \ar[r, "h"] \ar[d, "e"'] & B \ar[d, "\Delta"] \\
+            A \ar[r, "{\langle f,g\rangle}"'] & B\times B
+        \end{tikzcd}
+    \end{center}
+    この$E$が等化子の普遍性を満たすことを示す．勝手にとった対象$Z$と$z_1:Z\to A$に対して，$fz_1=gz_1$が成り立ったとする．下図を可換にする$u:Z\to E$の存在と一意性を示す．
+    \begin{center}
+        \begin{tikzcd}
+            E \ar[r, "e"] & A \ar[r, bend left=20, "f"] \ar[r, bend right=20, "g"'] & B \\
+            Z \ar[u, dotted, "u"] \ar[ur, "z"']
+        \end{tikzcd}
+    \end{center}
+    この時，$fz_1=gz_1=:z_2$とすると，次の図式は可換である．何故ならば，$\langle f,g\rangle\circ z_1 = \langle f\circ z_1,g\circ z_1\rangle=\langle z_2,z_2\rangle =\Delta\circ z_2$が成り立つため．
+    \begin{center}
+        \begin{tikzcd}
+            Z \ar[r, "z_2"] \ar[d, "z_1"'] & B \ar[d, "\Delta"] \\
+            A \ar[r, "{\langle f,g\rangle}"'] & B\times B
+        \end{tikzcd}
+    \end{center}
+    $E$は引き戻しであったから，その普遍性より，唯一つの射$u:Z\to E$が存在する．よって，$E=\mathrm{Eq}(f,g)$．
+\end{proof}
+
+\vspace{3cm}
+
+\begin{definition}[図式，錐]　
+
+    1. 圏$\mathbf{C}$に於ける$\mathbf{J}$型の図式とは，関手$D:\mathbf{J}\to \mathbf{C}$のことである．$\mathbf{J}$の対象を$i,j,\cdots$，この$D$による$\mathbf{C}$上での値を$D_i,D_j,\cdots$と書く．
+
+    2. 圏$\mathbf{C}$内の錐(cone)とは，圏$\mathbf{C}$上の図式$D:\mathbf{J}\to\mathbf{C}$に対して定まる，ある対象$C\in\mathbf{C}$と$C$からの射の族$(c_j:C\to D_j)_{j\in\mathbf{J}}$との組$(C,(c_j))$であって，各$i,j\in\mathbf{J}$について$\alpha\in\mathbf{J}$が存在して次の図式が可換になるようなものである．
+    \begin{center}
+        \begin{tikzcd}
+            C \ar[r, "c_j"] \ar[d, "c_i"'] & D_j \\
+            D_i \ar[ur, "D_\alpha"']
+        \end{tikzcd}
+    \end{center}
+\end{definition}
+
+\vspace{3cm}
+
+\begin{proposition*}[錐全体の圏]
+    対象を圏$\mathbf{C}$内の図式$D:\mathbf{J}\to\mathbf{C}$に関する錐$(C,(c_j))$，射$\vartheta:(C,(c_j))\to (C',(c'_j))$を，各$j\in\mathbf{J}$について次の図式を可換にするような$\mathbf{C}$の射とする．
+    \begin{center}
+        \begin{tikzcd}
+            C \ar[r, "\vartheta"] \ar[dr, "c_j"'] & C' \ar[d, "c'_j"]\\
+            & D_j
+        \end{tikzcd}
+    \end{center}
+    これらは圏をなす．これを$\mathbf{Cone}(D)$と書く．
+\end{proposition*}
+\begin{remark*}[錐のイメージ]
+    圏$\mathbf{C}$上の図式$D$とは，別の圏$\mathbf{J}$の映り込み(a picture of $\mathbf{J}$ in $\mathbf{C}$)のようなものである．その上の錐とは，その上に建てられる１つの多面ピラミッドのようなものと思える．その射とは，頂点を摘んで動かす／歪ますものと思える．
+\end{remark*}
+
+\vspace{3cm}
+
+\begin{definition}[limit]
+    $\mathbf{C}$上の図式$D:\mathbf{J}\to\mathbf{C}$の極限とは，この図式に付随する錐の圏$\mathbf{Cone}(D)$の終対象のことである．これを，$p_j:\varprojlim_jD_j\to D_i$または$(\varprojlim_jD_j,p_j)$と書く．添字圏$\mathbf{J}$が有限圏である時，特に有限極限という．
+
+    即ち，任意の錐$(C,(c_j))$に対して，唯一つの射$u:C\to\varprojlim_j$が存在して，$\forall j\in\mathbf{J}\; p_j\circ u=c_j$を満たす，即ち，各$i,j\in\mathbf{J}$について次の図式を可換にする．
+    \begin{center}
+        \begin{tikzcd}
+            C \ar[rr, dotted, "u"] \ar[dr, "c_i"' near end] \ar[drrr, "c_j"' near end] & & \varprojlim_jD_j \ar[dr, "p_j" near start] \ar[dl, "p_i"] \\
+            & D_i \ar[rr, "D_\alpha"'] & & D_j
+        \end{tikzcd}
+    \end{center}
+\end{definition}
+
+\vspace{3cm}
+
+\begin{example}[直積]\label{example-product}
+    添字圏を離散圏$\mathbf{J}=\{1,2\}$とする．すると，$\mathbf{J}$は単位射以外の射を持たないので，図式$D:\mathbf{J}\to\mathbf{C}$とは，$\mathbf{C}$の対象の組$(D_1,D_2)$に等しい．
+    従って，$D$上の錐とは，図式$D_1\xleftarrow{c_1}C\xrightarrow{c_2}D_2$を作る$(C,c_1,c_2)$である．このような錐$(C,c_1,c_2)$全体からなる圏$\mathbf{Cone}(D)$の終対象とは，（存在するならば）直積$D_1\times D_2$である．以上より，$\varprojlim_jD_j\simeq D_1\times D_2$．
+\end{example}
+\vspace{3cm}
+
+
+\begin{example}[等化子]\label{example-equalizer}
+    添字圏を次のような２対象圏$\mathbf{J}$とする．
+    \begin{center}
+        \begin{tikzcd}
+            0 \ar[r, bend left=20, "\alpha"] \ar[r, bend right=20, "\beta"'] & 1
+        \end{tikzcd}
+    \end{center}
+    すると，$\mathbf{C}$上の$\mathbf{J}$型の図式$D:\mathbf{J}\to\mathbf{C}$は，次のようなものである．
+    \begin{center}
+        \begin{tikzcd}
+            D_0 \ar[r, bend left=20, "D_\alpha"] \ar[r, bend right=20, "D_\beta"'] & D_1
+        \end{tikzcd}
+    \end{center}
+    図式$D$上の錐とは，次を可換にするような$(C,c_0,c_1)$である．（即ち，$D_\alpha c_0=D_\beta c_0=c_1$が成立．）
+    \begin{center}
+        \begin{tikzcd}
+            D_0 \ar[r, bend left=20, "D_\alpha"] \ar[r, bend right=20, "D_\beta"'] & D_1 \\
+            C \ar[u, "c_0"] \ar[ur, bend right=20, "c_1"']
+        \end{tikzcd}
+    \end{center}
+    このような錐からなる圏$\mathbf{Cone}(D)$の終対象とは，等化子$\mathrm{Eq}(D_\alpha,D_\beta)$である．
+\end{example}
+
+\vspace{3cm}
+
+\begin{example}[終対象]
+    添字圏$\mathbf{J}$を空圏$0$とする．すると，$\mathbf{J}$型の図式とは，空な関手$D:\mathbf{J}\to\mathbf{C}$が唯一つ存在するのみであり，この図式$D$に対しては全ての$\mathbf{C}$の対象と射の組は錐としての条件を満たすから，$\mathbf{Cone}(D)=\mathbf{C}$である．
+    従って，$\varprojlim_{j\in\mathbf{0}}D_j\simeq 1$である．
+\end{example}
+
+\vspace{3cm}
+
+\begin{example}[引き戻し]
+    添字圏$\mathbf{J}$を次のような有限圏とする．
+    \begin{center}
+        \begin{tikzcd}
+            & B\ar[d, "g"] \\
+            A \ar[r, "f"'] & C
+        \end{tikzcd}
+    \end{center}
+    すると，$\mathbf{J}$型の図式$D$は次のようになり，この極限は引き戻し$\varprojlim_{j}D_j\simeq D_A\times_{D_C}D_B$である．
+    \begin{center}
+        \begin{tikzcd}
+            & D_B\ar[d, "D_g"] \\
+            D_A \ar[r, "D_f"'] & D_C
+        \end{tikzcd}
+    \end{center}
+\end{example}
+
+
+\vspace{3cm}
+
+\begin{proposition}\label{prop-necessaries-for-limits}
+    圏$C$についての次の２条件は同値である．
+
+    1. 圏$C$は全ての有限な極限を備える．
+
+    2. 圏$C$は有限積と等化子を備える．
+\end{proposition}
+\begin{proof}
+    1.$\Rightarrow$2.は例\ref{example-product},\ref{example-equalizer}のように構成すれば良い．従って2.$\Rightarrow$1.を示す．
+    有限圏$\mathbf{J}$型の図式$D:\mathbf{J}\to\mathbf{C}$を任意に取り，有限積と等化子のみを用いて$\varprojlim_{j}d_j$を構成する．
+
+    以降，圏$\mathbf{J}$について，その対象の集合を$\mathbf{J}_O$，その射の集合を$\mathbf{J}_M$と表すこととする．
+    
+    まず，２つの有限積$\prod_{i\in\mathbf{J}_O}D_i$と$\prod_{(\alpha:i\to j)\in\mathbf{J}_O}D_i$との間の射$\phi,\psi$を，各$(\alpha:i\to j)\in\mathbf{J}_M$について次の図式を可換にするように定める．
+    \begin{center}
+        \begin{tikzcd}
+            \prod_{i\in\mathbf{J}_O}D_i \ar[r, "\phi"] \ar[dr, "\pi_{\mathrm{cod}(\alpha)}=:\psi_\alpha"'] & \prod_{(\alpha:i\to j)\in\mathbf{J}_O}D_i \ar[d, "\pi_\alpha"] & & \prod_{i\in\mathbf{J}_O}D_i \ar[r, "\psi"] \ar[d, "\pi_{\mathrm{dom}(\alpha)}"'] \ar[dr, "\psi_\alpha"'] & \prod_{(\alpha:i\to j)\in\mathbf{J}_O}D_i \ar[d, "\pi_\alpha"] \\
+            & D_j & & D_i \ar[r, "D_\alpha"'] & D_j
+        \end{tikzcd}
+    \end{center}
+    即ち，$\psi$は$\prod_{i\in\mathbf{J}_O}D_i$からの各$D_j$への射影の族が，積$\prod_{(\alpha:i\to j)\in\mathbf{J}_O}D_i$の普遍性によって定める上の図を任意の$\alpha$について可換にする唯一つの射$\phi=\langle\phi_\alpha\rangle_{\alpha\in\mathbf{J}_M}$で，$\psi$も同様に，各射影$\pi_{\mathrm{dom}(\alpha)}$が定める射$\psi_\alpha=D_\alpha\circ\pi_{\mathrm{dom}(\alpha)}$が定める，上の図式を可換にする唯一つの射$\psi=\langle\psi_\alpha\rangle_{\alpha\in\mathbf{J}_M}$である．従って特に$\phi\ne\psi$．
+
+    すると，次の図式を可換にするような$(C,c=\langle c_i\rangle)$について，$\phi\circ c=\psi\circ c\Leftrightarrow (C,\langle c_i\rangle)\in\mathbf{Cone}(D)$が成り立つ．
+    \begin{center}
+        \begin{tikzcd}
+            E \ar[r, "e"] & \prod_{i\in\mathbf{J}_O}D_i \ar[r, bend right=20, "\psi"'] \ar[r, bend left=20, "\phi"] & \prod_{(\alpha:i\to j)\in\mathbf{J}_O}D_i \\
+            C \ar[ur, "c=\langle c_i\rangle"']
+        \end{tikzcd}
+    \end{center}
+    何故ならば，任意の$i,j\in\mathbf{J}_O$について，今まで出てきた全ての図式を併せて描いた次の図式も可換になり，
+    \begin{center}
+        \begin{tikzcd}
+            E \ar[r, "e"] & \prod_{i\in\mathbf{J}_O}D_i \ar[r, bend left=20, "\phi"] \ar[dr, "\pi_{\mathrm{cod}(\alpha)}=:\phi_\alpha"'] & \prod_{(\alpha:i\to j)\in\mathbf{J}_O}D_i \ar[d, "\pi_\alpha"] & E \ar[r, "e"] & \prod_{i\in\mathbf{J}_O}D_i \ar[r, "\psi"'] \ar[d, "\pi_\mathrm{dom}(\alpha)"' near end] \ar[dr, "\psi_\alpha"'] & \prod_{(\alpha:i\to j)\in\mathbf{J}_O}D_i \ar[d, "\pi_\alpha"]  \\
+            C \ar[ur, "c=\langle c_i\rangle"] \ar[u, dotted, "u"] \ar[rr, "c_j"'] & & D_j & C \ar[ur, "c=\langle c_i\rangle" near end] \ar[u, dotted, "u"] \ar[r, "c_i"'] & D_i \ar[r, "D_\alpha"'] & D_j
+        \end{tikzcd}
+    \end{center}
+    左辺は左側の図式，右辺は右側の図式を追跡しながら次のような式変形によって確かめることが出来る．
+    \begin{eqnarray*}
+        \phi c = \psi c &\Leftrightarrow& \pi_\alpha\phi c =\pi_\alpha\psi c \;\;\;(\forall\alpha\in\mathbf{J}_M ) \\
+        &\Leftrightarrow& \phi_\alpha c =\psi_\alpha c \;\;\;(\forall\alpha\in\mathbf{J}_M ) \\
+        &\Leftrightarrow& c_j = D_\alpha\circ c_i
+    \end{eqnarray*}
+    これより$\phi\circ c=\psi\circ c\Leftrightarrow (C,\langle c_i\rangle)\in\mathbf{Cone}(D)$を得たが，$E=\mathrm{Eq}(\phi,\psi)$であったから，$E\in\mathbf{Cone}(D)$であり，また上図を可換にする唯一つの射$u:C\to E$が存在する．
+    従って，$E$は圏$\mathbf{Cone}(D)$の終対象である．即ち，$\varprojlim_{j}D_j=E$．
+
+    よって以上より，圏$\mathbf{C}$は任意の有限な図式$D:\mathbf{J}\to\mathbf{C}$について極限を持つ．
+\end{proof}
+
+\vspace{3cm}
+
+\begin{corollary}\label{corollary-necessarilies-for-limits}
+    $\kappa$を基数とする．圏$C$についての次の３条件は同値である．
+
+    1. 圏$C$は全ての，濃度$\kappa$の極限を備える．（全ての，$\mathrm{Card}(\mathbf{J}_M)\le\kappa$を満たす圏$\mathbf{J}$の型の図式$D:\mathbf{J}\to\mathbf{C}$が極限を持つ．）
+
+    2. 圏$C$は濃度$\kappa$の有限積と等化子を備える．（圏$\mathbf{C}$内に，任意の$\kappa$個の対象$(D_i)_{i\in\kappa}$について，積$\prod_{i\in\kappa}D_i$が存在する．）
+\end{corollary}
+\begin{proof}
+    命題\ref{prop-necessaries-for-limits}の証明で，$\mathbf{J}_M$の濃度の議論を用いなかったので，同様な議論で示すことができる．
+\end{proof}
+
+\vspace{3cm}
+
+\begin{theorem}[余極限を持つための条件]
+    $\kappa$を基数とする．圏$C$についての次の２条件は同値である．
+
+    1. 圏$C$は全ての，濃度$\kappa$の余極限を備える．
+
+    2. 圏$C$は濃度$\kappa$の有限余積と余等化子を備える．
+    \noindent
+    $\kappa\in\mathbb{N}$の時（有限濃度の時），上記２条件は次の条件とも同値になる．
+
+    3. 圏$C$は押し出しと始対象を備える．
+\end{theorem}
+
+\vspace{3cm}
+
+\subsection{Perservation of limits}
+命題\ref{prop-necessaries-for-limits}で行った積と等化子からの極限の構成の応用．
+
+\begin{definition}　
+
+    1. 関手$F:C\to D$が\textbf{$J$型の極限を保つ}とは，全ての図式$D:J\to C$の，極限$(L,(p_j:L\to D_j))$について，この関手$F$による値$F(p_j):F(L)\to F(D_j)$が図式$F\circ D:J\to D$の極限である，即ち，次が成り立つことをいう．
+    \[ F(\varprojlim D_j)\simeq \varprojlim F(D_j) \]
+
+    2. 関手が，（型にかかわらず）全ての極限を保つ時，\textbf{連続(continuous)である}という．
+\end{definition}
+
+\vspace{3cm}
+
+\begin{proposition}
+    表現可能関手$\mathrm{Hom}(C,-):\mathbf{C}\to\mathbf{Sets}$は全ての極限を保つ．
+\end{proposition}
+\begin{proof}
+    系\ref{corollary-necessarilies-for-limits}より，$\mathrm{Hom}(C,-)$が全ての積と等化子を保つことを示せば良い．
+
+    $X\times Y\in\mathbf{C}$を積とする．すると，その普遍性から，$\mathrm{Hom}(C,X\times Y)\simeq \mathrm{Hom}(C,X)\times\mathrm{Hom}(C,Y)$が従う．
+    \begin{center}
+        \begin{tikzcd}
+            & C \ar[dl, "f_1"'] \ar[d, "{f}"] \ar[dr, "f_2"] & \\
+            X & \ar[l, "p_1"] \ar[r, "p_2"'] & X
+        \end{tikzcd}   
+    \end{center}
+    実際，$\varphi:\mathrm{Hom}(C,X)\times\mathrm{Hom}(C,Y)\to\mathrm{Hom}(C,X\times Y)$を$X\times Y$の普遍性が定める写像$(f_1,f_2)\mapsto\langle f_1,f_2\rangle$とすると，$f:C\to X\times Y$に対して$(f\circ p_1,f\circ p_2)$を対応させる写像がこの逆写像$\varphi^{-1}$となっている．
+
+    全く同様にして，任意の有限積$\prod_{i\in I}X_i$に対して，$\mathrm{Hom}(C,\prod_{i\in I}X_i)\simeq\prod_{i\in I}\mathrm{Hom}(C,X_i)$が成り立つ．
+
+    次に，$(E,e)$を$\mathbf{C}$の等化子とする．
+    \begin{center}
+        \begin{tikzcd}
+            E \ar[r, "e"] & X \ar[r, bend left=20, "f"] \ar[r, bend right=20, "g"'] & Y & & \mathrm{Hom}(C,E) \ar[r, "e_*"] & \mathrm{Hom}(C,X) \ar[r, bend left=20, "f_*"] \ar[r, bend right=20, "g_*"'] & \mathrm{Hom}(C,Y) \\
+            C \ar[u, dotted, "u"] \ar[ur, "h"'] 
+        \end{tikzcd}
+    \end{center}
+    すると，$e_*$が$\mathbf{Sets}$に於ける等化子$\mathrm{Eq}(f_*,g_*)$であることを示すには，$h\in\mathrm{Hom}(C,X)$が$f_*(h)=g_*(h)$を満たすならば，対応する唯一つの$u\in\mathrm{Hom}(C,E)$が存在して$e_*(u)=h$となることを示せば良い．
+    \footnote{そもそもまず，$f_*e_*=g_*e_*$を満たすこの$e_*$がmonic（単射）であることを示せば良い．
+    特に今回は，関手は図式の可換性を保つため，$f_*\circ e_*=g_*\circ e_*$が成り立つから，$e_*$の値域を$\{ h\in\mathrm{Hom}(C,X)\mid f_*(h)=g_*(h) \}\subset e_*(\mathrm{Hom}(C,E))$に制限した写像が可逆であることを示せば良い．
+    すると，この部分的な逆射（とりあえず$e_*^{-1}$と書いてしまう）を用いれば，任意の$z:Z\to\mathrm{Hom}(C,X)$に対応して，$e_*\circ u=z$を満たす唯一つの$u:Z\to\mathrm{Hom}(C,E)$を$u=e_*^{-1}\circ z$として構成できる．$e_*$がmonicであるところからも唯一つだとわかる．}
+
+    $h\in\{ h\in\mathrm{Hom}(C,X)\mid f_*(h)=g_*(h) \}$を任意に取る．即ち，$h:C\to X$を$fh=gh$を満たす勝手な$\mathbf{C}$の射とする．すると，$h=e\circ u$即ち$h=e_*(u)$を満たす$u:C\to E$が唯一つ存在する．
+    すると，次を満たすような唯一つのfiberの元$u\in\mathrm{Hom}(C,E)$が見つかったことになる．
+    \begin{center}
+        \begin{tikzcd}
+            \mathrm{Hom}(C,E) \ar[r] \ar[d, phantom, "\rotatebox{90}{$\in$}"] & \mathrm{Hom}(C,X) \ar[d, phantom, "\rotatebox{90}{$\in$}"]\\
+            e_*^{-1}(h)=u \ar[r, mapsto] & h=eu
+        \end{tikzcd}
+    \end{center}
+    従って，$e_*:\mathrm{Hom}(C,E)\to\mathrm{Hom}(C,X)$は等化子$\mathrm{Eq}(f_*,g_*)$である．
+
+    以上より，$\mathrm{Hom}(C,-)$は任意の積と等化子を保つ．
+\end{proof}
+
+\vspace{3cm}
+
+\begin{definition}[contravariant functor]
+    $F:\mathbf{C^{op}}\to\mathbf{D}$という形をした関手$F$のことを，反変関手という．
+    この関手は$(f:B\to A)\in\mathbf{C}$を$\mathbf{D}$の射$F(f):F(A)\to F(B)$に写し，$F(g\circ f)=F(f)\circ F(g)$を満たす．
+\end{definition}
+\begin{example*}
+    （局所的に小さい圏$\mathbf{C}$上の）表現可能関手$\mathrm{Hom}_\mathbf{C}(-,C):\mathbf{C^{op}}\to\mathbf{Sets}$とは，
+    $X\in\mathbf{C}$を$\mathrm{Hom}(X,C)\in\mathbf{Sets}$に写し，$f:X\to Y\in\mathbf{C}$を，これが定める引き戻し$f^*$
+    \begin{center}
+        \begin{tikzcd}
+            f^*:\mathrm{Hom}(Y,C) \ar[r] \ar[d, phantom, "\rotatebox{90}{$\in$}"] & \mathrm{Hom}(X,C) \ar[d, phantom, "\rotatebox{90}{$\in$}"]\\
+            g:Y\to C \ar[r, mapsto] & g\circ f:X\to C
+        \end{tikzcd}
+    \end{center}
+    に写す関手のことである．この関手は反変関手である．
+\end{example*}
+
+\vspace{3cm}
+
+\begin{corollary}[dual version]
+    反変の表現可能関手は，全ての余極限を極限に写す．
+\end{corollary}
+\begin{example*}
+    局所的に小さい圏$\mathbf{C}$の余積$X+Y$は，$\mathbf{C}$上の反変表現可能関手によって積に写される．
+    \[ \mathrm{Hom}_\mathbf{C}(X+Y,C)\simeq \mathrm{Hom}_\mathbf{C}(X,C)\times \mathrm{Hom}_\mathbf{C}(Y,C) \]
+    \begin{center}
+        \begin{tikzcd}
+            & C & \\
+            X \ar[ur, "f_1"] & X+Y \ar[l, "p_1"] \ar[u, "f"] \ar[r, "p_2"'] & Y \ar[ul, "f_2"']
+        \end{tikzcd}
+    \end{center}
+    実際，写像$\varphi:\mathrm{Hom}_\mathbf{C}(X,C)\times \mathrm{Hom}_\mathbf{C}(Y,C)\to\mathrm{Hom}_\mathbf{C}(X+Y,C)$を，各$(f_1,f_2)$に対して，対応する$f$に写す写像とすると，これは可逆である．
+    また，次のようにも表せる．自然数の指数法則はこの特別な場合である．
+    \[ C^{X+Y}\simeq C^X\times C^Y \]
+\end{example*}
+
+\vspace{3cm}
+
+\begin{proposition*}
+    ブール代数の超filterを取るという関手$\mathrm{Ult}:\mathbf{BA^{op}}\to\mathbf{Sets}$について，
+    \[ \mathrm{Ult}(A+B)\simeq\mathrm{Ult}(A)\times\mathrm{Ult}(B) \]
+\end{proposition*}
+\begin{proof}
+    \ref{subsection-generalized-elements}節の命題より，ブール代数の超filterを取るという関手$\mathrm{Ult}$は表現可能である．
+    \[ \mathrm{Ult}(B)\simeq\mathrm{Hom}_\mathbf{BA}(B,2) \]
+    反変な表現可能関手は余積を積に写すから，次の標準的な同型が存在する．
+    \[ \mathrm{Hom}_\mathbf{BA}(A+B,2) \simeq \mathrm{Hom}_\mathbf{BA}(A,2)\times\mathrm{Hom}_\mathbf{BA}(B,2) \]
+    以上より，同型$\simeq$の推移性より，結論を得る．
+\end{proof}
+
+\vspace{3cm}
+
+\subsection{Colimits}
+
+\begin{example*}[Setsでの押し出し]
+    図式$B\xleftarrow{f}A\xrightarrow{g}C$の極限を考える．押し出しは次のように，引き戻しを積と等化子から構成したのと並行な議論で構成できる．
+
+    まず，直和$B\rightarrow B+C \leftarrow C$を考える．この$B\times C$上の同値関係$\sim$を，$b\sim c:\Leftrightarrow b=f(a)\land c=g(a)\;(\exists a\in A)$と定義する．
+    すると，$(B+C)/\sim\;\simeq\; B+_AC$となる．
+\end{example*}
+
+\vspace{3cm}
+
+\begin{example}[Topでの押し出し]
+    単位球面$S^2$とは，次の押し出し$D^2+_{S^1}D^2$である．
+    \begin{center}
+        \begin{tikzcd}
+            S^1 \ar[r, "i"] \ar[d, "i"'] & D^2 \ar[d] \\
+            D^2 \ar[r] & S^2
+        \end{tikzcd}
+    \end{center}
+    同様に，単位円周$S^1$とは，次の押し出し$D^1+_{S^0}D^1$である．
+    \begin{center}
+        \begin{tikzcd}
+            S^0 \ar[r, "i"] \ar[d, "i"'] & D^1 \ar[d] \\
+            D^1 \ar[r] & S^1
+        \end{tikzcd}
+    \end{center}
+\end{example}
+
+\vspace{3cm}
+
+\begin{definition*}[Colimits]
+    1. 図式$D:\mathbf{J}\to \mathbf{C}$の余錐とは，各$i,j\in\mathbf{J}$について次の図式を可換にする組$(C,(c_i)_{i\in\mathbf{J}})$のことである．
+    \begin{center}
+        \begin{tikzcd}
+            & C & \\
+            D_i \ar[ur, "c_i"] & & D_j \ar[ul, "c_j"'] \ar[ll, "D_\alpha"]
+        \end{tikzcd}
+    \end{center}
+    
+    2. 余錐の射$f:(C,(c_j))\to (C',(c'_j))$とは，圏$\mathbf{C}$の射$f:C\to C'$であって，任意の$j\in\mathbf{J}$について次の図式を可換にするもののことである．
+    \begin{center}
+        \begin{tikzcd}
+            C \ar[rr, "f"] & & C' \\
+            & D_j \ar[ul, "c_j"] \ar[ur, "c'_j"']
+        \end{tikzcd}
+    \end{center}
+
+    3. 余極限$\varinjlim_{j\in\mathbf{J}}D_j$とは，圏$\mathbf{Cocone}(D)$の始対象のことである．
+\end{definition*}
+
+\vspace{3cm}
+
+\begin{example}[群の直極限／順極限／帰納極限]
+    添字圏を，順序数$\omega=(\mathbb{N},\le)$をposet categoryとみなしたもの$\omega$とし，$\mathbf{Groups}$内の$\omega$型の図式
+    \begin{center}
+        \begin{tikzcd}
+            G_0 \ar[r, "g_0"'] & G_1 \ar[r, "g_1"'] & G_2 \ar[r, "g_2"'] & \cdots
+        \end{tikzcd}
+    \end{center}
+    の極限$\varinjlim_{n\in\omega}G_n\simeq G_\infty$を考える．この群$G_\infty$は確かに存在し，次のように構成できる．
+    \begin{center}
+        \begin{tikzcd}
+            G_0 \ar[r, "g_0"'] \ar[drrr, bend right=20, "u_0"'] & G_1 \ar[r, "g_1"'] \ar[drr,bend right=10, "u_1"'] & G_2 \ar[r, "g_2"'] \ar[dr, "u_2"'] & \cdots \ar[d, phantom, "\cdots"] \\
+            & & & G_\infty
+        \end{tikzcd}
+    \end{center}
+    アイデアとしては，各群の直和集合$\rotatebox[origin=c]{180}{$\prod$}_{n\in\omega}G_n$に，隣接した射が可換であるための条件$u_i=u_{i+1}\circ g_i\;(i=0,1,\cdots)$を満足させるために，$x_n\approx g_n(x_n)\;(n\in\omega)$を満たすような（含むような）同値関係を導入したい．すると，それについての商集合が，求める余極限と期待される．
+
+
+    \vspace{1cm}
+
+    \begin{notation*}
+        射$g_{i,j}:G_i\to G_j\;(i\le j)$を，$g_{i,j}:=g_{j-1}\circ\cdots\circ g_i$と定める．
+    \end{notation*}
+    \begin{proposition*}[1.「上流で合流する」という同値関係を定める]
+        $\rotatebox[origin=c]{180}{$\prod$}_{n\in\omega}G_n$の関係を，各$(x_n\in G_n,y_m\in G_m)$に対して$x_n\sim y_m:\Leftrightarrow\exists k\ge m,n\; [g_{n,k}(x_n)=g_{m,k}(y_m)]$と定めると，これは同値関係である．
+    \end{proposition*}
+    \begin{proof}
+        推移性については，$x_n\sim y_m$かつ$y_m\sim z_k$が成り立つ時，
+        \begin{align*}
+            \exists l\ge n,m &\;\; g_{n,l}(x_n)=g_{m,l}(y_m) & \exists l'\ge m,k &\;\; g_{m,l'}(y_m)=g_{k,l'}(z_k)
+        \end{align*}
+        が成り立つから，$o=\max\{l,l'\}$とすれば，$g_{n,o}(x_n)=g_{k,o}(z_k)$となる．何故ならば，例えば$l\ge l'$の時，$g_{n,l}(x_n)=g_{m,l}(y_m)=g_{l',l}(g_{m,l'}(y_m))= g_{l',l}(g_{k,l'}(z_k)) = g_{k,l}(z_k)$となるからである．
+    \end{proof}
+    \vspace{3cm}
+    \begin{proposition*}[2.自然に定まる群の構造を入れる]
+        集合$\rotatebox[origin=c]{180}{$\prod$}_{n\in\omega}G_n/\sim$の積を，各$[x],[y]\in\rotatebox[origin=c]{180}{$\prod$}_{n\in\omega}G_n/\sim$について，$[x]\cdot_\infty [y]:=[x'\cdot_ny']$（ただし，$x',y'\in G_n$は$x\sim x',y\sim y'$を満たすとする）．
+        と各群$(G_n,\cdot_n,u_n,{}^{-1})$の構造から定める．すると，単位元を$[u_0]\;(u_0\in G_0)$とし，逆元を$[x]^{-1}:=[x^{-1}]$と定めると，$\left(\rotatebox[origin=c]{180}{$\prod$}_{n\in\omega}G_n/\sim,\cdot_\infty,[u_0],{}^{-1}\right)$は群をなす．
+
+        また，次の写像$u_n:G_n\to G_\infty$は確かに群の準同型を定める．
+        \begin{center}
+            \begin{tikzcd}
+                u_n:G_n \ar[r] \ar[d, phantom, "\rotatebox{90}{$\in$}"] & G_\infty \ar[d, phantom, "\rotatebox{90}{$\in$}"]\\
+                x \ar[r, mapsto] & {[x]}
+            \end{tikzcd}
+        \end{center}
+    \end{proposition*}
+    \begin{proof}
+        まず，各$[x],[y]$には，$n_x,n_y\in\omega$が存在して，ある$x_{n_x}\in G_{n_x}$について$\forall x\in[x]\; x_{n_x}\sim x$が成り立つから，$n=\max\{n_x,n_y\}$とすれば$[x]\cdot [y]=[x_n\cdot_ny_n]\;(x_n,y_n\in G_n)$は定まる．
+        次に，ある$n,m\in\omega\;(m\ge n)$について$[x_n\cdot_ny_n]\ne[x_m\cdot_my_m]$が成立すると仮定すると，$g_{n,m}(x_n)=x_m,g_{n,m}(y_n)=y_m$より$g_{n,m}(x_n\cdot_ny_n)=x_m\cdot_my_m$に矛盾する．従って，群$\rotatebox[origin=c]{180}{$\prod$}_{n\in\omega}G_n/\sim$の演算はwell-definedである．
+
+        写像$u_n:G_n\to G_\infty$について，$u_n(x\cdot_ny_n)=[x_n\cdot_ny_n]=[x]\cdot_\infty[y]$と，$u_n(u_n)=[u_n]=[u_0]$より（写像の名前と群$G_n$の単位元とで記号を濫用した），確かに群の準同型である．
+    \end{proof}
+    \vspace{3cm}
+    \begin{proposition*}[3.余極限となることを確認する]
+        図式$G:\omega\to\mathbf{Group}$の余錐$(H,(h_n))$を勝手に取る．すると，唯一つの射$h_\infty:G_\infty\to H$が存在して，下図を可換にする．
+        \begin{center}
+            \begin{tikzcd}
+                & & & H \\
+                G_0 \ar[r, "g_0"'] \ar[drrr, bend right=30, "u_0"'] \ar[urrr, bend left=30, "h_0"] & G_1 \ar[r, "g_1"'] \ar[drr,bend right=20, "u_1"']\ar[urr,bend left=20, "h_1"] & G_2 \ar[r, "g_2"'] \ar[dr, bend right=10, "u_2"'] \ar[ur, bend left=10, "h_2"] & \cdots \ar[d, phantom, bend right=30, "\cdots"] \ar[u, phantom, bend left=30, "\cdots"] \\
+                & & & G_\infty \ar[uu, bend right=50, "h_\infty"']
+            \end{tikzcd}
+        \end{center}
+    \end{proposition*}
+    \begin{proof}写像$h_\infty:G_\infty\to H$を
+        \begin{center}
+            \begin{tikzcd}
+                h_\infty:G_\infty \ar[r] \ar[d, phantom, "\rotatebox{90}{$\in$}"] & H \ar[d, phantom, "\rotatebox{90}{$\in$}"] \\
+                u_n(x_n)=[x_n] \ar[r, mapsto] & h_n(x_n)
+            \end{tikzcd}
+        \end{center}
+        とすると，これは$[x_n]=[x_m]$とした時，$k\ge n,m$が存在して，$g_{n,k}(x_n)=g_{m,k}(x_m)$を満たすから，$(H,(h_n))$は余錐より$h_k(g_{n,k}(x_n))=h_k(g_{m,k}(x_m))\Rightarrow h_n(x_n)=h_m(x_m)$より，確かに写像として定まっている．
+
+        また，$x\sim x_n,y\sim y_m$として，$h_\infty([x_n]\cdot_\infty[y_m])=h_\infty([x_n\cdot_ky_m])=h_k(x\cdot_ky)=h_k(x)\cdot_Hh_k(y)=h_\infty([x_n])\cdot_Hh_\infty([y_m])$と，$h_\infty([u_0])=h_0(u_0)=u_H$より，写像$h_\infty$は群準同型である．
+
+        最後に，$h'_\infty:G_\infty\to H$も上の図式を可換にすると仮定して，矛盾を導く．任意の$[x_n]\in G_\infty$を取る．
+        $h_\infty([x_n])=h_n(x_n)=h_\infty(u_n(x_n))=h'_\infty(u_n(x_n))=h'_\infty([x_n])$より，図式の可換性から$h_\infty=h'_\infty$が従う．従って，このような射$h_\infty:G_\infty\to H$は一意的である．
+    \end{proof}
+\end{example}
+
+\vspace{3cm}
+
+\begin{definition}[creation of limits]
+    \textbf{関手$F:\mathbf{C\to D}$が$\mathbf{J}$型の図式の極限を創出する}とは，任意の$\mathbf{C}$上の図式$C:\mathbf{J\to C}$を関手$F$で写したもの$FC:\mathbf{J\to D}$の極限$(L,(p_j))$が，
+    全て元々の圏$\mathbf{C}$上での極限$(\overline{L},(\overline{p_j}))$が唯一つ存在してその像となっている$L=F(\overline{L}), (p_j)=(\overline{p_j})$ことをいう．
+
+    即ち，図式$C:\mathbf{J\to C}$の錐$(\overline{L},(\overline{p_j}))$が極限になるための条件と，図式$FC:\mathbf{J\to D}$の錐$(L,(p_j))$が極限になるための条件が同値である．
+\end{definition}
+
+\vspace{3cm}
+
+\begin{proposition}
+    忘却関手$U:\mathbf{Groups\to Sets}$は全ての$\omega$-余極限と全ての極限を創出する(create)．
+\end{proposition}
+\begin{remark*}
+    1. ほとんど全ての代数（方程式によって定められた演算を備えた集合）について，同様の定理が成り立つ．
+
+    2. 例えばアーベル群の圏にて，$A\leftarrow C\rightarrow B$型の図式の余極限である余積は，忘却関手$U:\mathbf{Ab\to Sets}$によっては保存されず，アーベル群の直和は，台集合同士の直積集合を台集合として持つのであった．
+\end{remark*}
+
+\vspace{3cm}
+
+\begin{example}[累積的階層(cumulative hierarchy)]
+    \begin{align*}
+        V_0&=\varnothing & V_1&=P(\varnothing) &\cdots& & V_{n+1}&=P(V_n)
+    \end{align*}
+    と定めると，これらの集合と，その間の包含写像による図式
+    \begin{center}
+        \begin{tikzcd}
+            V_0 \ar[r, "i_0"] & V_1 \ar[r, "i_1"] & V_2 \ar[r, "i_2"] & \cdots
+        \end{tikzcd}
+    \end{center}
+    余極限$V_\omega:=\varinjlim_nV_n$が，ランク$\omega$の累積的階層$V_\omega=\bigcup_{n\in\omega}V_n$である．
+
+    これを，空集合$\varnothing$の代わりに，勝手な集合$A$から始める場合に一般化することを考える．次の集合を考える．
+    \begin{align*}
+        V_0(A)&=A & V_1(A)&=A+P(A) &\cdots& & V_{n+1}(A)&=A+P(V_n(A))
+    \end{align*}
+    その間の写像を，$P_!(f):P(X)\to P(Y)$を，写像$f:X\to Y$がその冪集合の間に定める，$X$の部分集合をその$f$による像に写す共変関手として，
+    各$v_n$を和写像$v_n:=1_A+P_!(v_{n-1}):A+P(V_{n-1}(A))\to A+P(V_n(A))$，$v_0$は和集合$A+P(A)$に伴う包含写像$A\to A+P(A)$とする．
+    \begin{center}
+        \begin{tikzcd}
+            V_0(A) \ar[r, "v_0"] & V_1(A) \ar[r, "v_1"] & V_2(A) \ar[r, "v_2"] & \cdots \ar[r, "v_n"] & V_{n+1}(A)=A+P(V_n(A))
+        \end{tikzcd}
+    \end{center}
+    この図式の余極限$V_\omega(A):=\varinjlim_nV_n(A)$を，$A$上のランク$\omega$の累積的階層という．この時，$V_\omega=V_\omega(\varnothing)$となる．
+
+    写像$f:A\to B$を取って，余錐の間の関手$V_\omega(f):V_\omega(A)\to V_\omega(B)$を考える．
+    \begin{center}
+            \begin{tikzcd}
+                & & & & & V_\omega(A)  \ar[ddd, bend left=50, "f_\omega"] \\
+                V_0(A) \ar[r] \ar[urrrrr, bend left=30, "a_0"] \ar[d, "f_0"'] & V_1(A) \ar[r] \ar[d, "f_1"'] \ar[urrrr,bend left=20, "a_1"]  & V_2(A) \ar[r]\ar[urrr, bend left=10, "a_2"] \ar[d, "f_2"']  & \cdots \ar[d, phantom,"\cdots"] \ar[urr, phantom, bend left=10, "\cdots"] \ar[r] & V_n(A) \ar[r] \ar[ur, "a_n"] \ar[d, "f_n"'] & \cdots \ar[d, phantom, "\cdots"] \\
+                V_0(B) \ar[r] \ar[drrrrr, bend right=30, "b_0"']              & V_1(B) \ar[r] \ar[drrrr,bend right=20, "b_1"']               & V_2(B) \ar[r] \ar[drrr, bend right=10, "b_2"']              & \cdots \ar[drr, phantom, bend right=10, "\cdots"] \ar[r]                         & V_n(B) \ar[r] \ar[dr, "b_n"'] & \cdots \\
+                & & & & & V_\omega(B)
+            \end{tikzcd}
+    \end{center}
+    次のように各$(f_n)$と$f_\omega$を定めると，確かに上の図式は可換になる．
+    \begin{align*}
+        f_0 &= f:A\to B \\
+        f_1 &= f+P_!(f) : A+P(A) \to B+P(B) \\
+        \vdots &{} \\
+        f_{n+1} &= f+P_!(f_n) : A+P(V_n(A)) \to B+P(V_n(B))
+    \end{align*}
+    と帰納的に定め，これらにより$f_\omega:V_\omega(A)\to V_\omega(B)$は一意的に定まる．
+
+    何故ならば，$(V_\omega(B),(b_n\circ f_n))$は図式$(V_n)_{n\in\omega}$の余錐だから，この図式の余極限である$V_\omega(A)$から，唯一つの射$V_\omega(A)\to V_\omega(B)$が存在する．
+\end{example}
+
+\vspace{3cm}
+
+\begin{example}[$\omega$CPO]
+    Poset categoryであって，全ての$\omega$型の図式が余極限を持つ時，これを$\omega$-余完全(cocomplete)であるといい，そのようなposetを$\omega$CPOという．\footnote{圏が完全であるとは，普通，全ての小さい図式が極限を持つことをいう．これらを呼び分ける時，こちらをsmall-completeなどという．}
+    この時，全ての単調列$(d_n)_{n\in\omega}$が収束先$\varinjlim d_n=d_\omega$を持つ．
+\end{example}
+
+\begin{proposition}
+    始対象$0$を備えた$\omega$CPO $D$の連続な自己関手$h:D\to D$に対して，固定点$h(x)=x\in D$であって，他のどの極限よりも大きくないものが存在する，
+\end{proposition}
+\begin{proof}
+    $D$上の列$(d_n)_{n\in\omega}$を次のように構成する．
+    \begin{align*}
+        d_0 &= 0 & &\cdots& d_{n+1}&= h(d_n)
+    \end{align*}
+    とすると，始対象$d_0$からの唯一つの射を$f_0:d_0\to d_1$として，図式$(d_n)_{n\in\omega}$は次にようになる．
+    \begin{center}
+        \begin{tikzcd}
+            d_0 \ar[r, "f_0"] & d_1=h(d_0) \ar[r, "f_1:=h(f_0)"] & d_2=h(d_1) \ar[r, "f_2=h(f_1)"] & \cdots
+        \end{tikzcd}
+    \end{center}
+    これは$\omega$型の図式で，圏$D$は$\omega$-COPだからこの図式には余極限$\varinjlim_{n\in\omega}d_n=d_\omega$が存在する．これについて
+    \begin{align*}
+        h(d_\omega) &= h(\varinjlim_{n\in\omega}d_n) \\
+        &= \varinjlim_{n\in\omega}h(d_n) \\
+        &= \varinjlim_{n\in\omega}d_{n+1} \\
+        &=d_\omega
+    \end{align*}
+    より，この余極限$d_\omega$が求める固定点である．
+
+    実際，$h(x)=x\in D$を任意の固定点とすると，$d_0=0\le x$であるから，以降$d_1=h(d_0)\le h(x)=x$と繰り返して，任意の$n\in\omega$について$d_n\le x$である．
+    すると，$x$は図式$(d_n)_{n\in\omega}$の余錐だから，余極限の普遍性より，唯一つの射$d_\omega\to x$が存在する．即ち，$d_\omega\le x$である．
+\end{proof}
+
+\vspace{3cm}
+
+\begin{example*}[圏に依って余極限が違う(Sets, Pos, $\omega$CPO)]
+    有限な$\omega$-完全半順序集合$\omega_n$を$\omega_n:=\{k\in\omega\mid k\le n\}$とする．
+    今まで，各$\omega$をposet categoryとして捉えてきたが，
+    これを$\mathbf{Pos}$の中で考える．
+    \begin{center}
+        \begin{tikzcd}
+            \omega_0 \ar[r, "i_0"] & \omega_1 \ar[r, "i_1"] & \omega_2 \ar[r, "i_2"] & \cdots
+        \end{tikzcd}
+    \end{center}
+    は$\omega$型の図式であり，$\mathbf{Pos}$内では極限$\varinjlim_{n\in\omega}\omega_n=\omega$を持つ．
+    
+    一方で，poset category $\omega$自体は$\omega$-完全ではない．実際，次の図式の余極限が存在しない．
+    \begin{center}
+        \begin{tikzcd}
+            0 \ar[r, "i_0"] & 1 \ar[r, "i_1"] & 2 \ar[r, "i_2"] & \cdots
+        \end{tikzcd}
+    \end{center}
+    
+    従って，$\omega$-完全な半順序集合全体のなす圏（$\mathbf{Pos}$の部分圏）$\omega\mathbf{CPO}$内での図式$(\omega_n)_{n\in\omega}$の極限は，$\varinjlim_{n\in\omega}\omega_n=\omega+1$である．
+    \begin{center}
+        \begin{tikzcd}
+            0 \ar[r, "i_0"] \ar[drrr, bend right=20, "j_0"'] & 1 \ar[r, "i_1"] \ar[drr,bend right=10, "j_1"'] & 2 \ar[r, "i_2"] \ar[dr, "j_2"'] & \cdots \ar[d, phantom, "\cdots"] \\
+            & & & \omega
+        \end{tikzcd}
+    \end{center}
+    この順序集合$\omega+1$では，確かに，有界な列についてはその上限$n\in\omega$に，非有界な列については$\omega$に収束する．
+
+    以上より，$\mathbf{Sets}$上では$\varinjlim_{n\in\omega}\omega_n=\omega$だから，忘却関手$U:\mathbf{Pos\to Sets}$は$\omega$-余極限を創出するが，忘却関手$U:\omega\mathbf{CPO\to Sets}$は創出しない．
+    "The colimit is sensitive to the ambient category in which it is taken."
+\end{example*}
+
+\subsection{Exercises}
+
+\section{Exponentials}
+
+\subsection{Exponential in a category}
+
+\subsection{Cartesian closed categories}
+
+\subsection{Heyting algebras}
+
+\subsection{Propositional definition of CCC}
+
+\subsection{$\lambda$-calculus}
+
+\subsection{Variable sets}
+
+\subsection{exercises}
+
+\section{Naturality}
+５章の前文には，After a brief look at one more elementary notion in Chapter 6, we go on to what may be called "higher category theory." とある．
+
+\subsection{Category of categories}
+
+\subsection{Representable structure}
+
+\subsection{Stone duality}
+
+\subsection{Naturality}
+
+\subsection{Examples of natural transformations}
+
+\subsection{Exponentials of categories}
+
+\subsection{Functor categories}
+
+\subsection{Monoidal categories}
+
+\subsection{Equivalence of categories}
+
+\subsection{Examples of equivalence}
+
+\subsection{Exercises}
+
+\section{Categories of diagrams}
+
+\subsection{Set-valued functor categories}
+
+\subsection{The Yoneda embedding}
+
+\subsection{The Yoneda lemma}
+
+\subsection{Applications of the Yoneda lemma}
+
+\subsection{Limits in categories of diagrams}
+
+\subsection{Colimits in categories of diagrams}
+
+\subsection{Exponentials in categories of diagrams}
+
+\subsection{Topoi}
+
+\subsection{Exercises}
+
+\section{Adjoints}
+
+\subsection{Preliminary definition}
+
+\subsection{Hom-set definition}
+
+\subsection{Examples of adjoints}
+
+\subsection{Order adjoints}
+
+\subsection{Quantifiers as adjoints}
+
+\subsection{RAPL}
+
+\subsection{Locally cartesian closed categories}
+
+\subsection{Adjoint functor theorem}
+
+\subsection{Exercises}
+
+\section{Monads and algebras}
+
+\subsection{The triange identities}
+
+\subsection{Mondas and adjoints}
+
+\subsection{Algebras for a monad}
+
+\subsection{Comonads and coalgebras}
+
+\subsection{Algebras for endofunctors}
+
+\subsection{Exercises}
+
+\end{document}

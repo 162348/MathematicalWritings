@@ -1,0 +1,13 @@
+\documentclass[uplatex, dvipdfmx]{jsarticle}
+\usepackage{amsmath, amsfonts, amsthm, mathptmx, amssymb, ascmac, color, comment, graphicx}
+\usepackage{tikz, tikz-cd}
+\begin{document}
+
+\begin{center}
+    \begin{tikzcd} 
+        M \arrow[d, "s"] \arrow[dr, phantom, "\circlearrowright"] & M_s\underset{C}{\times_t}M \arrow[l, "P_2" '] \arrow[r, "P_1"] \arrow[d, "c"] & M \arrow[dl, phantom, "\circlearrowright"] \arrow[d, "t"] \\
+        C & M \arrow[l, "s"] \arrow[r, "t"'] & C
+    \end{tikzcd}
+\end{center}
+
+\end{document}

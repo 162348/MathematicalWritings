@@ -1,0 +1,150 @@
+\documentclass[uplatex,dvipdfmx]{jsarticle}
+\title{常微分方程式レポート（担当：平地健吾先生）}
+\author{司馬博文 J4-190549}
+\pagestyle{plain} \setcounter{secnumdepth}{4}
+\input{/Users/hirofumi.shiba48/Desktop/数理科学/preamble_CM.tex}
+\begin{document}
+\maketitle
+
+\subsection*{[1]}
+(1) 
+\[ \frac{dy}{dx}(x) = y+y^2 = y(y+1) =: f(x,y) \]
+と置くと，$f$は$\R$上$C^1$級なので，$\R$上Lipschitz連続である．
+$y\equiv 0,-1$は解だから，以降$y(y+1)$は決して$0$にならないとすると，
+\begin{align*}
+    &\frac{dy}{dx}(x) = y+y^2\\
+    \Leftrightarrow&\int\left(\frac{1}{y}-\frac{1}{1+y}\right)dy = \int dx\\
+    \Leftrightarrow& \log\left|\frac{y}{1+y}\right| = x+C\\
+    \Leftrightarrow& \frac{y}{1+y} = Ae^x\;(A:=e^C>0)\\
+    \Leftrightarrow& y=\frac{Ae^x}{Ae^x-1}\;(A\in\R_{>0},x\ne -\log A)
+\end{align*}
+よって解は，$y\equiv 0,-1$と併せて，
+\[y=\frac{Ae^x}{Ae^x-1}\;(A\in\R_{\ge 0}\cup\{\infty\},x\ne -\log A)\]
+
+(2) 方程式$(1+x^2)\frac{dy}{dx}=1+y^2$は，$1+x^2,1+y^2\ge 1>0$より，$\frac{1}{1+y^2}\frac{dy}{dx}=\frac{1}{1+x^2}$と変形できる．
+従って，両辺$x$で積分すると，$\arctan y=\arctan x+C\;(C\in\R)$．よって，$y=\tan(\arctan(x)+C)\;(C\in\R)$．
+
+(3) 方程式$\frac{dy}{dx}=\frac{x^2-y^2}{2xy}$に対応する全微分方程式は$\omega:=2xy\;dx+(y^2-x^2)\;dy=0$である．いま，$d\omega=2y\;dx\wedge dy+2y\;dy\wedge dx=0$よりポテンシャル$F(x,y)$は存在し，$F(x,y)=y^2x-\frac{x^3}{3}+C\;(C\in\R)$である．
+従って，所与の微分方程式は次のように変形できる．
+\begin{align*}
+    &\frac{dy}{dx}=\frac{x^2-y^2}{2xy}\\
+    \Leftrightarrow& \frac{d}{dx}\left(y^2x-\frac{x^3}{3}\right)=0\\
+    \Leftrightarrow& 3y^2x-x^3=C\;(C\in\R)
+\end{align*}
+よって解は$y=\frac{1}{3}\sqrt{\frac{x^3+C}{x}}\;(C\in\R)$但し定義域は$\{x\in\R\mid x>\max\left\{0,-\sqrt[3]{c}\right\}\lor x<\min\left\{0,-\sqrt[3]{c}\right\} \}$．
+
+(4) 
+
+\subsection*{[2]}
+斉次線型微分方程式$\frac{dy}{dx}=2xy$の解は$y=Ce^{x^2}\;(C\in\R)$である．
+ここで$C=z(x)$と置くと，$y=z(x)e^{x^2}$で，$\frac{dy}{dx}=z'(x)e^{x^2}+2xy$となるから，
+$\frac{dz}{dx}(x)=\frac{xe^{-x^2}}{e^{x^2}}$を解けば良い．これは変数分離系の微分方程式だから，
+\begin{align*}
+    &\frac{dz}{dx}=xe^{-2x^2}\\
+    \Leftrightarrow& z = -\frac{e^{-2x^2}}{4}+C\;(C\in\R)
+\end{align*}
+$\lim_{|x|\to\infty}y=0$の時，$y=z(x)e^{x^2}$と定めたから$z\to 0\;(|x|\to\infty)$である．従って$C=0$．
+この時，$z=\frac{e^{-2x^2}}{4}$より，$y(x)=z(x)e^{x^2}=-\frac{e^{-x^2}}{4}$．
+
+\subsection*{[3]}
+(a) $U(x,y)=x^2y+\sin y+C\;(C\in\R)$
+
+(b) 積分因子$\mu$を，$x$のみの関数$\mu=\mu(x)$とする．$\omega:=(x^2-y^2)\;dx+2xy\;dy$に対して$d(\mu\omega)=0$となれば良いから，
+自明な積分因子$\mu\equiv 0$を無視して
+\begin{align*}
+    &d(\mu\omega)=0\\
+    \Leftrightarrow& \frac{d\mu}{dx}(x)=-\frac{2\mu(x)}{x}\;(x\ne 0の時)\\
+    \Leftrightarrow& \mu(x)=\frac{1}{x^2}+C\;(x\ne 0)
+\end{align*}
+と計算できるから，例えば関数$\mu(x)=\frac{1}{x^2}\;(x\ne 0)$は積分因子である．
+この下で$\mu\omega=\left(1-\frac{y^2}{x^2}\right)dx+\frac{2y}{x}dy=0$のポテンシャルは$F(x,y)=\frac{y^2}{x}+x+C\;(C\in\R)$である．
+従って，求める解は$y=\sqrt{-x^2+xC}\;(C\in\R)$但しこの関数の定義域は$\{x\in\R\mid 0<x<C\lor C<x<0\}$
+
+\subsection*{[4]}
+(1) $(D+2)(D+1)y=\cos x$を，二段階$(D+2)y=y_1, (D+1)y_1=\cos x$に分けて解く．
+$y_1=a\cos x+b\sin x\;(a,b\in\R)$と置くと，$(D+1)y_1=(b-a)\sin x+(a+b)\cos x$であるから，$a=b=\frac{1}{2}$を得る．
+よって，$y_1=\frac{1}{2}\cos x+\frac{1}{2}\sin x$．
+続いて，$y=a\cos x+b\sin x\;(a,b\in\R)$と置くと，$(D+2)y=(2b-a)\sin x+(2a+b)\cos x$より，$a=\frac{1}{10},b=\frac{3}{10}$を得る．
+よって，特殊解$y=\cos x+3\sin x$を得る．これを$(D+2)(D+1)y=0$の基本解$e^{-x},e^{-2x}$と併せて，一般解は
+\[ y=\cos x+3\sin x + C_1e^{-x}+C_2e^{-2x}\;(C_1,C_2\in\R) \]
+
+(2) $(D-3)(D+1)y=x^2$を，$(D-3)y=y_1,(D+1)y_1=x^2$に分けて求める．$y_1=ax^2+bx+c$と置くと，$y'_1=2ax+b$より，$(D+1)y_1=ax^2+(2a+b)x+b+c$となるから，$a=1,b=-2,c=2$を得る．
+同様に$y=ax^2+bx+c$と置くと，$(D-3)y=-3ax^2+(2a-3b)x+b-3c$となるから，$a=-\frac{1}{3},b=\frac{4}{9},c=-\frac{14}{27}$より，
+特殊解は$y=-\frac{1}{3}x^2+\frac{4}{9}x-\frac{14}{27}$である．
+よって，$(D-3)(D+1)y=0$の基本解$e^{-x},e^{3x}$と併せて，一般解は次のとおり．
+\[ y=-9x^2+12x-14+C_1e^{-x}+C_2e^{3x}\;(C_1,C_2\in\R) \]
+
+\subsection*{[8]}
+$\R^2$-値関数$y(x)=\begin{pmatrix}f_1(x)\\f_2(x)\end{pmatrix}$に関する所与の常微分方程式を，関数$F:\R\times\R^2\to\R$を用いて次のように置く．
+\begin{align*}
+    \frac{dy}{dx}(x) &= \begin{pmatrix}\frac{df_1}{dx}(x)\\\frac{df_2}{dx}(x)\end{pmatrix}=\begin{pmatrix}f_2(x)\\-f_1(x)\end{pmatrix}=:F(x,y)\\
+    y(0)&=\begin{pmatrix}f_1(0)\\f_2(0)\end{pmatrix}=\begin{pmatrix}0\\1\end{pmatrix}
+\end{align*}
+
+\bf{(a)} $n=1,2,\cdots$について，関数$y_n:\R\to\R$を$y_n(x)=y_0+\int^x_0F(t,y_{n-1})dt\;(n=1,2,\cdots)$と置く．
+これを順番に計算すると，
+\begin{align*}
+    y_1(x) &= \begin{pmatrix}0\\1\end{pmatrix} + \int^x_0F(t,y_0)dt\\
+    &= \begin{pmatrix}0\\1\end{pmatrix} + \int^x_0\begin{pmatrix}1\\0\end{pmatrix}dt\\
+    &= \begin{pmatrix}0\\1\end{pmatrix} + \begin{pmatrix}x\\0\end{pmatrix} = \begin{pmatrix}x\\1\end{pmatrix}\\
+    y_2(x) &= \begin{pmatrix}0\\1\end{pmatrix} + \int^x_0F(t,y_1)dt\\
+    &= \begin{pmatrix}0\\1\end{pmatrix} + \int^x_0\begin{pmatrix}1\\-t\end{pmatrix}dt\\
+    &= \begin{pmatrix}0\\1\end{pmatrix} + \begin{pmatrix}x\\-\frac{x^2}{2}\end{pmatrix} = \begin{pmatrix}x\\1-\frac{x^2}{2}\end{pmatrix}\\
+    y_3(x) &= \begin{pmatrix}0\\1\end{pmatrix} + \int^x_0F(t,y_2)dt\\
+    &= \begin{pmatrix}0\\1\end{pmatrix} + \int^x_0\begin{pmatrix}1-\frac{t^2}{2}\\-t\end{pmatrix}dt\\
+    &= \begin{pmatrix}0\\1\end{pmatrix} + \begin{pmatrix}x-\frac{x^3}{6}\\-\frac{x^2}{2}\end{pmatrix} = \begin{pmatrix}x-\frac{x^3}{6}\\1-\frac{x^2}{2}\end{pmatrix}dt\\
+    \vdots\;\;&\hspace{3cm}\vdots
+\end{align*}
+より，一般項$y_n$は
+\[ y_n=\begin{cases}
+    \begin{pmatrix}x-\frac{x^3}{3!}+\cdots+(-1)^{\frac{n-1}{2}}\frac{x^n}{n!}\\1-\frac{x^2}{2!}+\cdots+(-1)^{\frac{n-1}{2}}\frac{x^{n-1}}{(n-1)!}\end{pmatrix},&(n\;\mathrm{is\;odd}),\\
+    \begin{pmatrix}x-\frac{x^3}{3!}+\cdots+(-1)^{\frac{n-2}{2}}\frac{x^{(n-1)}}{(n-1)!}\\1-\frac{x^2}{2!}+\cdots+(-1)^{\frac{n}{2}}\frac{x^{n}}{n!}\end{pmatrix},&(\mathrm{otherwise}).
+\end{cases} \]
+と表される．この時，$y_n$の各成分を$y_n=\begin{pmatrix}y_n^1\\y_n^2\end{pmatrix}$と置くと，これらは各$x\in\R$に対して$\lim_{n,m\to\infty}|y^i_n(x)-y^i_m(x)|=0\;(i=1,2)$が成り立つから，確かに関数列$\{y_n(x)\}_{n\in\N}$は任意の$x\in\R$について$n\to\infty$とした時に収束する．
+収束先の関数$\lim_{n\to\infty}y_n=:f$は
+\[ f(x)= \begin{pmatrix}x-\frac{x^3}{3!}+\cdots+(-1)^{n}\frac{x^{2n+1}}{(2n+1)!}+\cdots\\1-\frac{x^2}{2!}+\cdots+(-1)^{n}\frac{x^{2n}}{(2n)!}+\cdots\end{pmatrix} = \begin{pmatrix}\sum_{n\in\N}(-1)^{n}\frac{x^{2n+1}}{(2n+1)!}\\\sum_{n\in\N}(-1)^{n}\frac{x^{2n}}{(2n)!}\end{pmatrix}  \]
+と表せる．
+
+\bf{(b)} まず次を示す．
+\begin{lemma*}
+    関数列$\{y_n\}_{n\in\N}$は任意の開区間$(-a,a)\;(但しa>0)$上で$f$に一様収束する．
+\end{lemma*}
+\begin{proof}
+    \[|y_n-y_{n-1}|=\begin{cases}
+        \begin{pmatrix}(-1)^{\frac{n-1}{2}}\frac{x^n}{n!}\\0\end{pmatrix},&(n\;\mathrm{is\;odd}),\\
+        \begin{pmatrix}0\\(-1)^{\frac{n}{2}}\frac{x^{n}}{n!}\end{pmatrix},&(\mathrm{otherwise}).
+    \end{cases}\]
+    であるから，$|y_n-y_{n-1}|\le\frac{x^n}{n!}$より，$m>n$について
+    \begin{align*}
+        |y_m-y_n| &\le \sum^m_{k=n+1}\frac{x^k}{k!}\\
+        &< \sum^m_{k=n+1}\frac{a^k}{k!}\;\;(\because |x|<a)
+    \end{align*}
+    と評価できるから，$n$を十分大きく，特に$n\ge 2a\Leftrightarrow\frac{1}{2}\ge\frac{a}{n}$と取れば，
+    $\frac{1}{2}\ge\frac{a}{n}>\frac{a}{n+1}>\frac{a}{n+2}>\cdots>\frac{a}{m}$だから，
+    \begin{align*}
+        \sum^m_{k=n+1}\frac{a^k}{k!} &\le \frac{a^{n+1}}{(n+1)!}\sum^{m-n-1}_{k=0}\frac{1}{2^k}\\
+        &\le\frac{a^{n+1}}{(n+1)!}\cdot 2
+    \end{align*}
+    いま$\lim_{n\to\infty}\frac{a^{n+1}}{(n+1)!}=0$だから，次が成り立つ．
+    \[ \forall\epsilon>0,\;\exists N\in\N,\;\forall x\in (-a,a),\; m,n\ge N\Rightarrow |y_m(x)-y_n(x)|<\epsilon \]
+    即ち，関数列$\{y_n\}_{n\in\N}$は$(-a,a)$上一様収束する．
+\end{proof}
+
+さて，関数$f$の成分を$f=\begin{pmatrix}f_1\\f_2\end{pmatrix}$と置く．
+各$x\in\R$についてそれを含む適切な開集合を取ると，補題より関数列$\{y_n\}_{n\in\N}$はその上で一様収束するから，
+この関数$f=\lim_{n\to\infty}y_n$を$x$で微分すると，次のように計算できる．
+\begin{align*}
+    \frac{df_1}{dx} &= \frac{d}{dx}\left(x-\frac{x^3}{3!}+\cdots+(-1)^{n}\frac{x^{2n+1}}{(2n+1)!}+\cdots\right)\\
+    &= 1-\frac{x^2}{2!}+\cdots+(-1)^{n}\frac{x^{2n}}{(2n)!}+\cdots = f_2\\
+    \frac{df_2}{dx} &= \frac{d}{dx}\left(1-\frac{x^2}{2!}+\cdots+(-1)^{n}\frac{x^{2n}}{(2n)!}+\cdots\right)\\
+    &= -x+\frac{x^3}{3!}-\cdots+(-1)^{n}\frac{x^{2n-1}}{(2n-1)!}+\cdots = -f_1
+\end{align*}
+従って，$f$は確かに所与の微分方程式の解である．
+
+また，微分可能性も全く同様に，任意の$x\in\R$について，それを含む開区間で一様収束するから，各$y_n$が$x$で微分可能であったから$f$も$x$で微分可能で，導関数は次のように表される．
+\[ \frac{df}{dx}(x) = \lim_{n\to\infty}\frac{dy_n}{dx}(x) \]
+\begin{flushright}
+    $\blacksquare$
+\end{flushright}
+
+\end{document}

@@ -1,0 +1,37 @@
+\documentclass[uplatex,dvipdfmx]{jsreport}
+\title{常微分方程式論（平地健吾先生）\\足助太郎先生}
+\author{}
+\pagestyle{empty} \setcounter{secnumdepth}{4}
+\input{/Users/hirofumi.shiba48/Desktop/数理科学/preamble.tex}
+\CompileMatrices
+\begin{document}
+
+初項から第$n$項までの和が$S_n:=n^2+2$の数列の一般項$a_n$は，
+次の２つの差です．
+\begin{align*}
+    a_1+a_2+\cdots a_{n-1}\;\;\;\;\;\;\;\;\, &= S_{n-1} = (n-1)^2+2\\
+    a_1+a_2+\cdots a_{n-1} \;\textcolor{red}{+ a_{n}} &= S_n\;\;\;\; = \;\;\;\;\;n^2\;\;\;\;+2
+\end{align*}
+だから，筆算の要領で，下から上を引けば，
+\begin{align*}
+    a_n = S_n-S_{n-1}&= \{n^2+2\}-\{(n-1)^2+2\}\\
+    &= 2n-1
+\end{align*}
+です！
+
+が，このトリックは$n\ge 2$の時しか使えないことに気づいたでしょうか？
+$n=1$の時は
+\begin{align*}
+    a_1 = S_1 &= 1^2+2\\
+    &=3
+\end{align*}
+です．これで全ての場合が済んでいるので，答えとしては次の通りになります．
+
+\begin{align*}
+    a_n=\begin{cases}
+        2n-1&n\ge 2のとき\\
+        3&それ以外のとき
+    \end{cases}\hspace{5mm}\cdots\cdots（答）
+\end{align*}
+
+\end{document}

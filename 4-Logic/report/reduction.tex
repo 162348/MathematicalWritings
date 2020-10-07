@@ -1,0 +1,114 @@
+\documentclass[uplatex, dvipdfmx]{jsarticle}
+\title{計算の理論　レポート問題2.1}
+\author{司馬博文 J4-190549}
+\date{\today}
+\pagestyle{empty} \setcounter{secnumdepth}{4}
+\input{/Users/hirofumi.shiba48/Desktop/数理科学/preamble.tex}
+\begin{document}
+\maketitle
+\begin{abstract}
+    河村先生の授業にて，「計算で解けない問題」の例として，ポストの文字列揃え問題（以下PCPとする）を学んだ．
+    この問題が計算不可能であることを，
+    Turing機械による「計算」「計算で解ける」ことの定義を用いて，「PCPを解くTuring機械は存在しない」ことを
+    （自分の言葉で）証明を構成する形で確認した．
+    
+    その過程を，次の３つの段階に分解してまとめた．
+
+    1. Turing機械が停止するかどうかを判定する問題（以降HALTとする）は決定不可能である（定理\ref{thm-1}）．
+
+    2. PCPは別の問題（PCPw1）に書き換えても等価である（命題\ref{prop-1},\ref{prop-2}）．
+
+    3. HALTからPCPw1に帰着する算法が存在するから，これが解けるならば1に矛盾する（定理\ref{thm-2}）．
+\end{abstract}
+
+\section{停止性判定問題HALTは計算不可能である}
+
+次の定理が成り立つため，停止性判定問題は計算不可能であると言える．
+
+\begin{theorem}[停止性判定機械の非存在]\label{thm-1}
+    次の問題を解く機械は存在しない．
+    \begin{quotation}停止性判定問題
+
+        1(入力). 機械$M$と入力$x$を表す二進数表記による自然数からなる組$(M,x)$の全て．
+
+        2(出力). $M$が停止する場合は，出力$M(x)$．停止しない場合は記号$\times$．
+    \end{quotation}
+\end{theorem}
+\begin{proof}
+    停止性判定問題を解く機械$M_0$の存在を認めて，矛盾を導く．
+    このとき，任意の機械$M$と入力$x$に対して，その停止性についての情報を得られるのだから，それに挙動を追加しただけの次のような２つの機械$M_1,M_2$を構成できる．
+
+    \begin{quotation}
+        入力$(M,x)$に対して，$M(x)$が停止するならば停止せず（$\times$を出力し），$M(x)$が停止しないならば停止する（$\bigcirc$を出力する）機械$M_1$．
+
+        入力$x$に対して，$x$をコードされた機械と見たときの機械$x$について，$x(x)$が停止するならば停止せず（$\times$を出力し），$x(x)$が停止しないならば停止する（$\bigcirc$を出力する）機械$M_2$．
+    \end{quotation}
+
+    このとき，$M_1(x,x)\simeq M_2(x)$が成り立つ．即ち，$M_2$は関数$M_1:\mathbb{N}^2\to\{\bigcirc,\times\}$の定義域を$\Delta\subset\mathbb{N}^2$に制限し，１変数にしたものに他ならない．
+    しかしこのとき，機械$M_2(x)$は自然数の中にコードされて居らず，そのようなものを作り出してしまったことになる．よって矛盾．
+\end{proof}
+
+\section{PCPとPCPw1は，Turing等価である}
+
+\begin{screen}
+    PCP (Post's Correspondence Problem) : 有限列が上下１組書かれた札（を表す文字列）が有限種類・各種類可算無限個与えられる．これらを有限枚並べて，上下の文字列を一致させることが出来るかを表す文字列$\{\bigcirc,\times\}$を返せ．
+
+    PCPw1 (PCP with the 1st card designated) : 有限列が上下１組書かれた札\underline{と区別されたそのうちの１枚}（を表す文字列）が有限種類・各種類可算無限個与えられる．これらを，\underline{区別された１枚を先頭として}有限枚並べて，上下の文字列を一致させることが出来るかを表す文字列$\{\bigcirc,\times\}$を返せ．
+\end{screen}
+
+\begin{proposition}\label{prop-1}
+    PCPはPCPw1に帰着する．
+\end{proposition}
+\begin{proof}
+    PCP問題はカードの枚数$n$について，そのそれぞれを最初に使うカードとして指定した場合の$n$回のPCPw1問題に等価である．
+\end{proof}
+
+\begin{proposition}\label{prop-2}
+    PCPw1はPCPに帰着する．
+\end{proposition}
+\begin{proof}
+    $n$枚の札と$1$枚の指定札からなるPCPw1問題を考える．計$n+1$枚の札$\frac{\xi}{\eta}=(\xi,\eta)$（但し$\xi,\eta$は記号の有限列）について，$\xi$内の任意の記号$x$の出現を全て$!x$で置換し，$\eta$内の任意の記号$y$の出現を全て$y!$で置換した$n+1$枚のカードを作成する．
+    次に，指定札について，同じような置換を施した上で$\eta$の先頭に$!$を追加したカードを１枚作成する．これは，唯一上下について両方とも$!$が先頭にくる札であり，一致させるにはこの札を先頭に用いるしかない．最後に，上のカードに記号$!$が１つだけ足りない点を除いて記号列が全て上下一致した場合に，$\bigcirc$判定が出来るように，札$\frac{!?}{?}$を作成する．
+    こうして作成した計$n+3$枚のカードについてのPCPは，所与のPCPw1に等価になる．
+\end{proof}
+
+\section{HALTはPCPw1に帰着する}
+
+\begin{screen}
+    HALT : 機械$M$と入力$x$を表す２進数表記による自然数の組$(M,x)$の全てを入力として取り，$M$が停止する場合は出力$M(x)$を，停止しない場合は記号$\times$を出力する．
+
+    HALT' : 機械$M$と入力$x$を表す２進数表記による自然数の組$(M,x)$の全てを入力として取り，$M$が停止する場合は出力$M(x)$を出力して\underline{テープ上の文字を全て消去し，ヘッドをテープ左端に揃えてから終了状態に至り}，停止しない場合は記号$\times$を出力する．
+\end{screen}
+すると，２つの問題は互いに帰着し，等価である．
+
+\begin{theorem}\label{thm-2}
+    停止前に追加の行動を要求する停止性判定問題HALT'は，最初のカードの指定つきポストの文字列合わせ問題PCPw1に帰着する．
+\end{theorem}
+\begin{proof}
+まず，Turing機械の挙動を文字列にコードする方法を準備する．
+簡単のため，勝手なTuring機械$M=(\Sigma,I,b;Q,q_0,q_h;\delta)$について，そのアルファベットは$\Sigma=\{0,1\}$とし，$Q=\{ q_0,q_1,\cdots,q_k,q_h \}$とする．
+すると各状態は，tape（のうち十分大きくとった有限領域，即ち入力$x$と同じ長さ）上に存在するcell内の記号の列（例えば$010110\cdots 010$）の中に，headが指し示すcellに書き込まれている記号の直前に，headの状態$q_i$を挿入した文字列（例えば初期状態から２回右に遷移した場合$01q_i0110\cdots 010$など）を用いて表せる．
+すると，この各状態を表す記号列を，separate symbol \% などを用いて区切って繋げることで，或るTuring機械の挙動全体をコードすることが出来る．
+
+入力$(M,x)$に応じて，次のような手順でカードを作る．
+まず，上部分は空欄のカード$\frac{ }{ q_0x\% }$を作成し，これを最初に使うべきカードとして指定する．
+次に，separate カード$\frac{\%}{\%}$を追加する．
+続いて，機械$M$のアルファベットに応じて，その元(tape symbol)１つを上下同じ文字書いたカード，従ってここでは$\Sigma_M=\{0,1\}$であるからカード$\frac{0}{0}, \frac{1}{1}$を用意する．
+次に，遷移規則$\delta$の算譜に応じて，例えば$\delta(q_i,a,R)=(q_j,b)$の場合は右遷移カード$\frac{q_ia}{bq_j}$，$\delta(q_i,a,L)=(q_j,b)$の場合は左遷移カード$\frac{aq_i}{q_jb}$を作成する．
+最後に，受理状態$q_h$についてカード$\frac{aq_h}{q_h}$を全てのアルファベット$a\in \Sigma$について作成する．
+
+すると，これらの有限枚のカードについてのPCPw1問題は，最初のカードの下の内容を上が追随するために次のカードから始まり，次のseparateカードを迎えるまでは，カードの上の文字列はTuring機械$M$の初期状態を表す文字列を模倣する．その時カードの下の文字列としてあり得るパターンは，Turing機械$M$の算譜$\delta$に記載されていたもののみである．
+これがseparate　カード$\frac{\%}{\%}$を挟んで続く．最後のカード$\frac{aq_h}{q_h}$（を含むようなseparateカードで区切られたブロック）を迎えることが出来る場合は，「全ての文字を消去した結果，headは左端に到達した結果停止する」ことに対応するから，$\bigcirc$を出力，もしそのような並べ方がない場合はTuring機械が停止しないことがわかるので$\times$を出力すれば良い．
+\end{proof}
+
+\begin{thebibliography}{99}
+    \bibitem{wikipedia}
+    en.wikipedia.orgによる"Post Correspondence Problem"のページを参考にした．
+    
+    %なお，この記事の参照した節 Proof sketch of undecidability は次の書籍を参考にしている．
+
+    %\bibitem{Sipser}
+    %Michael Sipser (2005). "A Simple Undecidable Problem". Introduction to the Theory of Computation (2nd ed.). Thomson Course Technology. pp. 199–205. ISBN 0-534-95097-3.
+\end{thebibliography}
+
+\end{document}

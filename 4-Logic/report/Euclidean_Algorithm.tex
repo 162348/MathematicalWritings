@@ -1,0 +1,92 @@
+\documentclass[uplatex, dvipdfmx]{jsarticle}
+    
+\title{レポート問題1.1\\ 修正されたEuclidean Algorithmの反復回数を評価せよ \\ 担当：今井浩 先生}
+\author{司馬博文 J4-190549\\hirofumi-shiba48@g.ecc.u-tokyo.ac.jp}
+\date{\today}
+\pagestyle{plain} \setcounter{secnumdepth}{4}
+\input{/Users/hirofumi.shiba48/Desktop/数理科学/preamble.tex}
+\begin{document}
+\maketitle
+
+\section{Euclidean Algorithmとは何か}
+
+Euclidean Algorithmとは，与えられた２つの自然数の組$(M,N)\;(M\le N)$について，$q,r\in\mathbb{N}$として
+\[ M=qN+r\;\;\; (0\le r<N) \]
+を満たす$(q,r)$を計算し，次に$(M,N)=(N,r)$として同じ計算を$r=0$を満たす計算結果$(q,r)$を得るまで（停止条件）繰り返し，
+停止時に直前の演算で得た$q$の値を$\gcd(M,N)$の値であるとして返す数論的なalgorithmである．
+
+\subsection{Euclidean Algorithmの反復回数}
+
+Euclidean algorithmでは１回の計算で
+\[\begin{cases}
+    (0\le)r<N\le \frac{M}{2} & (N\le\frac{M}{2}) \\
+    (0\le)r=M-1\cdot N & (\frac{M}{2}<N\le M)
+\end{cases}\]
+という条件を満たすため，いずれの場合でも$(0\le)r\le \frac{M}{2}$を満たす．
+従って，各反復後の演算結果の推移$(M,N)\mapsto (N,r)\mapsto (r,r')\mapsto\cdots$を考えた時，反復回数２回で第一要素は必ず半分以下になる．
+
+これより，Euclidean algorithmは，入力値$(M,N)$の$M$の大きさに対して，$\log_2M$の値に比例した回数以下の反復回数で停止条件に至ることが出来ることがわかった．
+\begin{screen}
+    Euclidean algorithmは入力値$(M,N)$に対して，$O(\log_2M)$の反復回数で答えを返すことが出来る．
+\end{screen}
+
+\section{修正されたEuclid Algorithmの問題設定}
+
+初期値を$(M_0,M_1)\;(M_0\le M_1)$と置き，各$i=0,1,2,\cdots$について，$q=1,2,\cdots$として
+\begin{equation}\label{formula-of-computation} M_i=qM_{i+1}+M_{i+2}\;\;\; (-\frac{M_{i+1}}{2}<M_{i+2}\le \frac{M_{i+1}}{2}) \end{equation}
+を満たす$(M_{i+1},M_{i+2})$（と$q$）を計算し，停止条件$M_{i+2}=0$を満たさない限り，次は$(M_{i+1}, M_{i+2})$について再び式\ref{formula-of-computation}を計算する，というalgorithmを考える．
+
+\subsection{隣項比$a_i$の考察}
+
+数列$(M_i)_{i\in\mathbb{N}}$に対して，停止条件$M_i=0$を満たさない限り
+\[a_i:=\frac{M_{i+1}}{M_i}\;\;\;(-1<a_i<1)\]
+と置く．これを用いて式\ref{formula-of-computation}を書き換える．
+$a_{i+1}=\frac{M_{i+2}}{M_{i+1}}=\frac{M_{i+2}}{M_i\cdot a_i}$に注意して，式\ref{formula-of-computation}の両辺を
+\begin{eqnarray}
+    M_i&=&qM_{i+1}+M_{i+2} \\
+    M_{i+2}&=& -q(M_ia_i)+M_i \\
+    \frac{M_{i+2}}{M_ia_i}(=a_{i+1})&=& -q+\frac{1}{a_i} \label{equation-to-plot-1}
+\end{eqnarray}
+となり，束縛条件は
+\begin{equation}
+    -\frac{1}{2}<a_{i+1}=\frac{M_{i+2}}{M_ia_i}\le \frac{1}{2} \label{equation-to-plot-2}
+\end{equation}
+と書き換えられる．
+
+式\ref{equation-to-plot-1},\ref{equation-to-plot-2}を図示すると，次のようになる．
+\begin{center}
+    \begin{figure}[h]\caption{\label{picture}赤色の太線が式\ref{equation-to-plot-1}の曲線族，白色の２本の水平線が式\ref{equation-to-plot-2}の直線をそれぞれ図示したものである．}
+        \includegraphics[width=18cm]{計算理論.jpg}
+    \end{figure}
+\end{center}
+
+\subsection{隣項比$a_i$による反復回数の評価}
+
+これより分かることは，初期値$a_0$（や一般の入力値$a_i$）に関わらず，以降の隣項比は$\frac{1}{2}$になるということである．
+即ち，演算結果の推移$(M_0,M_1)\mapsto (M_1,M_2)\mapsto (M_2,M_3)\mapsto\cdots$に於て，
+\begin{equation}\label{equation-result}
+    |a_{i+1}|=\left| \frac{M_i}{M_{i+1}} \right|\le\frac{1}{2}\;\;\; (i=1,2,\cdots) 
+\end{equation}
+が成立する（注）．よって，初回の演算を除き，少なくとも確実に値を半減以下にさせることが出来る．
+
+\begin{itembox}[l]{結論}
+    修正されたEuclidean algorithmにより，値を必ず半分以下にすることが保証される反復回数を，最低２回から１回に減らすことができた．
+
+    一方で，そのオーダーとしては，入力値$(M,N)$に対して，$O(\log_2M)$の反復回数が必要となり，これは通常のEuclidean algorithmと変わらない．
+\end{itembox}
+
+\begin{remark*}
+    あまり本筋に関係のない議論であるが，$a_{i+1}=\frac{1}{2}$となる式\ref{equation-result}の等号が成立する場合は，図\ref{picture}からも分かる通り，次の試行において$a_{i+2}=0$となる，即ち割り切れてしまい，停止条件に引っかかる．
+    即ち，$a_{i+1}=\frac{1}{2}$は準停止条件とも言えるもので，この場合は式\ref{equation-result}での議論から省いてしまっても問題がないが，省かなくても問題がないので，こうして注釈を述べるだけに留めた．
+\end{remark*}
+
+\section{考察}
+本来，図\ref{picture}を作った際には，さらに直線$y=x$を補助線として引いて，隣項比の推移を詳細に追う腹づもりであったが，手書きの図では不可能に近いことに気づき，かといって即座に計算機を活用方法するのもあまりに不慣れであったから，このレポートを間に合わせるにあたってはその本来の考察は出来なかった．
+
+本来ならば，例えば前述の注での振る舞いのように，最悪の場合(worst case)は，見かけ上は図\ref{picture}から$a_i=\frac{1}{2}$の場合であると思われるが，実はその場合は次の反復で必ず停止してしまうように，
+この修正されたEuclidean algorithmの性能は，結論に書いた「１回の反復で値が半分以下になる」よりはもう少し精度が良く，私の今回のレポートでの評価は（一般の場合を相手にしているとはいえ），まだ評価が粗いであろうことは容易に想像される．
+
+\section{参考文献・共同執筆者}
+参考文献，共同執筆者など，今回は特にありません．
+
+\end{document}

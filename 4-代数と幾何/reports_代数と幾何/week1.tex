@@ -1,0 +1,148 @@
+\documentclass[uplatex, 12pt, dvipdfmx]{jsarticle}
+\title{代数と幾何レポート}
+\author{司馬博文 J4-190549}
+\date{\today}
+\pagestyle{empty} \setcounter{secnumdepth}{4}
+\input{/Users/hirofumi.shiba48/Desktop/数理科学/preamble_CM.tex}
+\begin{document}
+\maketitle
+
+\section*{問題１}
+
+$2\in\Z$を取ると，$2b=1$を満たす数$b$は整数ではない．
+
+\section*{問題２}
+
+元$a\ne 0\in\F_p$を任意に取る．この$a$により定まる写像
+\[\xymatrix@R-2pc{
+    f_a:\F_p\ar[r]&\F_p\\
+    \rotatebox{90}{$\in$}&\rotatebox{90}{$\in$}\\
+    b\ar@{|->}[r]&ab
+}\]
+を考える．これが全単射であることを示すことにより，各$a\ne 0\in\F_p$
+に対して逆像$f_a^{-1}(1)$の元はただ一つであることを導く．
+
+今，$q,r\in\F_p$が$f_a(q)=f_a(r)$即ち$aq=ar$を満たしたとする．
+すると，$a(q-r)=0\in\F$であるから，
+$a,q,r$を$0<a,q,r<p$を満たす対応する整数と定め直したときに，
+$a(q-r)\equiv 0\mod p$が成り立つ．
+このとき，$0<a<p,-p<q-r<p$より，$q-r=0$即ち$q=r$が従う．
+
+よって，$f_a$は単射である．今$\F_p$は有限集合だから，
+$f_a$は全射でもある．
+
+\begin{flushright}$\blacksquare$\end{flushright}
+
+\section*{問題３}
+
+\subsection*{(1)}
+
+$x+x=x$ならば，両辺に逆元$(-x)$を加えて，
+\begin{align*}
+    (x+x) + (-x) &= x + (-x)\\
+    x+(x+(-x)) &= 0 \\
+    x+0&=0\\
+    x&=0
+\end{align*}
+を得る．
+\begin{flushright}$\blacksquare$\end{flushright}
+
+\subsection*{(2)}
+
+$0$は加法の中立元だから$0=0+0$より，$0x=(0+0)x$．
+分配法則より，$(0+0)x=0x+0x$．この２つを合わせて$0x=0x+0x$を得るから，(1)の結果より$0x=0$．
+
+\begin{flushright}$\blacksquare$\end{flushright}
+
+\subsection*{(3)}
+
+分配律による結果$0x=(1+(-1))x=x+(-1)x$を考える．左辺は(2)より$0x=0$だから，$x+(-1)x=0=x+(-x)$である．
+両辺に$x$の逆元$-x$を加えることにより，$(-1)x=-x$を得る．
+
+\begin{flushright}$\blacksquare$\end{flushright}
+
+\section*{問題４}
+
+問題の条件である
+\begin{align}\label{q4-eq1}
+    \begin{cases}
+        x_i=e_i-e_{i+1}, &i=1,2,\cdots,n-1,\\
+        x_n=c_1e_1+c_2e_2+\cdots+c_ne_n,
+    \end{cases}
+\end{align}
+の関係から，$e_1,\cdots,e_{n-1}$を消去すると，
+\begin{align}
+    x_n&=c_1e_1+c_2e_2+\cdots+c_ne_n\\
+    &=c_1(e_1-e_2) + (c_1+c_2)(e_2-e_3) + \cdots \\
+    &\hphantom{{}={}}\cdots+ (c_1+\cdots+c_{n-1})(e_{n-1}-e_n)+(c_1+\cdots+c_n)e_n\\
+    &=\sum^{n-1}_{j=1}\left(\sum^j_{i=1}c_i\right)x_j+Ce_n,\hspace{2cm}(C:=c_1+\cdots+c_nとした)\label{q4-eq2}
+\end{align}
+を得る．
+
+\subsection*{(a)$\Rightarrow$(b)}
+
+$C=0$と仮定すると，式\ref{q4-eq2}より，
+\[ -\sum^{n-1}_{j=1}\left(\sum^j_{i=1}c_i\right)x_j+x_n=0 \]
+を得る．$x_1,\cdots,x_n\in K^n$は$K$-線型空間$K^n$の基底としたから，
+特に$x_n$の係数を比較して$1=0$が必要だが，これは$K$が体であることに矛盾．
+従って，$C\ne 0$である．
+
+\subsection*{(b)$\Rightarrow$(a)}
+
+$x\in V$を任意に取る．$a_1,\cdots,a_n,b_1,\cdots,b_n\in K$として，
+\begin{align}
+    x&=a_1e_1+a_2e_2+\cdots+a_ne_n\label{q4-eq4}\\
+    &=b_1x_1+b_2x_2+\cdots+b_nx_n\label{q4-eq3}
+\end{align}
+と表せたとする．
+関係\ref{q4-eq1}の下で，式\ref{q4-eq3}は，
+\begin{align*}
+    x&=b_1(e_1-e_2) + b_2(e_2-e_3) + \cdots + b_{n-1}(e_{n-1}-e_n) + b_n(c_1e_1+c_2e_2+\cdots+c_ne_n)\\
+    &=(b_1+b_nc_1)e_1 + (-b_1+b_2+b_nc_2)e_2 + \cdots + (-b_{n-2}+b_{n-1}+b_nc_{n-1})e_{n-1}  + (b_nc_n)e_n
+\end{align*}
+と同値であるが，$e_1,\cdots,e_n$は$K^n$の基底だから，式\ref{q4-eq4}と比較して，
+\begin{align*}
+    a_1 &= b_1+b_nc_1,\\
+    a_2 &= -b_1+b_2+b_nc_2,\\
+    \vdots\;\;&=\;\;\;\;\;\vdots\\
+    a_{n-1} &= -b_{n-2}+b_{n-1}+b_nc_{n-1},\\
+    a_n&=b_nc_n,
+\end{align*}
+が必要．これを逆に解いて，
+\begin{align*}
+    \begin{cases}
+        b_j=\sum^j_{i=1}a_i-\frac{A}{C}\sum^j_{i=1}c_i,&j=1,2,\cdots,n-1,\\
+        b_n=\frac{A}{C},
+    \end{cases}
+\end{align*}
+を得る．
+また，$e_1,\cdots,e_n$が$K^n$の基底であることより，
+$a_1,\cdots,a_n$は一意的に定まっているから，
+各係数$b_1,\cdots,b_n$はただ一通りに表せた事になる．
+よって，$x_1,\cdots,x_n\in K^n$は基底である．
+\begin{flushright}$\blacksquare$\end{flushright}
+
+
+
+
+
+
+\section*{問題５}
+
+$v,w\in V=C^\infty(\R)$とする．即ち，$v,w:\R\to\R$．
+この時，関数$a(v+w)$と$av+aw$を考える．
+任意の実数$x\in\R$に対して，実数の積を$\cdot$と表すと，
+\begin{align*}
+    a(v+w)(x) &= a\cdot (v+w)(x)\\
+    &= a\cdot  (v(x)+w(x))\\
+    &= a\cdot v(x)+a\cdot w(x)&\R 上の和に対する積の分配則\\
+    (av+aw)(x) &= av(x)+aw(x)\\
+    &= a\cdot v(x)+a\cdot w(x)
+\end{align*}
+より等しいから，関数$a(v+w),av+aw$は等しい．
+よって，
+\[ \forall a\in\R,\;v,w\in V,\; a(v+w)=av+aw \]
+
+\begin{flushright}$\blacksquare$\end{flushright}
+
+\end{document}

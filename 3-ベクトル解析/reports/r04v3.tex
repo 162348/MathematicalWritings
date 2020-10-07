@@ -1,0 +1,243 @@
+\documentclass[dvipdfmx,uplatex]{jsarticle}
+%
+\newcommand\GAKUSEISHOBANGO{J4-190549}% 学生証番号
+\newcommand\NAMAE{司馬博文}% 氏名
+\newcommand\KYODOSAKUSEISHA{なし}% 共同作成者（ある場合）
+% 上の三行について，{}内に記入の上190行以降を適宜編集すれば良い．
+%
+\usepackage{amsmath,amssymb,amscd,amsthm,amsbsy,multicol}
+\usepackage[shortlabels,inline]{enumitem}
+\renewcommand\labelenumi{\theenumi)}
+\renewcommand{\thefootnote}{\dag\arabic{footnote}}
+\DeclareMathOperator{\grad}{\mathrm{grad}}
+\newcommand\R{\mathbb{R}}
+\pagestyle{plain}
+%
+\setlength{\paperwidth}{257mm}
+\setlength{\paperheight}{364mm}
+\setlength{\textwidth}{170mm}
+\setlength{\textheight}{280mm}
+% \setlength{\oddsidemargin}{-2.0cm}
+% \setlength{\evensidemargin}{-.3cm}
+\setlength{\topmargin}{-31mm}
+%\setlength{\footskip}{2cm}
+%
+\newtheoremstyle{StatementsWithStar}% ?name?
+{3pt}% ?Space above? 1
+{3pt}% ?Space below? 1
+{}% ?Body font?
+{}% ?Indent amount? 2
+{\bfseries}% ?Theorem head font?
+{\textbf{.}}% ?Punctuation after theorem head?
+{.5em}% ?Space after theorem head? 3
+{\textbf{\textup{#1~\thetheorem{}}}{}\,$^{\ast}$\thmnote{(#3)}}% ?Theorem head spec (can be left empty, meaning ‘normal’)?
+%
+\newtheoremstyle{StatementsWithStar2}% ?name?
+{3pt}% ?Space above? 1
+{3pt}% ?Space below? 1
+{}% ?Body font?
+{}% ?Indent amount? 2
+{\bfseries}% ?Theorem head font?
+{\textbf{.}}% ?Punctuation after theorem head?
+{.5em}% ?Space after theorem head? 3
+{\textbf{\textup{#1~\thetheorem{}}}{}\,$^{\ast\ast}$\thmnote{(#3)}}% ?Theorem head spec (can be left empty, meaning ‘normal’)?
+%
+\newtheoremstyle{StatementsWithStar3}% ?name?
+{3pt}% ?Space above? 1
+{3pt}% ?Space below? 1
+{}% ?Body font?
+{}% ?Indent amount? 2
+{\bfseries}% ?Theorem head font?
+{\textbf{.}}% ?Punctuation after theorem head?
+{.5em}% ?Space after theorem head? 3
+{\textbf{\textup{#1~\thetheorem{}}}{}\,$^{\ast\ast\ast}$\thmnote{(#3)}}% ?Theorem head spec (can be left empty, meaning ‘normal’)?
+%
+\newtheoremstyle{StatementsWithCCirc}% ?name?
+{6pt}% ?Space above? 1
+{6pt}% ?Space below? 1
+{}% ?Body font?
+{}% ?Indent amount? 2
+{\bfseries}% ?Theorem head font?
+{\textbf{.}}% ?Punctuation after theorem head?
+{.5em}% ?Space after theorem head? 3
+{\textbf{\textup{#1~\thetheorem{}}}{}\,$^{\circledcirc}$\thmnote{(#3)}}% ?Theorem head spec (can be left empty, meaning ‘normal’)?
+%
+\theoremstyle{definition}
+ \newtheorem{theorem}{定理}[section]
+ \newtheorem{corollary}[theorem]{系}
+ \newtheorem{proposition}[theorem]{命題}
+ \newtheorem*{proposition*}{命題}
+ \newtheorem{lemma}[theorem]{補題}
+ \newtheorem*{lemma*}{補題}
+ \newtheorem*{theorem*}{定理}
+ \newtheorem{definition}[theorem]{定義}
+ \newtheorem{example}[theorem]{例}
+ \newtheorem{notation}[theorem]{記号}
+ \newtheorem*{notation*}{記号}
+ \newtheorem{assumption}[theorem]{仮定}
+ \newtheorem{question}[theorem]{問}
+ \newtheorem{reidai}[theorem]{例題}
+ \newtheorem{remark}[theorem]{注}
+% \newtheorem*{remarknonum}{注}
+ \newtheorem*{definition*}{定義}
+ \newtheorem*{remark*}{注}
+ \newtheorem*{question*}{問}
+%
+\theoremstyle{StatementsWithStar}
+ \newtheorem{definition_*}[theorem]{定義}
+ \newtheorem{question_*}[theorem]{問}
+ \newtheorem{example_*}[theorem]{例}
+ \newtheorem{theorem_*}[theorem]{定理}
+ \newtheorem{remark_*}[theorem]{注}
+%
+\theoremstyle{StatementsWithStar2}
+ \newtheorem{definition_**}[theorem]{定義}
+ \newtheorem{theorem_**}[theorem]{定理}
+ \newtheorem{question_**}[theorem]{問}
+ \newtheorem{remark_**}[theorem]{注}
+%
+\theoremstyle{StatementsWithStar3}
+ \newtheorem{remark_***}[theorem]{注}
+ \newtheorem{question_***}[theorem]{問}
+%
+\theoremstyle{StatementsWithCCirc}
+ \newtheorem{definition_O}[theorem]{定義}
+ \newtheorem{question_O}[theorem]{問}
+ \newtheorem{example_O}[theorem]{例}
+ \newtheorem{remark_O}[theorem]{注}
+%
+\theoremstyle{definition}
+%
+\renewcommand{\proofname}{\underline{証明}}
+%
+\raggedbottom
+\allowdisplaybreaks
+%
+\everymath{\displaystyle}
+%
+\begin{document}
+\thispagestyle{empty}
+\setlength{\parindent}{1zw}
+\setlength{\baselineskip}{13pt}
+\setcounter{section}{4}
+\newcounter{version}
+\setcounter{version}{3}
+\noindent
+2020年度ベクトル解析（足助担当）レポート問題~\thesection~v\theversion%\par\noindent
+\hfil2020/5/11（月）\par\noindent
+提出先：ITC-LMSのページの「課題」\par\noindent
+提出期間：2020/5/18（月）$\sim$ 2020/5/25（月）\textbf{9:00}\par\noindent
+返却はITC-LMSを用いて6/8日（月）以降に行う．\par\noindent
+※ レポートの作成方法は特に指定しないが，提出ファイルはPDF形式とすること．
+なお，ファイル名は，「``回数"+``学生証番号の下7桁.pdf\/"」（例：44123456.pdf）とすること．
+ファイルの作成にあたって印刷やスキャンなどに困難があれば速やかに足助まで申し出ること．
+\vskip-18pt\noindent
+\begin{table}[h]
+\begin{tabular}{|c|c|c|} \hline
+& & \\[-13pt]
+学生証番号& 氏名 & 共同作成者（ある場合）\\[2pt] \hline
+\rule{0pt}{16pt}%
+\parbox[c]{9.2zw}{\GAKUSEISHOBANGO\hfill} & \parbox[c]{13.0zw}{\NAMAE\hfill} & \parbox[c]{25.6zw}{\KYODOSAKUSEISHA\hfill}\\[6pt] \hline
+%「\hfill」の前に必要事項を記入すること．
+\end{tabular}
+\end{table}
+
+\noindent
+5/17 v2：誤植（消し忘れ）を修正．\par\noindent
+5/23 v3：1)の$x^i$が誤って$x^j$となっていたので修正．\par
+\ \par
+ここでは函数などは全て$C^\infty$級とする．
+\begin{question*}
+$X=f^1\frac{\partial}{\partial x^1}+f^2\frac{\partial}{\partial x^2}+\cdots+f^n\frac{\partial}{\partial x^n}$を$\R^n$上のベクトル場とする．
+また，ある函数$F\colon\R^n\to\R$について，$X=\grad F$が成り立つとする．
+\begin{enumerate}
+\item
+$\forall\,i,j,\ i\neq j\Rightarrow\frac{\partial f^i}{\partial x^j}=\frac{\partial f^j}{\partial x^i}$が成り立つことを示せ．
+\item
+$F$の存在だけが分かっているとして，実際に$F$を求めることを考える．
+$p\in\R^n$について，$\gamma\colon[0,1]\to\R^n$を区分的に$C^\infty$級であって，$\gamma(0)=o$（原点）かつ$\gamma(1)=p$をみたすものとする．
+このとき，$G_\gamma(p)=\int_\gamma X(x)\cdot dx$と定める．
+\begin{enumerate}[a)]
+\item
+$G_\gamma(p)$は$\gamma$によらないことを示せ．
+難しければ$\gamma$は（区分的にではなく，$[0,1]$上）$C^\infty$級の曲線として良い．
+\item
+$G_\gamma$は$\gamma$によらないので$G$で表す．
+このとき，$\grad G=X$が成り立つことを示せ．
+\par\noindent
+ヒント：$G$は$\gamma$によらないのだから，$\gamma$を偏微分する変数に合わせてうまく取り替えると良い．
+具体的には折れ線（これは区分的に$C^\infty$級である）をうまく用いると良い．
+\end{enumerate}
+\end{enumerate}
+\end{question*}
+\par
+\ \par
+\noindent
+{\small
+※ 参考文献がある場合には最後にまとめて箇条書きで示すこと．\par\noindent
+※ \textbf{全体として２ページに収めること．}\par\noindent
+※ 共同作成者に記載がないにもかかわらず，ほかのレポートとほぼ同一であるレポートが散見される．
+誰かと共同してレポートを作成することは構わないが，そのことは明記すること．
+それをしなければ剽窃であって，これは学術上の致命的な不正行為である．
+万一，写される側がそのことを承知していなかったことが露見した場合には重大な結果をもたらす可能性がある．
+}
+
+\rightline{（以上）}\par
+%
+% 以下が解答欄である．２ページ以内に収まるように注意すること．なお，紙面レイアウトやフォントサイズを変更しないこと．
+%
+\noindent
+
+\subsubsection*{問題1)}
+今，仮定より，
+\begin{eqnarray*}
+    \grad F&=& \frac{\partial F}{\partial x^1}\frac{\partial}{\partial x^1}+\cdots +\frac{\partial F}{\partial x^n}\frac{\partial}{\partial x^n} \\
+    &=& f^1\frac{\partial}{\partial x^1}+\cdots+f^n\frac{\partial}{\partial x^n}
+\end{eqnarray*}
+であるから，
+\[ f^i=\frac{\partial F}{\partial x^i},\;\; f^j=\frac{\partial F}{\partial x^j} \]
+が成り立つ．従って，
+\[ \frac{\partial F}{\partial x^j}=\frac{\partial F}{\partial x^i}\Leftrightarrow \frac{\partial^2 F}{\partial x^j\partial x^i}=\frac{\partial^2 F}{\partial x^i\partial x^j} \]
+が成り立つ．右辺は，関数$F$が$C^\infty$級であることより成立するから，右辺も成立．
+よって，特に，$\forall\,i,j,\ i\neq j\Rightarrow\frac{\partial f^i}{\partial x^j}=\frac{\partial f^j}{\partial x^i}$が成り立つ．
+\rightline{$\blacksquare$}
+
+\subsubsection*{問題2)a)}
+
+$0=a_0<a_1<\cdots<a_{k-1}<a_k=1$を満たす$a_0,\cdots,a_k\in [0,1]$が存在して，$\gamma$の$I_i={a_i,a_{i+1}}$への制限$\gamma_i$は$C^\infty$級の曲線になるとする．
+すると，
+\[ \int_\gamma X(x)\cdot dx=\int_\gamma\grad F(x)\cdot dx = \sum^{k-1}_{i=0}\int_{\gamma_i}\grad F(x)\cdot dx \]
+となり，勾配ベクトル場に関する積分定理より，
+\begin{eqnarray*}
+    \sum^{k-1}_{i=0}\int_{\gamma_i}\grad F(x)\cdot dx &=& \int_{\partial \gamma_i}F \\
+    &=& \sum^{k-1}_{i=0}\left\{ F(\gamma_{i+1}(a_{i+1}))-F(\gamma_i(a_i)) \right\} \\
+    &=& F(\gamma(1))-F(\gamma(0)) = \underline{F(p)-F(o)}
+\end{eqnarray*}
+が従う．下線部は$\gamma$の取り方に依らない．従って，$G_\gamma(p):=\int_\gamma X(x)\cdot dx$の値は$\gamma$に依らない．
+
+\subsubsection*{問題2)b)}
+
+$\grad F=X$を満たす，存在だけ保証された関数$F$に対して，$\forall p\in\mathbb{R}^n\;\;\frac{\partial G}{\partial x^i}(p)=\frac{\partial F}{\partial x^i}(p) \;\;\; (i=1,\cdots,n)$
+
+$p\in\mathbb{R}^n$を任意に取る．座標$x={}^t(x^1,\cdots,x^n)$について，$p={}^t(y^1,\cdots,y^n)$と表されるとする．また，曲線$\gamma:[0,1]\to\mathbb{R}^n$を，$\gamma(0)=o,\gamma(1)=p$をみたし，
+各$\gamma_i$を$x^i$軸に並行な直線として$\gamma=\gamma_1+\cdots+\gamma_n$と分解される区分的$C^\infty$級曲線とする．
+この時，
+\begin{eqnarray*}
+    G(p) &=& \int_\gamma X(x)\cdot dx \\
+    &=& \int_\gamma \grad F(x)\cdot dx \\
+    &=& \int_\gamma \left( \frac{\partial F}{\partial x^1}(x)dx^1+\cdots+\frac{\partial F}{\partial x^n}(x)dx^n \right) \\
+    &=& \sum^n_{i=1}\int_{\gamma_i}\left( \frac{\partial F}{\partial x^1}(x)dx^1+\cdots+\frac{\partial F}{\partial x^n}(x)dx^n \right)\\
+    &=& \sum^n_{i=1}\int_{\gamma_i} \frac{\partial F}{\partial x^i}(x^i)dx^i \\
+    &=& \sum^n_{i=1}\int^{y^i}_0 \frac{\partial F}{\partial x^i}(x^i)dx^i
+\end{eqnarray*}
+が成り立つ．従って，$G(p)$を$x^i\; (i=1,\cdots,n)$で偏微分すると，
+\[ \frac{\partial G}{\partial x^i}(p)=\frac{\partial F}{\partial x^i}(p) \;\;\; (i=1,\cdots,n) \]
+を得る．従って，
+\[ \grad F=\frac{\partial F}{\partial x^1}\frac{\partial}{\partial x^1}+\cdots +\frac{\partial F}{\partial x^n}\frac{\partial}{\partial x^n}=\grad G \]
+より，$\grad G=X$がわかる．
+
+\vspace{3cm}
+
+論理の運び方に自信がございません．
+
+\end{document}

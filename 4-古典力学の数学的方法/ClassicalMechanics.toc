@@ -1,0 +1,43 @@
+\contentsline {part}{第I部\hspace {1zw}NEWTONIAN MECHANICS}{1}% 
+\contentsline {chapter}{\numberline {第1章}実験事実}{2}% 
+\contentsline {chapter}{\numberline {第2章}運動方程式の精査}{3}% 
+\contentsline {part}{第II部\hspace {1zw}LAGRANGIAN MECHANICS}{4}% 
+\contentsline {chapter}{\numberline {第3章}Variational principles}{1}% 
+\contentsline {section}{\numberline {3.1}仮想仕事とd'Alembertの法則}{1}% 
+\contentsline {section}{\numberline {3.2}Calculus of variations}{2}% 
+\contentsline {subsection}{\numberline {3.2.1}変分}{2}% 
+\contentsline {subsection}{\numberline {3.2.2}極値問題}{3}% 
+\contentsline {subsection}{\numberline {3.2.3}The Euler-Lagrange equation}{4}% 
+\contentsline {section}{\numberline {3.3}Lagrange's equations}{5}% 
+\contentsline {subsection}{\numberline {3.3.1}Hamilton's principle of least action}{5}% 
+\contentsline {subsection}{\numberline {3.3.2}The simplest examples}{6}% 
+\contentsline {section}{\numberline {3.4}Legendre transformation}{7}% 
+\contentsline {subsection}{\numberline {3.4.1}Definition}{7}% 
+\contentsline {subsection}{\numberline {3.4.2}Examples}{8}% 
+\contentsline {subsection}{\numberline {3.4.3}Involutivity}{8}% 
+\contentsline {subsection}{\numberline {3.4.4}Young's inequality}{8}% 
+\contentsline {subsection}{\numberline {3.4.5}The case of many variables}{9}% 
+\contentsline {section}{\numberline {3.5}Hamilton's equations}{9}% 
+\contentsline {subsection}{\numberline {3.5.1}Equivalence of Lagrange's and Hamilton's equations}{9}% 
+\contentsline {subsection}{\numberline {3.5.2}Hamilton's function and energy}{9}% 
+\contentsline {subsection}{\numberline {3.5.3}Cyclic coordinates}{9}% 
+\contentsline {section}{\numberline {3.6}Liouville's theorem}{9}% 
+\contentsline {subsection}{\numberline {3.6.1}The phase flow}{9}% 
+\contentsline {subsection}{\numberline {3.6.2}Liouville's theorem}{9}% 
+\contentsline {subsection}{\numberline {3.6.3}Proof}{9}% 
+\contentsline {subsection}{\numberline {3.6.4}Poincar\IeC {\'e}'s recurrence theorem}{9}% 
+\contentsline {subsection}{\numberline {3.6.5}Applications of Poincar\IeC {\'e} theorem}{9}% 
+\contentsline {chapter}{\numberline {第4章}Lagrangian mechanics on manifolds}{10}% 
+\contentsline {section}{\numberline {4.1}Holonomic constraints}{10}% 
+\contentsline {section}{\numberline {4.2}Differentiable manifolds}{10}% 
+\contentsline {section}{\numberline {4.3}Lagrangian dynamical system}{10}% 
+\contentsline {section}{\numberline {4.4}E. Noether's theorem}{10}% 
+\contentsline {section}{\numberline {4.5}D'Alembert's principle}{10}% 
+\contentsline {chapter}{\numberline {第5章}Oscillation}{11}% 
+\contentsline {chapter}{\numberline {第6章}Rigid Bodies}{12}% 
+\contentsline {part}{第III部\hspace {1zw}HAMILTONIAN MECHANICS}{13}% 
+\contentsline {chapter}{\numberline {第7章}Differential forms}{14}% 
+\contentsline {chapter}{\numberline {第8章}Sympletic manifolds}{15}% 
+\contentsline {chapter}{\numberline {第9章}Canonical formalism}{16}% 
+\contentsline {chapter}{\numberline {第10章}Introduction to perturbation theory}{17}% 
+\contentsline {chapter}{参考文献}{18}% 

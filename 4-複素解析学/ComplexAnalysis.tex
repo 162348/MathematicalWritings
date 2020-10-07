@@ -1,0 +1,1201 @@
+\documentclass[uplatex, 12pt, dvipdfmx]{jsreport}
+\title{複素解析学（担当：平地健吾先生）}
+\author{司馬博文}
+\date{\today}
+\pagestyle{headings} \setcounter{secnumdepth}{4}
+\input{/Users/hirofumi.shiba48/Desktop/数理科学/preamble_CM.tex}
+\begin{document}
+\tableofcontents
+
+\part{複素解析学Ⅰ}
+
+\section*{Introduction}
+
+\begin{quotation}
+    「二次方程式を一般的に解く為には所謂虚数が必要であることが早く認められたのである。実数と虚数とを総括して、ガウス以来それを複素数と称する。
+    数の範囲を複素数まで拡張することは、方程式論のみでなく、現今の数学の各部門に於て緊要であって、実数のみに関する問題に於ても、それを複素数の立場から考察するとき、明瞭に解決される場合が多い。
+    これは次元の拡張であって、恰も上空から瞰下するとき、地上の光景が明快に観取せられるようなものである。」
+    \begin{flushright}
+        ――高木貞治『代数学講義』
+    \end{flushright}
+\end{quotation}
+
+\begin{description}
+    \item[複素解析学とは]\mbox{}\\
+        複素数上の関数についての解析学．古くは関数と言えば複素関数を指したため，歴史的には「関数論」ともいう．また，「等角写像論」という切り口で教授されることも多い．
+    \item[解析を代数的に出来るのが素晴らしい]\mbox{}\\
+        留数計算やGoursatの定理，あるいはそもそも複素数体が代数的閉体であることなどの結果を用いることで，
+        部分積分などの煩雑な微積分テクニックが，
+        より代数的に簡明な操作に置き換わる．
+    \item[講義の目標：$\log z\;(z\in\C\setminus\{0\})$を定義する]\mbox{}\\
+        対数関数が解ったならば，一変数複素関数が解ったと言って良い．
+    \item[謎]\mbox{}\\
+        一体なぜ複素数という対象はこんなにも代数的に有用なのか．複素数のうちどの型が汎用性が高いのか．
+\end{description}
+
+\section*{実関数の複素関数への自然な拡張を目指す}
+
+\begin{example*}[定義域の位相的性質が変わる]
+    実関数$f(x)=\frac{1}{x}\;(x\in\R\setminus\{0\})$を複素数上に拡張したもの$f(z)=\frac{1}{z}\;(z\in\C\setminus\{0\})$は，定義域の位相的性質が違う（弧状連結である）．
+\end{example*}
+\begin{example*}[解析接続（複素指数関数）]
+    $e^x:=\sum^{\infty}_{n=0}\frac{x^n}{n!},\;(x\in\R)$を複素数上に自然に拡張できる．
+\end{example*}
+\begin{example*}[新しく考慮可能になる値が出現する]
+    対数関数$\log x\;(x>0)$は，$\log z\;(x\in\C\setminus\{0\})$に拡張でき，新たに$x<0$にて値が定まる．
+    これは，対数関数は指数関数の逆関数であるから，
+    $z\in\C\setminus\{0\}$に対して$e^w=z$を満たす$w\in\C$を
+    $\log z$と書く訳であるが，これは複素指数関数が単射でなくなるために（周期$2\pi$を持つ）関数としては定まらない．
+    そこで今回は次のように定義する．
+
+    \begin{definition*}[complex logarithm]
+        $z\in\C\setminus\{0\}$に対して，$\gamma(0)=1,\;\gamma(1)=z$を満たす曲線$\gamma:[0,1]\to\C\setminus\{0\}$を
+        任意に取り，
+        \begin{align*}
+            \log z&=\int^z_1\frac{dw}{w}\\
+            &:= \int_\gamma\frac{dw}{w}\\
+            &=\int^1_0\frac{1}{\gamma(t)}\frac{d\gamma}{dt}dt
+        \end{align*}
+        によって定まる次のような多価関数を，\textbf{複素対数関数}という．
+        \[ \log z=\log|z| + i(\theta+2\pi i),\;n\in\Z \]
+    \end{definition*}
+    \begin{remark*}
+        この性質がtopology (homotopy)的なものの考え方の原点となった．
+        確かにベクトル解析のレポートを書き上げる際に自然に触れた．
+        また，凡ゆる多価関数性は本質的に対数関数に起因するという．
+        この多価性の解消は，複素指数関数の定義域を$[0,2\pi)$に絞れば解決されるが（これを「枝」を取り出す方法，と言う），
+        より自然な方法に，穴あき (つまり原点を除く) ガウス平面を無限個貼り合わせた被覆空間としてのリーマン面上で定義された関数と見做す，リーマン面の方法がある．\footnote{ja.wikipedia.org/wiki/複素対数函数}
+    \end{remark*}
+\end{example*}
+
+\chapter{複素数}
+
+\begin{quotation}
+    もしかしたら何事も慣れるとそうなのかもしれないが，複素数の中心となる２つの構成に何度も立ち戻って
+    基本的な性質を証明するのは構成論上仕方ないが，一度遊離してしまえば，
+    複素数の性質を証明するのに実数の議論にまで戻る必要が必ずしもない．
+    CR作用素の性質も然り，また複素化という言葉（体としてというよりも，どちらかといえば線型代数）も然り（注\ref{remark-complexification}）．
+\end{quotation}
+
+\section{複素数の構成}
+
+\begin{screen}
+    高校教育課程では，imaginary unit $i^2=-1$を形式的に導入して，$a+bi\;(a,b\in\R)$と表される数を複素数とし，
+    和と積に関する次の法則を発見する．
+    \begin{align}
+        (a+bi) + (c+di) &= (a+b) + (b+d)i\\
+        (a+bi)(c+di) &= (ac-bd) + (bc+ad)i
+    \end{align}
+    ここでは，性質$i^2=-1$を満たす，より筋が良い２つのモデルを実際に構成することで，更なる詳細の性質についての結果を導くための基盤とする．
+\end{screen}
+
+\begin{definition}[complex numbers 1 | 代数系$(\R^2,\cdot)$として (Hamilton)]\label{def-complex-numbers-1}
+    積$\cdot:\R^2\times\R^2\to\R^2$を備えた二次元実線型空間$\R^2$を\textbf{複素数体}と呼び，$\C:=(\R^2,\cdot)$と書く．
+    \[\begin{pmatrix}a\\b\end{pmatrix}\cdot\begin{pmatrix}c\\d\end{pmatrix}=\begin{pmatrix}ac-bd\\bc+ad\end{pmatrix}\]
+
+    標準基底$\mathbf{e}:=\begin{pmatrix}1\\0\end{pmatrix},\mathbf{i}:=\begin{pmatrix}0\\1\end{pmatrix}$を用いて，$\begin{pmatrix}a\\b\end{pmatrix}=a\mathbf{e}+b\mathbf{i}$と成分表示できる．これを$a+bi$と略記する．
+    $\Re z:=a, \Im z:=b$と定める．
+    写像$i:\R\to\C$を$\R\ni a\mapsto a\mathbf{e}\in\C$とすると，これは包含射（埋め込み）であり，$i(\R)=\{z\in\C\mid\Im z=0\}$．
+    この包含射によって$\R$の元は$\C$の元と同一視する．
+    $\Re=0\land\Im=0$を満たす，即ち純虚な実数とは，ただ一つの数$0$である．
+\end{definition}
+\begin{lemma}
+    次が成り立つ．
+    \begin{enumerate}
+        \item $\mathbf{e\cdot e=e, e\cdot i=i, i\cdot e=i, i\cdot i=-e}$．
+        \item(可換性) $v,w\in\R^2$に対して，$vw=wv$が成り立つ．
+        \item(分配性) $v_1,v_2,w\in\R^2,a,b\in\R$に対し，$(av_1+bv_2)w=av_1w+bv_2w$．
+    \end{enumerate}
+\end{lemma}
+
+\begin{definition}[complex numbers 2 | 部分代数$M$として]
+    ２次元正方行列のなす線型空間$M_2(\R)$の，次のようにして定まる部分空間$M$を複素数体$\C:=M$と言う．
+    \[ M=\left\{ \begin{pmatrix}a&-b\\b&a\end{pmatrix}\in M_2(\R)\;\middle|\; a,b\in \R \right\} \]
+\end{definition}
+\begin{proposition}
+    次が成り立つ．
+    \begin{enumerate}
+        \item $M$は（行列）積について閉じて居る．
+        \item $\varphi:\C\ni a+bi\mapsto\begin{pmatrix}a&-b\\b&a\end{pmatrix}\in M$は体としての同型である．
+    \end{enumerate}
+    特に$\varphi(1)=E,\varphi(i)=J:=\begin{pmatrix}0&-1\\1&0\end{pmatrix}$となる．この$J$を\textbf{複素構造}と言う．
+\end{proposition}
+\begin{remark}
+    \[ \begin{pmatrix}a&-b\\b&a\end{pmatrix} = \left( \begin{pmatrix}a\\b\end{pmatrix} \;\; J\begin{pmatrix}a\\b\end{pmatrix} \right) \]
+    であり，$J^2\begin{pmatrix}a\\b\end{pmatrix}=-\begin{pmatrix}a\\b\end{pmatrix}$であると言う構造を持つ．
+\end{remark}
+\begin{lemma}
+    $\alpha,\beta,\gamma\in M$について，次が成り立つ．
+    \begin{enumerate}
+        \item $\alpha+\beta=\beta+\alpha, (\alpha\beta)\gamma=\alpha(\beta\gamma), \alpha(\beta+\gamma)=\alpha\beta+\alpha\gamma$．
+        \item $\alpha\beta=\beta\alpha$．
+        \item $\det(aE+bJ)=a^2+b^2$．（よって，零元$0$を除いて逆元を持つ）．
+    \end{enumerate}
+\end{lemma}
+
+\section*{その他の構成と一意性：複素化，代数的閉包}
+
+\begin{proposition}[２つの構成の等価性]
+    写像
+    \[\xymatrix@R-2pc{
+        M\ar[r]^-{\varphi}&{\R^2}\\
+        {\rotatebox{90}{$\in$}}&{\rotatebox{90}{$\in$}}\\
+        {aE+bJ}\ar@{|->}[r]&{\begin{pmatrix}a\\b\end{pmatrix}}
+    }\]
+    は（体の）同型である．
+\end{proposition}
+
+書籍\cite{Ahlfors}では$\C$の存在を体の公理系についての論から示していた．
+それは，方程式$x^2+1=0$の解が存在する$\R$の任意の拡大体$\F$が共通して持つ部分体$\C$としての構成で，
+まず$\R$の公理とその存在と一意性を確認し，そしてHamiltonの構成をして存在と一意性を確認した．
+
+
+また，次の構成法もある．なんというか，体の拡大に代数方程式論を用いたことと深い繋がりがあるように思う．
+\begin{problem}
+    次の部分体は，$\C$と同型である．
+    \[ P:=\R[x]/(x^2+1) \]
+\end{problem}
+
+\begin{proposition}[複素共軛は唯一の非自明な自己同型である，従って対合である]
+    $\R$上の結合的代数の圏上での自己同型群$\Aut(\C)$は，複素共軛の作用のみで，$\Z/2$である．
+
+    The automorphism group of the complex numbers, as an associative algebra over the real numbers, is $\Z/2$, acting by complex conjugation.\footnote{ncatlab.org/nlab/show/complex+number}
+\end{proposition}
+\begin{remark}
+    実数の場合は$\Aut(\R)=\{\id\}$ということであろうか．
+\end{remark}
+
+線型代数の言葉で，体の拡張$\R\xrightarrow{i}\C$は，一般化されており，
+複素化と呼ばれる．
+
+\begin{definition}[complexification]
+    実線型空間$V$の\textbf{複素化}とは，$\R$上の$\C$とのテンソル積$V^\C:=V\otimes_\R\C$のことである．
+    なお，係数体を埋め込み$i:\R\to\C$により拡大する．\footnote{https://ncatlab.org/nlab/show/complexification}
+    この複素化によって，$V$の基底は$V^\C$の基底に埋め込まれる．
+\end{definition}
+
+\begin{example}[複素構造$J$の中心化群としての構成]
+    ２次元実線型空間$V$の自己射のモノイド$\End(V)$に対して，
+    可逆射$J:V\to V$を$J^2=-E$によって定め，
+    これに対して可換になる射全体の集合を$M=\{A\in M_2(\R)\mid AJ=JA\}$を満たす部分空間／部分(Abel)群として複素数を作り出せる．
+    勝手な元を$x\in V$とし，もう一つを$Jx$と取れば（直行座標になる），$J$は$\begin{pmatrix}0&1\\-1&0\end{pmatrix}$と表示される．
+
+    命題\ref{problem-complex-linear-mappings}により，$L\in\Aut(V)$は$\exists\alpha,\beta\in\C\;L(z)=\alpha z+\beta\overline{z}$と表せるのであった．
+\end{example}
+
+\section{複素数特有の抽象的性質}
+
+\begin{screen}
+    複素数は一般に抽象的に，公理論的に存在し，それ自体の自律性を持つはずである．
+    ということで，前節の二通りの構成法を抽象化し，
+    複素共軛という複素構造$J$に本質的な概念に注目して，
+    複素数の特徴を，実数（成分）の言葉から遊離して複素共軛という複素数特有の言葉で捉え直すことを目指す．
+
+    複素数体を$(\R^2,\cdot)$と同一視した際には虚数単位$i$が，$M$と同一視した際には$(x\;\;Jx)$と表せることが本質的な意味を持つ．
+    前者の見方では複素共軛は唯一の非自明な体同型であり，後者の見方では複素共軛は行列の転置である．
+\end{screen}
+
+\begin{definition}[absolute value / modulus, conjugate]
+    $z=x+yi\in\C$について，
+    \begin{enumerate}
+        \item $|z|:=\sqrt{x^2+y^2}$を，$z$の\textbf{絶対値}と言う．$(\R^2,\cdot)$のベクトルとしての長さを表す．
+        \item $\overline{z}=x-yi$を，$z$の\textbf{複素共軛}と言う．$M$の元としての転置を表す，転置がinvolutionであるという点において共軛的である．
+    \end{enumerate}
+    つまり，複素構造としては$\pm\sqrt{-1}$のいずれも採用し得るが，\textbf{複素共軛を考えれば，右手系のみの言葉から複素数の世界を対称的に扱える}．
+\end{definition}
+\begin{proposition}[conjugate involution is a field automorphism]
+    複素共軛の概念により定まる$\R$-線型写像(conjugate involution) $\C\to\C, i\mapsto\overline{i}=-i$は，$\R\subset\C$を変えない$\C$の自己同型である．
+\end{proposition}
+\begin{remark}
+    これは体の拡大についての言葉を用いて，Galois群$\Gal(\C/\R)$が位数2の巡回群で，複素共軛により生成されると言える．\footnote{nLab}
+\end{remark}
+\begin{proposition}[複素共軛による特徴付け]
+    実部は，複素共軛との平均として得られる．
+    \[ \Re z=\frac{z+\overline{z}}{2},\; \Im z=\frac{z-\overline{z}}{2i} \]
+    複素数の構成１（定義\ref{def-complex-numbers-1}）の際に用いた内部構造を抽象化する点において強力な指針となる．
+\end{proposition}
+\begin{lemma}[絶対値，複素共軛と演算の整合性]\label{lemma-abs-conj}
+    $z=x+yi, w=u+vi\in\C$を$(\R^2,\cdot)$の元とみなす．
+    \begin{enumerate}
+        \item $\begin{pmatrix}x\\y\end{pmatrix}\cdot\begin{pmatrix}u\\v\end{pmatrix} = \Re z\overline{w}=\Re \overline{z}w$．（$\R^2$の内積の表示．$\R^2$内の内積は，$M$では転置して掛け合わせた行列の11または22要素に現れるから，$\Re$で取り出せる．これらは転置に対して値を保存する）．
+        \item $\overline{z+w}=\overline{z}+\overline{w}, \overline{zw}=\overline{z}\overline{w}$．複素共軛はそのどちらを採用しても同じ複素数体を生成するので，和と積を保存する（同型）．
+        \item $|z|^2=z\overline{z}=|\overline{z}|^2$．（回転変換の部分の打ち消し，直行行列が自身の転置と積を取って居るので２つの基底の長さを掛け合わせた値になる，これは行列式に等しい）．
+        \item $|zw|=|z||w|, \left|\frac{z}{w}\right|=\frac{|z|}{|w|}$（3.の帰結）．
+    \end{enumerate}
+    また，次が成り立つ．不等式条件は順序が$\R$上にしかないために，これの大部分を引き継ぐ形になる．
+    \begin{enumerate}\setcounter{enumi}{4}
+        \item $|z\pm w|^2=|z|^2\pm 2\Re z\overline{w}+|w|^2$（これより恒等式$|z+w|^2+|z-w|^2=2(|z|^2+|w|^2)$を得る）．
+        \item $-|z|\le\Re z\le|z|,-|z|\le\Im z\le |z|$．
+        \item (Cauchy) $\Re z\overline{w}\le|z||w|$（等号成立条件は$z/w>0:\Leftrightarrow z/w\in\R\land z/w>0$）．
+        \item (三角不等式) $|z+w|\le|z|+|w|$．
+    \end{enumerate}
+\end{lemma}
+\begin{proof}
+    1., 2., 3.は$(\R^2,\cdot)$の元としての成分計算からわかる．4.は2.,3.を用いて$|ab|^2=ab\cdot\overline{ab}=ab\overline{a}\overline{b}=|a|^2|b|^2$から得る．
+    $b=\frac{1}{b}$と定め直せばもう一方を得る．
+
+    5.は3.と1.から分かる．$|z\pm w|^2=(z\pm w)(\overline{z}\pm\overline{w})=|z|^2\pm(z\overline{w}+\overline{w}z)+|w|^2$．
+    
+    6.は定義（実数からの構成）から成分計算により従う．
+    
+    7.は，5.より$\forall\lambda\in\C,\;\sum^n_{i=1}|a_i-\lambda\overline{b}_i|^2=\sum^n_{i=1}|a_i|^2+|\lambda|^2\sum^n_{i=1}|b_i|^2-2\Re\overline{\lambda}\sum^n_{i=1}a_ib_i\ge 0$が成り立つ．特に$\lambda=\frac{\sum^n_{i=1}a_ib_i}{\sum^n_{i=1}|b_i|^2}$とすることで，
+    \begin{align*}
+        &\sum^n_{i=1}|a_i|^2+\frac{\left|\sum^n_{i=1}a_ib_i\right|^2}{\sum^n_{i=1}|b_i|^2}-2\Re\frac{\sum^n_{i=1}\overline{a}_i\overline{b}_i}{\sum^n_{i=1}|b_i|^2}\sum^n_{i=1}a_ib_i\\
+        =&\sum^n_{i=1}|a_i|^2+\frac{\left|\sum^n_{i=1}a_ib_i\right|^2}{\sum^n_{i=1}|b_i|^2}-2\frac{\left|\sum^n_{i=1}a_ib_i\right|^2}{\sum^n_{i=1}|b_i|^2}\\
+        =&\sum^n_{i=1}|a_i|^2-\frac{\left|\sum^n_{i=1}a_ib_i\right|^2}{\sum^n_{i=1}|b_i|^2}\ge 0
+    \end{align*}
+    を得る．
+
+    8.は，5.と6.より$|a+b|^2=|a|^2+|b|^2+2\Re a\overline{b}\le |a|^2+|b|^2+2|a||b|=(|a|+|b|)^2$より従う．
+\end{proof}
+
+\begin{proposition}
+    複素数$\alpha$がある実係数代数方程式の解ならば，$\overline{\alpha}$も解である．
+\end{proposition}
+\begin{proof}
+    補題\ref{lemma-abs-conj}.2より，全ての四則演算からなる方程式関係について，その構造を体同型（＝四則演算を保存する）であるinvolution$\overline{ }$は保存する．
+    そしてこのinvolutionによる双対命題は，係数が全て実数であるために，同じ方程式についてもう一つの解の存在を保障することになる．
+\end{proof}
+
+\begin{example}[代数方程式]\mbox{}
+    \begin{description}
+        \item[円の方程式] $|z-\alpha|=r$またはパラメータ表示で$z=r\xi+\alpha\;(|\xi|=1)$．または代数方程式で$(z-a)(overline{z}-\overline{a})=r^2$．また，この方程式は複素共軛の下で不変だから，その不動核に入っていることがわかる，即ち実数の関係式１本の等価な表現がある． 
+        \item[楕円の方程式] 長軸が実軸に含まれ，短軸が虚軸に含まれる場合，$|z|^2+a(z^2+\overline{z}^2)-r=0\;(0\le a<\frac{1}{2})$と表せる．成分で表すと$(1+2a)x^2+(1-2a)y^2-r=0$となる． 
+    \end{description}
+\end{example}
+
+\begin{remark}[２つの構成の緊密な協調]次のような観察は，複素数という構造の筋の良さを伺わせる．
+    この２つを往来することで強力な時短になる．特に幾何的な側面は次の節で考察する．
+    \begin{enumerate}
+        \item 代数的な計算$\frac{1}{\alpha+i\beta}=\frac{\alpha-i\beta}{\alpha^2+\beta^2}$は，
+        行列としての逆写像を考えることで$z^{-1}=Z^{-1}=\frac{1}{|\det Z|}\overline{z}$に一致する．逆行列が転置の定数倍に一致するのはたまたまである．
+    \end{enumerate}
+\end{remark}
+
+\section{複素数の積の幾何的性質}
+
+\begin{screen}
+    複素数は公理論的にも存在するが，必要に応じてEuclid平面$\R^2$や行列$M$と同型を取って考えられるのが強みである．
+    例えば，複素数は$(\R^2,\cdot)$の点でもあり，その上での（回転・拡大）変換でもあるのであった．
+    これらを組み合わせ，適宜内部構造を参照することで，幾何的にも代数的にも強力な道具になる．
+    「あと半年もすると，なんでも複素数で書いて計算してしまうようになります．」とのことであった．
+    おかげで公式$\sqrt{\alpha+i\beta}=\pm\left(\sqrt{\frac{\alpha+\sqrt{\alpha^2+\beta^2}}{2}}+i\frac{\beta}{|\beta|}\sqrt{\frac{-\alpha+\sqrt{\alpha^2+\beta^2}}{2}}\right)\;\;(\beta\ne 0)$を考えずに済むのである．
+\end{screen}
+
+複素数を幾何的に捉えるには，回転・拡大変換に強い極座標系の表示を用いると手触りが良い．
+
+\begin{definition}[polar form / trigonometric form]
+    複素数$z$はある実数$\theta$を用いて，
+    \[ z=|z|(\cos\theta+i\sin\theta) \]
+    と表せる．この時$\theta$を$z$の\textbf{偏角}といい，$\theta=\arg z$と書く．
+    $\arg:\C\to\R$は多価な選択写像で，特に$(-\pi,\pi]$に取る値を\textbf{主値}というが，暗黙のうちに$2\pi$の倍数分の違いは無視して$=$などの記号で結ぶことが多い．
+\end{definition}
+\begin{lemma}[偏角の性質：$\C$の積を$\R$の和に写す]
+    $w=|w|(\cos\varphi+i\sin\varphi)$とする．
+    \begin{enumerate}
+        \item $zw=|z||w|(\cos(\theta+\varphi)+i\sin(\theta+\varphi))$．
+        \item $\arg w-\arg z=\arg(w/z)\; \mod 2\pi$．
+    \end{enumerate}
+\end{lemma}
+\begin{definition}[Gauss平面の向きと複素数のなす角]
+    数ベクトル空間$\R^2$においてベクトル$v,w\in\R^2\setminus\{0\}$のなす角は
+    \[ \cos\theta=\frac{(v,w)}{||v||\cdot ||w||} \]
+    とし，この時符号が不定であった．一般にEuclid空間$\R^2$と言った時は，$(e_1,e_2)$を標準的な向きとする．
+
+    しかしここに積の構造を加えた$\C$の場合，$\sqrt{-1}(=i=J)$という標準的な向き（右手系）が定まって居る．
+    従って，２つの複素数$v,w\in\C\setminus\{0\}$のなす角は次のように定義する．
+    \[ \frac{w}{||w||}=\begin{pmatrix}\cos\theta&\sin\theta\\-\sin\theta&\cos\theta\end{pmatrix}\frac{v}{||v||} \]
+\end{definition}
+
+\begin{proposition}[円分方程式の解]
+    方程式$z^n=\alpha\in\C$の解は，$\alpha=r(\cos\theta+\sin\theta)$を満たす$r,\theta$を用いて，
+    \[ z=\sqrt[n]{r}\left(\cos\frac{\theta}{n}+i\sin\frac{\theta}{n}\right)\left(\cos\frac{2\pi}{n}+i\sin\frac{2\pi}{n}\right)^m\;\;\;m=0,1,2,\cdots,n-1 \]
+    と表せる．表示は少し技巧的で，前半の$z_0$が解を構成する因子で，その偏角変化のstepが$\xi^m$分大きくなっても，$n$乗した後に$\alpha$の方向を向いて居る事は変わらない．
+    そして方程式の解はこの$n$個に尽きる．
+\end{proposition}
+
+\begin{proposition}[Dirichlet kernel]
+    \[ \sum^n_{k=0}\cos(k\theta)=\frac{1}{2}+\frac{\sin\left(\left(n+\frac{1}{2}\right)\theta\right)}{2\sin\left(\frac{\theta}{2}\right)}\;(\theta\ne 2\pi n\;n\in\Z) \]
+    右辺は\textbf{ディリクレ核}と呼ばれ，Fourier解析にて収束性の議論の際などに登場するのが有名．
+    三角関数の加法に対する法則のみで説明可能な事象であることは間違いないが，その論理の筋が辿れたからと言って我々に利する事は少なそうである．
+\end{proposition}
+\begin{proof}
+    $\zeta=\cos\theta+i\sin\theta\;(\theta\ne 2\pi n\;n\in\Z)$とおく，即ち$\zeta\ne 1$．
+    次が成り立つ．
+    \[ 1+\zeta+\zeta^2+\cdots+\zeta^n=\frac{1-\zeta^{n+1}}{1-\zeta} \]
+    この左辺の実部は$\sum^n_{k=0}\cos(k\theta)$であるから，右辺の実部を計算することを考える．
+    $z=\cos\frac{\theta}{2}+i\sin\frac{\theta}{2}$と置き直すと，$z^2=\zeta, z^{-1}=\overline{z}, 1-\zeta=1-z^2=z(\overline{z}-z)$だから，
+    \begin{align*}
+        \frac{1-\zeta^{n+1}}{1-\zeta}&=\frac{1-z^{2n+2}}{z(\overline{z}-z)}\\
+        &= \frac{\overline{z}-z^{2n+1}}{\overline{z}-z}\\
+        &= \frac{\overline{z}-z^{2n+1}}{-2i\sin\frac{\theta}{2}}\\
+        &= \frac{i(\overline{z}-z^{2n+1})}{2\sin\frac{\theta}{2}}
+    \end{align*}
+    この実部は$\Re(i\overline{z}-iz^{2n+1})=\sin\frac{\theta}{2}+\sin\left(\frac{2n+1}{2}\theta\right)$より，得る．
+\end{proof}
+
+\begin{remark}[公理論としての厳密性についての注意]
+    以上の議論は，三角関数は定義せずに（あるいはすごく解析的に定義し）naiveに用いており，また幾何的な言明は$\R$の解析的性質から従うものとしたことに注意．\cite{Ahlfors}
+    複素解析学では三角関数を別の角度から定義しなおす．
+\end{remark}
+
+\section{等角性と複素線形性は同値}
+
+\begin{screen}
+    （厳密にはCR方程式が複素関数のYacobi行列に課す制約を見ることによって判明するが，）
+    平面上の線型写像が等角である時，それは平面をGauss平面$(\R^2,\cdot)$とみなしたときに
+    この上の$\C$-線型写像を定めていることに同値であることを，初等的に平面上のベクトルの「なす角」を複素数の偏角の言葉で捉えることで，見る．
+\end{screen}
+
+まず，複素数とは，部分空間$M\subset M_2(\R)$であった．
+即ちモノイド$\Mor_{\FinVect_\R}(\R^2\simeq\C)$の部分群であることを洗い出す．
+
+\subsection{実線型写像が複素線型でもあるための条件と複素化}
+
+\begin{proposition}[$\R^2$の実自己線型写像の複素数表示]\label{prop-linearity-between-real-complex}
+    実線型写像$L:\R^2\to\R^2$は，ある複素数$\alpha,\beta,z\in\C$と用いて，
+    $L(z)=\alpha z+\beta\overline{z}$と表せる．（即ち，実線型写像$L:\R^2\simeq\C\to\C\simeq\R^2$は$\iota$を用いて$\C\oplus\C$の実部分空間（２次元）に埋め込める）
+\end{proposition}
+\begin{proof}
+    $\R^2$の標準基底について，$L$は行列$A=(a\;b)\in M_2(\R)$で表示されるとする．
+    すると，
+    \begin{align*}
+        L=(a\;b) &=\frac{1}{2}(a+Jb\;\;-Ja+b)+\frac{1}{2}(a-Jb\;\;Ja+b)\\
+        &=\frac{1}{2}(a+Jb\;\;Ja-b)\begin{pmatrix}1&0\\0&-1\end{pmatrix}+\frac{1}{2}(a-Jb\;\;Ja+b)
+    \end{align*}
+    と分解できる．２つの行列は，それぞれ$Ja-b=J(a+Jb), Ja+b=(a-Jb)$の関係を満たすから，これを複素数
+    \begin{align*}
+        \beta&:=\frac{1}{2}(a+Jb\;Ja-b)\\
+        \alpha&:=\frac{1}{2}(a-Jb\;Ja+b)
+    \end{align*}
+    と取れば，
+    \begin{align*}
+        Lz &= \beta\begin{pmatrix}1&0\\0&-1\end{pmatrix}z + \alpha z\\
+        &= \alpha z+\beta\overline{z}
+    \end{align*}
+    と表せる．
+\end{proof}
+
+\begin{proposition}[$\R^2$の実自己線型写像の可逆性条件]
+    実線型写像$L:\R^2\to\R^2$が$L(z)=\alpha z+\beta\overline{z}$と表されているとする．
+    これが可逆であることは$|\alpha|^2-|\beta|^2\ne 0$に同値である．
+\end{proposition}
+\begin{proof}
+    \[\xymatrix@R-1pc{
+        {\begin{pmatrix}x\\y\end{pmatrix}}\ar@{|->}[ddd]\ar[rrr]&&&{\frac{1}{2}\begin{pmatrix}\alpha+\beta+\overline{(\alpha+\beta)}&-(\alpha-\beta-\overline{(\alpha-\beta)})\\\alpha+\beta-\overline{(\alpha+\beta)}&\alpha-\beta+\overline{(\alpha-\beta)}\end{pmatrix}\begin{pmatrix}x\\y\end{pmatrix}}\ar@{|->}[ddd]\\
+        &\R^2\ar[r]^-{f_L}\ar[d]_-{\varphi_{1,i}}\ar@{}[ul]|-{\rotatebox{315}{$\in$}}&\R^2\ar@{}[ur]|-{\rotatebox{225}{$\in$}}\ar[d]^-{\varphi_{1,i}}\\
+        &\C\ar[r]^-{L}\ar@{}[dl]|-{\rotatebox{45}{$\in$}}&\C\ar@{}[dr]|-{\rotatebox{135}{$\in$}}\\
+        z\ar@{|->}[rrr]&&&\alpha z+\beta\overline{z}
+    }\]
+    $\alpha z+\beta\overline{z}$に$z=x+yi$を代入し，基底$1,i$について成分表示をすると，$L:\R^2\to\R^2$の表現行列を特定できる．
+    この行列式は，
+    \begin{align*}
+        \det f_L&=\frac{1}{4}\left\{ ((\alpha+\beta)+\overline{(\alpha+\beta)})((\alpha-\beta)+\overline{\alpha-\beta})\right.\\
+        &\hphantom{=}\;\left.-((\alpha+\beta)-\overline{(\alpha+\beta)})((\alpha-\beta)-\overline{(\alpha-\beta)}) \right\}\\
+        &=\frac{1}{4}(4\alpha\overline{\alpha}-4\beta\overline{\beta})=|\alpha|^2-|\beta|^2.
+    \end{align*}
+\end{proof}
+\begin{remark}[complexificationを用いた証明：実数上まで引き戻す必要がない]\label{remark-complexification}
+    証明中の同型射$\varphi_{1,i}:\R\oplus\R\to\C$は，$1,i\in\C$が定める同型である．
+    複素線型空間としての$\C$は，実線型空間$\R$の複素化である：$\R\oplus\R=:\R_\C\simeq\C$．
+    今回の証明はこれの梯子を降るために用いたが，逆に登る方向へと用いると，実数上の議論まで引き戻さずとも済む．
+
+    実２次線型空間としての$\C$の複素化$\C_\C=\C\oplus\C(=\C^2)$を考える．そこへの埋め込みである実線型写像$\iota:\C\to\C\oplus\C$を$z\mapsto\begin{pmatrix}z\\\overline{z}\end{pmatrix}$で与えると，これは単射だから，$V=\iota(\C)$と実２次部分空間を置けば$\iota:\C\to V$の範囲で可逆である．
+    なお，ここで\textbf{$V$は複素線型（部分）空間ではない}ことに注意，複素数倍について閉じていないからである．
+    \[\xymatrix{
+        \C\oplus\C\ar@{-->}[r]^-{L_\C}&\C\oplus\C\\
+        V\ar@{.>}[u]_-i\ar[r]^-{\hat{L}:=L\oplus L}&V\ar@{.>}[u]_-i\\
+        \C\ar[u]_-\iota\ar[r]^-L\ar@{}[d]|-{\rotatebox{90}{$\in$}}&\C\ar[u]_-\iota\ar@{}[d]|-{\rotatebox{90}{$\in$}}\\
+        z\ar@{|->}[r]&\alpha z+\beta\overline{z}
+    }\]
+    すると，上図を可換にする\textbf{実}線型写像$\hat{L}:=\iota\circ L\circ\iota^{-1}$の行列表示は，
+    \[\hat{L}\begin{pmatrix}z\\\overline{z}\end{pmatrix}=\begin{pmatrix}\alpha z+\beta\overline{z}\\\overline{\beta}z+\overline{\alpha}\overline{z}\end{pmatrix}=\begin{pmatrix}\alpha&\beta\\\overline{\beta}&\overline{\alpha}\end{pmatrix}\begin{pmatrix}z\\\overline{z}\end{pmatrix}\]
+    となる．（行列表示に複素数が現れているが，これは$L$が実線型写像であることと矛盾しない）．
+    即ち，上の可換図式は，最上部の射$L_\C$は$\Vect_\C$上のものであるが，下部の四角形は$\Vect_\R$上のもので，$i$はただの包含写像である．
+    この時，\textbf{複素線型写像$L_\C$は実線型写像$L$の複素化}と言う（ただし，実線型写像$\hat{L}$は$L$が$\C\oplus \C\to \C\oplus \C$上に定める実線型写像の$V$への制限で，$L_\C$とは，複素行列$\hat{L}$が$\C^2$上に定める複素線型写像）．
+
+    まず，可換図式の下部を$\Vect_\R$上で考え，$\det\iota=1$を導く，すると$\det\hat{L}=\det\iota^{-1}\cdot\det L\cdot\det\iota=\det L$を得る．
+    $\iota$は$\C$の基底を$1$，$V$の基底を$e_1,e_2$と複素上の線型空間として見ていると見えてこない，$L$は必ずしも複素線型とは限らないからである．
+    一方双方を実線型空間と見ると，
+    \[ \begin{pmatrix}x\\y\end{pmatrix} = \begin{pmatrix}x+yi\\x-yi\end{pmatrix} = \begin{pmatrix}1&1\\1&-1\end{pmatrix} \begin{pmatrix}x\\y\end{pmatrix} \]
+    より，確かに$\det\iota=1$．
+
+    可換図式の上部の$\hat{L}$の$L_\C$への拡張考える．$\hat{L}$と$L_\C$は表現行列が同一であるから，$\det\hat{L}=\det L_\C$．
+    $V,\C\oplus\C$の集合としての共通部分から取れる２元$\begin{pmatrix}1\\1\end{pmatrix},\begin{pmatrix}i\\-i\end{pmatrix}$は，$V$の$\R$上の基底でもあり，$\C\oplus\C$の$\C$上の基底でもある．
+    これが複素化である．
+\end{remark}
+
+\begin{itembox}[l]{複素化：体の拡大に伴う，体上の加群の射の拡張}
+    実線型写像$f:V\to W$について，一度積写像$f\oplus f:V\oplus V\to W\oplus W$を考え，空間$V\oplus V,W\oplus W$
+    に複素数の構造を入れて得る$V_\C,W_\C$上に，それに伴って拡張される$\C$倍$\cdot:\C\times V_\C\to V_\C$の構造を保つと言う意味での複素線型写像$f_\C:V_\C\to W_\C$を$f$の複素化という．
+    $V\oplus V$から$V_\C$の定義は，集合としては変わらず，純粋に複素数積の代数的構造を入れたのみである．
+\end{itembox}
+
+\subsection{複素線型写像と等角写像}
+
+写像$z\mapsto\overline{z}$は，$\overline{z}=\alpha z$と表した場合の$\alpha\in\C$が$z\in\C$の値に依ってしまい：$\alpha=\frac{x^2-y^2-2xyi}{x^2+y^2}$，
+一定の複素数$\alpha z=\overline{z}$と表すことの出来ない変換である．
+即ち，複素線型ではなく，複素数をかける行為と複素共軛を取る行為は可換ではない．
+従って，この実線型写像$L:\R^2\to\R^2$が，複素線型写像$L':\C\to\C$と見做せるためには，この成分が消えなければならない．
+
+\begin{shadebox}\begin{theorem}\label{thm-conformal-Clinear-communicative}
+    $L:\R^2\to\R^2$を実線型同型とする．次の３条件は同値である．
+    \begin{enumerate}
+        \item $L$は等角写像である（任意の$v,w\in\C\setminus\{0\}$に対して，$v,w$のなす角と$Lv,Lw$のなす角が等しい）．
+        \item $L$は$L:\C\to\C$と見た時，$\C$-線型写像である（即ち，$L$は複素数で表される，あるいは$L\in M$）．
+        \item $L$は複素構造$J$と可換である．即ち，$JL=LJ$が成り立つ．
+    \end{enumerate}
+\end{theorem}\end{shadebox}
+\begin{proof}
+    まず1.$\Leftrightarrow$2.を示す．$\Leftarrow$は，$\exists\alpha\in\C,\; L(z)=\alpha z$である時，$\alpha$は回転・拡大変換を施すので，なす角を保存する．
+    $\Rightarrow$を考える．
+    $L:\C\to\C$を等角写像と仮定すると，特に$1,z$のなす角と$L(1),L(z)$のなす角は等しい．
+    従って，
+    \[ \arg z-\arg 1=\arg L(z)-\arg L(1) \]
+    を得る．これより，$\arg\left(\frac{L(z)}{z}\right)=\arg L(1)=(Lに依って定まる値)$より，
+    命題\ref{prop-linearity-between-real-complex}より，複素数$\frac{L(z)}{z}=\frac{\alpha z+\beta\overline{z}}{z}=\alpha+\beta\left(\frac{\overline{z}}{z}\right)$の偏角はある一定値をとる．
+    ここで$z\in\C\setminus\{0\}$に応じて，$\frac{\overline{z}}{z}$は単位円周$|\xi|=1$上を動くから，複素数$\frac{L(z)}{z}$は$\frac{L(z)}{z}=\alpha+\beta\zeta\;(|\zeta|=1)$とパラメータ表示できるが，この偏角は一定であるはずなので，$\beta=0$．
+    よって，$L(z)=\alpha z\;(z\in\C\setminus\{0\})$．
+
+    次に2.$\Leftrightarrow$3.を示す（問題\ref{problem-complex-linear-mappings}の解が証明となって居る）．
+    $\Rightarrow$は，2.が成り立つ時，$iL(z)=L(iz)\;(z\in\C)$が成り立つから，即ち3.も成り立つ．
+    一方この時，命題\ref{prop-linearity-between-real-complex}より，$L(z)=\alpha z+\beta\overline{z}$と置いて，
+    \begin{align*}
+        L(iz)-iL(z) &= \alpha (iz)+\beta(\overline{iz}) - i(\alpha z+\beta\overline{z})\\
+        &= -2i\beta\overline{z}=0
+    \end{align*}
+    より，$\beta=0$を得る．
+\end{proof}
+
+\section{演習}
+
+\begin{problem}[複素構造の特徴付け, 複素数の特徴付け]\label{problem-complex-linear-mappings}
+    $V$を二次元実線型空間，$J:V\to V$を$J^2=-E$を満たす線型写像とする．
+    \begin{enumerate}
+        \item $V$のある基底が存在して，$J$は$\begin{pmatrix}0&1\\-1&0\end{pmatrix}$と表示される．
+        \item $J=\begin{pmatrix}0&1\\-1&0\end{pmatrix}$とする．$AJ=JA$を満たす二次正方行列$A$を全て求めよ．
+    \end{enumerate}
+\end{problem}
+\begin{solution*}
+    1. $x\in V$を任意に取る．すると，$x,Jx$が線型独立である．なぜならば，$x,Jx$が線型従属ならば，$\exists k\in\R(Jx=kx)$であるが，$J^2x=-x=k^2x$であり，$k^2=-1$が導かれるが，これは$k\in\R$に矛盾．
+    従って$x,Jx$は線型独立．
+    すると，これを基底として，$J=(Jx\;J^2x)=(Jx\;-x)=\begin{pmatrix}0&1\\-1&0\end{pmatrix}$と表される．
+
+    2. $A=\begin{pmatrix}a&b\\c&d\end{pmatrix}$と置くと，$J^4=E$より，
+    条件は$A=JAJ^3$となるから，$\begin{pmatrix}a&b\\c&d\end{pmatrix}=\begin{pmatrix}d&-c\\-b&a\end{pmatrix}$より，
+    これを満たす$A$は確かに集合$M\subset M_2(\R)$をなす．
+\end{solution*}
+
+\begin{problem}
+    $f(z)=\frac{z-a}{1-z\overline{a}}\;(|a|<1)$について，次を示せ．
+    \begin{enumerate}
+        \item $|z|=1$の時$|f(z)|=1$．
+        \item $|z|<1$の時$f(z)|<1$．
+    \end{enumerate}
+\end{problem}
+
+\chapter{複素関数}
+
+\begin{quotation}
+    実２変数ベクトル値関数と複素関数の間に次のような同型がある．
+    \[\xymatrix@R-2pc{
+        \varphi:\Hom(\R^2\supset D,\C)\ar[r]^-{\sim}&\Hom(\C\supset D',\C)\\
+        \rotatebox{90}{$\in$}&\rotatebox{90}{$\in$}\\
+        {f(x,y)}\ar@{|->}[r]&g(z(,\overline{z}))=f\left(\frac{z+\overline{z}}{2},\frac{z-\overline{z}}{2i}\right)
+    }\]
+
+    これにより，複素解析の殆どは，足元の空間を双射$\varphi:\C\to\R^2,a+bi\mapsto (a,b)$によって同一視することで，
+    $\R^2$上の微分位相幾何（ベクトル解析）の特殊なモデルとして理解できる．
+    
+    その特殊性を特徴付けるのがCauchy-Riemann方程式である．
+    この一階の二次の偏微分方程式は，その関数が等角写像であること（定理\ref{thm-charactorization-of-conformal-mappings}）と，その関数が複素微分可能であること（＝線型主要部が複素線型であること，定理\ref{thm-charactorization-of-complex-differentialability}）と同値になる．
+    
+    また，Cauchyの積分定理は，Stokesの定理に他ならない．
+    Cauchyの積分公式は，Poincaréの補題の仮定が満たされていないことを使って，定義域にあいた穴を捉える．
+\end{quotation}
+
+\section{複素数の収束}
+
+\begin{screen}
+    Hamiltonの構成$\C\simeq\R^2$の通り，$\R^2$の位相の議論と並行になる．
+    位相の言葉を定義しなければ，微分は概念さえ出てこない．
+    そして$\R$の場合に比べて順序構造が除かれたのみで，微分概念は殆ど同様に定義される．
+\end{screen}
+
+\begin{definition}[convergence]
+    複素数列$\{z_n\}_{n\in\N}$が$z\in\C$に収束するとは，絶対値について
+    \[ \forall\varepsilon>0,\;\exists N,\;n\ge N\Rightarrow |z_n-z|<\varepsilon \]
+    が成り立つことをいう．この論理式を$\lim_{n\to\infty}z_n=z$と略記する．
+\end{definition}
+
+\begin{proposition}[$\R^2$として]
+    複素数列$\{z_n=x_n+iy_n\}_{n\in\N}$について，$\lim_{n\to\infty}z_n=z$と$\lim_{n\to\infty}x_n=x\land\lim_{n\to\infty}y_n=y$とは同値．
+\end{proposition}
+\begin{proof}
+    三角不等式より，
+    \[ \max(|x_n-x|,|y_n-y|)\le |z_n-z| \le |x_n-x|+|y_n-y| \]
+    $\Leftarrow$はこの右辺から，$\Rightarrow$はこの左辺から分かる．
+\end{proof}
+
+\begin{proposition}[completeness]
+    $\C$は完備である．
+\end{proposition}
+\begin{proof}
+    複素Cauchy列$\{z_n=x_n+iy_n\}_{n\in\N}$に対して，実Cauchy列$\{x_n\}_{n\in\N},\{y_n\}_{n\in\N}$は収束するから，
+    $\{z_n\}_{n\in\N}$も収束する．
+\end{proof}
+
+\section{複素関数}
+
+\begin{definition}[convergence, limit, continuous]
+    開集合$D$の複素関数$f:D\to\C$の，$p\in D$における極限値とは，次を満たす$\alpha\in\C$のことをいう．
+    \[ \forall\varepsilon>0,\;\exists\delta>0,\;0<|z-p|<\delta\Rightarrow|f(z)-\alpha|<\varepsilon \]
+    この論理式を$\lim_{z\to p}f(z)=\alpha$と書く．
+
+    これを用いて，関数が$p\in D$で連続であることを，$f(p)=\lim_{z\to p}f(z)$が成り立つことと定義する．
+\end{definition}
+
+\begin{proposition}
+    次の３条件は同値である．
+    \begin{enumerate}
+        \item $\lim_{z\to p}f(z)=\alpha$．
+        \item $\lim_{z\to p}\overline{f(z)}=\overline{\alpha}$．
+        \item $\lim_{z\to p}\Re f(z)=\Re\alpha\land\lim_{z\to p}\Im f(z)=\Im\alpha$．
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    $\R^2$の位相構造から遺伝した性質である．直積の普遍性に沿った定義が出来て居ることを確認できる．
+\end{proof}
+
+\begin{definition}[complex-differentiable, holomorphic]\mbox{}
+
+    複素関数$f$が$a\in D$で\textbf{（複素）微分可能}であるとは，極限値$\lim_{z\to a}\frac{f(z)-f(a)}{z-a}$が存在することをいう．
+
+    関数$f$が全ての点で微分可能であるとき，関数$f$を\textbf{正則}であるという．
+    \begin{quotation}
+        「形容詞‘解析’ (analytic) は、むしろ全局的の意味において用いられる。局所的には簡便に正則 (regular) という。フランス系では整型 (holomorphe) ともいう。」
+        \begin{flushright}
+            （高木貞治『解析概論』p.202）
+        \end{flushright}
+    \end{quotation}
+\end{definition}
+
+こうして関数の正則性の概念にまで到達した．$f:\R^2\simeq\C\to\R^2\simeq\C$が複素微分可能であるとは，
+実微分可能であることよりも遥かに強い（CR方程式だけ強い）概念である．ひとまず，
+関数についての微積分の議論を抽象するために，次の補題を立てる．
+
+\begin{lemma}[関数の正則性の遺伝と微分法則]\label{lemma-derivatives-of-complex-functions}
+    $f,g:D\to\C$を正則関数とする．
+    \begin{enumerate}
+        \item $f+g,fg,f/g$は（$g$の零点を除いて）正則である．
+        \item (Leibniz) 極限値について，$(f+g)'=f'+g', (fg)'=f'g+fg', \left(\frac{f}{g}\right)'=\frac{f'g-fg'}{g^2}\;(g(z)\ne 0)$．
+        \item (Chain) $f\circ g$は正則で，$(f\circ g)'=(f'\circ g)\cdot g'$．
+    \end{enumerate}
+\end{lemma}
+
+\begin{proposition}[冪級数で表される関数は微分可能]\label{命題-6.1.2}
+    冪級数$\sum^\infty_{n=0}a_nz^n$が$U_r(0)$で収束するならば，$f(z):=\sum^\infty_{n=0}a_nz^n$は$U_r(0)$で微分可能であり，$f'(z)=\sum^\infty_{n=0}na_nz^{n-1}$．
+\end{proposition}
+
+\begin{discussion}[複素微分可能であるために追加で必要な条件]
+    さて，いま，$f$が正則である時，特にx,y軸への偏導関数$f_x,f_y$を考えると，
+    \begin{align*}
+        f'(z) &= \lim_{h\to 0}\frac{f(z+h)-f(z)}{h} =f_x(z) \\
+        f'(z) &= \lim_{h\to 0}\frac{f(z+ih)-f(z)}{ih} =-if_y(z)
+    \end{align*}
+    となるから，関係式$f_x=-if_y$が成り立つことが必要である．
+    これを成分ごとに書き下すことによって得る二本の偏微分方程式を\textbf{コーシー・リーマンの方程式}という．
+
+    となると，逆にこの偏微分方程式を満たす２変数ベクトル値関数$f$は全て正則になるのかが気になる．
+    本当にそうなることが期待される（定理\ref{thm-charactorization-of-complex-differentialability}），なんとなく$\R^2$に対して，
+    複素構造$J$が生み出す本質的な構造であるような気がするからである．
+\end{discussion}
+
+\begin{definition}[Cauchy-Riemann方程式]
+    $C^1$級２変数ベクトル値関数$f=\begin{pmatrix}u\\v\end{pmatrix}:\R^2\to\R^2$について，
+    次の偏微分方程式を\textbf{コーシー・リーマンの方程式}という．
+    \begin{align*}
+        \begin{pmatrix}\frac{\partial u}{\partial x}\\\frac{\partial v}{\partial x}\end{pmatrix} &= -J\begin{pmatrix}\frac{\partial u}{\partial y}\\\frac{\partial v}{\partial y}\end{pmatrix}\\
+        \Leftrightarrow\begin{pmatrix}\frac{\partial u}{\partial x}\\\frac{\partial v}{\partial x}\end{pmatrix} &= \begin{pmatrix}\frac{\partial v}{\partial y}\\-\frac{\partial u}{\partial y}\end{pmatrix}
+    \end{align*}
+\end{definition}
+\begin{remark}[等角写像の言葉によるCauchy-Riemann方程式の特徴付け]
+    これは，ベクトル値実関数$f$のYacobi行列が$\begin{pmatrix}\begin{pmatrix}u_x\\v_x\end{pmatrix}\;\;J\begin{pmatrix}u_x\\v_x\end{pmatrix}\end{pmatrix}$と表される，即ち，$M$に属することを要求して居ることに他ならない．
+    従って，Cauchy-Riemann方程式が満たされることは，$f$の定める接空間上の変換$df$が，
+    各接空間においては複素数で表されること＝等角変換であることに同値である．
+    従って，Cauchy-Riemann方程式の解$f:\R^2\to\R^2$は，各点の接空間を各点ごとに等角に変換する，等角写像である．
+
+    また，等角写像の合成はまた等角写像であることから，Cauchy-Riemann方程式の解は合成について閉じて居ることが予想される．
+\end{remark}
+
+\section{Cauchy-Riemann作用素}
+
+\begin{screen}
+    前節では初等的な考察からCR方程式を導き，それがYacobi行列の条件$J_f\in M$と同値であることとその意味を考察した．
+
+    一方で，複素共軛の言葉からの翻訳を考えたい．
+    そもそも，複素数には通常の$\R^2$平面としての微分構造の特殊な場合としても考えられるが，
+    複素構造特有の捉え方があるはずである．
+    それを象徴するのがWirtingerの偏微分作用素（Cauchy-Riemann作用素）である．
+    この観点からは，ある複素関数が微分可能であるかどうかは，導関数$\frac{\partial f}{\partial\overline{z}}$が消えて居るかを確認すれば良いだけである．
+    この複素関数のための微分(Wirtingerの作用素)からの見方は「複素関数とは，複素数による一変数関数である」という調和した感覚を，方程式の言葉で述べたものである．
+    これは\textbf{線型空間の複素化}として一般化されている．
+\end{screen}
+
+\begin{discussion}[Cauchy-Riemann方程式を，線型空間の複素化の視点から見直すことを目指す]\label{discussion-CR-equation}
+    いま，$f:D\to\C$が$a\in D$で全微分可能とは，或る$\R$-線型写像$L:x+yi\mapsto\alpha x+\beta y$が存在し，$f(a+z)=f(a)+L(z)+o(z)\;(z\in\C)$と表せることと同値で
+    あったが，$f$が全微分可能である時$L(x+yi)=f_x(a)x+f_y(a)y=\frac{f_x(a)-if_y(a)}{2}(x+yi)+\frac{f_x(a)+if_y(a)}{2}(x-yi)=f_zz+f_{\overline{z}}\overline{z}$と表せるから，
+    或る$\R$-線型写像$L$が存在し，$f(a+z)=f(a)+f_z(a)z+f_{\overline{z}}(a)\overline{z}+o(z)\;(z\in\C)$と表せることと同値
+    でもある．この時，Cauchy-Riemann方程式（複素微分可能であるための必要十分条件）はもちろん$f_{\overline{z}}=0$と表される．
+\end{discussion}
+
+\begin{definition}[Wirtinger derivative / Cauchy-Riemann operator]\label{def-CR-operator}
+    これは恰も，形式的には基底変換に見える．
+    そこで，新たに取った基底$z,\overline{z}$についての偏微分作用素
+    \begin{align*}
+        \partial_zf&=\frac{\partial}{\partial z}=\frac{1}{2}\left(\frac{\partial}{\partial x}\textcolor{red}{-}i\frac{\partial}{\partial y}\right)\\
+        \overline{\partial}=\partial_{\overline{z}}f&=\frac{\partial}{\partial\overline{z}}=\frac{1}{2}\left(\frac{\partial}{\partial x}\textcolor{red}{+}i\frac{\partial}{\partial y}\right)
+    \end{align*}
+    を\textbf{コーシー・リーマン作用素}といい，
+    \begin{align*}
+        \partial_zf&:=\frac{\partial f}{\partial z},&\partial_{\overline{z}}f&:=\frac{\partial f}{\partial z}
+    \end{align*}
+    を\textbf{ウルティンガーの微分}という．
+    また，1-形式を$dz=dx+idy,d\overline{z}=dx-idy\in\Omega(\C)$と定める．
+\end{definition}
+\begin{remark}
+    これらは，$\C$の接空間・余接空間の基底となって居る．Cauchy-Riemann方程式が等角写像であるための条件と導値になって居ることは，このような幾何学的な言い換えをするとすんなりわかる（定理\ref{thm-charactorization-of-conformal-mappings}）．
+\end{remark}
+
+次が成り立つために，どの微分作用素を採用しようと，即ち$x,y$を基底として考えても，$z,\overline{z}$を形式的に独立変数と考えてウルティンガーの微分を考えても，
+議論はほぼ並行に展開される．次の補題のように，ウルティンガーの微分は通常の意味の微分が満たすべき性質（補題\ref{lemma-derivatives-of-complex-functions}など）をすべて満たして居る．
+\begin{lemma}[Wirtingerの微分についての微分法則]
+    ウルティンガーの微分作用素$\frac{\partial}{\partial z},\frac{\partial}{\partial\overline{z}}$について，次が成り立つ．
+    \begin{enumerate}
+        \item 線型作用素である．
+        \item Liebniz則が成り立つ．
+        \item Chain Ruleが成り立つ．
+        \item 複素共軛の構造と整合的である．
+        \begin{align*}
+            \overline{\frac{\partial f}{\partial z}}&=\frac{\partial \overline{f}}{\partial\overline{z}},&\overline{\frac{\partial f}{\partial \overline{z}}}&=\frac{\partial \overline{f}}{\partial z}
+        \end{align*}
+    \end{enumerate}
+\end{lemma}
+
+ここで，新たに得たコーシー・リーマン作用素の言葉で，複素微分可能性が特徴付けられることをみる．
+つまり，全微分可能な$f:\R^2\to\R^2$が正則な$f:\C\to\C$に自然に拡張できるためには，
+$f=\begin{pmatrix}u\\v\end{pmatrix}$のそれぞれが微分可能であるだけでなく，
+ちょうどCauchy-Riemann方程式という条件を加えたものに等しい．
+この条件のチェックには，$\overline{z}$での偏微分を見れば良い，という．
+
+\begin{theorem}[複素微分可能性の特徴付け]\label{thm-charactorization-of-complex-differentialability}
+    次の二条件は同値．
+    \begin{enumerate}
+        \item $f$は$a$で複素微分可能である．
+        \item $f$は$a$で全微分可能，かつ，$\partial_{\overline{z}}f(a)=0$である．
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    1.$\Rightarrow$2.は既に述べたように，実軸と虚軸について近づければ全微分可能だとわかり，その導関数はCauchy-Riemann方程式を，即ち$f_{\overline{z}}(a)=0$を満たす．
+    
+    $\Leftarrow$は，全微分可能性より$f(a+z)=f(a)+f_z(a)z+f_{\overline{z}}(a)\overline{z}+o(z)\;\;(z\in\C)$と表せるが，$f_{\overline{z}}(a)=0$だから，
+    $f(a+z)=f(a)+f_z(a)z+o(z)\;\;(z\in\C)$．これは1.の定義に他ならない．
+\end{proof}
+
+\section{等角写像}
+
+\begin{definition}[conformal]
+    $C^1$級複素関数$f:D\to\C$が$p\in D$において等角であるとは，任意の$p$を通る正則な２曲線$\gamma_i:(-1,1)\to D, \gamma_i(0)=p\;(i=1,2)$について，
+    これらが$p$でなす角と$\tilde{\gamma_i}:=f\circ\gamma_i$が$p$でなす角が等しいことをいう．
+    
+    なお，２曲線$\gamma_i$が点$p$でなす角とは，順序も考えて$\arg\left(\frac{\gamma'_1(p)}{\gamma'_2(p)}\right)$と定める．
+\end{definition}
+
+\begin{theorem}[等角写像の特徴付け]\label{thm-charactorization-of-conformal-mappings}
+    $f$を$C^1$級複素関数とする．次の二条件は同値．
+    \begin{enumerate}
+        \item $f$は$p$で等角である．
+        \item （$f$は$p$で全微分可能，かつ，）$\partial_{\overline{z}}f(p)=0$である．
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    $f$を$C^1$級とする時，点$p$の接空間$T_p(\C)$上に$f$が定める線型写像（関数のdifferential）は，$(dz)_p,(d\overline{z})_p$を空間$\Hom(T_p(\C),T_p(\C))$の基底として，
+    \[ (df)_p=\frac{\partial f}{\partial z}(p)(dz)_p + \frac{\partial f}{\partial\overline{z}}(p)(d\overline{z})_p \]
+    と表せる（議論\ref{discussion-CR-equation}）．
+    従って，$f$が点$p$にて等角であることは，$(df)_p$が$\C$-線型写像であることと同値で（定理\ref{thm-conformal-Clinear-communicative}），
+    それは$\frac{\partial f}{\partial\overline{z}}(p)=0$であることに同値．
+\end{proof}
+\begin{remark}
+    まるで平面$\R^2$の接空間$T_p(\R^2)$上の変換に，見えない自由度$(d\overline{z})_p\in\Hom(T_p(\R^2),T_p(\R^2))$があって，
+    その係数が潰れていれば等角写像になる，と言って居るように思える．
+    このようなものの見方が複素構造の本質である，と．
+\end{remark}
+
+\section{Cauchy-Riemann方程式の見方の転回}
+
+\begin{screen}
+    今までの章で確認したことを改めて述べ直し，Cauchyの積分定理をベクトル解析の知識から確認する．
+\end{screen}
+
+\begin{definition}[複素関数と二変数ベクトル値関数，複素線積分]
+    次の同型射が存在する．
+    \[\xymatrix@R-2pc{
+        \varphi:\Hom(\R^2\supset D,\C)\ar[r]^-{\sim}&\Hom(\C\supset D',\C)\\
+        \rotatebox{90}{$\in$}&\rotatebox{90}{$\in$}\\
+        {f(x,y)}\ar@{|->}[r]&g(z(,\overline{z}))=f\left(\frac{z+\overline{z}}{2},\frac{z-\overline{z}}{2i}\right)
+    }\]
+    逆射はもちろん$g(z,\overline{z})=f(x+yi,x-yi)$とすれば良い．
+    この時$z,\overline{z}$は形式的に独立変数として扱って作った同型であるが，$z,\overline{z}$の間の関係をぴったり捉えたのがCauchy-Riemann方程式である．
+    これを満たすものを$g(z,\overline{z})$を略記して$g(z)$と書き，複素関数と呼ぶ．
+
+    また，この同型を用いて，$\R^2$上の線積分のように成分ごとに計算したものを複素数と見做して，\textbf{複素線積分}という．
+\end{definition}
+
+\begin{shadebox}\begin{theorem}[Cauchy-Riemann equationと同値なもの]
+    $f:D\to\C$を全微分可能とする．
+    \begin{enumerate}
+        \item $f$は正則．
+        \item $\partial_{\overline{z}}f=0$．
+        \item $f$は等角写像である．
+    \end{enumerate}
+\end{theorem}\end{shadebox}
+\begin{remark}[正則とは？]\mbox{}
+    \begin{enumerate}
+        \item まるで平面$\R^2$の接空間$T_p(\R^2)$上の変換に，見えない自由度$(d\overline{z})_p\in\Hom(T_p(\R^2),T_p(\R^2))$があって，
+        その係数が潰れていれば等角写像になる．
+        \item $f$は$\overline{z}$に関数として依存しない（複素解析的であるという意味で）．
+    \end{enumerate}
+\end{remark}
+
+\begin{definition}[analytic]
+    $f:D\to\C$が\textbf{複素解析的}であるとは，任意の$p\in D$について，
+    $r>0$が存在して，$B_r(p)\subset D$の範囲内で$f$がTaylor展開可能であることをいう．
+    つまり，剰余項がコンパクト一様収束をする．
+    \[ f(z) = f(p) + \sum^{\infty}_{n=0}\frac{1}{n!}\frac{\partial^nf}{\partial z^n}(p)(z-p)^n\;\;\;(\forall p\in\C,\;\exists r>0,\;\forall z\in B_r(p)) \]
+\end{definition}
+
+\begin{theorem}[正則関数は解析的である]
+    $f:D\to\C$が正則ならば，複素解析的である．（複素解析的ならばもちろんオーバーキルで正則である．この２つの関数のクラスが一致することが複素解析学の肝の一つである）．
+\end{theorem}
+\begin{definition}[entire function]
+    これより，$f$の収束半径とは，$f$の最も近い特異点までの距離となる．
+    特異点がないならば，$f$が正則ならば即$\C$上全ての点で無限解微分可能ということになる．
+    これを整関数という．
+\end{definition}
+\begin{corollary}[identity theorem]
+    連結な領域$D\subset\C$で正則な関数$f$について，その零点集合が$D$上に集積点を持つならば，$f$は$D$上零関数であるとわかる．
+    （従って，正則関数に関しては，可算点列上で局所的に一致することを確認すれば，大域的に一致すると分かって決まってしまう）．
+\end{corollary}
+
+\begin{theorem}[Cauchy's integral theorem]
+    $f:D\to\C$を正則関数とする．閉領域$D'\subset D$は，その境界が区分的$C^1$級の曲線$\gamma_i\;(i=1,\cdots,r)$からなるものとする．
+    この時，次が成り立つ．
+    \[ \int_{\gamma_1+\gamma_2+\cdots+\gamma_r}f(z)dz=0 \]
+\end{theorem}
+\begin{proof}
+    $f=\begin{pmatrix}u\\v\end{pmatrix}$と表せるとする．すると，$\R^2$上の積分として，Stokesの定理より，
+    \begin{align*}
+        \int_{\gamma_1+\gamma_2+\cdots+\gamma_r}f(z)dz &= \int_{\gamma_1+\gamma_2+\cdots+\gamma_r}(udx+vdy)\\
+        &= \int_{D'}d(udx+vdy)\\
+        &= \int_{D'}du\wedge dx+dv\wedge dy\\
+        &= \int_{D'}\left(\frac{\partial u}{\partial x}dx+\frac{\partial u}{\partial y}dy\right)\wedge dx+\left(\frac{\partial v}{\partial x}dx+\frac{\partial v}{\partial y}dy\right)\wedge dy\\
+        &= \int_{D'}\left(\frac{\partial v}{\partial x}-\frac{\partial u}{\partial y}\right)dx\wedge dy
+    \end{align*}
+    となるが，今$f$は正則関数であるから，Cauchy-Riemann方程式の実部より，$\frac{\partial v}{\partial x}-\frac{\partial u}{\partial y}=0$．よって，$\int_{\gamma_1+\gamma_2+\cdots+\gamma_r}f(z)dz=0$．
+\end{proof}
+\begin{remark}
+    Wirtinger微分の言葉により，Cauchy-Riemann方程式は余接空間上の1-形式の消息に移してあるので，次の議論では一瞬である．
+    \begin{align*}
+        \int_{\gamma_1+\gamma_2+\cdots+\gamma_r}fdz&=\int_{D'}df\wedge dz&\mathrm{(Stokes' theorem)}\\
+        &= \int_{D'}\frac{\partial f}{\partial\overline{z}}d\overline{z}\wedge dz =0
+    \end{align*}
+    Cauchyの積分定理は，複素平面上の正則関数の周回積分は，homotopyに対して不変であることを主張して居る．
+\end{remark}
+
+\begin{corollary}
+    $\gamma_1,\gamma_2$は端点が一致する曲線であって，可縮な領域を内部に囲むものとする．
+    $f$がその領域を含むある開集合上で正則ならば，次が成り立つ．
+    \[\int_{\gamma_1}f(z)dz=\int_{\gamma_2}f(z)dz\]
+\end{corollary}
+
+Cauchyの定理の逆については，次の事実が成り立つ．
+\begin{theorem}[Morera's theorem]
+    連結な領域$D\subset\C$について，連続な複素関数$f:D\to\C$を考える．
+    次の２条件は同値である．
+    \begin{enumerate}
+        \item 任意の区分的$C^1$級の閉曲線について線積分が$0$である
+        \item $f$は正則である．
+    \end{enumerate}
+    2.$\Rightarrow$1.はCauchyの定理といい，1.$\Rightarrow$2.をモレラの定理という．
+\end{theorem}
+
+Cauchyの定理は閉領域について成り立つ定理であった，Poincaréの補題により，空間$D'$が可縮であるためpotentialが存在するのである．
+では，穴が空いた領域においては，積分値でその穴についての情報を捉えることができる．
+これがCauchyの積分公式である．
+\begin{theorem}[Cauchy's integral formula]
+    開集合$U\subset\C$内の単純閉曲線$C$について，$C$が囲む領域内の点$\xi$で正則関数$f$が取る値に対して，次が成り立つ．
+    \[ f(\xi) = \frac{1}{2\pi i}\oint_C\frac{f(z)}{z-a}dz. \]
+\end{theorem}
+
+\begin{itembox}[l]{関数のクラスを生み出す関手が微分方程式である}
+    正則関数の全体は層をなす．
+    微分方程式の正則解は，その部分層を指定していると考えられ，
+    Cauchy-Riemann方程式はこの観点から特に重要である．
+
+    また，Laplace方程式は調和関数をうみ，二つは酷似している．
+\end{itembox}
+
+\section{指数関数}
+
+\begin{screen}
+    代表的な整関数の元は複素指数関数である．ここから，三角関数や双曲線関数などの代表的な関数が出てくる．
+    指数関数は実関数の場合と同様，微分方程式によって指定する．
+\end{screen}
+
+\begin{discussion}[関数は，微分方程式によって指定する．]
+    実解析の場合からの自然な拡張として，次の偏微分方程式\ref{equation-exponential}
+    の解$f$として複素指数関数を定義するのが良いと思われる．
+    \begin{align}\label{equation-exponential}
+        \frac{\partial f}{\partial z}&=f, &\frac{\partial f}{\partial\overline{z}}&=0,&f(0)=1.
+    \end{align}
+    $f$の存在を認めてその必要条件を探ると，Cauchy-Riemann operatorの関係\ref{def-CR-operator}
+    を用いて，
+    \begin{align*}
+        \frac{\partial f}{\partial x} &= \frac{\partial f}{\partial z} + \frac{\partial f}{\partial\overline{z}}=f\\
+        \frac{\partial f}{\partial y} &= i\left(\frac{\partial f}{\partial z}-\frac{\partial f}{\partial \overline{z}}\right)=if
+    \end{align*}
+    である．これを用いて，まず偏角成分を確定させるために，実関数$|f|$を求めるにあたって，
+    \begin{align*}
+        \frac{\partial |f|^2}{\partial x} &= \frac{\partial f}{\partial x}\overline{f}+f\frac{\partial\overline{f}}{\partial z}=2|f|^2\\
+        \frac{\partial |f|^2}{\partial y} &= \frac{\partial f}{\partial y}\overline{f}+f\overline{\frac{\partial f}{\partial y}} = i|f|^2-i|f|^2=0
+    \end{align*}
+    と計算でき，従って$|f|^2=:h(x)$とおけば，これは実常微分方程式$h_x=2h,h(0)=1$を満たす．
+    従って，$h(x)=Ae^{2x}(A\in\R)$が一般解であるが，正規化して，$|f(z)|=e^x$とわかる．
+
+    ここで，定数変化法より，残る部分を$g(z):=e^{-x}f(z)$と定めると，$x,y$で記述したいのでこれについての偏微分を調査すれば，
+    \begin{align*}
+        \frac{\partial g}{\partial x} &= -e^{-x}f + e^{-x}f = 0\\
+        \frac{\partial g}{\partial y} &= e^{-x}if = ig
+    \end{align*}
+    を得るから，この常微分方程式を$g(0)=1$と共に解くと，$g(y)=\cos y+i\sin y$．
+\end{discussion}
+
+\begin{definition}[complex exponential function]
+    複素指数関数$e^z:\C\to\C$を，実関数$e^x,\cos y,\sin y$を用いて，$e^z:=e^x(\cos y+i\sin y)$によって定義する．
+    特に，純虚数$x=0$について，逆に実関数の複素指数関数による表現を得る．
+    \begin{align*}
+        \cos y&=\frac{e^z+e^{-z}}{2} &\sin y&= \frac{e^z-e^{-z}}{2i}
+    \end{align*}
+\end{definition}
+
+\begin{remark}[別定義]
+    実数の優級数判定法より，$\sum^\infty_{n=0}\frac{z^n}{n!}\le\sum^\infty_{n=0}\frac{|z|^n}{n!}$は絶対収束する．
+    よって，命題\ref{命題-6.1.2}から，複素微分可能な関数を$\C$上に定める．これを指数関数と定義しても良い．
+\end{remark}
+
+\section{連結性から，正則関数の姿を探る}
+
+\begin{screen}
+    連結な定義域上の正則関数が，定数関数となるための条件を考える（定理\ref{thm-inquiries-for-regular-functions-to-be-constant}）．
+    そのために，連結性についての位相的な言葉を準備する．
+    総合して，これらの議論をするためのものの考え方は極めて微分位相幾何学（ベクトル解析）的であるが，
+    欲しい結果のためには，折れ線だけを考えれば非常にすっきり議論できる．
+
+    この節での結果は，正則関数の微分がどこかで消える時，それは多項式関数であるということである．
+\end{screen}
+
+\begin{definition}[domain / region]
+    連結な開集合を\textbf{領域}という．
+\end{definition}
+\begin{remark}
+    Hahn (1921, p. 85 foonote 1) によれば、連結開集合としての領域の概念を導入したのはコンスタンチン・カラテオドリの有名な著作 (Carathéodory 1918) においてである。ハーンはまた、"Gebiet" ("領域") の語はそれ以前より時折開集合の同義語として用いられていたことも注意している．
+    \begin{quote}
+        Hahn (1921, p. 61 foonote 3) は開集合 ("offene Menge") の定義を与えたところで、以下のように述べている: "Vorher war, für diese Punktmengen die Bezeichnung "Gebiet" in Gebrauch, die wir (§ 5, S. 85) anders verwenden werden." (訳文: "以前は "Gebiet" の語をこのような点集合を表すのにしばしば用いられていた、そして我々はその語を (§ 5, p. 85) において別な意味で用いている。"
+    \end{quote}
+\end{remark}
+
+\begin{proposition}
+    領域$D$が弧状連結であれば，$D$内の任意の２点は折れ線で繋ぐことができる．
+\end{proposition}
+\begin{proof}
+    $p,q\in D$とし，$\gamma:[0,1]\to D$を$\gamma(0)=p,\gamma(1)=q$を満たす連続関数とし，これらから$p,q$を結ぶ折れ線を構成する．
+    ここで，$l:[0,1]\xrightarrow{\gamma}\gamma([0,1])\xrightarrow{d(-,\C\setminus D)}\R$より定めると，これも連続関数となる（平面上の２点についての距離関数$d:\R^2\to\R$も連続であるから）．
+    この関数は定義域がコンパクトなので，最小値$m:=\min_{t\in[0,1]}l(t)$が存在する．また，$m>0$である．（$\gamma[0,1]\subset D$はコンパクト，即ち有界閉集合で，$\C\setminus D$も閉集合であるから，その間にある$r>0$の開球が取れる）．
+    Heine–Cantorの定理より，コンパクトな定義域上の連続関数は一様連続であることと同値だから，
+    特に$m$について，$N$が存在して，$|s-t|<\frac{1}{N}\Rightarrow|\gamma(s)-\gamma(t)|<m$を満たす．
+    この$N$について，曲線$\gamma$を$N$等分して得られる点を結んだ折れ線は，$\forall i\in N,\; [p_i,p_{i+1}]\subset D$であるから，折れ線全体も$D$に含まれる．
+\end{proof}
+\begin{remark}
+    一様連続性の使い方が自由自在の夫である．それと，$\gamma$が外部$\C\setminus D$と最接近する距離$m$について，この大きさで等分すれば論理の流れ（最後の１文）が楽というのは良いテクニックである．
+\end{remark}
+
+\begin{theorem}[連結な定義域上の正則関数が定数であるための条件]\label{thm-inquiries-for-regular-functions-to-be-constant}
+    $f$を領域$D$上の正則な関数とする．
+    \begin{enumerate}
+        \item $D$上で$f'=0$ならば$f$は定数．
+        \item $D$上で$\Re f$が定数であれば$f$も定数．
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    1. $D$は連結だから，特に任意にとった線分$[p,q]\subset D$上について，$f'=0$ならば$f$は定数であることが示せば良い．
+    線分を$\gamma:[0,1]\to D$を用いて$\gamma(t)=tq+(1-t)p$とパラメータ付し，実数上の関数$f\circ\gamma:[0,1]\to\C$を考える．
+    $\frac{\partial}{\partial t}f(\gamma(t))=f'(\gamma(t))\gamma'(t)=0$より，両辺を$t$で積分して，$f\circ\gamma$は$[0,1]$上定数関数，よって$f$は$[p,q]$上定数関数．
+
+    2. $\Re f$が定数関数である時，$0=2\partial_z(\Re f)=\partial_zf+\partial_z\overline{f}=\partial_zf+\overline{\partial_{\overline{z}}f}=\partial_zf$より，$f$が正則であるという条件に下で，1.の条件と同値である．
+\end{proof}
+
+この定理は，微分の階数$n$についての帰納法により，次のように一般化される．
+
+\begin{proposition}[一般化：多項式関数の特徴付け]
+    領域$D$上の正則関数$f$が，$f^{(n)}=0$を満たす時，$f$は$n-1$次以下の$z$についての多項式である．
+\end{proposition}
+
+\section{Riemann球面}
+
+\begin{screen}
+    複素多様体$\C P^1\simeq S^2$を構成し，その上での関数を考える．
+    すると，煩瑣な特異点(zeros and poles)は全て対称的に扱え，真性特異点のみが残り，見通しが良い．
+
+\end{screen}
+
+前節の多項式関数の特徴付けに続いて，今回は有理関数$R(z)=\frac{P(z)}{Q(z)}\;(P,Q\in\C[z])$を考える．これは，$Q$の零点$Z$を除いて$\C$上で正則である．
+そこでまず，$Z$での挙動を調べる．
+
+\subsection{多項式の考察}
+
+\begin{theorem}[fundamental theorem of algebra]
+    定数でない複素係数多項式$P\in\C[z]$について，$P(z)=0$を満たす$z\in\C$が存在する．
+\end{theorem}
+\begin{remark}
+    代数学の基本定理は、複素数体が、代数方程式による数の拡大体で最大のものであることを示している。これは、体論の言葉で言えば「複素数体は代数的閉体である」 ということになる。
+\end{remark}
+
+\begin{corollary}
+    $P(z)=a_0+a_1z+a_2z^2+\cdots a_nz^n\;(a_n\ne 0)$とする．相異なる$\alpha_1,\cdots,\alpha_k\in\C$と$m_1,\cdots,m_k\in\N, \sum_{i=1}^km_i=n$が存在して，
+    \[ P(z)=a_n(z-\alpha_1)^{m_1}\cdots(z-\alpha_k)^{m_k}, \]
+    と表せる．
+\end{corollary}
+\begin{proof}
+    因数定理を再帰的に用いる証明手法について，$n$についての数学的帰納法より．
+\end{proof}
+
+\begin{proposition}[multiplicity, degree]\label{prop-multiplicity}
+    次の３条件は同値である（ように条件1を定義する）．
+    \begin{enumerate}
+        \item $\alpha$は$P(z)$の\textbf{$m$位の零点}である．
+        \item $P_1(\alpha)\ne 0$の多項式を用いて，$P(z)=(z-\alpha)^mP_1(z)$と表せる．
+        \item $P(\alpha)=P'(\alpha)=P''(\alpha)=\cdots=P^{(m-1)}(\alpha)=0$かつ$P^{(m)}(\alpha)\ne 0$．
+    \end{enumerate}
+\end{proposition}
+
+\subsection{有理式への拡張}
+
+命題\ref{prop-multiplicity}の特徴付は，そのまま有理関数にも適用できる．
+
+\begin{proposition}[pole]
+    ひとまず，$P,Q$は共通の零点を持たないとし，
+    \[ R(z)=c\frac{(z-\alpha_1)^{m_1}\cdots(z-\alpha_k)^{m_k}}{(z-\beta_1)^{n_1}\cdots(z-\beta_l)^{n_l}} \]
+    と表示できたとする．
+    この時の$\beta_i$を\textbf{$n_i$位の極}と呼ぶ．
+    ひとまずは形式的に，$R(\beta_i)=\infty$と表す．
+\end{proposition}
+
+\begin{proposition}
+    次の３条件は同値である．
+    \begin{enumerate}
+        \item $\alpha$は$R$の$m$位の極である．
+        \item $\alpha$は$1/R$の$m$位の零点である．
+        \item $R_1(\alpha)\ne 0,\infty$を満たす有利関数について，$R(z)=(z-a)^{-m}R_1(z)$と表せる．
+        \item $\forall j<m,\; (\lim_{z\to\alpha}|(z-a)^jR(z)|=\infty)\land(\lim_{z\to\alpha}(z-a)^mR(z)\in\C)$．
+    \end{enumerate}
+\end{proposition}
+
+\subsection{Riemann球面とその上の関数}
+
+$\R^3$内の原点を中心とした単位球面を$S^2$とし，$N:=\begin{pmatrix}0\\0\\1\end{pmatrix}, S:=\begin{pmatrix}0\\0\\-1\end{pmatrix}\in S^2$とする．
+\begin{proposition}[stereographic projections]
+    $\R^3$からの相対位相について，次の写像$Z',W'$は同相写像である．
+    \[\xymatrix@R-2pc{
+        {S^2\setminus\{N\}}\ar[r]_-{\sim}^-{Z'}&\R^2&{S^2\setminus\{S\}}\ar[r]_-{\sim}^-{W'}&\R^2\\
+        \rotatebox{90}{$\in$}&\rotatebox{90}{$\in$}&\rotatebox{90}{$\in$}&\rotatebox{90}{$\in$}\\
+        {p=\begin{pmatrix}\xi_1\\\xi_2\\\xi_3\end{pmatrix}}\ar@{|->}[r]&{Z'(p):=\frac{\xi_1+i\xi_2}{1-\xi_3}}&{p=\begin{pmatrix}\xi_1\\\xi_2\\\xi_3\end{pmatrix}}\ar@{|->}[r]&{W'(p):=\frac{\xi_1-i\xi_2}{1+\xi_3}}
+    }\]
+    また，この２つの同相写像は，$S^2\setminus\{N,S\}\subset\R^3$上に向きを整合的に定める（いずれも，$S^2$の「外側」が$z$軸上から見た$\R^2$の向きに対応する／貼り合わさる）．
+\end{proposition}
+\begin{remark}\mbox{}
+    \begin{enumerate}
+        \item $Z'$は，$\xi_3=0$の時，点を動かさない．$\xi_3>0$の時，$p=\begin{pmatrix}\xi_1\\\xi_2\\\xi_3\end{pmatrix}\mapsto\frac{\xi_1}{1-\xi_3}+i\frac{\xi_2}{1-\xi_3}$へ写す．これは直線$Np$と，$S^2$の赤道(equator)を通る平面との交点となる．一方で$W'$は，それに加えて複素共役（実軸対称）変換を施している，$S^2$を$S$で開いて伸ばした後に，ひっくり返してから$\R^2$に貼り付ける動きである．あるいは，$S^2$を実軸について180度回転してから，$Z'$を施している．
+        \item 向きを逆転させている操作が，$\R^2\simeq\C$に複素共軛を作用させている操作に対応している．
+    \end{enumerate}
+\end{remark}
+
+この同相写像を，２つの極$N,S$について行えば，$S^2$のatlas$\{Z',W'\}$を得る．
+実際，このような局所座標系$Z',W'$について，$S^n$は（滑らかな）多様体をなす．
+これを$n=2$とし，同型$\R^2\simeq\C$によって得る複素多様体としての$S^2$を，\textbf{リーマン球面}という．
+ただし，極には取り扱いを有する．
+
+\begin{definition}[Riemann sphere]
+    立体射影$Z'$に，$N\mapsto\infty$を付け加えて得られる同相写像$Z:S^2\to\hat{\C}$，または，
+    立体射影$W'$に，$S\mapsto\infty$を付け加えて得られる同相写像$Z:S^2\to\hat{\C}$
+    によって定まる複素多様体（複素射影平面）を，\textbf{リーマン球面}という．
+\end{definition}
+\begin{remark}\mbox{}
+    \begin{enumerate}
+        \item 従って，$\hat{\C}$上での点列の収束は，同相写像$Z^{-1}$で写した先の$S^2\subset\R^3$上で考える．
+        特に，$\hat{\C}$上の点列$\{z_n\}$が$\infty$に収束するとは，$\lim_{n\to\infty}|z_n|=\infty$と同値である（定義？）．
+        \item 複素射影平面$\C P^1$でもある．
+    \end{enumerate}
+\end{remark}
+
+\subsection{有理型関数：Riemann球面上の有理関数}
+
+\begin{screen}
+    Riemann球面の局所座標系$Z':S^2\setminus\{N\}\to\C,W':S^2\setminus\{S\}\to\C$を用いて，
+    Riemann球面上の関数の扱いを定義していく．
+    即ち，Riemann球面上の点がどの局所座標で表されるかで場合分けをして，適時座標変換を使いながら，定義していく．
+\end{screen}
+
+\begin{proposition}[有理関数の拡張]
+    有理関数$R:\C\setminus Z\to\C$について，極では$R(z)=\infty\;(z\in Z)$とし，$R(\infty):=\lim_{|z|\to\infty}R(z)$として$R:\hat{\C}\to\hat{\C}$と見做す．
+    この関数は連続である．
+\end{proposition}
+\begin{proof}
+    有理関数$R:\C\setminus Z\to\C$は$\C$上連続であるから，極の周りでの連続性を新たに確認すれば良い．
+\end{proof}
+
+\begin{definition}[$\hat{\C}$-値正則関数 meromorphic functions:  holomorphic function with values in the Riemann sphere]
+    $f:\C\supset U\to\hat{\C}$が正則であるとは，局所座標系$\{Z',W'\}$について正則であることをいう．即ち，
+    \begin{enumerate}
+        \item $f(p)\in S^2\setminus\{N\}$の時，$\C$-値関数$Z'\circ f:U\to S^2\setminus\{N\}\to\C$が$p$の近傍で正則．
+        \item $f(p)\in S^2\setminus\{S\}$の時，$\C$-値関数$W'\circ f:U\to S^2\setminus\{S\}\to\C$が$p$の近傍で正則．
+    \end{enumerate}
+    が成り立つことをいう．$\hat{\C}$-値正則関数を\textbf{有理型関数}ともいう．
+\end{definition}
+\begin{remark}\mbox{}
+    \begin{enumerate}
+        \item 有理型関数は，有理関数が多項式関数の商であるのと同様，正則関数の商として表せるからである．
+        \item これはつまり，解析接続を使って除きうる特異点を解消してやれば，有理型関数同士で四則演算をとったものはやはり有理型であることから従う．従って，（同じ領域で定義される）有理型関数の全体の成す集合は体を成す．\textbf{この体は複素数体の拡大体である}．
+        \item だんだんものすごく層っぽくなってきた？
+        \item 「複素多様体上で，極以外の特異点を持たない正則関数のこと」とも説明される．これは即ち，リーマン球面上で上の定義の意味で「正則」である，つまり「リーマン球面への正則関数であって、常に$\infty$の値をとる定数関数ではないもの」のことを意味する．この時極とは$f^{-1}(\infty)$の元である．
+        \item 極のことを\textbf{仮性特異点}といい，極でも可除でもない特異点を\textbf{真性特異点(essential singularity)}という．
+    \end{enumerate}
+\end{remark}
+
+\begin{proposition}
+    有理関数$R:\C\to\C$は，有理型関数である．
+\end{proposition}
+
+\begin{definition}[$\hat{\C}$-上正則関数]
+    関数$f:S^2\supset U\to\C$が正則であるとは，任意の$p\in U$について，
+    \begin{enumerate}
+        \item $p\ne\infty$ならば，$f(z)$が$p$近傍で$\hat{\C}$-値正則，
+        \item $p=\infty$ならば，$f(1/z)$が$z=0$近傍で$\hat{\C}$-値正則
+    \end{enumerate}
+    であることをいう．ただし，$f(1/0)=\infty$とする．
+\end{definition}
+
+\begin{definition}[degree of zeros and poles]\label{def-degree-of-zeros-and-poles}
+    有理関数$R:\hat{\C}\to\hat{\C}$が，$R(p)=0$を満たす時$p\in\hat{\C}$をその\textbf{零点}，$R(p)=\infty$を満たす時$p\in\hat{\C}$をその\textbf{極}という．
+
+    $p=\infty$が零点または極である時の\textbf{位数}を，$\tilde{R}(w):=R(\frac{1}{w})$と置く時の関数$\tilde{R}$の$w=0$における位数として定義する．
+\end{definition}
+\begin{discussion}
+    有理関数を
+    \begin{align*}
+        R(z)&=\frac{a_0+a_1z+a_2z^2+\cdots+a_nz^n}{b_0+b_1z+b_2z^2+\cdots+b_mz^m}\\
+        &=w^{m-n}\frac{a_0w^n+a_1w^{n-1}+\cdots+a_{n-1}w+a_n}{b_0w^m+b_1w^{m-1}+\cdots+b_{m-1}w+b_m}=\tilde{R}(w)
+    \end{align*}
+    と置くと，分子の次数が大きい$m>n$時，$\tilde{R}$は$w=0$で$m-n$位の零点を持つ．
+    分母の字数が大きい$n>m$時，$\tilde{R}$は$w=0$で$n-m$位の極を持つ．
+
+    すると，$\hat{\C}$上の有理関数$R$の零点の位数の和は
+    \begin{align*}
+        &n+\begin{cases}
+            m-n,&(m>n),\\
+            0,&(m<n)
+        \end{cases}\\
+        =&\max\{m,n\}.
+    \end{align*}
+    同様に極の位数の和も$\max\{m,n\}$．
+\end{discussion}
+
+\begin{definition}[degree of rational functions]
+    $\max\{m,n\}$を，有理関数$R$の\textbf{位数}とする．
+\end{definition}
+
+\begin{theorem}[有理関数の根の個数と全単射になる条件]\label{thm-1-degree-meromorphism-is-bijective}
+    有理関数$R(z)$の位数を$m$とする．任意の$a\in\hat{\C}$に対して$R(z)=a$は$\hat{\C}$上に重複も含めて$m$個の解を持つ．
+    
+    従って，この意味で$R:\hat{\C}\to\hat{\C}$は$m$対１写像である：$|R^{-1}(a)|=m\;(\forall a\in\hat{\C})$．
+    特に，$m=1$の時，有理関数$R$は$\hat{\C}$上の全単射を定める，これを\textbf{メビウス変換}という．
+\end{theorem}
+\begin{proof}
+    $a=\infty$の時，$|R^{-1}(\infty)|$は（定義\ref{def-degree-of-zeros-and-poles}上）極の位数の和だから$=m$．
+    $a\in\C$の時，$R(z)$の位数と$R(z)-a$の位数と$R-a$の零点の個数と$R(z)=a$の根の重複度を含めた個数は等しい．
+\end{proof}
+
+\subsection{貼り合わせによる特徴付けとMöbius変換}
+
+リーマン球面の２つの局所座標系$Z,W$の間の座標変換を考える．
+\begin{proposition}[gluing function of the Riemann sphere]
+    まず，$\C^*:=\C\setminus\{0\}$として，次の同相写像$\varphi$が座標変換となっている．
+    \[\xymatrix@R-2pc{
+        &{S^2\setminus\{S,N\}}\ar[ddl]_-{Z'}\ar[ddr]^-{W'}&\\
+        { }&{ }&{ }\\
+        \C^*\ar[rr]^-{\varphi}_-{\sim}&&\C^*\\
+        \rotatebox{90}{$\in$}&&\rotatebox{90}{$\in$}\\
+        z\ar@{|->}[rr]&&{w:=\frac{1}{z}}
+    }\]
+    即ち，Riemann球面$S^2$は，２つの複素平面を同相写像$\varphi$によって貼り合わせて得る多様体である．
+\end{proposition}
+\begin{proof}
+    \[Z(p)W(p)=\frac{\xi_1+i\xi_2}{1-\xi_3}\frac{\xi_1-i\xi_2}{1+\xi_3}=\frac{\xi_1^2+\xi_2^2}{1-\xi_3^2}=1\;(\forall p\in S^2\setminus\{N,S\})\]
+\end{proof}
+
+\begin{definition}[Möbius transformation / homography / a linear fractional transformation / a fractional linear transformation]
+    複素線型写像（＝等角写像）のなす圏$\FinVect_\C$上の自己同型群$\Aut{\hat{\C}}$の元(biholomorphisms, i.e. bijective conformal transformations)を\textbf{メビウス変換}または\textbf{一次（分数）変換}という．
+    定理\ref{thm-1-degree-meromorphism-is-bijective}より，位数が１の有理関数がこれに当てはまり，またこれに尽きるから，一般には$f(z)=\frac{az+b}{cz+d}, \det\begin{pmatrix}a&b\\c&d\end{pmatrix}\ne 0$と表示できる．
+\end{definition}
+
+「一次変換」と言われると線型変換と紛らわしいが，実際，線型変換の作用によって理解できる．
+\begin{proposition}
+    メビウス変換のなす群$\Aut{\hat{\C}}$は射影線型群（一般線型群の中心による剰余群）$\PGL_2(K):=\GL_2(K)/\{\lambda I\mid \lambda\in K^\times\}$の$K=\C$である場合と同型である．
+\end{proposition}
+\begin{remark}\mbox{}
+    \begin{enumerate}
+        \item （一般，特殊）射影線型群は，射影空間に忠実に作用する群のことである．群作用において忠実とは，$\forall g,h\in G,\;\exists x\in X,\; gx\ne hx$が成り立つことをいう．
+        \item $K=\R,\C$の時，特殊射影線型群とも同型である：$\PSL_2(K)=\SL_2(K)/\pm I$．これは射影直線に作用する．
+    \end{enumerate}
+\end{remark}
+
+\section{Schwartzian derivativeによる一次変換の特徴付け}
+
+\begin{definition}[Schwartzian derivative]
+    正則関数$f$に対する次の微分作用素$S$を，\textbf{シュワルツ微分}という．
+    \[(Sf)(z):=\left(\frac{f''}{f'}\right)'-\frac{1}{2}\left(\frac{f''}{f'}\right)^2=\frac{f'''}{f'}-\frac{3}{2}\left(\frac{f''}{f'}\right)^2\]
+\end{definition}
+
+\begin{proposition}[シュワルツ微分作用素は，Möbius変換の下で不変である]
+    シュワルツ微分作用素は，Möbius変換の下で不変である．
+\end{proposition}
+
+\begin{proposition}
+    正則関数$f$について，次の２条件は同値である．
+    \begin{enumerate}
+        \item 正則関数$f$は，位数$1$の有理関数$R$，即ちMöbius変換である．
+        \item シュワルツ微分が$0$になる：$Sf=0$．
+    \end{enumerate}
+\end{proposition}
+
+\section{演習}
+
+\chapter{写像としての解析関数}
+
+\chapter{複素積分}
+
+\begin{thebibliography}{99}
+    \bibitem{Ahlfors}
+    Lars V. Ahlfors "COMPLEX ANALYSIS", 3rd ed. (1979)
+\end{thebibliography}
+
+\end{document}

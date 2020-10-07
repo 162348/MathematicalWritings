@@ -1,0 +1,11 @@
+\documentclass[uplatex, dvipdfmx]{jsarticle}
+\usepackage{amsmath, amsfonts, amsthm, mathptmx, amssymb, ascmac, color, comment, graphicx}
+\usepackage{tikz, tikz-cd}
+\begin{document}
+
+\begin{center} \begin{tikzcd}
+        M_s \underset{C}{\times_t}M_s \underset{C}{\times_t}M \arrow[r, "1\times c"]\arrow[d, "c\times 1"] \arrow[dr, phantom, "\circlearrowright" near start] & M_s \underset{C}{\times_t}M \arrow[d, "c"] \\
+        M_s \underset{C}{\times_t}M \arrow[r,"c"] & M
+\end{tikzcd} \end{center}
+
+\end{document}

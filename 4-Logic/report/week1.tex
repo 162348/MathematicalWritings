@@ -1,0 +1,50 @@
+\documentclass[uplatex, 12pt, dvipdfmx]{jsarticle}
+\title{形式言語理論　第１回レポート}
+\author{司馬博文 J4-190549}
+\date{\today}
+\pagestyle{empty} \setcounter{secnumdepth}{4}
+\input{/Users/hirofumi.shiba48/Desktop/数理科学/preamble_CM.tex}
+\begin{document}
+\maketitle
+
+\section{ }
+
+$f:\N\to\N$を，定値写像$f=1$と定める：$\forall x\in \N,\;f(x)=1$．
+すると，例えば$W=\N\setminus\{1\}$とすれば，$f(f^{-1}(W))=f(\varnothing)=\varnothing\ne W$．
+$f=g, V=\{1\}$とすれば，$g^{-1}(g(V))=g^{-1}(1)=\N\ne V$．
+
+\section{ }
+
+二項関係$R\subset X\times Y$が次の２条件を満たせば良い．
+\begin{enumerate}
+    \item ［右一意性］$\forall (x,y),(x',y')\in R,\; x=x'\Rightarrow y=y'$．
+    \item ［左全域性］$\forall a\in X,\; \exists (x,y)\in R,\; a=x$．
+\end{enumerate}
+
+\section{ }
+
+それぞれの概念の定義を次の通りとする．
+\begin{definition*}[prefix, sufflix, subword, subsequence]
+    アルファベット$\Sigma$による２つの記号列$x,y\in\Sigma^*$について，
+    \begin{enumerate}
+        \item $\exists u\in\Sigma^*, x=yu$が成り立つ時，$y$を$x$の\textbf{接頭語}と言う．
+        \item $\exists u\in\Sigma^*,x=uy$が成り立つ時，$y$を$x$の\textbf{接尾語}と言う．
+        \item $\exists u,w\in\Sigma^*,x=uyw$が成り立つ時，$y$を$x$の\textbf{部分語}と言う．
+        \item $x=x_1\cdots x_n$と部分列$1\le i_1<\cdots<i_m\le n$が存在して，$y=x_{i_1}\cdots x_{i_m}$を満たす$y$を，\textbf{部分系列}と言う．
+    \end{enumerate}
+\end{definition*}
+$x=x_1\cdots x_n$とすると，
+\begin{description}
+    \item[prefix] 先頭から$\epsilon,x_1,x[1:2],\cdots,x[1:n-1],x$の$n+1$個．
+    \item[suffix] 同様に$n+1$個．
+    \item[subword] 列$x_1\cdots x_n$に中に２本の区切り棒$|$を定める定め方は，${}_{n+1}C_2=\frac{n(n+1)}{2}$個．
+\end{description}
+
+\section{ }
+
+\begin{center}\begin{figure}[h]\centering
+    \includegraphics[width=10cm]{tmp-40.jpg}
+    \includegraphics[width=10cm]{tmp-41.jpg}
+\end{figure}\end{center}
+
+\end{document}

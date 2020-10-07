@@ -1,0 +1,43 @@
+\documentclass[uplatex, 12pt, dvipdfmx]{jsarticle}
+\title{集合と位相　第１回レポート}
+\author{司馬博文 J4-190549}
+\date{\today}
+\pagestyle{empty} \setcounter{secnumdepth}{4}
+\input{/Users/hirofumi.shiba48/Desktop/数理科学/preamble_CM.tex}
+\begin{document}
+\maketitle
+
+\section*{1}
+
+\subsection*{(1)}
+
+\[\forall a\in\R^m,\;\forall\epsilon>0,\exists\delta>0,\;\|x-a\|<\delta\Rightarrow\|f(x)-f(a)\|<\epsilon \]
+否定は，
+\[ \exists a\in\R^m,\;\exists\epsilon>0,\forall\delta>0,\;\|x-a\|<\delta\land\|f(x)-f(a)\|\ge\epsilon \]
+
+\subsection*{(2)}
+
+\[ \forall\epsilon>0,\;\exists N>0, n,m>N\Rightarrow \|x_n-x_m\|<\epsilon \]
+否定は，
+\[ \exists\epsilon>0,\;\forall N>0, n,m>N\land \|x_n-x_m\|\ge\epsilon \]
+
+\section*{2}
+
+\subsection*{(1)}
+
+$\forall x\in B\cup(\cap_\gamma A_\gamma)$について，
+\begin{align*}
+    &x\in B\cup(\cap_\gamma A_\gamma)\\
+    \Leftrightarrow&x\in B\lor x\in\cap_\lambda A_\lambda\\
+    \Leftrightarrow&x\in B\lor(\forall\lambda\in\Lambda,\; x\in A_\lambda)\\
+    \Leftrightarrow&\forall\lambda\in\Lambda,\; (x\in B\land x\in A_\lambda)\\
+    \Leftrightarrow&\forall\lambda\in\Lambda,\; (x\in B\cap A_\lambda)\\
+    \Leftrightarrow&x\in \cap_\lambda (B\cap A_\lambda),
+\end{align*}
+が成り立つから，$B\cup(\cap_\gamma A_\gamma)=\cap_\lambda (B\cap A_\lambda)$．
+
+\subsection*{(2)}
+
+
+
+\end{document}

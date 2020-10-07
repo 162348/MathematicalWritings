@@ -1,0 +1,11 @@
+\documentclass[uplatex, dvipdfmx]{jsarticle}
+\usepackage{amsmath, amsfonts, amsthm, mathptmx, amssymb, ascmac, color, comment, graphicx}
+\usepackage{tikz, tikz-cd}
+\begin{document}
+
+\begin{center} \begin{tikzcd}
+        F_C(U)=\mathrm{Hom}_C(V,U) \ar[r, "F_M(U)=f_*"] \ar[d, "\varphi (U)"'] \ar[dr, phantom, "\circlearrowright"] & F_C(W)=\mathrm{Hom}_C(V,W) \ar[d, "\varphi (W)"]\\
+        G_C(U)=U \ar[r, "G_M(f)=f(underlying)"'] & G_C(W)=W
+\end{tikzcd} \end{center}
+
+\end{document}
