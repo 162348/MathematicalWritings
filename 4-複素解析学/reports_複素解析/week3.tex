@@ -1,0 +1,37 @@
+\documentclass[uplatex, 12pt, dvipdfmx, twocolumn]{jsarticle}
+\title{複素解析学Ⅰ　第三回レポート}
+\author{司馬博文 J4-190549}
+\date{\today}
+\pagestyle{empty} \setcounter{secnumdepth}{4}
+\input{/Users/hirofumi.shiba48/Desktop/数理科学/preamble_CM.tex}
+\begin{document}
+\maketitle
+
+\section*{[R5]}
+
+部分和の列$\left(S_N:=\sum^N_{n=0}|a_n|\right)_{n\in\N}$は収束するから，この極限を$S\in\R$と置く．
+
+まず，新たな列$\left(T_n\right)_{n\in\N}$を
+\[T_n=S_{\max_{1\le i\le n}f(i)}\]
+で定めると，この列は収束し，$\lim_{n\to\infty}T_n=S$であることを示す．
+作り方から，値域について$\{T_n\}\subset\{S_n\}$であるから，列$(T_n)$は上に有界．
+また$(T_n)$は単調増加列であることより，確かに実数列$(T_n)$は収束する：$\lim_{n\to\infty}T_n\le S$．
+これから，$\lim_{n\to\infty}T_n\ge S$でもあることをみる．任意の$\epsilon>0$に対して，十分大きな$N>0$が存在して
+\[ S-\epsilon<S_n(<S)\;\;\;(n\ge N) \]
+が成り立つから，$N':=\{f^{-1}(N),N\}$と取れば，$n\le \max_{1\le i\le n}f(i)$より$T_n=S_{\max_{1\le i\le n}f(i)}\ge S_n$（等号成立は，$f|_{n+1}:\{0,1,\cdots,n\}\to\{0,1,\cdots,n\}$が全単射である時）より，
+\[S-\epsilon<S_n\le T_n(<S)\;\;\;(n>N')\]
+が成り立つ．よって，$\lim_{n\to\infty}T_n=S$．
+
+最後に，この$(T_n)$を用いて，$\left(S'_N:=\sum^N_{n=0}|a_{f(n)}|\right)_{n\in\N}$が$S$に収束することを示す．この列$(S'_N)$も単調増加列で，$S'_N\le T_N\;(N\in\N)$であるから極限値をもち，これを$S'$とすれば$S'\le S$である．
+$S\le S'$を示す．いま$(T_n)$は$S$に収束するから，任意の$\epsilon>0$に対して，十分大きな$N$を取れば，
+\[S-\epsilon<T_n(<S)\;\;\;(n\ge N)\]
+を満たす．
+このとき，$N$に対して$M:=\max_{1\le i\le N}f(i)$と置けば$T_N=a_0+a_1+\cdots+a_M$であるが，さらに$N'=\max_{1\le i\le M}f^{-1}(i)$と置けば，$N'\ge N$で，
+\[S-\epsilon<T_N\le S'_n(<S)\;\;\;(n>N')\]
+が成り立つ．
+よって，$S=S'$．
+\begin{flushright}$\blacksquare$\end{flushright}
+
+\section*{[R6]}
+
+\end{document}

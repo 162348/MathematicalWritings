@@ -1,4 +1,4 @@
-\documentclass[uplatex, 12pt, dvipdfmx]{jsreport}
+\documentclass[uplatex, dvipdfmx]{jsreport}
     
 \title{ComputerとLogic}
 \author{司馬博文 J4-190549\\hirofumi-shiba48@g.ecc.u-tokyo.ac.jp}
@@ -4044,12 +4044,42 @@ Herbrand標準形$A^H$が$\exists$-論理式であることに注意すれば，
 \chapter{有限オートマトンと正則言語の理論}
 
 \begin{quotation}
-    有限オートマトンと正則言語の言葉で，全ての問題は定式化出来る（PCP，古典的渡船問題など）．
-    その他の計算モデルも本質的には同じだが，観念を符号化する記号と，その間の変化によって人のメンタルモデルが全て得られるのは予想される，
-    計算はこの意味でいくらか人間的な概念である．
-    おそらく，私の一番好きな計算モデルである．
+    形式言語理論は，抽象機械というモデルによって，言語を分類する．
+    これは計算複雑性クラスの分類に等価である．
+    抽象機械はまるでモデルのように，形式言語のクラス構造を安定的に定義する役割を果たす．
+    その際のモデル間の座標変換のようなものが「還元（算譜）」である．
+    この存在をcombinatoricalに構成して置けば，物理的に安定な概念が浮かび上がってくる．
+    「計算可能性」はその一番大きなクラスである．
 
-    すると，記号列を$L$と$\Sigma^*\setminus L$の２つに分ける過程を計算と定義し，これを実行するオートマトンの存在性によって計算可能性を定義できる．
+    その中でも，有限オートマトンと正則言語の言葉だけでも，
+    多くの問題は定式化出来る（PCP，古典的渡船問題など）．
+    その他プッシュダウンオートマトンやTuring機械などの多くの抽象機械(automata)を伴う計算理論は，現実の問題を
+    言語への帰属条件$x\in L$へと言い換えるから，特に数学の入り口となるものである．
+    実際抽象機械と言語の理論は，TuringとWittgensteinにdate backすることとなる．
+    その他の計算モデルも本質的には同じだが，
+    観念を符号化する記号と，
+    その間の変化によって人のメンタルモデルが全て形式として得られるのは予想される，
+    計算はこの意味でいくらか人間的な概念である．
+    おそらく，高度な数学性に特徴付けられて，数学の上で
+    夢想される計算機自然の法界であり，古典計算機も量子計算機も
+    その物理学的な流出だと思える．私の一番好きな計算モデルである．
+
+    有限オートマトンはコンパイラの字句解析の部分，文脈自由言語はパーサー部分，
+
+    数学基礎論は形式言語についての理論である．あるいは数学自体がそうかもしれない．自然言語の自然性を飛び出して，もう一つの自然に手を伸ばそうとする言語が自然言語で，
+    今は計算機としての豊かな実装をも持つ．
+    \begin{quote}
+    An automaton is a finite representation of a formal language that may be an infinite set.
+    \end{quote}
+
+    すると，記号列を$L$と$\Sigma^*\setminus L$の２つに分ける過程を計算と定義し，
+    これを実行するオートマトン（Turing機械）の存在性によって計算可能性を定義できる．
+
+    まずは，そのような抽象機械のうち小さなクラスである，有限状態機械を見る．
+    有限のオートマトンには２つのクラスがあって，人間が描き易いのは非決定性オートマトンの方である．
+    これは高級プログラミング言語と同じような原理であって，そこから決定性オートマトンに書き換える算譜が存在する．
+    まるでコンパイラのように決定性オートマトンへと還元してくれる．
+    特に$\epsilon$-動作について拡張しても同様の還元の原理で等価になるが，これはさらに構成し易い．
 \end{quotation}
 
 \section{言語}
@@ -4166,15 +4196,26 @@ Herbrand標準形$A^H$が$\exists$-論理式であることに注意すれば，
         が定めているからである．
         \item 問題はオートマトンと同一視される．オートマトンは，終了状態$q_h\in F$に達したかどうかを返すからである．
         \item また，このクラスの決定問題は理論的に扱いやすいだけでなく，例えば，C言語のコンパイラが現実的な時間内で快適に
-        使用可能なものが作れるかどうかの問題と「還元(reduction)」の関係にある．
+        使用可能なものが作れるかどうかの問題と「還元(reduction)」の関係にある．この還元という考え方があるから，「帰属問題」というクラスに限って良いのである．計算量理論に自然数上の部分関数を考えれば済む理由（\textbf{算術化}）と同じである．
+        \begin{quotation}
+            「問題」を言語と定義することは，計算量の理論で重要な問題を扱う妥当な方法として，時間の検証にも耐えてきた．この理論では，ある問題の計算量の下限を証明することに興味がある．
+            特に重要なのは，ある問題が入力の指数関数よりも少ない時間量で問題が解けないことを証明するための技法である．
+            はい／いいえを答えさせるという言語型の問題は，「これを解け」という意味での問題と，よく知られている多くの場合に「同程度に難しい」ことがわかっている．
+        \end{quotation}
     \end{enumerate}
 \end{remark}
+\begin{example}
+    素数判定問題は，アルファベット$\Sigma=\{0,1\}$の上に，言語$L_p$として得られる．$11101\in L_p$である．
+    この問題は数学的には解けてなくて，現実的なアルゴリズムは……？どうなんだ？
+\end{example}
 
 \section{非決定性有限オートマトン}
 
 \begin{screen}
     有限オートマトン／有限状態機械のうち，特に数学モデルとして適切な非決定性有限オートマトン(NFA)，またその特別なクラスとして決定性有限オートマトン(DFA)
     を定義し，DFAのなす圏Autを構成する．
+
+    非決定性は推論能力の源泉とも考えられる．
 \end{screen}
 
 \begin{definition}[Finite state machine, Moore, Mealy, transducer]
@@ -4195,7 +4236,7 @@ Herbrand標準形$A^H$が$\exists$-論理式であることに注意すれば，
         \item $\Sigma$：入力アルファベットからなる集合．
         \item $q_0\in Q$：初期状態．
         \item $F\subset Q$：受理状態の集合．
-        \item $\delta\subset Q\Sigma Q$：\textbf{状態遷移関係}と呼ばれる３項関係．
+        \item $\delta\subset Q\times\Sigma\times Q$：\textbf{状態遷移関係}と呼ばれる３項関係．
         \begin{enumerate}[(i)]
             \item 要素$(p,a,q)\in\delta$を遷移と呼び，$p\xrightarrow{a}q$と表す．
             \item 状態遷移関係$\delta$が，$\forall p\in Q,\;\forall a\in\Sigma,\;\exists!q\in Q,\;(p,a,q)\in\delta$を満たすとき，このオートマトン$M$を\textbf{決定的}であると言う．
@@ -4203,8 +4244,23 @@ Herbrand標準形$A^H$が$\exists$-論理式であることに注意すれば，
         \end{enumerate}
     \end{enumerate}
 \end{definition}
+\begin{remark}
+    Moore機械としては，$Y$をoutput alphabetとし，$y:Q\to Y$をoutput mapとして，5-組に加えることがある．
+\end{remark}
 
-\begin{definition}[accepting computation,  accepting language]
+\begin{definition}[オートマトンの射と圏]
+    オートマトンの射$f:(Q,\delta,q_0,F)\to f:(Q',\delta',q_0',F')$とは，写像$f:Q\to Q$であって，
+    \begin{description}
+        \item[遷移を保つ] $\delta'(\sigma,f(q))=f(\delta(\sigma,q))$．
+        \item[初期状態を保つ] $f(q_0)=q'_0$．
+        \item[停止状態を保つ] $f(F)=F'$．  
+    \end{description}
+    ものである．これをオートマトンの\textbf{simulation}ともいう．
+
+    オートマトンがこの射についてなす圏をAutという．
+\end{definition}
+
+\begin{definition}[accepting computation,  accepting language / 定める言語]
     有限オートマトン$M$が記号列$w=a_0\cdots a_n$を受理するとは，遷移の系列
     \[ q_0\xrightarrow{a_0}q_1\xrightarrow{a_1}\cdots\xrightarrow{a_n}q_{n+1}\;\;\;(q_{n+1}\in F) \]
     が存在することをいう．この系列を\textbf{受理計算}と言う．
@@ -4215,16 +4271,56 @@ Herbrand標準形$A^H$が$\exists$-論理式であることに注意すれば，
 
 \begin{remark}\mbox{}
     \begin{enumerate}
+        \item 非決定性オートマトンは実際には受理し損ねることがあり得る．しかし，「受理する可能性がある」ものでなければならない．また受理計算が１つである必要もない．
         \item $q_0\in F$であるとき，このオートマトン$M$は空列$\epsilon$を受理する．
-        \item オートマトンの持つ遷移$\delta$は非常に圏的である．これを視覚化するオートマトン独自の図式(diagram)・\textbf{状態遷移図}がある．
+        \item オートマトンの持つ遷移$\delta$は非常に圏的である．これを視覚化するオートマトン独自の図式(diagram)・\textbf{状態遷移図}がある．また，Turing機械の時と同様，遷移表を与えることでも有限オートマトンを与えることと等価である．
         \item 特に，オートマトンを計算機上で実装するための言語としては，統一モデリング言語(Unified Modeling Language)や仕様及び記述言語(Specification and Description Language)がある．
     \end{enumerate}
 \end{remark}
 
-決定性の場合は，各アルファベットに対する挙動$\delta$が定まった時点で，
-全ての語について，挙動が確定している．この挙動$\delta^*$を考えたい．
-アルファベットを用いた文字列全体からなる集合$\Sigma^*:={}^{<\omega}\Sigma$というデータ構造が持つ
-帰納的構造に注意して，慎重に議論を進める．
+\subsection{代数と余代数}
+
+\begin{screen}
+    計算機科学の種々の概念は代数化できる．
+    その中でも特にオートマトンも余代数を定める．
+\end{screen}
+
+\begin{definition}[$F$-代数]
+    圏$C$とその上の自己関手$F:C\to C$について，$C$の対象$A\in C$とその射$f:F(A)\to A$の組(A,f)のことを\textbf{$F$-代数}という．
+    この双対概念を\textbf{$F$-余代数}という．
+
+    $F$-代数の圏が始対象を持つとき，特に\textbf{$F$-始代数}と呼ぶ．この双対概念を\textbf{$F$-終余代数}という．
+\end{definition}
+\begin{example}[始代数の例]
+    プログラミングで使われるリストや木構造のようないくつもの有限データ構造が、特定の自己関手の始代数として得られる。
+    \textbf{始対象こそが，帰納や再帰といったものの一般の枠組みを与えるものだったのである}．
+    \begin{enumerate}
+        \item 自然数という代数$(\N,[0,succ])$．
+        \item $\Set$の自己関手$1+\N\times-$を考えると，集合$X\in \Set$に対して，始代数$(X,[x,f])$を定める．この場合の始代数は、自然数を要素とする有限な長さのリスト全体の成す集合、その点としての空リストおよび自己写像 cons（与えられた自然数と有限リストから、その自然数をリストの先頭に付け加えてえられるリストを返す函数）の組で与えられる。
+    \end{enumerate}
+\end{example}
+
+\begin{definition}[遷移関数のcurrying]
+    $\delta:Q\times\Sigma\to Q$から，$\delta:Q\to Q^\Sigma$を定める．
+    ここで，終状態$F\subset Q$を，特性関数$\chi_F:Q\to 2$とみなすと，
+    $\alpha:=(\delta,\chi_F):Q\to Q^\Sigma\times 2$を定め，
+    これは$H$-余代数$(Q,\alpha)$を定める．ただし，これを定める$\Set$上の自己関手$H$は，$H(-)=-^\Sigma\times 2$というものである．
+\end{definition}
+\begin{remark}
+    こうして定めたオートマトンの余代数$(Q,\alpha)$の射：$f(Q,\alpha)\to(Q',\alpha')$ s.t. $\alpha'\circ f=H(f)\circ\alpha$かつ$\delta'(\sigma,f(q))=f(\delta(\sigma,q))$かつ$f(F)=F'$．
+    即ち，simulationとしてのオートマトンの射の概念と完全に一致する．
+\end{remark}
+
+この圏の終対象$(T,\alpha_T)$がオートマトンとして面白い？
+また，non-deterministicの場合も同様に余代数化出来る．
+
+\subsection{決定性オートマトン論}
+
+\begin{screen}
+    決定性オートマトンは，構成は難しいが，理論的には一番形式的なものに近い（例えば，決定性有限オートマトンの最悪状態数は指数関数的に増大する）．
+    実際，遷移関数$\delta:Q\times\Sigma\to Q$が，一意に$\Sigma^*$上に挙動を定め（構成子に沿った帰納法），それがそのまま
+    受理言語$L(M)\subset\Sigma^*$を$L(M)=\{x\in\Sigma^*\mid \delta^*(q_0,x)\in F\}$という形で指定する．
+\end{screen}
 
 \begin{definition}[遷移関数が，文字列の集合上に定める関数]
     有限オートマトン$(Q,\Sigma,\delta,q_0,F)$の遷移関数$\delta:Q\times\Sigma^*\to Q$を，
@@ -4247,23 +4343,65 @@ Herbrand標準形$A^H$が$\exists$-論理式であることに注意すれば，
     有限オートマトン$M$と記号列$x,y\in\Sigma^*$に対して，$\delta^*(q,xy)=\delta^*(\delta^*(q,x),y)$．
 \end{proposition}
 
+\begin{remark}[非決定性オートマトンの言語：別定義]
+    非決定性オートマトン$M=(Q,\Sigma,\delta,q_0,F)$も，$\delta\subset Q\times\Sigma\times Q$を$\delta:Q\times\Sigma\to P(Q)$と同一視すれば，構造的帰納法によって$\delta^*:Q\times\Sigma^*\to P(Q)$が定まる．
+    そして，非決定性オートマトン$M$が定める言語は，
+    \[L(M):=\{w\in\Sigma^*\mid \delta(q_0,w)\cap F\},\]
+    と定める．つまり，必ずしも100\%の確率で受理状態に到達しなくても良い．
+
+    このように非決定性オートマトンの遷移関係$\delta\subset Q\times\Sigma\times Q$を冪集合上への写像と見なす手法は，NFA$\to$DFAの還元算譜であるsubset constructionの世界観と適合する．
+\end{remark}
+
+\subsection{オートマトンに同値類を作りたい}
+
+\begin{example}[非決定性オートマトンは一意に定まらない．]
+    黄色い部分を足しても足さなくても，示されている言語を受理する非決定性オートマトンとみなせる．
+    \begin{figure}[h]\centering\caption{指定された受理言語に対する複数のNFAの例}
+        \includegraphics[width=10cm]{automata-1.jpg}
+    \end{figure}
+\end{example}
+
+「受理計算」の概念を一般化し，任意の２状態間に「到達可能」の概念を定める．
+
 \begin{definition}[accessible]
     ２つの状態$p,p'\in M$について，$p$から$p'$に\textbf{到達可能}であるとは，
     記号列$x=a_0\cdots a_n$と，それが定める遷移系列$p\xrightarrow{a_0}p_1\xrightarrow{a_1}\cdots\xrightarrow{a_n}p'$が存在することをいう．
 \end{definition}
 
-\begin{proposition}[有限オートマトンの射]
+\begin{proposition}[有限オートマトンの標準形：初期状態から生成される部分について整形（これはオートマトンの同型について同値類をとっているのか？）]
     $M$に対して，次のように定めるオートマトン$M'$について，$L(M)=L(M')$．
     また，$M$が決定的ならば$M'$も決定的である．
     \begin{enumerate}
         \item 初期状態$p_0$から到達可能でない状態を取り除く．
-        \item それらを端点とする繊維を取り除く．
+        \item それらを端点とする遷移を取り除く．
     \end{enumerate}
 \end{proposition}
 
-\section{正則言語}
+\subsection{非決定性オートマトンの応用}
+
+\begin{application}[egrep, fgrep]
+    非決定性オートマトンはテキスト検索にも使われる．
+    UNIXコマンドegrep, fgrepでは，次の２つを混ぜて実装されている．
+    \begin{enumerate}
+        \item NFAを模倣するプログラムを書く．
+        \item subset constructionでDFAに還元し，それを模倣するプログラムを書く．
+    \end{enumerate}
+    このクラスの問題に対するsubset constructionでは，状態数の増加が伴わないことが証明できる．
+\end{application}
+
+\section{正則言語：決定性に依らない安定な構造}
+
+\begin{screen}
+    Autには同型が取れて，有限オートマトンにおいて決定性／非決定性の別は
+    それが定める受理言語の観点からは対称であることが分かる．
+    なぜなら，その間にはsubset constructionという還元算譜が存在するのである．（まるで座標変換）．
+    形式言語の圏の中に有限オートマトンが定める言語を，正則言語という．
+    これは形式言語のクラスの中で，一番小さい部類のクラスとなる．
+\end{screen}
 
 正則言語を定義する前に，Autの中に最後の同型をとっておく必要がある．
+一つの非決定性／決定性有限オートマトンに対して，受理言語を共有する
+決定性／非決定性有限オートマトンが作れる．
 
 \begin{theorem}[非決定性有限オートマトンと決定性有限オートマトンの等価性]
     言語$L\in P(\Sigma^*)$に対して，次の２条件は同値．
@@ -4273,19 +4411,193 @@ Herbrand標準形$A^H$が$\exists$-論理式であることに注意すれば，
     \end{enumerate}
 \end{theorem}
 \begin{proof}
-    定義より2.$\Rightarrow$1.は成り立つから，$\Leftarrow$を示す．
+    定義より決定性オートマトンは非決定性オートマトンの特殊な場合としたから
+    （$\delta:Q\times\Sigma\to Q$は三項関係の特別な場合に他ならない，あるいは初期状態に余分な自己遷移を加えることによっても），2.$\Rightarrow$1.は成り立つから，$\Leftarrow$を示す．
+
+    非決定性オートマトン$M=(Q,\Sigma,\delta,q_0,F)$から
+    次のように構成した(subset construction)決定性オートマトン$\tilde{M}=(\tilde{Q},\Sigma,\tilde{\delta},\tilde{q}_0,\tilde{F})$
+    は，同じ言語を受理する：$L(M)=L(\tilde{M})$と示す．
+    \begin{enumerate}
+        \item $\tilde{Q}:=P(Q)$．
+        \item $\tilde{q}_0:=\{q_0\}$．
+        \item $\tilde{F}:=\{S\in P(Q)\mid S\cap F\ne\emptyset\}$．
+        \item \[\xymatrix@R-2pc{
+            \tilde{Q}\times\Sigma\ar[r]^-{\tilde{delta}}&\tilde{Q}\\
+            \rotatebox[origin=c]{90}{$\in$}&\rotatebox[origin=c]{90}{$\in$}\\
+            (S,a)\ar@{|->}[r]&\{q\in Q\mid\exists p\in S,\;(p,a,q)\in\delta\}
+        }\]
+    \end{enumerate}
+    まず，$L(M)\subset L(\tilde{M})$を示す．
+    任意に$w=a_1\cdots a_n\in L(M)$を取ると，$Q$上の受理計算
+    \[ q_0\xrightarrow{a_1}q_1\xrightarrow{a_2}\cdots\xrightarrow{a_n}q_n \]
+    が存在する．すると，$S_0=\{q_0\},S_i=\{\tilde{delta}(s_{i-1},a_i)\}$とした系列を考えると，構成法より$q_n\in S_n$であるから，$S_n\in F_n$であり，受理計算が構成できたことになる．
+    よって，$w\in L(\tilde{M})$である．
+
+    次に，$L(M)\supset L(\tilde{M})$を示す．
+    全く同様に，$w\in L(\tilde{M})$の受理計算
+    \[S'_0\xrightarrow{a_1}S'_1\xrightarrow{a_2}\cdots\xrightarrow{a_n}S'_n\]
+    が$\tilde{M}$に存在する時，
+    $q_n\in S'_n$から逆算して，$q_0$からの$M$の系列が作れる．
+
+    よって，上の構成によって，決定性オートマトン$\tilde{M}$について$L(M)=L(\tilde{M})$．
 \end{proof}
+\begin{remark}
+    非決定性オートマトンの余代数を，冪集合構成によって無理やりまとめているのが$\tilde{\delta}$である！
+\end{remark}
 
 \begin{definition}[regular set / language]
     （決定性）オートマトンによって受理される集合を\textbf{正則集合}または\textbf{正則言語}という．
-    即ち，関手（？）$L:\Aut\to P(\Sigma^*)$の値域である．これを$\mathcal{R}\subset P(\Sigma^*)$とする．
+    即ち，関手（？）$L:\Aut\to P(\Sigma^*)$の値域である．この集合の族を$\mathcal{R}\subset P(\Sigma^*)$とする．
 \end{definition}
+
+\subsection{包含階層}
+
+\begin{definition}[Hierarchy]
+    \textbf{包含階層}とは、その要素である集合がその階層の下方にあるすべての集合の真母集合（つまり「集合１⊃集合２⊃集合３⊃...」）になっている構造である。形式言語の階層を構成する言語クラスはそれぞれ言語の集合であり、階層の上方にある言語クラスが下方にあるクラスの言語をすべて含むのがその包含階層である。これらの形式言語は形式文法やオートマトン、モデル理論等によって定義づけられ、大抵の場合その数学的な研究によって階層の中での位置付けを証明される。
+\end{definition}
+\begin{example}[Chomsky Hierarchy]
+    チョムスキー階層は、生成規則による終端および非終端記号からなる文字列の書き換えで定義される、生成文法と呼ばれる形式文法のクラスを軸に定義されている。具体的には、
+    \begin{enumerate}\setcounter{enumi}{-1}
+        \item ［\textbf{帰納的可算言語・部分決定性言語・チューリング受理性言語}］文字列のいかなる書き換えも許される制限なし文法がタイプ-0（これを決定性のある、つまりチューリングマシンが常に停止する言語に限定したクラスが帰納言語で、決定性言語またはチューリング決定性言語とも呼ばれる。）これらの計算複雑性はそれぞれ複雑性クラスRとREに対応する。つまり、与えられた文字列が、その言語の文字列である事を確かめるアルゴリズムを書ける言語の集合が帰納的可算言語で、その言語の文字列で無い事も確かめるアルゴリズムが存在する言語の集合が帰納言語である。
+        \item ［\textbf{文脈依存言語}］それぞれの生成規則が非終端記号ひとつのみを書き換える文脈依存文法がタイプ-1（文脈自由言語により近い所には、自然言語の研究から弱文脈依存言語というクラスが設定されている。）
+        \item ［\textbf{文脈自由言語}］文脈依存文法のうち前後の文字列に依存せず書き換える文脈自由文法がタイプ-2
+        \item ［\textbf{正規言語}］文脈自由文法のうち書き換えが終端記号一つまたは終端および非終端記号一つずつである正規文法がタイプ-3．有限オートマトンが定める．
+    \end{enumerate}
+    下方の文法クラスがそれぞれ上方の文法クラスすべての真部分集合となっているため、対応する言語も包含階層が成立する。なお、それぞれに対応するオートマトンもよく知られている。
+\end{example}
 
 \section{$\epsilon$動作付き非決定性有限オートマトン}
 
+\begin{screen}
+    非決定性オートマトンを拡張する．
+    $\epsilon$動作付き非決定性有限オートマトンはさらに人間がプログラムし易い高級言語となっている．
+    $\epsilon$遷移の除去算譜が存在するために，これが定め得る言語も，正則言語に一致する．
+\end{screen}
+
+\begin{definition}[$\epsilon$-transition, $\epsilon$-NFA]
+    空語$\epsilon$を読んで行う遷移を\textbf{$\epsilon$-遷移}という．
+
+    非決定性オートマトンの状態遷移関係$\delta\subset Q\times\Sigma\times Q$を，$\delta\subset Q\times(\Sigma\cup\{\epsilon\})\times Q$としたものを，
+    \textbf{$\epsilon$-動作付き非決定性有限オートマトン}という．
+\end{definition}
+
+\begin{definition}[$\epsilon$-closure]
+    $\epsilon$-閉包ECLOSE$(q)\subset Q$を次のように機能的に定義する．
+    \begin{enumerate}
+        \item $q\in\mathrm{ECLOSE}(q)$．
+        \item $p_1\in\mathrm{ECLOSE}(q)$とする．$\exists a\in\Sigma, (q_1,a,q_2)\in\delta$（または$q_2\in\delta(p_1)$）ならば，$q_2\in\mathrm{ECLOSE}(q)$．
+    \end{enumerate}
+\end{definition}
+
+\begin{definition}[遷移関数の拡張と，$\epsilon$動作付き非決定性有限オートマトンが定める言語]
+    $\delta^*:Q\times(\Sigma\cup\{\epsilon\})^*\times Q$を次のように帰納的に定義する．
+    \begin{enumerate}
+        \item $\delta^*(q,\epsilon)=\mathrm{ECLOSE}(q)$．
+        \item 
+    \end{enumerate}
+\end{definition}
+
+\begin{theorem}[等価原理と$\epsilon$遷移の除去算譜]
+    言語$L\in P(\Sigma^*)$に対して，次の２条件は同値．
+    \begin{enumerate}
+        \item $L$は$\epsilon$動作付き非決定性有限オートンマトンによって受理される．
+        \item $L$は決定性有限オートマトンによって受理される．
+    \end{enumerate}
+\end{theorem}
 
 
-\chapter{文脈自由文法}
+\begin{proposition}
+    任意のinput alphabet $\Sigma$について，任意の有限部分集合$L\subset\Sigma^*$は正則言語である．
+\end{proposition}
+\begin{proof}
+    次のようにして$\epsilon$-動作付き非決定性有限オートマトンを構成すれば良い．
+
+\end{proof}
+
+以上の有限状態機械は，無限にも定義を拡張できる．
+
+\section{正則言語の反復補題}
+
+\begin{screen}
+    記号列の無限集合を認識する有限オートマトンは，必ずループを持つ．
+    この正則言語（やその他の形式言語のクラス）の必要条件を，反復補題という．
+\end{screen}
+
+\begin{theorem}[Pumping Lemma]\label{thm-Pumpimg-lemma}
+    $L\subset\Sigma^*$を正則言語とする．
+    このとき，ある定数$N\ge 1$が存在して，長さが$N$以上の記号列$x\in L\land |x|\ge N$ならば，
+    その分解$x=uvw$であって，
+    \begin{enumerate}
+        \item $1\le |v|<N$（これよりも粗い条件である$1\le |v|\land 1\le|uv|\le N$としても示せる），
+        \item $\forall m\in\N,\; uv^mw\in L$,
+    \end{enumerate}
+    の２条件を満たすものが存在する．
+\end{theorem}
+\begin{proof}
+    $L$は正則言語であるから，これが定める決定性有限オートマトンを$M=(Q,\Sigma,\delta,q_0,F)$とする．
+    $N=|Q|$とすれば，$\{q_0\}\subset Q$より$N\ge 1$を満たす．
+    $|x|=:n\ge N$を満たす$x\in L$を任意に取る．すると$x$が定める受理計算が存在するが，その系列の長さは$|Q|$を超えているから，
+    鳩の巣原理より同じ状態が少なくとも２回現れる：$\exists i,j\in n+1,\;(0<)j-i\le N\land p_i=p_j$．
+    これについて，
+\end{proof}
+\begin{remark}
+    Y. Bar-Hillel, M. Perles, E. Shamir, "On formal properties of simple phrase structure grammars", Zeitschrift für Phonetik, Sprachweissenshaft und Kommunikationsforschung 14 (1961) pp. 143-172.
+
+    反復補題（英: Pumping lemma）とは、計算可能性理論において、あるクラスの形式言語に反復を施してもそのクラスに依然として属することを示すものである。ここでいう「反復」とは、その言語に含まれる十分に長い文字列が部分に分割可能で、その一部分を繰り返したさらに長い文字列も同じ言語に含まれるようにすることである。この補題の証明には、鳩の巣原理のような組合せ数学が必要とされる。
+    反復補題の重要な具体例として、正規言語の反復補題と文脈自由言語の反復補題がある。文脈自由言語の反復補題の一種として、オグデンの補題もある。
+    これらの補題は、ある言語が特定の言語クラスに属さないことを示すのに使われる。しかし逆に、反復補題を満たすことは必要条件ではあっても十分条件ではないので、ある言語があるクラスに属することを示すのには使えない。
+\end{remark}
+
+\begin{corollary}
+    言語$L=\{0^n1^n\mid n\in\N\}$は正則ではない．
+\end{corollary}
+\begin{proof}
+    $L$を正則とする．
+\end{proof}
+
+\begin{corollary}[回文]
+    言語$L=\{ww^R\mid w\in\{0,1\}^*\}$は正則ではない．
+\end{corollary}
+\begin{proof}
+    $L$を正則とする．
+\end{proof}
+
+\section{正則表現}
+
+\begin{screen}
+    正則言語と有限オートマトンの等価性を得た．
+    ここで，正則言語に対する代数的記法を１つ導入する．
+    これは実用化されているほど強力な代数的手法で，生成の概念を捉えている１つの形式言語である．
+\end{screen}
+
+\begin{definition}[regular expression / regex]
+    \textbf{アルファベット$\Sigma$上の正則表現}とは，アルファベット$\Sigma\cup\{*,+,),(,\emptyset\}$上の記号列$\REGEX\subset P(\Sigma\cup\{*,+,),(,\emptyset\})$であって，次のように帰納的に定義されるものである．
+    解釈写像$L:\REGEX\to P(\Sigma^*)$が定まる．言語$L(r)\subset\Sigma^*$と正則表現$r$を混同することも多い．
+    \begin{enumerate}
+        \item 空列を表す記号$\emptyset$は正則表現である：$L(\emptyset)=\emptyset$．
+        \item 各アルファベット$a\in\Sigma$は正則表現である．語$a$を表す：$L(a)=\{a\}$．
+        \item $r,s$を正則表現とすると，$(r+s),(rs),(rs^*)$は正則表現である：$L(r+s)=L(r)\cup L(s), L(rs)=L(r)L(s),L(r^*)=L(r)^*$．
+        \item 以上のように定義されるもののみが正則表現である．
+    \end{enumerate}
+\end{definition}
+\begin{example}\mbox{}
+    \begin{enumerate}
+        \item $L((0+1)^*)=\{0,1\}^*$．
+        \item $(0+1)^*00(0+1)^*$は２つ以上続く$0$を持つ文字列全体の集合を表す．
+    \end{enumerate}
+\end{example}
+
+\begin{lemma}[代数的構造：集合代数から輸入]
+    次の正則表現上の等式は，解釈写像$L$とSetをモデルとして充たされる．
+    （即ち，正則表現上の$=$は解釈写像$L$を用いて集合の相等として解釈する）．
+    \begin{enumerate}
+        \item $r+s=s+r$．和集合の可換性$L(r)\cup L(s)=L(s)\cup L(r)$より．
+        \item $(r+s)+t=r+(s+t)$．和集合演算の結合性から．
+        \item $(rs)t=r(st)$．
+    \end{enumerate}
+\end{lemma}
+
+\chapter{文脈自由文法とプッシュダウンオートマトンの理論}
 
 
 \part{集合論}

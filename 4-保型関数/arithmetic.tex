@@ -1,5 +1,5 @@
 \documentclass[uplatex, 12pt, dvipdfmx]{jsreport}
-\title{保型関数入門（担当：松本久義）}
+\title{数論}
 \author{司馬博文}
 \date{\today}
 \pagestyle{headings} \setcounter{secnumdepth}{4}
@@ -7,6 +7,179 @@
 \begin{document}
 \tableofcontents
 
+\chapter{保型関数入門（担当：松本久義先生）}
 
+\begin{quotation}
+    離散部分群$\SL(2,\Z)$の作用で上半平面$\H$を割った空間はRiemann面の構造を入れることができ，この上の微分形式は保型形式と呼ばれる数論的対象を定める．
+
+    同様にLie群の表現論の舞台ともなる．Lie群$\GL(2,\R)$が計量を保って作用するが，これをMöbius変換という．
+
+    また，双曲幾何も，Gauss平面での実現を持つ，これをPoincaréの上半平面モデルという．このモデルは単位円板モデルと計量を保って写り合う，即ち，２つのモデルがRiemann面として解析的同型（多変数複素解析の文脈で，２つの$C^n$上の領域間に，正則写像が両方向に存在すること）である．
+\end{quotation}
+
+\section{非Euclid幾何}
+
+\section{一次分数変換}
+
+\begin{screen}
+    射影一般線型群$\GL_2(\C)$は$\hat{\C}$に一次分数変換によって作用する．
+    この作用は計量を保ち，特に射影幾何学の言葉で言えば円を保つ（射影空間の射）．
+\end{screen}
+
+$\GL_2(\C)$を標準分解する．
+
+\begin{theorem}[$\GL_2(\C)$の標準分解]\label{standard-decomposition-of-GL2C}
+    任意の一次分数変換は，次の変換の合成によって表せる．
+    \begin{enumerate}
+        \item $z\mapsto az\;(a\in\C^\times)$，
+        \item $z\mapsto z+c\;(c\in\C)$，
+        \item $z\mapsto\frac{1}{z}$．
+    \end{enumerate}
+\end{theorem}
+
+\begin{definition}[circle]
+    $\hat{\C}$の\textbf{円}とは，次のことをいう．
+    \begin{enumerate}
+        \item $\C$上の円，
+        \item $\C$上の直線と$\infty$との合併．
+    \end{enumerate}
+\end{definition}
+
+\begin{theorem}[円円対応]
+    一次分数変換は$\hat{\C}$上の円を円に移す．
+\end{theorem}
+\begin{proof}
+    定理\ref{standard-decomposition-of-GL2C}より，変換$z\mapsto\frac{1}{z}$が
+    円を保つことを示せば良い．
+\end{proof}
+
+\begin{thebibliography}[projective general linear group is triply transitive]
+    $(x_1,x_2,x_3),(x'_1,x'_2,x'_3)\in\hat{\C}$をそれぞれの組のどの２つも等しくないとする．
+    この時ある一次分数変換が存在して，$x_1\mapsto x'_1,x_2\mapsto x'_2,x_3\mapsto x'_3$を満たす．
+\end{thebibliography}
+
+\begin{definition}[orbit]
+    群$G$が集合$X$に作用しているとする．
+    \[ Gx:=\{gx\mid g\in G\} \]
+    を$x$を通る\textbf{軌道}という．
+    逆に，$X$の部分集合のうち$G$の軌道としても得られるものを\textbf{$G$-軌道}という．
+\end{definition}
+\begin{remark}
+    線型空間も，体の作用と見れるのだろうか．すると，生成する空間とは軌道概念の拡張になる．
+\end{remark}
+
+\begin{definition}[transitive]
+    群作用が\textbf{推移的}であるとは，空でない$X$に対して，
+    \[ \forall x\in X,\; Gx=X \]
+    が成り立つことをいう．
+\end{definition}
+
+\begin{theorem}
+    Riemann面$\hat{\C}$への$\SL_2(\R)$の群作用の軌道は次の３つである．
+    \begin{enumerate}
+        \item 射影直線$\R\cup\{\infty\}$．
+        \item 上半平面$\H$．
+        \item 下半平面$\H_-$
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    それぞれ，$0,i,-i$の軌道として構成し，これらが$\hat{\C}$の類別となっていることを確認する．
+\end{proof}
+
+\section{上半平面と束}
+
+\begin{screen}
+    平面上に基底を２つ定めると，これらが作る座標系を得る．これを斜交座標の場合も含めて，束という代数系のことばでGauss平面上で捉える．
+\end{screen}
+
+\begin{definition}[lattice and its morphism]\mbox{}
+    \begin{enumerate}
+        \item 加法群としての$\C$の部分群$L$が\textbf{束}であるとは，ある$w_1,w_2\in\C$が存在して次を満たすことをいう：
+        \begin{enumerate}[(1)]
+            \item $L=\{mw_1+nw_2\mid m,n\in\Z\}=:\langle w_1,w_2\rangle_\Z$．
+            \item $w_1,w_2$は$\R$上一次独立．（i.e. $\frac{w_1}{w_2}\notin\R\cup\{\pm\infty\}$）．
+        \end{enumerate}
+        この時の$w_1,w_2\in\C$を$L$の\textbf{基底}と呼ぶ．
+        \item $L_1,L_2\subset\C$を束とする．これらが\textbf{同型}であるとは，
+        \[ L_1\simeq L_2:\;\Leftrightarrow\; \exists a\in\C^\times,\; aL_1=L_2 \]
+        とする．ただし，$aL_1=\{aL\mid l\in L_1\}=\langle aw_1,aw_2\rangle_\Z$とした．
+        \item $w_1,w_2\in\C$を一次独立とする時，これらが張る平行四辺形の内部を
+        \[ P(w_1,w_2):=\{tw_1+sw_2\mid s,t\in (0,1)\} \]
+        とする．
+    \end{enumerate}
+\end{definition}
+\begin{remark}\mbox{}
+    \begin{enumerate}
+        \item $\C$上の点を２つ取ると，これを基底とした座標系を得る．それを束と呼ぶ．
+        \item このように加法群$\C$の言葉で定義した束が，等角写像で写り合う時，同型であるという．
+    \end{enumerate}
+\end{remark}
+
+\begin{definition}[upper half-plane]\mbox{}
+    \begin{enumerate}
+        \item $\H:=\{t\in\C\mid \Im t>0\}$を\textbf{上半平面}と呼ぶ．$H,\mathfrak{H},H^+$などとも表す．
+        \item これがRiemann球面に埋め込まれているとみなした時，その閉包を\textbf{閉上半平面}と呼ぶ：$\overline{\H}=\H\cup\partial\H=\H\cup\R\cup\{\infty\}$．
+        \item $t\in\H$に対して，これが上半平面上に定める束を
+        \[ \Omega_t:=\{m+nt\mid m,n\in\Z\}=\langle 1,t\rangle_\Z \]
+        と置く．
+    \end{enumerate}
+\end{definition}
+\begin{remark}[上半平面に注目すれば良い理由]
+    $L=\langle w_1,w_2\rangle_\Z$とすると，基底は一次独立であることより$\Im w_1/w_2\ne 0$である．
+    この時必要なら順番を入れ替えることで$w_1/w_2\in\H$と出来る（なす角のうち「狭い方」を取れば$\pi$より小さく$0$より大きい）．
+    従って，$L=w_2\Omega_{w_1/w_2}$である．
+\end{remark}
+
+\subsection{$\H$上の束の同型類を定めたい}
+
+\begin{screen}
+    前節で，束を考えるには上半平面のみに注目したクラス$\Omega_t\;(t\in\C)$に注目すれば良いとして代表系を取った．
+    次に，これらの同型類を定めたい．
+\end{screen}
+
+ここで，上半平面に対する実行列の作用を観察する．
+まず，実行列の固有ベクトルにより強く分類できる．
+なぜなら，複素共軛による双対命題が常に成り立つので，
+１つのベクトルの行き先に言及するだけで同時に２つ目も定めていることになる．
+
+\begin{lemma}
+    $A\in M_2(\R),t\in\H$が
+    \[ A\begin{pmatrix}t\\1\end{pmatrix}=\begin{pmatrix}t\\1\end{pmatrix} \]
+    を満たす時，$A=I$である．
+\end{lemma}
+\begin{proof}
+    $A\in M_2(\R)$より，
+    \[ A\begin{pmatrix}\overline{t}\\1\end{pmatrix}=\begin{pmatrix}\overline{t}\\1\end{pmatrix} \]
+    も成り立つ．$t\in\H$としたから，$\begin{pmatrix}t\\1\end{pmatrix},\begin{pmatrix}\overline{t}\\1\end{pmatrix}$は$\R$上一次独立より，$A$の定める写像は$\H$上の恒等写像である．
+    従って，$A=I$．
+\end{proof}
+
+次の定理は，楕円関数と保型形式の間の関係の土台となる対応を示す．
+それは，上半平面上の束$\Omega_t$が同型であるとは，$\SL_2(\Z)$の作用に対して，
+同じ軌道に乗る
+\[\SL_2(\Z)\cdot t_1=\SL_2(\Z)t_2\]
+ことに同値であることを示す．
+
+\begin{theorem}
+    $t_1,t_2\in\H$に対して，以下は同値である．
+    \begin{enumerate}
+        \item $\Omega_{t_1}\simeq\Omega_{t_2}$．
+        \item $\exists g\in\SL_2(\Z)$．
+    \end{enumerate}
+\end{theorem}
+
+\section{基本領域}
+
+\section{楕円関数}
+
+\section{Eisenstein級数}
+
+\section{Fourier展開}
+
+\section{保型形式}
+
+\section{保型形式の極と零点}
+
+\section{保型関数体}
 
 \end{document}

@@ -17,6 +17,11 @@
         \item 直和，双対空間，商空間，テンソル積など，公理を確認することによって厳密な構成と既存理論の適用ができるのが，機能として便利である．
         \item 線型空間を考える際には，１つだけを取り上げて考えるよりも，他の線型空間との関係の中で考えた方が良い．
     \end{enumerate}
+    \begin{notation}\mbox{}
+        \begin{enumerate}
+            \item $C=\FinVect_K$とする．
+        \end{enumerate}
+    \end{notation}
 \end{quotation}
 
 \section{体}
@@ -255,7 +260,7 @@
 
 \begin{example}[複素線型空間の構成：conjugation, complexification]\mbox{}
     \begin{enumerate}
-        \item $\C$-線型空間$V$に対して，スカラー倍を$a\cdot'x=\overline{a}x$として得る空間$V'$を$\C$-線型空間$V$の\textbf{共軛}という．即ち，体$\C$を同型$\overline{ }$で変換した後の$\C$を採用しても，対合的な$\C$-空間を得るのみである．
+        \item 線型空間の共役と言った時は，体の作用についての共役をいう．即ち，$\C$-線型空間$V$に対して，スカラー倍を$a\cdot'x=\overline{a}x$として得る空間$V'$を$\C$-線型空間$V$の\textbf{共軛}という．即ち，体$\C$を同型$\overline{ }$で変換した後の$\C$を採用しても，対合的な$\C$-空間を得るのみである．
         \item $\R$-線型空間$V$に対して，その$\R$-直和空間$V\oplus V$にさらに係数体の拡大$\R\to\C$をし，それに沿ってスカラー倍$\cdot:\C\times(V\oplus V)\to (V\oplus V)$を$(a+bi)(x,y)=(ax-by,bx+ay)$で定める（係数体の拡大前は常に$b=0$だった）．
         こうして得た$\C$-線型空間としての$V\oplus V$を$V_\C$と書き，これを\textbf{複素化}という，従って「直和に係数体の拡大を伴ったもの」という特別な場合を表す．
         また$V=\R$の場合，複素線型空間としての$\C$は，実線型空間$\R$の複素化である：$\R\oplus\R=:\R_\C\simeq\C$．これを一般化したものである．
@@ -680,9 +685,10 @@
 \section{線型写像の定義}
 
 \begin{screen}
-    線型写像を定義し，この言葉を用いて基底を特徴付ける．
+    線型写像を定義し，その可逆条件によって基底を特徴付ける．
     すると，$n$次元線型空間について，基底の行先を$n$点（被っても良い，もちろん線型独立でなくて良い）定めると線型写像が一意に定まる．
     これを「$y_1,\cdots,y_n$が定める線型写像」という．特に$y_1,\cdots,y_n$が基底である時，「$y_1,\cdots,y_n$が定める同型」という．
+    つまるところ，点と射は双対的な存在であり，前者が一次独立な生成系であることは，後者が可逆であることに同値なのである．
 \end{screen}
 
 \begin{definition}[linear mapping]
@@ -707,7 +713,7 @@
     \end{enumerate}
 \end{proposition}
 
-\begin{shadebox}\begin{proposition}[基底の特徴付け：同型になる値写像を定める元のこと]\label{prop-categorical-basis}
+\begin{shadebox}\begin{theorem}[基底の特徴付け：同型になる値写像を定める元のこと]\label{prop-categorical-basis}
     $x_1,\cdots,x_n\in V$が定める関手$\FinVect_K\to\Set$の射
     \[\xymatrix@R-2pc{
         {\Hom_{\FinVect_K}(V,W)}\ar[r]^-{G}&W^n\\
@@ -719,7 +725,7 @@
         \item $x_1,\cdots,x_n$は$V$の基底である．
         \item それらが定める関手の射$G$は可逆である．
     \end{enumerate}
-\end{proposition}\end{shadebox}
+\end{theorem}\end{shadebox}
 \begin{remark}[$n$元が定める線型写像]
     この全単射$G$によって，$V$の基底$x_1,\cdots,x_n$と（それにより真に定まる関手の射$G_x$と），$W$の$n$元$y_1,\cdots,y_n$とによって，線型写像$f:V\to W$が一意に定まる．
     特に$V=K^n$でこの標準基底を取った時，$y_1,\cdots,y_n\in W$が定める線型写像という．
@@ -739,9 +745,9 @@
     $V$を$n$次元線型空間とする．
     \begin{enumerate}
         \item 次の写像$\mathrm{Iso}(K^n,V)\to\{Vの基底\}; f\mapsto (f(e_1),\cdots,f(e_n))$は可逆である．
-        \item $W\subset V$を$m$次元部分空間とする．$K^m$を$K^n$の部分空間と同一視した時，同型$f:K^n\to V$であって，$f(K^m)=W$を満たすものが存在する．$f|_{K^m}:K^m\to W$も同型である．
+        \item $W\subset V$を$m$次元部分空間とする．$K^m$を$K^n$の部分空間と同一視した時，同型$f:K^n\to V$であって，$f(K^m)=W$を満たすものが存在し，$f|_{K^m}:K^m\to W$も同型である．
     \end{enumerate}
-    2.の時，$f:K^n\to V$は同型$K^m\to W$を\textbf{引き起こす}という．
+    2.の時，$f:K^n\to V$は同型$f|_{K^m}:K^m\to W$を\textbf{引き起こす}という（単射が引き起こす写像・等化子）．
 \end{corollary}
 
 \begin{corollary}
@@ -752,14 +758,18 @@
     \end{enumerate}
 \end{corollary}
 
-\begin{corollary}
+\begin{proposition}
     $\dim V=\dim W$とする．線型写像$f:V\to W$に対し，次の３条件は同値である．
     \begin{enumerate}
         \item $f$は同型．
         \item $f$は単射．
         \item $f$は全射．
     \end{enumerate}
-\end{corollary}
+\end{proposition}
+
+\subsection{一般の線型空間への拡張}
+
+空間は無限でも，基底は有限和しか定義されないことに注意．
 
 \begin{proposition}[基底の特徴付け：任意の次元について]\label{prop-categorical-basis-infinity}
     $X$を集合とし，$W$を$K$-線型空間とする．
@@ -778,12 +788,22 @@
 \begin{screen}
     全ての$K$-線型空間は，$K^n$と同型を取ることによって，そこからの線型写像が$A$倍写像と見做せる．
     まずはこの線型写像と行列，線型同型と可逆行列との対応を可換図式の言葉で調べる．
+
+    次に線型写像の直和の言葉を準備してから，種々の例を構成する．
+    線型写像について「直和」とは，直和構成が定める射を，出るもの入るもの全てそう呼んでしまう．
+    部分空間をうまく分解すれば，上手な直和に線型写像が標準分解できることがすでに予期される．
 \end{screen}
 
-\begin{proposition}
+\subsection{行列の空間}
+
+\begin{proposition}\mbox{}
     \begin{enumerate}
         \item $A\in M_{mn}(K)$とすると，$f_A:K^n\to K^m$は線型写像である．
-        \item 写像$M_{mn}(K)\to\Hom_{\FinVect_K}(K^n,K^m);A\mapsto f_A$は可逆．
+        \item 写像
+        \[\xymatrix@R-2pc{
+            M_{mn}(K)\ar[r]&\Hom_{\FinVect_K}(K^n,K^m)\\
+            \rotatebox[origin=c]{90}{$\in$}&\rotatebox[origin=c]{90}{$\in$}\\
+            A\ar@{|->}[r]&f_A}\]は可逆．
     \end{enumerate}
 \end{proposition}
 
@@ -791,9 +811,12 @@
     スカラー行列$aI$倍写像を$a$倍写像という．スカラー行列全体のなす空間$M_n(K)$の部分空間を，$K$と表す．
 \end{definition}
 
-\begin{proposition}
+\begin{proposition}\mbox{}
     \begin{enumerate}
-        \item 可逆写像$M_{mn}(K)\to\Hom_{\FinVect_K}(K^n,K^m);A\mapsto f_A$は線型同型でもある．即ち，$f_A+f_B=f_{A+B},af_A=f_{aA}$．
+        \item 可逆写像\[\xymatrix@R-2pc{
+            M_{mn}(K)\ar[r]&\Hom_{\FinVect_K}(K^n,K^m)\\
+            \rotatebox[origin=c]{90}{$\in$}&\rotatebox[origin=c]{90}{$\in$}\\
+            A\ar@{|->}[r]&f_A}\]は線型同型でもある．即ち，$f_A+f_B=f_{A+B},af_A=f_{aA}$．
         \item モノイドとしても同型である．即ち，$A\in M_{mn}(K),B\in M_{nr}(K)$の時，$f_A\circ f_B=f_{AB}$．
     \end{enumerate}
 \end{proposition}
@@ -812,17 +835,198 @@
     これを満たす$A$全体からなる集合を$\GL_n(K)$と表す．
 \end{proposition}
 
+\subsection{線型写像の直和とそれを用いた構成例}
+
+テンソルというか，行列をもう一度再発明する．
+線型写像について「直和」とは，直和構成が定める射を，出るもの入るもの全てそう呼んでしまう．
+
+\begin{definition}[線型写像の直和]\mbox{}
+    \begin{enumerate}
+        \item $f_1:V_1\to W,f_2:V_2\to W$を線型写像とする．これらの\textbf{直和}を$f_1\oplus f_2(x_1,x_2)=f_1(x_1)+f_2(x_2)$と定める．
+        \begin{enumerate}[(1)]
+            \item 第一射影は$\pr_1=\id_{V_1}\oplus 0:V_1\oplus V_2\to V_1\oplus 0\simeq V_1$である．この言葉を用いて，$f_1\oplus f_2=f_1\circ\pr_1+f_2\circ\pr_2$である．
+            \item $V_1=V_2=W$で，$f_1=f_2=\id$である時，$\id\oplus\id:W\oplus W\to W$は$W$の加法である．
+        \end{enumerate}
+        \item $W=W_1\oplus W_2$とする．$f_1:V\to W_1,f_2:V\to W_2$の\textbf{直和}$f_1\oplus f_2$を$f(x)=(f_1(x),f_2(x))$と定める．
+        \begin{enumerate}[(1)]
+            \item $i_1:W_1\to W,i_2:W_2\to W$を直和が定める標準的単射とすれば，$f_1\oplus f_2=i_1\circ f_1+i_2\circ f_2$と表せる．
+        \end{enumerate}
+        \item $V=V_1\oplus V_2,W=W_1\oplus W_2$とすると，$f(x_1,x_2)=(f_{11}(x_1)+f_{12}(x_2),f_{21}(x_1)+f_{22}(x_2))$は線型写像を定める．これを
+        \[ f=\begin{pmatrix}f_{11}&f_{12}\\f_{21}&f_{22}\end{pmatrix} \]
+        と表す．次が成り立つからである：
+        \[ \begin{pmatrix}y_1\\y_2\end{pmatrix}=\begin{pmatrix}f_{11}&f_{12}\\f_{21}&f_{22}\end{pmatrix}\begin{pmatrix}x_1\\x_2\end{pmatrix}. \]
+        \item 次の線型写像も$f_1,f_2$の直和という．
+        \[ f=\begin{pmatrix}f_{1}&0\\0&f_{2}\end{pmatrix} \]
+    \end{enumerate}
+\end{definition}
+\begin{remark}[一般化された行列]
+    $V=V_1\oplus\cdots V_n,W=W_1\oplus\cdots\oplus W_m$としても同じで，
+    \[ f=\begin{pmatrix}f_{11}&\cdots&f_{1n}\\\vdots&\ddots&\vdots\\f_{m1}&\cdots&f_{mn}\end{pmatrix} \]
+    と表す．$V_j=W_i=K$の場合，各$f_{ij}$はスカラー倍写像であり，これは行列$A$が定める線型写像$K^n\to K^m$を考えることにあたる．
+    写像の合成が行列積にあたる．
+
+    $m=n$の時，直和$f_1\oplus\cdots\oplus f_n$とは，
+    \[ f_1\oplus\cdots\oplus f_n=\begin{pmatrix}f_{1}&0&\cdots&0\\0&f_2&\ddots&\vdots\\\vdots&\ddots&\ddots&0\\0&\cdots&0&f_{n}\end{pmatrix} \]
+    を指す．これがJordan細胞の元となる．
+\end{remark}
+
+\begin{example}[行列内の演算]
+    \[\xymatrix@R-2pc{
+        {}^t\!:M_{mn}(K)\ar[r]&M_{mn}(K)\\
+        \rotatebox[origin=c]{90}{$\in$}&\rotatebox[origin=c]{90}{$\in$}\\
+        X\ar@{|->}[r]&{}^t\!X
+    }\]
+    も線型写像である．
+\end{example}
+
+\begin{example}[微分演算子]
+    \[\xymatrix@R-2pc{
+        D:C^{\infty}(\R)\ar[r]&C^\infty(\R)&C^{\infty}(\R)\ar[r]&C^\infty(\R)\\
+        \rotatebox[origin=c]{90}{$\in$}&\rotatebox[origin=c]{90}{$\in$}&\rotatebox[origin=c]{90}{$\in$}&\rotatebox[origin=c]{90}{$\in$}\\
+        f\ar@{|->}[r]&f'&f\ar@{|->}[r]&\int^x_0f(x)dx
+    }\]
+    も線型写像である．
+    $m$階の微分方程式の解空間として次の部分空間
+    \[V:=\{f\in C^\infty(\R)\mid f^{(m)}=p_1f^{(m-1)}+\cdots+p_{m-1}f'+p_mf\}\]
+    を定めると，線型写像
+    \[\xymatrix@R-2pc{
+        F:V\ar[r]&\R^m\\
+        \rotatebox[origin=c]{90}{$\in$}&\rotatebox[origin=c]{90}{$\in$}\\
+        f\ar@{|->}[r]&{\begin{pmatrix}f(0)\\f'(0)\\\vdots\\f^{(m-1)}(0)\end{pmatrix}}
+    }\]
+    は同型になる．これは解の一意性条件と同値である．
+\end{example}
+
+\begin{example}[差分演算子]
+    \[\xymatrix@R-2pc{
+        D:\R^\N\ar[r]&\R^\N\\
+        \rotatebox[origin=c]{90}{$\in$}&\rotatebox[origin=c]{90}{$\in$}\\
+        a\ar@{|->}[r]&b(n):=a(n+1)
+    }\]
+    も線型写像である．これに対して$\Delta:=D-1$を\textbf{差分演算子}と呼ぶ．
+    \[ c=\Delta(a)=a(n+1)-a(n) \]
+
+    $m+1\ge 2$項間漸化式により定まる部分空間を
+    \[ W=\{a\in\R^\N\mid\forall n\ge 0,\; a(n+m)=p_1a(n+m-1)+\cdots+p_{m-1}a(n+1)+p_ma(n)\} \]
+    と置くと，次の同型$G:W\to\R^m$が誘導される：
+    \[\xymatrix@R-2pc{
+        G:W\ar[r]&\R^m\\
+        \rotatebox[origin=c]{90}{$\in$}&\rotatebox[origin=c]{90}{$\in$}\\
+        a=(a_n)\ar@{|->}[r]&{\begin{pmatrix}a_0\\\vdots\\a_{m-1}\end{pmatrix}}
+    }\]
+    逆写像は一意的である，初期条件を満たせば漸化式を満たす数列は一意に定まるからである．
+\end{example}
+
+\begin{example}[係数列と冪級数の同型]
+    \[\xymatrix@R-2pc{
+        T:C^\infty(\R)\ar[r]&\R^\N\\
+        \rotatebox[origin=c]{90}{$\in$}&\rotatebox[origin=c]{90}{$\in$}\\
+        f\ar@{|->}[r]&(a_n:=f^{(n)}(0))
+    }\]
+    は全射な線型写像である．次の図式は可換である．
+    \[\xymatrix{
+        C^\infty(\R)\ar[r]^-D\ar[d]_-T&C^\infty(\R)\ar[d]^-T\\
+        \R^\N\ar[r]^-D&\R^\N
+    }\]
+    $f\in V$の時，その$0$での導値が漸化式を満たすのは必要だから，$T(V)\subset W$は分かるが，実は$T|_V$が$V,W$の間に同型を定める．
+    すると，$F=G\circ T|_V$である．
+\end{example}
+
+\begin{example}[多項式の剰余]
+    $W$を$n-1$次以下の多項式のなす部分空間とすると，$n$次多項式$f\in K[X],f\ne 0$が定める写像
+    \[\xymatrix@R-2pc{
+        K[X]\ar[r]&W\\
+        \rotatebox[origin=c]{90}{$\in$}&\rotatebox[origin=c]{90}{$\in$}\\
+        g\ar@{|->}[r]&{g\mod f}
+    }\]
+    は線型写像である．$f$が一次式$f=X-a$の時は，$W=K$であり，上の写像は$a$での値写像$g\mapsto g(a)$となる．
+\end{example}
+
+\begin{example}[hom関手]\label{example-linear-hom-functor}
+    集合$X,Y$とその間の写像$f:X\to Y$と体$K$について，
+    \[\xymatrix@R-2pc{
+        f^*:K^Y\ar[r]&K^X\\
+        \rotatebox[origin=c]{90}{$\in$}&\rotatebox[origin=c]{90}{$\in$}\\
+        g\ar@{|->}[r]&g\circ f
+    }\]
+    は線型写像である．
+\end{example}
+
+\begin{example}[複素化]\mbox{}
+    \begin{enumerate}
+        \item \[\xymatrix@R-2pc{
+        V_\C\ar[r]&\C^n\\
+        \rotatebox[origin=c]{90}{$\in$}&\rotatebox[origin=c]{90}{$\in$}\\
+        (a,b)\ar@{|->}[r]&a+ib
+    }\]
+    は$\C$-線型同型である．
+    \item \[\xymatrix@R-2pc{
+        \R[X]\ar[r]&\C[X]\\
+        \rotatebox[origin=c]{90}{$\in$}&\rotatebox[origin=c]{90}{$\in$}\\
+        (f,g)\ar@{|->}[r]&f+ig
+    }\]
+    は$\C$-線型同型である．
+    \item $\R$-線型写像$f:V\to W$に対して，直和$f\oplus f:V\oplus V\to W\oplus W$は$\C$-線型写像$f_\C:V_\C\to W_\C$を定める．これを\textbf{複素化}という．
+    \item $V'$を$V$の共役とする．$f:V'\to W$が$\C$-線型写像であるとは，$f:V\to W$が線型写像であり，かつ次を満たすことをいう：
+    \[ \forall a\in\C,x\in V,\; f(ax)=\overline{a}f(x) \]
+    \end{enumerate}
+\end{example}
+
 \section{行列表示}
 
-\begin{shadebox}\begin{definition}[行列表示(matrix representation)]
+\begin{screen}
+    有限次元線型空間の元は基底を使えば係数のベクトルで表せるから（$(e_i)$と$(x_i)$とが定める同型），
+    それにより引き戻すと線型写像は行列だと思え，その表示は，列ベクトルが，各基底$(e_i)$の行先の基底$(y_j)$による表示（縦ベクトル）となっているような行列となる．
+    これが「表現」の基本だろう．
+\end{screen}
+
+\vspace{1mm}
+
+\begin{shadebox}\begin{definition}[行列表示(matrix representation), 表現行列]
     $K$を体とし，$V,W$を有限次元$K$-線型空間とする．$B=(x_1,x_2,\cdots,x_n), B'=(y_1,y_2,\cdots,y_m)$をそれぞれ$V,W$の基底とする．$g_B:K^n\longrightarrow V,\; g'_{B'}K^m\longrightarrow W$を，それぞれ基底$B,B'$が定める同型とする．
     この時，以下の図式を可換にする行列$A\in M_{mn}(K)$が存在する．
     \begin{center}\begin{tikzcd}
         V \ar[r,"f"] & W \ar[d, "g'^{-1}_{B'}"] \\
         K^n \ar[u, "g_B"] \ar[r, "f_A"'] & K^m
     \end{tikzcd}\end{center}
-    この行列$A$を，\textbf{基底$B,B'$に関する$f$の行列表示}という．
+    この行列$A$を，\textbf{基底$B,B'$に関する$f$の行列表示／表現行列}という．
+
+    各基底$x_j$の行き先は，$W$の基底$(y_i)$を用いて$f(x_j)=(y_1\;\cdots\;y_m)\begin{pmatrix}a_{1j}\\\vdots\\a_{mj}\end{pmatrix}$と表せるから，縦ベクトルを$a_j=\begin{pmatrix}a_{1j}\\\vdots\\a_{mj}\end{pmatrix}$と置くと，
+    $K^n$の各基底$e_j$は$f_A(e_j)=g^{'-1}_{B'}\circ f\circ g_B(e_j)=g^{'-1}_{B'}(f(x_j))=a_j$より，これらを並べて得る行列が$A=(a_j)_{j\in[n]}$である．
+
+    これは線型Hom関手（例\ref{example-linear-hom-functor}）により写り合っているから，$\Hom_C(V,W)\simeq\Hom_C(K^n,K^m)$である．
 \end{definition}\end{shadebox}
+
+\vspace{1mm}
+
+\begin{example}
+    $f$を$V=\langle x_1,x_2\rangle$の自己同型とする．
+    \begin{align*}
+        f(x_1)&=ax_1+bx_2,&f(x_2)&=cx_1+dx_2
+    \end{align*}
+    の時，$f$の基底$x_1,x_2$に関する表示は，
+    \[ \begin{pmatrix}a&c\\b&d\end{pmatrix} \]
+    である．
+\end{example}
+
+\begin{example}[誘導される部分空間の射]
+    $V,W$の部分空間を，それぞれの基底$x_1,\cdots,x_n,y_1,\cdots,y_m$について，$V'=\langle x_1,\cdots,x_{n'}\rangle,W'=\langle y_1,\cdots,y_{m'}\rangle$と
+    取った時，線型写像$f:V\to W$の表現行列が
+    \[ A=\begin{pmatrix}A_{11}&A_{12}\\A_{21}&A_{22}\end{pmatrix} \]
+    である時，$V'$の像がすっぽりハマる$f(V')\subset W'$の条件は$A_{21}=0$である．この時$f|_{V'}:V'\to W'$の行列表示が$A_{11}$である．
+\end{example}
+
+\begin{example}[複素化の表現行列]
+    $f:V\to W$を$\R$-線型写像，$f_\C:V_\C\to W_\C$をその複素化とすると，
+    $f$の$x_1,\cdots,x_n\in V,\;w_1,\cdots,w_m\in W$に関する行列表示$A\in M_{mn}(\R)$と，
+    基底$(x_1,0),\cdots,(x_n,0)\in V_\C,\;(y_1,0),\cdots,(y_m,0)\in W_\C$とに関する行列表示$A\in M_{mn}(\C)$は一致する．
+\end{example}
+
+\begin{example}[共役の行列表示]
+    $\C$-線型写像$f:V\to W$について，その共役の間に定めるグラフの等しい写像$f:V'\to W'$はまた$\C$-線型写像である．
+    $x_1,\cdots,x_n\in V,\;y_1,\cdots,y_m\in W$に関する$f$の行列表示を$A\in M_{mn}(\C)$とすると，
+    同じ線型写像$f:V'\to W'$に対する同じ基底による行列表示は$\overline{A}\in M_{mn}(\C)$となる．
+\end{example}
 
 \begin{definition}[底の変換行列(transformation matrix)]
     $x_1,\cdots,x_n$と$y_1,\cdots,y_n$とを$V$の基底とする．$x_1,\cdots,x_n$を$y_1,\cdots,y_n$に写す$V$の自己同型の，基底$x_1,\cdots,x_n$に関する行列表示$A\in GL_n(K)$を，\textbf{$x_1,\cdots,x_n$から$y_1,\cdots,y_n$への底の変換行列}という．

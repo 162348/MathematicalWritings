@@ -1,0 +1,48 @@
+\documentclass[uplatex, dvipdfmx]{jsarticle}
+\title{代数と幾何レポート 第３回}
+\author{司馬博文 J4-190549}
+\date{\today}
+\pagestyle{empty} \setcounter{secnumdepth}{4}
+\input{/Users/hirofumi.shiba48/Desktop/数理科学/preamble_CM.tex}
+\begin{document}
+\maketitle
+
+\section*{問題28}
+
+$1,i\in\C$が定める同型を
+\[\xymatrix@R-2pc{
+    \varphi:\R^2\ar[r]&\C\\
+    \rotatebox[origin=c]{90}{$\in$}&\rotatebox[origin=c]{90}{$\in$}\\
+    {\begin{pmatrix}a\\b\end{pmatrix}}\ar@{|->}[r]&a+bi
+}\]
+とすると，行列表示$A\in M_2(\R)$について，次の図式は可換である．
+\[\xymatrix{
+    \C\ar[r]^-{\alpha}&\C\\
+    \R^2\ar[u]^-{\varphi}\ar[r]^-{\times A}&\R^2\ar[u]_-{\varphi}
+}\]
+従って，$e_1,e_2\in\R^2$について，
+\begin{align*}
+    \varphi^{-1}\circ\alpha\circ\varphi(e_1)&=\varphi^{-1}(\alpha(1))=\varphi^{-1}(a+bi)=\begin{pmatrix}a\\b\end{pmatrix}\\
+    \varphi^{-1}\circ\alpha\circ\varphi(e_2)&=\varphi^{-1}(\alpha(i))=\varphi^{-1}(-b+ai)=\begin{pmatrix}-b\\a\end{pmatrix}
+\end{align*}
+であるから，行列表示は
+\[ A=(Ae_1\;Ae_2)=\begin{pmatrix}a&-b\\b&a\end{pmatrix}. \]
+\begin{flushright}$\blacksquare$\end{flushright}
+
+\section*{問題37}
+
+\begin{align*}
+    \left(\int^x_0f(t)dt\right)'&=f(x),&
+    \int^x_0f'(t)dt&=f(x),
+\end{align*}
+より，$F,G$は互いに逆射であるから，いずれの像も終域全体である：
+\begin{align*}
+    \Im F=F(C^\infty(\R))&=C^\infty(\R),&\Im G=G(C^\infty(\R))&=C^\infty(\R).
+\end{align*}
+また，核は
+\begin{align*}
+    \Ker F&=G(0)=\{f\in C^\infty(\R)\mid \forall f(x)= a\in\R\},&\Ker G&=F(0)=0.
+\end{align*}
+\begin{flushright}$\blacksquare$\end{flushright}
+
+\end{document}

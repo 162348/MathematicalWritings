@@ -1,7 +1,13 @@
 \usepackage{amsmath, amsfonts, amsthm, amssymb, ascmac, color, comment, wrap fig}
 
+\setcounter{tocdepth}{2}
+%2はsubsectionまで
 \usepackage{mathtools}
 %\mathtoolsset{showonlyrefs=true} %labelを附した数式にのみ附番される．
+
+%%% 生成されるPDFファイルにおいて、\tableofcontents によって書き出された目次をクリックすると該当する見出しへジャンプしたり、 さらには、\label{ラベル名} を番号で参照する \ref{ラベル名} や thebibliography環境において \bibitem{ラベル名} を文献番号で参照する \cite{ラベル名} においても番号をクリックすると該当箇所にジャンプする
+\usepackage[dvipdfmx]{hyperref}
+\usepackage{pxjahyper}
 
 \usepackage{tikz, tikz-cd}
 \usepackage[all]{xy}
@@ -97,7 +103,7 @@
 \newcommand\tr{\mathrm{tr}}
 \newcommand\M{\mathcal{M}}
 \newcommand\F{\mathbb{F}}
-% \newcommand\H{\mathbb{H}} すでにある
+\renewcommand\H{\mathbb{H}}
 \newcommand\id{\mathrm{id}}
 \newcommand\A{\mathcal{A}}
 \renewcommand\coprod{\rotatebox[origin=c]{180}{$\prod$}}
@@ -106,7 +112,8 @@
 \newcommand\Map{\mathrm{Map}}
 \newcommand\dom{\mathrm{dom}}
 \newcommand\cod{\mathrm{cod}}
-\newcommand\supp{\mathrm{supp}}
+\newcommand\supp{\mathrm{supp}\;}
+\newcommand\Ker{\mathrm{Ker}\;}
 %%% 複素解析学
 \renewcommand\Re{\mathrm{Re}\;}
 \renewcommand\Im{\mathrm{Im}\;}
@@ -118,6 +125,8 @@
 \newcommand\q{\mathbf{q}}
 %%% 集合と位相
 \newcommand\ORD{\mathrm{ORD}}
+%%% 形式言語理論
+\newcommand\REGEX{\mathrm{REGEX}}
 
 %%% 圏
 \newcommand\Hom{\mathrm{Hom}}
@@ -139,6 +148,8 @@
 \newcommand\FinVect{\mathrm{FinVect}}
 \newcommand\Fun{\mathrm{Fun}}
 \newcommand\Ord{\mathrm{Ord}}
+\newcommand\eq{\mathrm{eq}}
+\newcommand\coeq{\mathrm{coeq}}
 
 %%%
 %%% 定理環境 以下足助さんからのコピペ
